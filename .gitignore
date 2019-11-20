@@ -7,3 +7,11 @@ build/**
 
 # Editor settings
 .idea/**
+out/test/classes/StudentTest.class
+out/production/classes/database/User.class
+out/production/classes/database/DbConnect.class
+out/production/classes/database/UserDao.class
+out/production/classes/database/RegisterDao.class
+out/production/classes/database/LoginDao.class
+out/production/classes/Student.class
+out/production/classes/HelloWorld.class
