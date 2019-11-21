@@ -3,6 +3,8 @@ package ghosts;
 import java.util.ArrayList;
 import java.util.List;
 
+//TODO not ready yet, still needs more implementation of
+// basic structure, this is just a mainframe
 public class GhostFactory {
 
     /**.

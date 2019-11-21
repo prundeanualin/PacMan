@@ -4,7 +4,7 @@ package player;
  * Class for querying db and creating a new Player from query results.
  * Also, allows a user to log out from his account and log into another one
  */
-public class AccountFactory {
+public class Account {
 
     private String username;
 
