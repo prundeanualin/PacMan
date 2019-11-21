@@ -1,18 +1,18 @@
 package game;
 
 import controllers.MainMenuController;
-import ghosts.GhostFactory;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import level.LevelFactory;
-import player.AccountFactory;
+import player.Account;
 
 public class PacManApp extends Application {
 
+    public static final int WIDTH = 700;
+    public static final int HEIGHT = 700;
     static GameFactory gf;
 
     /**.
@@ -21,11 +21,9 @@ public class PacManApp extends Application {
      */
     public static void main(String[] args) {
 
-        AccountFactory playerFactory = new AccountFactory();
-        GhostFactory ghf = new GhostFactory();
-        LevelFactory levelFactory = new LevelFactory(ghf);
+        Account user = new Account();
 
-        gf = new GameFactory(playerFactory, levelFactory);
+        gf = new GameFactory(user);
         launch(args);
     }
 
@@ -36,8 +34,8 @@ public class PacManApp extends Application {
         Scene ourScene = new Scene(mainP);
         stage.setTitle("Splash screen");
         stage.initStyle(StageStyle.DECORATED);
-        stage.setWidth(700);
-        stage.setHeight(700);
+        stage.setWidth(WIDTH);
+        stage.setHeight(HEIGHT);
         stage.setScene(ourScene);
         MainMenuController controller = (MainMenuController) loader.getController();
         controller.setStage(stage);
