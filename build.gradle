@@ -6,7 +6,9 @@ plugins {
 //    id 'idea' // optional (to generate IntelliJ IDEA project files)
 
     // For using JavaFX
+    id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.8'
+
     // Test coverage
     id 'jacoco'
 
@@ -20,6 +22,7 @@ plugins {
     id "com.github.spotbugs" version "2.0.1"
 }
 
+mainClassName = 'pacman.Main'
 group 'nl.tudelft.cse.sem.template'
 version '1.0-SNAPSHOT'
 
@@ -42,6 +45,7 @@ test {
 dependencies {
     testImplementation('org.junit.jupiter:junit-jupiter:5.5.2')
     spotbugsPlugins 'com.h3xstream.findsecbugs:findsecbugs-plugin:1.7.1'
+//    classpath "org.openjfx:javafx-plugin:0.0.8"
 }
 
 javafx {

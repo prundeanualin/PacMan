@@ -1,3 +1,5 @@
+package pacman;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,9 +18,11 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-//        URL url = new File("src/main/resources/loginWindow.fxml").toURL();
-        Parent root = FXMLLoader.load(getClass().getResource("resources/loginWindow.fxml"));
-//        Parent root = FXMLLoader.load(url);
+
+        URL url = new File("src/main/resources/loginWindow.fxml").toURL();
+//        System.out.println(getClass().getResource("../resources/loginWindow.fxml"));
+//        Parent root = FXMLLoader.load(getClass().getResource("../resources/loginWindow.fxml"));
+        Parent root = FXMLLoader.load(url);
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
