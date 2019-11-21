@@ -1,3 +1,5 @@
+package pacman;
+
 import javafx.animation.AnimationTimer;
 import javafx.scene.layout.VBox;
 import pacman.gui.graphics.BoardCanvas;

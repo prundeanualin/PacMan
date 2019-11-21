@@ -21,7 +21,7 @@ plugins {
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.8'
 }
-mainClassName = "pacman.gui.graphics.testApplication"
+mainClassName = "pacman.TestApplication"
 
 group 'nl.tudelft.cse.sem.template'
 version '1.0-SNAPSHOT'
