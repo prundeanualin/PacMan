@@ -10,9 +10,8 @@ public class GhostFactory {
      * @param lvlCount current level
      * @return list of ghosts
      */
-    public List createGhosts(int lvlCount) {
-        List ghost = new ArrayList();
-        ghost.add(0);
+    public List<Ghost> createGhosts(int lvlCount) {
+        List<Ghost> ghost = new ArrayList<Ghost>();
         return ghost;
     }
 }

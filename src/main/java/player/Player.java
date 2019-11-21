@@ -2,28 +2,21 @@ package player;
 
 public class Player {
 
-    private int id;
     private String username;
-    private String password;
     private int score;
 
     /**.
      * Creating a player entity, same as the one stored in the db
      * @param un username
-     * @param pw password
      */
-    public Player(String un, String pw) {
+    public Player(String un) {
         username = un;
-        password = pw;
         score = 0;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public Player(String usern,int sc) {
+        username = usern;
+        score = sc;
     }
 
     public String getUsername() {
@@ -34,13 +27,6 @@ public class Player {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public int getScore() {
         return score;

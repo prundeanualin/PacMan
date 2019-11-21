@@ -1,35 +1,33 @@
 package level;
 
 import board.Board;
-import board.BoardFactory;
+import controllers.LevelController;
+import ghosts.Ghost;
 import ghosts.GhostFactory;
 
 import java.util.List;
 
 public class Level {
 
-    private String mapPath;
+    private LevelController levelController;
     private Board board;
-    private List ghosts;
+    private List<Ghost> ghosts;
+    private int currentLevel;
 
     /**.
      * Creating a new level and its board and ghosts layout
      * @param lvlCount the difficulty of the level
-     * @param bd wrapper for generating board
      * @param ghost wrapper for generating the ghosts with the respective level difficulty
      */
-    public Level(int lvlCount, BoardFactory bd, GhostFactory ghost) {
-        board = bd.createBoard(lvlCount);
-        ghosts = ghost.createGhosts(lvlCount);
-        mapPath = "resources/Level" + lvlCount + ".txt";
+    public Level(int lvlCount, Board bd, List<Ghost> ghost, LevelController lc) {
+        board = bd;
+        ghosts = ghost;
+        currentLevel = lvlCount;
+        levelController = lc;
     }
 
-    public String getMapPath() {
-        return mapPath;
-    }
-
-    public void setMapPath(String mapPath) {
-        this.mapPath = mapPath;
+    public void showStartText() {
+        levelController.showStartMessage();
     }
 
     public Board getBoard() {
@@ -46,5 +44,21 @@ public class Level {
 
     public void setGhosts(List ghosts) {
         this.ghosts = ghosts;
+    }
+
+    public int getCurrentLevel() {
+        return currentLevel;
+    }
+
+    public void setCurrentLevel(int currentLevel) {
+        this.currentLevel = currentLevel;
+    }
+
+    public LevelController getLevelController() {
+        return levelController;
+    }
+
+    public void setLevelController(LevelController levelController) {
+        this.levelController = levelController;
     }
 }

@@ -1,24 +1,35 @@
+package controllers;
+
+import game.Game;
+
 import java.io.IOException;
 
 import javafx.fxml.FXML;
+
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 
 import javafx.scene.paint.Color;
 
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import level.MapParser;
 
 
 
-public class BoardController {
+public class LevelController {
 
-    private transient Stage primaryStage;
-    private transient GameFactory gf;
-
+    private static final double  HEIGHT = 700;
+    private static final double  WIDTH = 700;
+    private boolean start;
+    private Game game;
+    private Stage stage;
+    @FXML
+    public transient Label text;
     @FXML
     private transient Canvas myCanvas;
     private transient GraphicsContext gc;
@@ -28,12 +39,11 @@ public class BoardController {
      */
     public void initialize() {
 
-        myCanvas.setHeight(700);
-        myCanvas.setWidth(700);
+        myCanvas.setHeight(HEIGHT);
+        myCanvas.setWidth(WIDTH);
         gc = myCanvas.getGraphicsContext2D();
         Image background = new Image("static/black-background.jpg");
         gc.drawImage(background, 0, 0);
-        paint(1);
     }
 
     /**.
@@ -73,8 +83,58 @@ public class BoardController {
         }
     }
 
-    public void setPrimaryStage(Stage stage, GameFactory gameFactory) {
-        primaryStage = stage;
-        gf = gameFactory;
+    public void startWindow(int lvlCount) throws IOException {
+        paint(lvlCount);
+    }
+
+    /**.
+     * Player is prompted with a preparing message when starting the game, following a click
+     * on the screen and the start of the game.
+     */
+    public void showStartMessage() {
+        text.setText("Click to start the game");
+        text.toFront();
+        text.setFont(Font.font(30));
+        text.setTextFill(Color.WHITE);
+        text.setTranslateX(HEIGHT / 5);
+        text.setTranslateY(HEIGHT / 5);
+    }
+
+    /**.
+     * Player clicked on the screen, it's time to play !
+     * Will be implemented further with ActionListeners to move PacMan with keyboard
+     */
+    public void startGame() {
+        text.setText("It worked perfectly");
+        text.toFront();
+        text.setFont(Font.font(30));
+        text.setTextFill(Color.RED);
+        text.setTranslateX(HEIGHT / 5);
+        text.setTranslateY(HEIGHT / 5);
+        game.startGame();
+    }
+
+    public Stage getStage() {
+        return stage;
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
+    public boolean isStart() {
+        return start;
+    }
+
+    public void setStart(boolean start) {
+        this.start = start;
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
     }
 }

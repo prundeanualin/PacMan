@@ -1,21 +1,20 @@
+package controllers;
+
+import game.GameFactory;
 import java.io.IOException;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-
-import javafx.scene.Parent;
-
-import javafx.scene.Scene;
 
 import javafx.scene.control.Button;
 
 import javafx.stage.Stage;
 
 
+
 public class MainMenuController {
 
-    private GameFactory gf;
     private Stage stage;
+    private GameFactory gf;
 
     @FXML
     public transient Button button;
@@ -26,9 +25,8 @@ public class MainMenuController {
         button.setText("Let's Play !");
     }
 
-    public void setGameFactory(GameFactory gameFactory, Stage stage1) {
+    public void setGameFactory(GameFactory gameFactory) {
         gf = gameFactory;
-        stage = stage1;
     }
 
 
@@ -37,19 +35,11 @@ public class MainMenuController {
      */
     @FXML
     @SuppressWarnings("PMD")
-    public void onClick() {
-        try {
-            Game game = gf.createGame();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("views/Board.fxml"));
-            Parent parent = loader.load();
-            Scene boardScene = new Scene(parent);
-            stage.setScene(boardScene);
-            BoardController bc = loader.getController();
-            bc.setPrimaryStage(stage, gf);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void onClick() throws IOException {
+        // Will be retrieved from the db (or newly created) when logging in/ registering
+        String username = "";
+        gf.setUserName(username);
+        gf.createGame(stage);
     }
 
     public GameFactory getGf() {

@@ -1,21 +1,17 @@
-import board.BoardFactory;
+package game;
+
+import controllers.MainMenuController;
 import ghosts.GhostFactory;
-import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.util.Duration;
 import level.LevelFactory;
-import player.PlayerFactory;
+import player.AccountFactory;
 
-public class Play extends Application {
+public class PacManApp extends Application {
 
     static GameFactory gf;
 
@@ -25,10 +21,9 @@ public class Play extends Application {
      */
     public static void main(String[] args) {
 
-        PlayerFactory playerFactory = new PlayerFactory();
+        AccountFactory playerFactory = new AccountFactory();
         GhostFactory ghf = new GhostFactory();
-        BoardFactory bf = new BoardFactory();
-        LevelFactory levelFactory = new LevelFactory(bf, ghf);
+        LevelFactory levelFactory = new LevelFactory(ghf);
 
         gf = new GameFactory(playerFactory, levelFactory);
         launch(args);
@@ -36,9 +31,8 @@ public class Play extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("views/MainMenu.fxml"));
-        Parent mainP = loader.load();
-
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/MainMenu.fxml"));
+        Parent mainP = (Parent) loader.load();
         Scene ourScene = new Scene(mainP);
         stage.setTitle("Splash screen");
         stage.initStyle(StageStyle.DECORATED);
@@ -46,8 +40,9 @@ public class Play extends Application {
         stage.setHeight(700);
         stage.setScene(ourScene);
         MainMenuController controller = (MainMenuController) loader.getController();
-        controller.setGameFactory(gf, stage);
+        controller.setStage(stage);
+        controller.setGameFactory(gf);
 
-        stage.show();
+        controller.getStage().show();
     }
 }

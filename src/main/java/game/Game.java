@@ -1,7 +1,8 @@
+package game;
+
+import controllers.LevelController;
 import level.Level;
-import level.LevelFactory;
 import player.Player;
-import player.PlayerFactory;
 
 public class Game {
 
@@ -21,6 +22,14 @@ public class Game {
         level = lvl;
         inProgress = false;
         won = false;
+    }
+
+    public void setController() {
+        level.getLevelController().setGame(this);
+    }
+
+    public void startGame() {
+        inProgress = true;
     }
 
     public Player getPlayer() {
