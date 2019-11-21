@@ -21,7 +21,8 @@ plugins {
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.8'
 }
-mainClassName = "pacman.TestApplication"
+
+mainClassName = 'pacman.Main'
 
 group 'nl.tudelft.cse.sem.template'
 version '1.0-SNAPSHOT'
@@ -46,10 +47,8 @@ dependencies {
     testImplementation('org.junit.jupiter:junit-jupiter:5.5.2')
     spotbugsPlugins 'com.h3xstream.findsecbugs:findsecbugs-plugin:1.7.1'
     compile group: 'org.jetbrains', name: 'annotations', version: '18.0.0'
-    implementation("org.openjfx:javafx:11.0.2")
-    implementation("org.openjfx:javafx-base:11.0.2")
-    implementation("org.openjfx:javafx-fxml:11.0.2")
 }
+
 
 jacocoTestCoverageVerification {
     violationRules {
@@ -69,7 +68,7 @@ jacocoTestCoverageVerification {
 
 checkstyle {
     toolVersion "8.25"
-	configFile = rootProject.file('config/checkstyle/checkstyle.xml')
+    configFile = rootProject.file('config/checkstyle/checkstyle.xml')
 }
 
 pmd {
@@ -85,6 +84,16 @@ spotbugs {
     excludeFilter = file("$rootProject.projectDir/config/spotbugs/excludeFilter.xml")
 }
 
+sourceSets.main {
+    java {
+        srcDir 'src/main/java'
+    }
+    resources {
+        srcDirs = ['src/main/java', 'src/main/resources']
+        exclude "**/*.java"
+    }
+}
+
 tasks.withType(SpotBugsTask) {
     reports.xml.enabled = false
     reports.html.enabled = true
@@ -92,7 +101,7 @@ tasks.withType(SpotBugsTask) {
 
 javafx {
     version = "12.0.2"
-    modules = [ 'javafx.controls' ]
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
 
 wrapper {
