@@ -5,6 +5,8 @@ plugins {
 //    id 'eclipse' // optional (to generate Eclipse project files)
 //    id 'idea' // optional (to generate IntelliJ IDEA project files)
 
+    // For using JavaFX
+    id 'org.openjfx.javafxplugin' version '0.0.8'
     // Test coverage
     id 'jacoco'
 
@@ -45,6 +47,11 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.10'
     compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.6'
 
+}
+
+javafx {
+    version = "13"
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
 
 jacocoTestCoverageVerification {
