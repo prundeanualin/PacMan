@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * @author Ruben
  */
+@SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class is not a bean.
 public class Entity {
 
     private double x;

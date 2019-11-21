@@ -14,16 +14,19 @@ import java.util.List;
  *
  * @author Ruben
  */
+// entities has access methods (though PMD does not recognize them), additionally class is not a bean.
+@SuppressWarnings("PMD.BeanMembersShouldSerialize")
 public class BoardCanvas extends Canvas {
 
     /**
      * The style to draw in.
      */
     private Style drawStyle = Style.CLASSIC;
+
     /**
      * The entities that should be drawn.
      */
-    private List<Entity> entities = new ArrayList<>();
+    private List<Entity> entities = new ArrayList<Entity>();
 
     /**
      * Creates a new board canvas with specified dimensions.
@@ -60,6 +63,7 @@ public class BoardCanvas extends Canvas {
      *
      * @param t The time since started in seconds.
      */
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // known bug of pmd with foreach loops.
     public void draw(double t) {
         clear();
         for (Entity e : entities) {
