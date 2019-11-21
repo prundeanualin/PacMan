@@ -5,6 +5,8 @@ plugins {
 //    id 'eclipse' // optional (to generate Eclipse project files)
 //    id 'idea' // optional (to generate IntelliJ IDEA project files)
 
+    // For using JavaFX
+    id 'org.openjfx.javafxplugin' version '0.0.8'
     // Test coverage
     id 'jacoco'
 
@@ -42,6 +44,12 @@ dependencies {
     spotbugsPlugins 'com.h3xstream.findsecbugs:findsecbugs-plugin:1.7.1'
 }
 
+javafx {
+    version = "12.0.2"
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
+}
+
+
 jacocoTestCoverageVerification {
     violationRules {
         rule {
@@ -60,7 +68,7 @@ jacocoTestCoverageVerification {
 
 checkstyle {
     toolVersion "8.25"
-	configFile = rootProject.file('config/checkstyle/checkstyle.xml')
+    configFile = rootProject.file('config/checkstyle/checkstyle.xml')
 }
 
 pmd {
@@ -74,6 +82,16 @@ spotbugs {
     reportLevel = "high"
     visitors = ["FindSqlInjection", "SwitchFallthrough"]
     excludeFilter = file("$rootProject.projectDir/config/spotbugs/excludeFilter.xml")
+}
+
+sourceSets.main {
+    java {
+        srcDir 'src/main/java'
+    }
+    resources {
+        srcDirs = ['src/main/java', 'src/main/resources']
+        exclude "**/*.java"
+    }
 }
 
 tasks.withType(SpotBugsTask) {
