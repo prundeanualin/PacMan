@@ -17,17 +17,17 @@ public abstract class MoveTest<Entity> {
 
     private enum Direction {} // Temporary Definition. TODO: remove.
 
-    private class Ghost {
+    protected class Ghost {
     } // Temporary Definition. TODO: remove.
 
-    private class Player {
+    protected class Player {
         // Temporary Definition. TODO: remove.
     }
 
     protected Ghost ghost;
     protected Player player;
-    protected boolean MOVE_TO_GHOST; // Whether Entity can move to a ghost.
-    protected boolean MOVE_TO_PLAYER; // Whether Entity can move to a player.
+    protected boolean MOVE_TO_GHOST; // Whether Entity can move to a ghost, and this causes game end.
+    protected boolean MOVE_TO_PLAYER; // Whether Entity can move to a player, and this causes game end.
 
     /**
      * Sets up for the tests.
