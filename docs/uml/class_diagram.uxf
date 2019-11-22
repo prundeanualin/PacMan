@@ -4,8 +4,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>650</x>
-      <y>390</y>
+      <x>670</x>
+      <y>470</y>
       <w>170</w>
       <h>150</h>
     </coordinates>
@@ -24,12 +24,12 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>720</x>
-      <y>0</y>
+      <x>740</x>
+      <y>80</y>
       <w>210</w>
       <h>100</h>
     </coordinates>
-    <panel_attributes>Map
+    <panel_attributes>Grid
 --
 -List&lt;Square&gt; squares
 &lt;&lt;get&gt;&gt; -width: int
@@ -41,27 +41,27 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1050</x>
-      <y>30</y>
+      <x>1070</x>
+      <y>110</y>
       <w>190</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>MapParser
 --
-+parseMap(file: String): Map</panel_attributes>
++parseMap(file: String): Grid</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>680</x>
-      <y>170</y>
+      <x>700</x>
+      <y>250</y>
       <w>280</w>
       <h>130</h>
     </coordinates>
     <panel_attributes>Level
 --
--map: Map
+-grid: Grid
 -board: Board
 -pelletes: List&lt;Pellet&gt;
 -ghosts: List&lt;Ghost&gt;
@@ -73,8 +73,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1030</x>
-      <y>180</y>
+      <x>1050</x>
+      <y>260</y>
       <w>230</w>
       <h>70</h>
     </coordinates>
@@ -88,19 +88,21 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>480</x>
-      <y>30</y>
-      <w>100</w>
-      <h>30</h>
+      <x>420</x>
+      <y>110</y>
+      <w>210</w>
+      <h>50</h>
     </coordinates>
-    <panel_attributes>Square</panel_attributes>
+    <panel_attributes>Square
+--
+&lt;&lt;get&gt;&gt; -entities: List&lt;Entity&gt;</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>370</x>
-      <y>190</y>
+      <x>390</x>
+      <y>270</y>
       <w>100</w>
       <h>30</h>
     </coordinates>
@@ -110,8 +112,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>370</x>
-      <y>260</y>
+      <x>390</x>
+      <y>340</y>
       <w>100</w>
       <h>30</h>
     </coordinates>
@@ -121,8 +123,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>370</x>
-      <y>330</y>
+      <x>390</x>
+      <y>410</y>
       <w>100</w>
       <h>30</h>
     </coordinates>
@@ -132,8 +134,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>840</x>
-      <y>550</y>
+      <x>860</x>
+      <y>630</y>
       <w>140</w>
       <h>50</h>
     </coordinates>
@@ -145,8 +147,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>860</x>
-      <y>740</y>
+      <x>880</x>
+      <y>820</y>
       <w>100</w>
       <h>70</h>
     </coordinates>
@@ -160,20 +162,20 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>570</x>
-      <y>40</y>
-      <w>170</w>
+      <x>620</x>
+      <y>120</y>
+      <w>140</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
 m2=*</panel_attributes>
-    <additional_attributes>150.0;10.0;10.0;10.0</additional_attributes>
+    <additional_attributes>120.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>920</x>
-      <y>30</y>
+      <x>940</x>
+      <y>110</y>
       <w>150</w>
       <h>40</h>
     </coordinates>
@@ -184,8 +186,8 @@ makes</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>950</x>
-      <y>200</y>
+      <x>970</x>
+      <y>280</y>
       <w>100</w>
       <h>40</h>
     </coordinates>
@@ -196,8 +198,8 @@ makes</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1130</x>
-      <y>70</y>
+      <x>1150</x>
+      <y>150</y>
       <w>30</w>
       <h>130</h>
     </coordinates>
@@ -207,8 +209,8 @@ makes</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>810</x>
-      <y>90</y>
+      <x>830</x>
+      <y>170</y>
       <w>30</w>
       <h>100</h>
     </coordinates>
@@ -218,8 +220,8 @@ makes</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>150</x>
-      <y>530</y>
+      <x>170</x>
+      <y>610</y>
       <w>300</w>
       <h>160</h>
     </coordinates>
@@ -230,6 +232,7 @@ makes</panel_attributes>
 &lt;&lt;get/set&gt;&gt; -dx: double
 &lt;&lt;get/set&gt;&gt; -dy: double
 &lt;&lt;get&gt;&gt; -sprite: Sprite
+&lt;&lt;get/set&gt;&gt; -square: Square
 --
 +Entity(x: double, y: double, sprite: Sprite): ctor
 +update(): void</panel_attributes>
@@ -238,8 +241,8 @@ makes</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>460</x>
-      <y>190</y>
+      <x>480</x>
+      <y>270</y>
       <w>240</w>
       <h>40</h>
     </coordinates>
@@ -250,8 +253,8 @@ m2=*</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>460</x>
-      <y>260</y>
+      <x>480</x>
+      <y>340</y>
       <w>240</w>
       <h>40</h>
     </coordinates>
@@ -262,8 +265,8 @@ m2=*</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>720</x>
-      <y>290</y>
+      <x>740</x>
+      <y>370</y>
       <w>30</w>
       <h>120</h>
     </coordinates>
@@ -274,8 +277,8 @@ m2=*</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>900</x>
-      <y>290</y>
+      <x>920</x>
+      <y>370</y>
       <w>30</w>
       <h>280</h>
     </coordinates>
@@ -285,8 +288,8 @@ m2=*</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>280</x>
-      <y>680</y>
+      <x>300</x>
+      <y>760</y>
       <w>30</w>
       <h>110</h>
     </coordinates>
@@ -296,8 +299,8 @@ m2=*</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>190</x>
-      <y>760</y>
+      <x>210</x>
+      <y>840</y>
       <w>200</w>
       <h>90</h>
     </coordinates>
@@ -309,8 +312,8 @@ draw(Graphics, Entity): void</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>440</x>
-      <y>570</y>
+      <x>460</x>
+      <y>650</y>
       <w>420</w>
       <h>40</h>
     </coordinates>
@@ -321,8 +324,8 @@ m2=*</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>900</x>
-      <y>590</y>
+      <x>920</x>
+      <y>670</y>
       <w>30</w>
       <h>170</h>
     </coordinates>
@@ -332,8 +335,8 @@ m2=*</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>290</x>
-      <y>760</y>
+      <x>310</x>
+      <y>840</y>
       <w>590</w>
       <h>40</h>
     </coordinates>
@@ -344,8 +347,8 @@ draws</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>460</x>
-      <y>330</y>
+      <x>480</x>
+      <y>410</y>
       <w>210</w>
       <h>130</h>
     </coordinates>
@@ -355,8 +358,8 @@ draws</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>290</x>
-      <y>190</y>
+      <x>310</x>
+      <y>270</y>
       <w>100</w>
       <h>360</h>
     </coordinates>
@@ -366,8 +369,8 @@ draws</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>290</x>
-      <y>260</y>
+      <x>310</x>
+      <y>340</y>
       <w>100</w>
       <h>290</h>
     </coordinates>
@@ -377,12 +380,61 @@ draws</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>290</x>
-      <y>330</y>
+      <x>310</x>
+      <y>410</y>
       <w>100</w>
       <h>220</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;200.0;10.0;10.0;80.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>280</x>
+      <y>120</y>
+      <w>160</w>
+      <h>490</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m2=*</panel_attributes>
+    <additional_attributes>140.0;10.0;10.0;10.0;10.0;470.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>280</x>
+      <y>120</y>
+      <w>160</w>
+      <h>510</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;490.0;10.0;10.0;140.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>1070</x>
+      <y>610</y>
+      <w>190</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>The list of entities could be 
+in Grid or Level as well, 
+meaning the BoardCanvas
+becomes GridCanvas or
+LevelCanvas</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>990</x>
+      <y>620</y>
+      <w>100</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;30.0;80.0;10.0</additional_attributes>
   </element>
 </diagram>
