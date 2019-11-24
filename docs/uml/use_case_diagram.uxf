@@ -4,8 +4,8 @@
   <element>
     <id>UMLActor</id>
     <coordinates>
-      <x>549</x>
-      <y>252</y>
+      <x>504</x>
+      <y>405</y>
       <w>54</w>
       <h>99</h>
     </coordinates>
@@ -15,8 +15,8 @@
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>684</x>
-      <y>387</y>
+      <x>639</x>
+      <y>576</y>
       <w>108</w>
       <h>36</h>
     </coordinates>
@@ -26,178 +26,31 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>594</x>
-      <y>279</y>
+      <x>549</x>
+      <y>432</y>
       <w>108</w>
-      <h>144</h>
+      <h>180</h>
     </coordinates>
     <panel_attributes/>
-    <additional_attributes>10.0;10.0;100.0;140.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLActor</id>
-    <coordinates>
-      <x>558</x>
-      <y>765</y>
-      <w>54</w>
-      <h>99</h>
-    </coordinates>
-    <panel_attributes>Ghost</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLActor</id>
-    <coordinates>
-      <x>1179</x>
-      <y>144</y>
-      <w>72</w>
-      <h>99</h>
-    </coordinates>
-    <panel_attributes>Database</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLUseCase</id>
-    <coordinates>
-      <x>693</x>
-      <y>792</y>
-      <w>108</w>
-      <h>36</h>
-    </coordinates>
-    <panel_attributes>Move</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>603</x>
-      <y>792</y>
-      <w>108</w>
-      <h>36</h>
-    </coordinates>
-    <panel_attributes/>
-    <additional_attributes>10.0;20.0;100.0;20.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLNote</id>
-    <coordinates>
-      <x>468</x>
-      <y>855</y>
-      <w>180</w>
-      <h>63</h>
-    </coordinates>
-    <panel_attributes>A ghost is part of the system,
-but seems like an authonomous
-actor to the player.
-bg=blue</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>792</x>
-      <y>801</y>
-      <w>90</w>
-      <h>27</h>
-    </coordinates>
-    <panel_attributes>lt=-&gt;&gt;</panel_attributes>
-    <additional_attributes>80.0;10.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLUseCase</id>
-    <coordinates>
-      <x>864</x>
-      <y>792</y>
-      <w>108</w>
-      <h>36</h>
-    </coordinates>
-    <panel_attributes>Chase Move</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLUseCase</id>
-    <coordinates>
-      <x>864</x>
-      <y>729</y>
-      <w>108</w>
-      <h>36</h>
-    </coordinates>
-    <panel_attributes>Scatter Move</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLUseCase</id>
-    <coordinates>
-      <x>864</x>
-      <y>855</y>
-      <w>108</w>
-      <h>36</h>
-    </coordinates>
-    <panel_attributes>Frightened Move</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>792</x>
-      <y>810</y>
-      <w>90</w>
-      <h>81</h>
-    </coordinates>
-    <panel_attributes>lt=-&gt;&gt;</panel_attributes>
-    <additional_attributes>80.0;70.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>792</x>
-      <y>738</y>
-      <w>90</w>
-      <h>81</h>
-    </coordinates>
-    <panel_attributes>lt=-&gt;&gt;</panel_attributes>
-    <additional_attributes>80.0;10.0;10.0;70.0</additional_attributes>
+    <additional_attributes>10.0;10.0;100.0;180.0</additional_attributes>
   </element>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>657</x>
-      <y>45</y>
-      <w>495</w>
-      <h>486</h>
+      <x>612</x>
+      <y>198</y>
+      <w>522</w>
+      <h>522</h>
     </coordinates>
     <panel_attributes>Pacman System
 halign=left</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <id>UMLGeneric</id>
+    <id>UMLUseCase</id>
     <coordinates>
-      <x>657</x>
+      <x>972</x>
       <y>585</y>
-      <w>351</w>
-      <h>333</h>
-    </coordinates>
-    <panel_attributes>Pacman System
-halign=left</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLUseCase</id>
-    <coordinates>
-      <x>693</x>
-      <y>630</y>
-      <w>108</w>
-      <h>36</h>
-    </coordinates>
-    <panel_attributes>Lose Game</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLUseCase</id>
-    <coordinates>
-      <x>873</x>
-      <y>387</y>
       <w>108</w>
       <h>36</h>
     </coordinates>
@@ -207,8 +60,8 @@ halign=left</panel_attributes>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>684</x>
-      <y>468</y>
+      <x>639</x>
+      <y>657</y>
       <w>108</w>
       <h>36</h>
     </coordinates>
@@ -218,8 +71,8 @@ halign=left</panel_attributes>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>684</x>
-      <y>306</y>
+      <x>639</x>
+      <y>495</y>
       <w>108</w>
       <h>36</h>
     </coordinates>
@@ -229,8 +82,8 @@ halign=left</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>729</x>
-      <y>333</y>
+      <x>684</x>
+      <y>522</y>
       <w>81</w>
       <h>72</h>
     </coordinates>
@@ -241,20 +94,20 @@ halign=left</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>783</x>
-      <y>315</y>
-      <w>126</w>
+      <x>738</x>
+      <y>513</y>
+      <w>117</w>
       <h>108</h>
     </coordinates>
     <panel_attributes>lt=.&gt;
 &lt;&lt;extends&gt;&gt;</panel_attributes>
-    <additional_attributes>100.0;100.0;10.0;10.0</additional_attributes>
+    <additional_attributes>90.0;100.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>873</x>
-      <y>234</y>
+      <x>819</x>
+      <y>495</y>
       <w>108</w>
       <h>36</h>
     </coordinates>
@@ -264,31 +117,31 @@ halign=left</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>783</x>
-      <y>243</y>
-      <w>108</w>
-      <h>99</h>
+      <x>738</x>
+      <y>495</y>
+      <w>99</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>lt=.&gt;
 &lt;&lt;includes&gt;&gt;</panel_attributes>
-    <additional_attributes>10.0;90.0;100.0;10.0</additional_attributes>
+    <additional_attributes>10.0;20.0;90.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>972</x>
-      <y>351</y>
-      <w>54</w>
-      <h>63</h>
+      <x>918</x>
+      <y>594</y>
+      <w>72</w>
+      <h>27</h>
     </coordinates>
     <panel_attributes>lt=-&gt;&gt;</panel_attributes>
-    <additional_attributes>40.0;10.0;10.0;50.0</additional_attributes>
+    <additional_attributes>10.0;10.0;60.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>1017</x>
-      <y>432</y>
+      <x>819</x>
+      <y>657</y>
       <w>108</w>
       <h>36</h>
     </coordinates>
@@ -298,19 +151,19 @@ halign=left</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>972</x>
-      <y>405</y>
-      <w>63</w>
-      <h>63</h>
+      <x>918</x>
+      <y>603</y>
+      <w>72</w>
+      <h>90</h>
     </coordinates>
     <panel_attributes>lt=-&gt;&gt;</panel_attributes>
-    <additional_attributes>50.0;50.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;80.0;60.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>684</x>
-      <y>162</y>
+      <x>639</x>
+      <y>315</y>
       <w>108</w>
       <h>36</h>
     </coordinates>
@@ -320,8 +173,8 @@ halign=left</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>594</x>
-      <y>171</y>
+      <x>549</x>
+      <y>324</y>
       <w>108</w>
       <h>135</h>
     </coordinates>
@@ -331,8 +184,8 @@ halign=left</panel_attributes>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>873</x>
-      <y>306</y>
+      <x>972</x>
+      <y>504</y>
       <w>108</w>
       <h>36</h>
     </coordinates>
@@ -342,8 +195,8 @@ halign=left</panel_attributes>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>1008</x>
-      <y>342</y>
+      <x>819</x>
+      <y>585</y>
       <w>108</w>
       <h>36</h>
     </coordinates>
@@ -353,20 +206,20 @@ halign=left</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>783</x>
-      <y>396</y>
-      <w>126</w>
-      <h>108</h>
+      <x>738</x>
+      <y>657</y>
+      <w>99</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>lt=.&gt;
 &lt;&lt;includes&gt;&gt;</panel_attributes>
-    <additional_attributes>10.0;100.0;100.0;10.0</additional_attributes>
+    <additional_attributes>10.0;20.0;90.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>918</x>
-      <y>333</y>
+      <x>1017</x>
+      <y>531</y>
       <w>90</w>
       <h>72</h>
     </coordinates>
@@ -377,8 +230,8 @@ halign=left</panel_attributes>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>675</x>
-      <y>81</y>
+      <x>630</x>
+      <y>234</y>
       <w>126</w>
       <h>36</h>
     </coordinates>
@@ -388,8 +241,8 @@ halign=left</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>729</x>
-      <y>108</y>
+      <x>684</x>
+      <y>261</y>
       <w>81</w>
       <h>72</h>
     </coordinates>
@@ -398,43 +251,10 @@ halign=left</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
   </element>
   <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>792</x>
-      <y>90</y>
-      <w>414</w>
-      <h>108</h>
-    </coordinates>
-    <panel_attributes/>
-    <additional_attributes>10.0;10.0;440.0;100.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>783</x>
-      <y>162</y>
-      <w>423</w>
-      <h>36</h>
-    </coordinates>
-    <panel_attributes/>
-    <additional_attributes>10.0;20.0;450.0;20.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>963</x>
-      <y>171</y>
-      <w>243</w>
-      <h>90</h>
-    </coordinates>
-    <panel_attributes/>
-    <additional_attributes>10.0;80.0;250.0;10.0</additional_attributes>
-  </element>
-  <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>684</x>
-      <y>234</y>
+      <x>639</x>
+      <y>387</y>
       <w>108</w>
       <h>36</h>
     </coordinates>
@@ -444,8 +264,8 @@ halign=left</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>594</x>
-      <y>243</y>
+      <x>549</x>
+      <y>396</y>
       <w>108</w>
       <h>63</h>
     </coordinates>
@@ -455,8 +275,8 @@ halign=left</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>729</x>
-      <y>414</y>
+      <x>684</x>
+      <y>603</y>
       <w>81</w>
       <h>72</h>
     </coordinates>
@@ -467,47 +287,35 @@ halign=left</panel_attributes>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>684</x>
-      <y>711</y>
-      <w>126</w>
+      <x>972</x>
+      <y>423</y>
+      <w>108</w>
       <h>36</h>
     </coordinates>
-    <panel_attributes>Collide with Pacman</panel_attributes>
+    <panel_attributes>Save Score</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>738</x>
-      <y>738</y>
+      <x>549</x>
+      <y>423</y>
+      <w>441</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;20.0;470.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1017</x>
+      <y>450</y>
       <w>81</w>
       <h>72</h>
     </coordinates>
     <panel_attributes>lt=.&gt;
 &lt;&lt;extends&gt;&gt;</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>738</x>
-      <y>657</y>
-      <w>90</w>
-      <h>72</h>
-    </coordinates>
-    <panel_attributes>lt=.&gt;
-&lt;&lt;includes&gt;&gt;</panel_attributes>
-    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>972</x>
-      <y>171</y>
-      <w>234</w>
-      <h>171</h>
-    </coordinates>
-    <panel_attributes/>
-    <additional_attributes>10.0;170.0;240.0;10.0</additional_attributes>
   </element>
 </diagram>
