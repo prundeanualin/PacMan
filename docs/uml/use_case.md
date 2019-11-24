@@ -7,8 +7,8 @@
 - If the Player tries to authenticate, but the username & password combination he gives were not registered in the database, the player is notified he failed to authenticate.
 
 #### Start Game:
-- If the player is in the main menu, he can press the start game button. This will show him the board with the ghosts, spellets, walls and pacman.
-- The ghosts (4 of them) will move around the board according to the 'Ghost behavioral definitions' below.
+- If the player is in the main menu, he can press the start game button. This will show him the board with the ghosts, pellets, walls and pacman.
+- The 4 ghosts will move around the board according to the 'Ghost behavioral definitions' below.
 
 #### Move:
 - If the player has started the game, he can use his keyboard (a,w,s,d) to move pacman around the board (left,up,down,right).
@@ -20,16 +20,16 @@
 - If this is the last pellet, the 'Win Game' case is also applicable.
 
 #### Increase Score:
-If the 'Collide with Pellet' use case is applicable, the players score is increased by a predefined amount (eg. 10).
+If the 'Collide with Pellet' use case is applicable, the player's score is increased by a predefined amount (eg. 10).
 
 #### Win Game:
-- If the last Pellet was collided with by the player, the game is won and the player is notified of this, and the 'End Game' use case is applicable.
+- If the player collides with the last pellet on the board, the game is won and the player is notified of this, and the 'End Game' use case is applicable.
 
 #### End Game:
-- If the game is either lost or won, the player can no longer move, nor do the ghosts, and the 'View Leaderboard' use case is applicable.
+- If the game is either lost or won, the player and ghosts can no longer move, and the 'View Leaderboard' use case is applicable.
 
 #### View Leaderboard:
-- If the game is ended, the player is shown the top 5 scores that were achieved, along with a name.
+- If the game is ended, the player is shown the top 5 scores that were achieved, along with the names of the user's those scores belong to.
 - The 'Save Score' use case is applicable
 
 #### Save Score
@@ -44,7 +44,7 @@ If the 'Collide with Pellet' use case is applicable, the players score is increa
 #### Blinky:
 - Blinky tries to collide with pacman (shortest path).
 #### Inky:
-- Inky tries to go to the tile that is exacly opposite from him, of the tile 2 tiles ahead of pacman.
+- Inky tries to go to the tile that is exactly opposite from him, of the tile 2 tiles ahead of pacman.
 #### Pinky:
 - Pinky tries to move to the tile a few tiles(4) ahead of pacman.
 #### Clyde:
