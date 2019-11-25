@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.NotNull;
 import pacman.logic.entity.Entity;
@@ -44,6 +45,11 @@ public class Board {
         squares.add(square);
     }
 
+    protected void removeEntity(@NotNull Entity entity) {
+        entity.getSquare().removeEntity(entity);
+        entities.remove(entity);
+    }
+
     public int getWidth() {
         return width;
     }
@@ -58,6 +64,11 @@ public class Board {
 
     public @NotNull Iterable<Square> getSquares() {
         return () -> squares.iterator();
+    }
+
+    public void removeDeadEntities() {
+        Set<Entity> dead = entities.stream().filter(e -> !e.isAlive()).collect(Collectors.toSet());
+        dead.forEach(this::removeEntity);
     }
 
 }

@@ -1,7 +1,9 @@
 package pacman.logic.level;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.jetbrains.annotations.NotNull;
 import pacman.logic.entity.Entity;
@@ -9,10 +11,10 @@ import pacman.logic.entity.Entity;
 @SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class is not a bean.
 public class Square {
 
-    private List<Entity> entities;
+    private Set<Entity> entities;
 
     public Square() {
-        this.entities = new ArrayList<>();
+        this.entities = new HashSet<>();
     }
 
     protected Square(@NotNull Entity entity) {
@@ -31,6 +33,10 @@ public class Square {
 
     protected void addEntity(@NotNull Entity entity) {
         this.entities.add(entity);
+    }
+
+    protected void removeEntity(@NotNull Entity entity) {
+        this.entities.remove(entity);
     }
 
 }

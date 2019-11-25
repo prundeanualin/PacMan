@@ -26,6 +26,7 @@ public class Game {
         for (Entity entity : getLevel().getBoard().getEntities()) {
             entity.update(dt);
         }
+        getLevel().getBoard().removeDeadEntities();
     }
 
     public @NotNull Level getLevel() {

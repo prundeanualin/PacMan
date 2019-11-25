@@ -5,6 +5,8 @@ import pacman.graphics.sprite.Sprite;
 import pacman.logic.Direction;
 import pacman.logic.level.Board;
 
+import java.util.Set;
+
 public class PacMan extends Entity {
 
     public PacMan(@NotNull Board board, double x, double y, @NotNull Sprite sprite) {
@@ -14,7 +16,9 @@ public class PacMan extends Entity {
     @Override
     public void update(double dt) {
         super.update(dt);
-        if (checkCollision().stream().anyMatch(Entity::isSolid)) {
+        Set<Entity> collisions = checkCollision();
+        collisions.stream().filter(e -> e instanceof Pellet).forEach(e -> e.setAlive(false));
+        if (collisions.stream().anyMatch(Entity::isSolid)) {
             setDirection(Direction.DOWN);
         }
     }

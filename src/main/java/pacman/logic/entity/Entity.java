@@ -25,6 +25,7 @@ public abstract class Entity {
     private Sprite sprite;
 
     private Direction direction = null;
+    private boolean alive = true;
 
     private boolean isSolid = false;
 
@@ -133,15 +134,15 @@ public abstract class Entity {
         return sprite;
     }
 
-    protected void setSolid(boolean solid) {
-        isSolid = solid;
-    }
-
     public boolean isSolid() {
         return isSolid;
     }
 
-    protected Board getBoard() {
+    public void setSolid(boolean solid) {
+        isSolid = solid;
+    }
+
+    public Board getBoard() {
         return board;
     }
 
@@ -159,6 +160,18 @@ public abstract class Entity {
             return board.getHeight() - dy;
         }
         return dy;
+    }
+
+    public boolean isAlive() {
+        return alive;
+    }
+
+    public void setAlive(boolean alive) {
+        this.alive = alive;
+    }
+
+    public @NotNull Square getSquare() {
+        return board.getSquare((int)posX, (int)posY);
     }
 
 }
