@@ -110,8 +110,8 @@ public class loginController implements Initializable {
         timeline.play();
         */
         User user = new User();
-        user.setUsername(usernameTextArea.toString());
-        user.setPassword(passwordField.toString());
+        user.setUsername(usernameTextArea.getText());
+        user.setPassword(passwordField.getText());
         LoginDao loginDao= new LoginDao();
         if(loginDao.attemptLogin(user)){
             Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("menuWindow.fxml"));
