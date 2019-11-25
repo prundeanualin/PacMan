@@ -17,14 +17,14 @@ public class RegisterDao {
     @SuppressWarnings("PMD")
     public boolean checkUserAlreadyExists(User user) {
         Connection conn = DbConnect.getMyConnection();
-        Statement statement;
+        PreparedStatement statement;
         ResultSet resultSet;
-        String query = "SELECT 'Username' FROM 'Users' WHERE 'Username' =?";
+        String query = "SELECT Username FROM Users WHERE Username=?";
         try {
             statement = conn.prepareStatement(query);
-            ((PreparedStatement) statement).setString(1, user.getUsername());
+            statement.setString(1, user.getUsername());
 
-            resultSet = ((PreparedStatement) statement).executeQuery();
+            resultSet = statement.executeQuery();
 
             if (resultSet.next() == false) {
                 return false;
@@ -47,7 +47,7 @@ public class RegisterDao {
     public void addUser(User user) {
         Connection conn = DbConnect.getMyConnection();
         PreparedStatement statement;
-        String query = "INSERT INTO Users(Username,Password,Score)" + "VALUES(?,?,?)";
+        String query = "INSERT INTO Users(Username,Password,Score)" + " VALUES(?,?,?)";
         try {
             statement = conn.prepareStatement(query);
             statement.setString(1, user.getUsername());

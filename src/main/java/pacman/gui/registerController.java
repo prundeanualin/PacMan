@@ -44,9 +44,6 @@ public class registerController implements Initializable {
             user.setUsername(usernameTextBox.getText());
             user.setPassword(passwordField.getText());
             user.setScore(0);
-            Connection conn = DbConnect.getMyConnection();
-            PreparedStatement statement;
-            String query = "INSERT INTO Users(Username,Password,Score)" + "VALUES(?,?,?)";
             if (!registerDao.checkUserAlreadyExists(user)) {
                 registerDao.addUser(user);
             } else {

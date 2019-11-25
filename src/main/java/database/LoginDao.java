@@ -29,7 +29,7 @@ public class LoginDao {
         Connection conn = DbConnect.getMyConnection();
         PreparedStatement statement;
         ResultSet resultSet;
-        String query = "SELECT 'Username','Password' FROM 'Users' WHERE 'Username'=? AND 'Password'=?";
+        String query = "SELECT Username,Password FROM Users WHERE Username=? AND Password=?";
         try {
             statement = conn.prepareStatement(query);
             statement.setString(1, user.getUsername());
@@ -40,10 +40,9 @@ public class LoginDao {
                 JOptionPane.showMessageDialog(null, "Incorrect Username Or Password", "Login Failed", 2);
                 status = false;
             }
-            while(resultSet.next())
+            else
             {
-                resultSet.getString("Username");
-                resultSet.getString("Password");
+                status = true;
             }
             resultSet.close();
             statement.close();
@@ -53,7 +52,7 @@ public class LoginDao {
         }
         //this can be deleted later if a specific window is implemented
         //make use of either the string or the option pane
-
+        System.out.println(status);
         return status;
 
     }
