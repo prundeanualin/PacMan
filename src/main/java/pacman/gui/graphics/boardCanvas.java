@@ -16,7 +16,7 @@ import java.util.List;
  */
 // entities has access methods (though PMD does not recognize them), additionally class is not a bean.
 @SuppressWarnings("PMD.BeanMembersShouldSerialize")
-public class BoardCanvas extends Canvas {
+public class boardCanvas extends Canvas {
 
     /**
      * The style to draw in.
@@ -34,7 +34,7 @@ public class BoardCanvas extends Canvas {
      * @param width The width of the canvas in pixels
      * @param height The height of the canvas in pixels
      */
-    public BoardCanvas(int width, int height) {
+    public boardCanvas(int width, int height) {
         super(width, height);
 
         // Starts a render loop

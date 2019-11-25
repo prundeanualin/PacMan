@@ -5,6 +5,8 @@ plugins {
 //    id 'eclipse' // optional (to generate Eclipse project files)
 //    id 'idea' // optional (to generate IntelliJ IDEA project files)
 
+    // For using JavaFX
+    id 'org.openjfx.javafxplugin' version '0.0.8'
     // Test coverage
     id 'jacoco'
 
@@ -19,7 +21,6 @@ plugins {
 
     // JavaFX
     id 'application'
-    id 'org.openjfx.javafxplugin' version '0.0.8'
 }
 
 mainClassName = 'pacman.Main'
@@ -27,7 +28,7 @@ mainClassName = 'pacman.Main'
 group 'nl.tudelft.cse.sem.template'
 version '1.0-SNAPSHOT'
 
-sourceCompatibility = 12
+sourceCompatibility = 11
 
 repositories {
     mavenCentral()
@@ -46,7 +47,16 @@ test {
 dependencies {
     testImplementation('org.junit.jupiter:junit-jupiter:5.5.2')
     spotbugsPlugins 'com.h3xstream.findsecbugs:findsecbugs-plugin:1.7.1'
-    compile group: 'org.jetbrains', name: 'annotations', version: '18.0.0'
+    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.11'
+    compileOnly 'org.projectlombok:lombok:1.18.10'
+    annotationProcessor 'org.projectlombok:lombok:1.18.10'
+    compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.6'
+    compile 'org.jetbrains:annotations:13.0'
+}
+
+javafx {
+    version = "13"
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
 
 
@@ -71,9 +81,6 @@ checkstyle {
     configFile = rootProject.file('config/checkstyle/checkstyle.xml')
 }
 
-pmd {
-    incrementalAnalysis = true
-}
 
 spotbugs {
     sourceSets = [sourceSets.main]
