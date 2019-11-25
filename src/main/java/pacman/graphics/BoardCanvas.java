@@ -9,6 +9,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.transform.Affine;
 import org.jetbrains.annotations.NotNull;
 import pacman.logic.entity.Entity;
+import pacman.logic.level.Board;
 
 /**
  * Class for drawing the game board with everything on it.
@@ -24,9 +25,9 @@ public class BoardCanvas extends Canvas {
     private Style drawStyle = Style.CLASSIC;
 
     /**
-     * The entities that should be drawn.
+     * The board that should be drawn.
      */
-    private List<Entity> entities = new ArrayList<Entity>();
+    private Board board;
 
     /**
      * Creates a new board canvas with specified dimensions.
@@ -34,8 +35,10 @@ public class BoardCanvas extends Canvas {
      * @param width The width of the canvas in pixels
      * @param height The height of the canvas in pixels
      */
-    public BoardCanvas(int width, int height) {
+    public BoardCanvas(Board board, int width, int height) {
         super(width, height);
+
+        this.board = board;
 
         // Starts a render loop
         final long start = System.nanoTime();
@@ -66,7 +69,7 @@ public class BoardCanvas extends Canvas {
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // known bug of pmd with foreach loops.
     public void draw(double t) {
         clear();
-        for (Entity e : entities) {
+        for (Entity e : board.getEntities()) {
             getGraphicsContext2D().translate(e.getX(), e.getY());
             e.getSprite().draw(e, getGraphicsContext2D(), drawStyle, t);
             getGraphicsContext2D().setTransform(new Affine());
@@ -88,22 +91,6 @@ public class BoardCanvas extends Canvas {
      */
     public Style getDrawStyle() {
         return drawStyle;
-    }
-
-    /**
-     * Adds an entity to the list of entities that will be drawn.
-     * @param entity The entity to add
-     */
-    public void addEntity(@NotNull Entity entity) {
-        this.entities.add(entity);
-    }
-
-    /**
-     * Removes an entity from the list of entities that will be drawn.
-     * @param entity The entity to remove
-     */
-    public void removeEntity(@NotNull Entity entity) {
-        this.entities.remove(entity);
     }
 
 }
