@@ -53,6 +53,7 @@ public class LoginController implements Initializable {
     }
 
     @FXML
+    @SuppressWarnings("PMD")
     private void loadRegisterScreen(ActionEvent event) throws IOException {
 
 
@@ -85,6 +86,7 @@ public class LoginController implements Initializable {
     }
 
     @FXML
+    @SuppressWarnings("PMD")
     private void loadMenuScreen(ActionEvent event1) throws IOException{
 //        URL url = new File("src/main/resources/menuWindow.fxml").toURL();
 ////        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("menuWindow.fxml"));

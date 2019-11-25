@@ -49,6 +49,7 @@ public class MenuController implements Initializable {
     }
 
     @FXML
+    @SuppressWarnings("PMD")
     private void loadGameScreen(ActionEvent event) throws IOException {
 
 //                URL url = new File("src/main/resources/menuWindow.fxml").toURL();
