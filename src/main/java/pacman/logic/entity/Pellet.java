@@ -1,11 +1,15 @@
 package pacman.logic.entity;
 
 import org.jetbrains.annotations.NotNull;
+import pacman.graphics.sprite.PelletSprite;
 import pacman.graphics.sprite.Sprite;
+import pacman.logic.level.Board;
 
 public class Pellet extends Entity {
 
-    public Pellet(double x, double y, @NotNull Sprite sprite) {
-        super(x, y, sprite);
+    private static final Sprite SPRITE = new PelletSprite();
+
+    public Pellet(@NotNull Board board, int x, int y) {
+        super(board, x + 0.5, y + 0.5, SPRITE);
     }
 }

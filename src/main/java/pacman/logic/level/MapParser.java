@@ -13,6 +13,8 @@ import pacman.graphics.sprite.PacmanSprite;
 import pacman.logic.Direction;
 import pacman.logic.entity.Entity;
 import pacman.logic.entity.PacMan;
+import pacman.logic.entity.Pellet;
+import pacman.logic.entity.Wall;
 
 @SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class is not a bean.
 public class MapParser {
@@ -74,9 +76,10 @@ public class MapParser {
         Board board = new Board(width, height);
         for (int j = 0; j < height; j++) {
             for (int i = 0; i < width; i++) {
-                board.addSquare(parseSquare(map[j][i], i, j));
+                parseSquare(board, map[j][i], i, j);
             }
         }
+
         return board;
     }
 
@@ -89,8 +92,21 @@ public class MapParser {
         return parseMap(new Scanner(mapString));
     }
 
-    private @NotNull Square parseSquare(char squareChar, int x, int y) {
-        return new Square();
+    private void parseSquare(@NotNull Board board, char squareChar, int x, int y) {
+        Square square = new Square();
+        switch (squareChar) {
+            case '#':
+                square.addEntity(new Wall(board, x, y));
+                break;
+            case '*':
+                square.addEntity(new Pellet(board, x, y));
+                break;
+            case 'P':
+                PacMan pm = new PacMan(board, x + 0.5, y + 0.5, new PacmanSprite());
+                pm.setDirection(Direction.RIGHT);
+                square.addEntity(pm);
+        }
+        board.addSquare(square);
     }
 
     /**.

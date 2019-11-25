@@ -74,8 +74,10 @@ public class BoardCanvas extends Canvas {
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // known bug of pmd with foreach loops.
     public void draw(double t) {
         clear();
+        getGraphicsContext2D().setLineWidth(1 / scaleX);
         for (Entity e : board.getEntities()) {
-            getGraphicsContext2D().translate(e.getX() * scaleX, e.getY() * scaleY);
+            getGraphicsContext2D().scale(scaleX, scaleY);
+            getGraphicsContext2D().translate(e.getX(), e.getY());
             e.getSprite().draw(e, getGraphicsContext2D(), drawStyle, t);
             getGraphicsContext2D().setTransform(new Affine());
         }

@@ -24,6 +24,11 @@ public class Square {
         return () -> entities.iterator();
     }
 
+    public void moveEntityTo(@NotNull Entity entity, @NotNull Square newSquare) {
+        this.entities.remove(entity);
+        newSquare.entities.add(entity);
+    }
+
     protected void addEntity(@NotNull Entity entity) {
         this.entities.add(entity);
     }

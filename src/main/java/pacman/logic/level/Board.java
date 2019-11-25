@@ -26,8 +26,16 @@ public class Board {
     }
 
     public @NotNull Square getSquare(int x, int y) {
-        assert x >= 0 && x < width;
-        assert y >= 0 && y < height;
+        if (x < 0) {
+            x += width;
+        } else if (x >= width) {
+            x -= width;
+        }
+        if (y < 0) {
+            y += height;
+        } else if (y >= height) {
+            y -= height;
+        }
         return squares.get(y * width + x);
     }
 
