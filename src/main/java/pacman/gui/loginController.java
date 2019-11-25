@@ -121,12 +121,14 @@ public class loginController implements Initializable {
             window.show();
         }
         else{
+            /*
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Information Dialog");
             alert.setHeaderText("Username or password is incorrect");
             alert.setContentText("Please try again");
 
             alert.showAndWait();
+            */
             usernameTextArea.setText(null);
             passwordField.setText(null);
         }
