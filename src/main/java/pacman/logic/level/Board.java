@@ -31,11 +31,9 @@ public class Board {
         return squares.get(y * width + x);
     }
 
-    protected void setSquare(@NotNull Square square, int x, int y) {
-        assert x >= 0 && x < width;
-        assert y >= 0 && y < height;
+    protected void addSquare(@NotNull Square square) {
         square.getEntities().forEach(entities::add);
-        squares.set(y * width + x, square);
+        squares.add(square);
     }
 
     public int getWidth() {

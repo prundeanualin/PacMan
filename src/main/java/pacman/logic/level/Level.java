@@ -24,4 +24,7 @@ public class Level {
         this.pellets = new HashSet<>(pellets);
     }
 
+    public Board getBoard() {
+        return board;
+    }
 }

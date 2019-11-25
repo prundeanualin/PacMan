@@ -35,9 +35,9 @@ public class Entity {
     /**
      * Updates the entity's position.
      */
-    public void update() {
-        posX += dx;
-        posY += dy;
+    public void update(double dt) {
+        posX += dt * dx;
+        posY += dt * dy;
     }
 
     /**

@@ -24,4 +24,8 @@ public class Square {
         return () -> entities.iterator();
     }
 
+    protected void addEntity(@NotNull Entity entity) {
+        this.entities.add(entity);
+    }
+
 }

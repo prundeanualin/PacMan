@@ -2,12 +2,17 @@ package pacman.logic.level;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 import javafx.application.Platform;
 import org.jetbrains.annotations.NotNull;
+import pacman.graphics.sprite.PacmanSprite;
+import pacman.logic.Direction;
+import pacman.logic.entity.Entity;
+import pacman.logic.entity.PacMan;
 
 @SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class is not a bean.
 public class MapParser {
@@ -15,7 +20,13 @@ public class MapParser {
     private File levelDirectory;
 
     public MapParser(String levelDirectory) {
-        this.levelDirectory = new File(levelDirectory);
+        try {
+            this.levelDirectory = new File(getClass().getResource(levelDirectory).toURI());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            Platform.exit();
+        }
+
         if (!this.levelDirectory.exists()) {
             throw new IllegalArgumentException("Level Directory does not exist");
         }
@@ -30,7 +41,8 @@ public class MapParser {
      * @return A board parsed from the file
      */
     public Board parseMap(@NotNull String levelName) {
-        try (Scanner scanner = new Scanner(new File(levelDirectory + levelName + ".txt"))) {
+        try (Scanner scanner = new Scanner(new File(levelDirectory.getPath() + "/" + levelName
+                + ".txt"))) {
             return parseMap(scanner);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -60,9 +72,9 @@ public class MapParser {
         }
 
         Board board = new Board(width, height);
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                board.setSquare(parseSquare(map[j][i]), i, j);
+        for (int j = 0; j < height; j++) {
+            for (int i = 0; i < width; i++) {
+                board.addSquare(parseSquare(map[j][i], i, j));
             }
         }
         return board;
@@ -77,8 +89,8 @@ public class MapParser {
         return parseMap(new Scanner(mapString));
     }
 
-    private @NotNull Square parseSquare(char squareChar) {
-        return new Square(); // TODO
+    private @NotNull Square parseSquare(char squareChar, int x, int y) {
+        return new Square();
     }
 
     /**.

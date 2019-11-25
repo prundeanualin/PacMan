@@ -29,6 +29,9 @@ public class BoardCanvas extends Canvas {
      */
     private Board board;
 
+    private final double scaleX;
+    private final double scaleY;
+
     /**
      * Creates a new board canvas with specified dimensions.
      *
@@ -39,6 +42,8 @@ public class BoardCanvas extends Canvas {
         super(width, height);
 
         this.board = board;
+        this.scaleX = width / (double) board.getWidth();
+        this.scaleY = height / (double) board.getHeight();
 
         // Starts a render loop
         final long start = System.nanoTime();
@@ -70,7 +75,7 @@ public class BoardCanvas extends Canvas {
     public void draw(double t) {
         clear();
         for (Entity e : board.getEntities()) {
-            getGraphicsContext2D().translate(e.getX(), e.getY());
+            getGraphicsContext2D().translate(e.getX() * scaleX, e.getY() * scaleY);
             e.getSprite().draw(e, getGraphicsContext2D(), drawStyle, t);
             getGraphicsContext2D().setTransform(new Affine());
         }
