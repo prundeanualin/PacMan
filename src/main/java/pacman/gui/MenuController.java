@@ -14,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.File;
@@ -50,23 +51,31 @@ public class MenuController implements Initializable {
     @FXML
     private void loadGameScreen(ActionEvent event) throws IOException {
 
-        URL url = new File("src/main/resources/gamwWindow.fxml").toURL();
-        Parent root = FXMLLoader.load(url);
-        Scene scene = buttonPlay.getScene();
+//                URL url = new File("src/main/resources/menuWindow.fxml").toURL();
+////        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("menuWindow.fxml"));
+//        Parent root= FXMLLoader.load(url);
+//        Scene scene = buttonPlay.getScene();
+//
+//        buttonPlay.setDisable(true);
+//
+//        root.translateYProperty().set(scene.getHeight());
+//        parentContainer.getChildren().add(root);
+//
+//        Timeline timeline = new Timeline();
+//        KeyValue kv = new KeyValue(root.translateYProperty(), 0, Interpolator.EASE_IN);
+//        KeyFrame kf = new KeyFrame(Duration.seconds(1), kv);
+//        timeline.getKeyFrames().add(kf);
+//        timeline.setOnFinished(t -> {
+//            parentContainer.getChildren().remove(anchorRoot);
+//        });
+//        timeline.play();
 
-        buttonPlay.setDisable(true);
+        Parent root= FXMLLoader.load(getClass().getClassLoader().getResource("gameWindow.fxml"));
+        Scene scene= new Scene(root);
+        Stage window= (Stage)((javafx.scene.Node) event.getSource()).getScene().getWindow();
+        window.setScene(scene);
+        window.show();
 
-        root.translateYProperty().set(scene.getHeight());
-        parentContainer.getChildren().add(root);
-
-        Timeline timeline = new Timeline();
-        KeyValue kv = new KeyValue(root.translateYProperty(), 0, Interpolator.EASE_IN);
-        KeyFrame kf = new KeyFrame(Duration.seconds(1), kv);
-        timeline.getKeyFrames().add(kf);
-        timeline.setOnFinished(t -> {
-            parentContainer.getChildren().remove(anchorRoot);
-        });
-        timeline.play();
 
     }
 

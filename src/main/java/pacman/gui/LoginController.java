@@ -86,6 +86,26 @@ public class LoginController implements Initializable {
 
     @FXML
     private void loadMenuScreen(ActionEvent event1) throws IOException{
+//        URL url = new File("src/main/resources/menuWindow.fxml").toURL();
+////        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("menuWindow.fxml"));
+//        Parent root= FXMLLoader.load(url);
+//        Scene scene = loginButton.getScene();
+//
+//        loginButton.setDisable(true);
+//
+//        root.translateYProperty().set(scene.getHeight());
+//        parentContainer.getChildren().add(root);
+//
+//        Timeline timeline = new Timeline();
+//        KeyValue kv = new KeyValue(root.translateYProperty(), 0, Interpolator.EASE_IN);
+//        KeyFrame kf = new KeyFrame(Duration.seconds(1), kv);
+//        timeline.getKeyFrames().add(kf);
+//        timeline.setOnFinished(t -> {
+//            parentContainer.getChildren().remove(anchorRoot);
+//        });
+//        timeline.play();
+
+
         Parent root= FXMLLoader.load(getClass().getClassLoader().getResource("menuWindow.fxml"));
         Scene scene= new Scene(root);
         Stage window= (Stage)((javafx.scene.Node) event1.getSource()).getScene().getWindow();
