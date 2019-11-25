@@ -3,6 +3,7 @@ package pacman.logic.level;
 import java.util.HashSet;
 import java.util.Set;
 
+import javafx.application.Platform;
 import org.jetbrains.annotations.NotNull;
 import pacman.logic.entity.Entity;
 import pacman.logic.entity.Ghost;
@@ -12,7 +13,7 @@ import pacman.logic.entity.Pellet;
 @SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class is not a bean.
 public class LevelFactory {
 
-    private static final String DEFAULT_LEVEL_DIRECTORY = "/resources/levels/";
+    private static final String DEFAULT_LEVEL_DIRECTORY = "/levels/";
 
     private MapParser mapParser;
 
