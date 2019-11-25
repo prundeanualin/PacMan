@@ -1,4 +1,4 @@
-package board;
+package pacman.logic;
 
 /**.
  * Class for keeping track of directions of different sprites,

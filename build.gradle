@@ -5,8 +5,6 @@ plugins {
 //    id 'eclipse' // optional (to generate Eclipse project files)
 //    id 'idea' // optional (to generate IntelliJ IDEA project files)
 
-    // For using JavaFX
-    id 'org.openjfx.javafxplugin' version '0.0.8'
     // Test coverage
     id 'jacoco'
 
@@ -18,12 +16,18 @@ plugins {
 
     // FindBugs / SpotBugs
     id "com.github.spotbugs" version "2.0.1"
+
+    // JavaFX
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.8'
 }
+
+mainClassName = 'pacman.Main'
 
 group 'nl.tudelft.cse.sem.template'
 version '1.0-SNAPSHOT'
 
-sourceCompatibility = 11
+sourceCompatibility = 12
 
 repositories {
     mavenCentral()
@@ -42,11 +46,7 @@ test {
 dependencies {
     testImplementation('org.junit.jupiter:junit-jupiter:5.5.2')
     spotbugsPlugins 'com.h3xstream.findsecbugs:findsecbugs-plugin:1.7.1'
-}
-
-javafx {
-    version = "11"
-    modules = [ 'javafx.controls', 'javafx.fxml' ]
+    compile group: 'org.jetbrains', name: 'annotations', version: '18.0.0'
 }
 
 jacocoTestCoverageVerification {
@@ -67,7 +67,7 @@ jacocoTestCoverageVerification {
 
 checkstyle {
     toolVersion "8.25"
-	configFile = rootProject.file('config/checkstyle/checkstyle.xml')
+    configFile = rootProject.file('config/checkstyle/checkstyle.xml')
 }
 
 pmd {
@@ -83,9 +83,24 @@ spotbugs {
     excludeFilter = file("$rootProject.projectDir/config/spotbugs/excludeFilter.xml")
 }
 
+sourceSets.main {
+    java {
+        srcDir 'src/main/java'
+    }
+    resources {
+        srcDirs = ['src/main/java', 'src/main/resources']
+        exclude "**/*.java"
+    }
+}
+
 tasks.withType(SpotBugsTask) {
     reports.xml.enabled = false
     reports.html.enabled = true
+}
+
+javafx {
+    version = "12.0.2"
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
 
 wrapper {
