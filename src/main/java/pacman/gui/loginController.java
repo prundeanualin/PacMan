@@ -20,7 +20,7 @@ import javafx.stage.Stage;
 
 //import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.Node;
 
-public class LoginController implements Initializable {
+public class loginController implements Initializable {
 
     @FXML
     private static Button registerButton;
@@ -47,6 +47,7 @@ public class LoginController implements Initializable {
     }
 
     @FXML
+    @SuppressWarnings("PMD")
     private void loadRegisterScreen(ActionEvent event) throws IOException {
 
         /*
@@ -81,6 +82,7 @@ public class LoginController implements Initializable {
     }
 
     @FXML
+    @SuppressWarnings("PMD")
     private void loadMenuScreen(ActionEvent event1) throws IOException {
 
         /*

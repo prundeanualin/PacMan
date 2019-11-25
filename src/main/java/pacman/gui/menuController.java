@@ -18,7 +18,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 
-public class MenuController implements Initializable {
+public class menuController implements Initializable {
 
     @FXML
     private StackPane parentContainer;
@@ -45,6 +45,7 @@ public class MenuController implements Initializable {
     }
 
     @FXML
+    @SuppressWarnings("PMD")
     private void loadGameScreen(ActionEvent event) throws IOException {
 
 //                URL url = new File("src/main/resources/menuWindow.fxml").toURL();
