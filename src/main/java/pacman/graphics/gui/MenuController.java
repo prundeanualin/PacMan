@@ -65,7 +65,7 @@ public class MenuController implements Initializable {
         timeline.play();
          */
 
-        Parent root = FXMLLoader.load(getClass().getResource("../resources/views/game.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/views/game.fxml"));
         Scene scene = new Scene(root);
         Stage window = (Stage)((javafx.scene.Node) event.getSource()).getScene().getWindow();
         window.setScene(scene);

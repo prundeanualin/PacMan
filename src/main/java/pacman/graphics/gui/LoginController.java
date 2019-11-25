@@ -67,7 +67,7 @@ public class LoginController implements Initializable {
         timeline.play();
         */
 
-        Parent root = FXMLLoader.load(getClass().getResource("../resources/views/register.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/views/register.fxml"));
         Scene scene = new Scene(root);
         Stage window = (Stage)((javafx.scene.Node) event.getSource()).getScene().getWindow();
         window.setScene(scene);
@@ -98,7 +98,7 @@ public class LoginController implements Initializable {
         timeline.play();
         */
 
-        Parent root = FXMLLoader.load(getClass().getResource("../resources/views/menu.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/views/menu.fxml"));
         Scene scene = new Scene(root);
         Stage window = (Stage)((javafx.scene.Node) event1.getSource()).getScene().getWindow();
         window.setScene(scene);
