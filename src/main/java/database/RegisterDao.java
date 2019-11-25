@@ -19,23 +19,23 @@ public class RegisterDao {
         Connection conn = DbConnect.getMyConnection();
         Statement statement;
         ResultSet resultSet;
-        String query = "SELECT * FROM 'Users' WHERE 'Username' =?";
+        String query = "SELECT 'Username' FROM 'Users' WHERE 'Username' =?";
         try {
             statement = conn.prepareStatement(query);
             ((PreparedStatement) statement).setString(1, user.getUsername());
 
             resultSet = ((PreparedStatement) statement).executeQuery();
 
-            if (resultSet.next()) {
-                statement.close();
-                resultSet.close();
-                return true;
+            if (resultSet.next() == false) {
+                return false;
             }
+            statement.close();
+            resultSet.close();
             conn.close();
         } catch (Exception e) {
             System.out.println("Error occurred");
         }
-        return false;
+        return true;
     }
 
     /**
@@ -45,17 +45,16 @@ public class RegisterDao {
      */
     @SuppressWarnings("PMD")
     public void addUser(User user) {
-        user.setScore(0);
         Connection conn = DbConnect.getMyConnection();
-        Statement statement;
-        String query = "INSERT INTO 'Users'('Username','Password','Score')VALUES(?,?,?)";
+        PreparedStatement statement;
+        String query = "INSERT INTO Users(Username,Password,Score)" + "VALUES(?,?,?)";
         try {
             statement = conn.prepareStatement(query);
-            ((PreparedStatement) statement).setString(1, user.getUsername());
-            ((PreparedStatement) statement).setString(2, user.getPassword());
-            ((PreparedStatement) statement).setInt(3, user.getScore());
+            statement.setString(1, user.getUsername());
+            statement.setString(2, user.getPassword());
+            statement.setInt(3, user.getScore());
 
-            if (((PreparedStatement) statement).executeUpdate() > 0) {
+            if (statement.executeUpdate() > 0) {
                 JOptionPane.showMessageDialog(null, "New User Added");
             }
             statement.close();

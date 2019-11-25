@@ -26,7 +26,6 @@ public class DbConnect {
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(url, user, pass);
             System.out.println("Successfully connected");
-            connection.close();
         } catch (Exception e) {
             System.out.println("Exception" + e);
         }

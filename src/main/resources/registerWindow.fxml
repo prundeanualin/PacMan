@@ -25,7 +25,7 @@
                         <Font name="Comic Sans MS Bold" size="54.0" />
                     </font>
                 </Label>
-                <Button fx:id="registerUserButton" layoutX="256.0" layoutY="524.0" mnemonicParsing="false" onAction="#registerUser" prefHeight="65.0" prefWidth="231.0" style="-fx-background-color: #FFDF00; -fx-border-color: #1100BB; -fx-border-width: 2;" text="Register">
+                <Button fx:id="registerButton" layoutX="256.0" layoutY="524.0" mnemonicParsing="false" onAction="#registerUser" prefHeight="65.0" prefWidth="231.0" style="-fx-background-color: #FFDF00; -fx-border-color: #1100BB; -fx-border-width: 2;" text="Register">
                     <font>
                         <Font name="Comic Sans MS Bold" size="25.0" />
                     </font>

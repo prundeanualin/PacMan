@@ -27,27 +27,33 @@ public class LoginDao {
 
         boolean status = false;
         Connection conn = DbConnect.getMyConnection();
-        Statement statement;
+        PreparedStatement statement;
         ResultSet resultSet;
-        String query = "SELECT * FROM 'Users' WHERE 'Username'=? AND 'Password'=?";
+        String query = "SELECT 'Username','Password' FROM 'Users' WHERE 'Username'=? AND 'Password'=?";
         try {
             statement = conn.prepareStatement(query);
-            ((PreparedStatement) statement).setString(1, user.getUsername());
-            ((PreparedStatement) statement).setString(2, user.getPassword());
-            resultSet = ((PreparedStatement) statement).executeQuery();
-            statement.close();
-            conn.close();
-            if (resultSet.next()) {
-                status = true;
+            statement.setString(1, user.getUsername());
+            statement.setString(2, user.getPassword());
+            resultSet = statement.executeQuery();
+
+            if (resultSet.next() == false) {
+                JOptionPane.showMessageDialog(null, "Incorrect Username Or Password", "Login Failed", 2);
+                status = false;
+            }
+            while(resultSet.next())
+            {
+                resultSet.getString("Username");
+                resultSet.getString("Password");
             }
             resultSet.close();
-
+            statement.close();
+            conn.close();
         } catch (Exception e) {
-            System.out.println("Error");
+            System.out.println("Error in logging in");
         }
         //this can be deleted later if a specific window is implemented
         //make use of either the string or the option pane
-        JOptionPane.showMessageDialog(null, "Incorrect Username Or Password", "Login Failed", 2);
+
         return status;
 
     }
