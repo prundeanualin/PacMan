@@ -2,6 +2,7 @@ package pacman.logic.entity;
 
 import org.jetbrains.annotations.NotNull;
 import pacman.graphics.sprite.Sprite;
+import pacman.logic.Direction;
 
 /**
  * Represents an entity with a position, velocity and a sprite.
@@ -101,6 +102,11 @@ public class Entity {
      */
     public void setDy(double dy) {
         this.dy = dy;
+    }
+
+    public void setDirection(Direction dir) {
+        this.dx = dir.getDeltaX();
+        this.dy = dir.getDeltaY();
     }
 
     /**

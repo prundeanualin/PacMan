@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,17 +39,18 @@ public class MapParser {
      */
     public void checkMapCorectness(List<String> mapText) {
         if (mapText == null || mapText.isEmpty()) {
-            throw new RuntimeException("Invalid map format: No existing "
-                    + "rows inside the map file");
+            throw new IllegalArgumentException("Invalid map format: "
+                    + "No existing rows inside the map file");
         }
         int width = mapText.get(0).length();
         if (width == 0) {
-            throw new RuntimeException("Invalid map format: Input lines have no characters");
+            throw new IllegalArgumentException("Invalid map format: "
+                    + "Input lines have no characters");
         }
         for (int i = 0; i < mapText.size(); i++) {
             String line = mapText.get(i);
             if (line.length() != width) {
-                throw new RuntimeException("Invalid map format: "
+                throw new IllegalArgumentException("Invalid map format: "
                         + "Input lines are not of equal width");
             }
         }
@@ -61,27 +63,23 @@ public class MapParser {
      * @return 2D vector of chars, corresponding to each char in the original file
      * @throws IOException in case the reading goes kaboom
      */
-    @SuppressWarnings("PMD")
-    public char[][] parseMapOld(String mapName) throws IOException {
-        char[][] map;
+    public char[][] parseToChars(String mapName) throws IOException {
         InputStream inputStream = MapParser.class.getResourceAsStream(mapName);
         if (inputStream == null) {
             throw new RuntimeException("Could not load map from filename");
         }
         try {
             List<String> lines = new ArrayList<String>();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream,
+                    StandardCharsets.UTF_8));
             while (reader.ready()) {
                 lines.add(reader.readLine());
             }
             checkMapCorectness(lines);
             int height = lines.size();
-            int width = lines.get(0).length();
-            map = new char[height][width];
+            char[][] map = new char[height][]; // NOPMD redefinition necessary
             for (int i = 0; i < height; i++) {
-                for (int j = 0; j < width; j++) {
-                    map[i][j] = lines.get(i).charAt(j);
-                }
+                map[i] = lines.get(i).toCharArray(); // NOPMD redefinition necessary
             }
             return map;
         } catch (UnsupportedEncodingException e) {

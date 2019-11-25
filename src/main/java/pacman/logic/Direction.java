@@ -4,7 +4,7 @@ package pacman.logic;
  * Class for keeping track of directions of different sprites,
  * the orientation of their animation and their future moves.
  */
-public enum  Direction {
+public enum Direction {
 
     /**.
      * If the difference between the previous coordinate and the new one is
