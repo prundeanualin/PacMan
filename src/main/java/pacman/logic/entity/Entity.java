@@ -1,15 +1,14 @@
 package pacman.logic.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import pacman.graphics.sprite.Sprite;
 import pacman.logic.Direction;
 import pacman.logic.level.Board;
 import pacman.logic.level.Square;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 /**
  * Represents an entity with a position, velocity and a sprite.
@@ -27,7 +26,7 @@ public abstract class Entity {
     private Direction direction = null;
     private boolean alive = true;
 
-    private boolean isSolid = false;
+    private boolean solid = false;
 
     /**
      * Creates an entity at the specified position with the specified sprite.
@@ -57,17 +56,18 @@ public abstract class Entity {
      * Updates the entity's position.
      */
     public void update(double dt) {
-        Square square = board.getSquare((int)posX, (int)posY);
+        Square square = board.getSquare((int)posX, (int)posY); // NOPMD variable is used
         if (checkCollision().stream().noneMatch(Entity::isSolid) && direction != null) {
             posX += dt * direction.getDeltaX();
             posY += dt * direction.getDeltaY();
             Square newSquare = board.getSquare((int)posX, (int)posY);
-            if (square != newSquare) {
+            if (square.equals(newSquare)) {
                 square.moveEntityTo(this, newSquare);
             }
         }
     }
 
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // known bug of pmd with foreach loops.
     public Set<Entity> checkCollision() {
         Set<Entity> collisions = new HashSet<>();
         for (Entity entity : board.getSquare((int)posX, (int)posY).getEntities()) {
@@ -135,11 +135,11 @@ public abstract class Entity {
     }
 
     public boolean isSolid() {
-        return isSolid;
+        return solid;
     }
 
     public void setSolid(boolean solid) {
-        isSolid = solid;
+        this.solid = solid;
     }
 
     public Board getBoard() {

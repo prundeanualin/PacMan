@@ -9,9 +9,7 @@ import java.util.Scanner;
 
 import javafx.application.Platform;
 import org.jetbrains.annotations.NotNull;
-import pacman.graphics.sprite.PacmanSprite;
 import pacman.logic.Direction;
-import pacman.logic.entity.Entity;
 import pacman.logic.entity.PacMan;
 import pacman.logic.entity.Pellet;
 import pacman.logic.entity.Wall;
@@ -93,7 +91,7 @@ public class MapParser {
     }
 
     private void parseSquare(@NotNull Board board, char squareChar, int x, int y) {
-        Square square = new Square();
+        Square square = new Square(); // NOPMD variable is used
         switch (squareChar) {
             case '#':
                 square.addEntity(new Wall(board, x, y));
@@ -102,9 +100,14 @@ public class MapParser {
                 square.addEntity(new Pellet(board, x, y));
                 break;
             case 'P':
-                PacMan pm = new PacMan(board, x + 0.5, y + 0.5, new PacmanSprite());
+                PacMan pm = new PacMan(board, x + 0.5, y + 0.5);
                 pm.setDirection(Direction.RIGHT);
                 square.addEntity(pm);
+                break;
+            case '.':
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid character");
         }
         board.addSquare(square);
     }

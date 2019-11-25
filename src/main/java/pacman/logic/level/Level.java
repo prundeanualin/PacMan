@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.jetbrains.annotations.NotNull;
 import pacman.logic.entity.Ghost;
 import pacman.logic.entity.PacMan;
 import pacman.logic.entity.Pellet;
@@ -16,8 +17,9 @@ public class Level {
     private Set<Ghost> ghosts;
     private Set<Pellet> pellets;
 
-    protected Level(Board board, PacMan pacMan, Collection<? extends Ghost> ghosts,
-                 Collection<? extends Pellet> pellets) {
+    protected Level(@NotNull Board board, @NotNull PacMan pacMan,
+                    @NotNull Collection<? extends Ghost> ghosts,
+                    @NotNull Collection<? extends Pellet> pellets) {
         this.board = board;
         this.pacMan = pacMan;
         this.ghosts = new HashSet<>(ghosts);

@@ -1,16 +1,19 @@
 package pacman.logic.entity;
 
+import java.util.Set;
+
 import org.jetbrains.annotations.NotNull;
+import pacman.graphics.sprite.PacmanSprite;
 import pacman.graphics.sprite.Sprite;
 import pacman.logic.Direction;
 import pacman.logic.level.Board;
 
-import java.util.Set;
-
 public class PacMan extends Entity {
 
-    public PacMan(@NotNull Board board, double x, double y, @NotNull Sprite sprite) {
-        super(board, x, y, sprite);
+    private static final Sprite SPRITE = new PacmanSprite();
+
+    public PacMan(@NotNull Board board, double x, double y) {
+        super(board, x, y, SPRITE);
     }
 
     @Override
@@ -25,8 +28,8 @@ public class PacMan extends Entity {
 
     @Override
     public boolean collide(Entity other) {
-        double dx = distanceX(other.getX());
-        double dy = distanceY(other.getY());
+        double dx = distanceX(other.getX()); // NOPMD variable is used
+        double dy = distanceY(other.getY()); // NOPMD variable is used
         if (other instanceof Pellet) {
             return dx * dx + dy * dy < 0.25;
         }
