@@ -14,7 +14,7 @@
 
 <!--<?import javafx.scene.effect.Light.Distant?>-->
 
-<StackPane fx:id="parentContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="629.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pacman.gui.MenuController">
+<StackPane fx:id="parentContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="629.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pacman.gui.menuController">
    <children>
       <AnchorPane fx:id="anchorRoot" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #000000;">
          <children>
