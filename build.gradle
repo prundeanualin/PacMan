@@ -18,7 +18,13 @@ plugins {
 
     // FindBugs / SpotBugs
     id "com.github.spotbugs" version "2.0.1"
+
+    // JavaFX
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.8'
 }
+
+mainClassName = 'pacman.Main'
 
 group 'nl.tudelft.cse.sem.template'
 version '1.0-SNAPSHOT'
@@ -54,6 +60,7 @@ javafx {
     modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
 
+
 jacocoTestCoverageVerification {
     violationRules {
         rule {
@@ -72,7 +79,7 @@ jacocoTestCoverageVerification {
 
 checkstyle {
     toolVersion "8.25"
-	configFile = rootProject.file('config/checkstyle/checkstyle.xml')
+    configFile = rootProject.file('config/checkstyle/checkstyle.xml')
 }
 
 
@@ -85,9 +92,24 @@ spotbugs {
     excludeFilter = file("$rootProject.projectDir/config/spotbugs/excludeFilter.xml")
 }
 
+sourceSets.main {
+    java {
+        srcDir 'src/main/java'
+    }
+    resources {
+        srcDirs = ['src/main/java', 'src/main/resources']
+        exclude "**/*.java"
+    }
+}
+
 tasks.withType(SpotBugsTask) {
     reports.xml.enabled = false
     reports.html.enabled = true
+}
+
+javafx {
+    version = "12.0.2"
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
 
 wrapper {
