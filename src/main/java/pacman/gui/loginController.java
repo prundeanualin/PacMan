@@ -4,12 +4,15 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import database.LoginDao;
+import database.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
@@ -106,12 +109,28 @@ public class loginController implements Initializable {
         });
         timeline.play();
         */
+        User user = new User();
+        user.setUsername(usernameTextArea.toString());
+        user.setPassword(passwordField.toString());
+        LoginDao loginDao= new LoginDao();
+        if(loginDao.attemptLogin(user)){
+            Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("menuWindow.fxml"));
+            Scene scene = new Scene(root);
+            Stage window = (Stage) ((javafx.scene.Node) event1.getSource()).getScene().getWindow();
+            window.setScene(scene);
+            window.show();
+        }
+        else{
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information Dialog");
+            alert.setHeaderText("Username or password is incorrect");
+            alert.setContentText("Please try again");
 
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("menuWindow.fxml"));
-        Scene scene = new Scene(root);
-        Stage window = (Stage) ((javafx.scene.Node) event1.getSource()).getScene().getWindow();
-        window.setScene(scene);
-        window.show();
+            alert.showAndWait();
+            usernameTextArea.setText(null);
+            passwordField.setText(null);
+        }
+
 
     }
 
