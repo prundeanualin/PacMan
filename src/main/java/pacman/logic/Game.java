@@ -6,6 +6,9 @@ import org.jetbrains.annotations.NotNull;
 import pacman.logic.entity.Entity;
 import pacman.logic.level.Level;
 
+/**
+ * Represents a game with multiple levels.
+ */
 @SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class is not a bean.
 public class Game {
 
@@ -16,6 +19,11 @@ public class Game {
 
     private boolean running = false;
 
+    /**
+     * Creates a new game.
+     * @param player The player who plays the game
+     * @param levels The levels in the game
+     */
     public Game(Player player, List<Level> levels) {
         assert !levels.isEmpty();
         this.player = player;
@@ -23,6 +31,10 @@ public class Game {
         this.currentLevel = 0;
     }
 
+    /**
+     * Updates the game.
+     * @param dt The time that has passed
+     */
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // known bug of pmd with foreach loops.
     public void update(double dt) {
         if (!running) return;
@@ -32,14 +44,26 @@ public class Game {
         getLevel().getBoard().removeDeadEntities();
     }
 
+    /**
+     * Gets whether the game is running.
+     * @return True iff the game is running
+     */
     public boolean isRunning() {
         return running;
     }
 
+    /**
+     * Sets the running status of the game.
+     * @param running Whether the game is running or not
+     */
     public void setRunning(boolean running) {
         this.running = running;
     }
 
+    /**
+     * Gets the current level.
+     * @return The level currently playing
+     */
     public @NotNull Level getLevel() {
         return levels.get(currentLevel);
     }
