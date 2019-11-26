@@ -5,6 +5,8 @@ import java.util.List;
 
 import javafx.animation.AnimationTimer;
 
+import pacman.Main;
+import pacman.graphics.BoardCanvas;
 import pacman.logic.level.Level;
 import pacman.logic.level.LevelFactory;
 
@@ -20,6 +22,7 @@ public class GameController {
         return controller;
     }
 
+    private BoardCanvas canvas;
     private Game game;
     private LevelFactory levelFactory;
 
@@ -31,6 +34,8 @@ public class GameController {
         levels.add(levelFactory.createLevel("level_1"));
         this.game = new Game(new Player(), levels); //TODO
         this.time = 0.0;
+        canvas = new BoardCanvas(getGame().getLevel().getBoard()
+                , Main.width, Main.height);
     }
 
     public void start() {
@@ -49,9 +54,16 @@ public class GameController {
         double dt = t - time;
         time = t;
         game.update(dt);
+        canvas.draw(t);
     }
 
     public Game getGame() {
         return game;
     }
+
+    public BoardCanvas getCanvas() {
+        return canvas;
+    }
 }
+
+

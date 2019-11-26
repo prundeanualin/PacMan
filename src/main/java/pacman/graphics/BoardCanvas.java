@@ -29,8 +29,8 @@ public class BoardCanvas extends Canvas {
      */
     private Board board;
 
-    private final double scaleX;
-    private final double scaleY;
+    public static double scaleX = -1;
+    public static double scaleY = -1;
 
     /**
      * Creates a new board canvas with specified dimensions.
@@ -42,19 +42,19 @@ public class BoardCanvas extends Canvas {
         super(width, height);
 
         this.board = board;
-        this.scaleX = width / (double) board.getWidth();
-        this.scaleY = height / (double) board.getHeight();
+        scaleX = width / (double) board.getWidth();
+        scaleY = height / (double) board.getHeight();
 
         // Starts a render loop
-        final long start = System.nanoTime();
-        AnimationTimer timer = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                long t = now - start;
-                draw(t / 1E9);
-            }
-        };
-        timer.start();
+//        final long start = System.nanoTime();
+//        AnimationTimer timer = new AnimationTimer() {
+//            @Override
+//            public void handle(long now) {
+//                long t = now - start;
+//                draw(t / 1E9);
+//            }
+//        };
+//        timer.start();
     }
 
     /**

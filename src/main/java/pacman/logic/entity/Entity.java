@@ -10,7 +10,7 @@ import pacman.logic.Direction;
  * @author Ruben
  */
 @SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class is not a bean.
-public class Entity {
+public abstract class Entity {
 
     private double posX;
     private double posY;

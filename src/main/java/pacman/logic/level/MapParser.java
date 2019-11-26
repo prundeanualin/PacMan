@@ -10,9 +10,13 @@ import java.util.Scanner;
 import javafx.application.Platform;
 import org.jetbrains.annotations.NotNull;
 import pacman.graphics.sprite.PacmanSprite;
+import pacman.graphics.sprite.PelletSprite;
+import pacman.graphics.sprite.WallSprite;
 import pacman.logic.Direction;
 import pacman.logic.entity.Entity;
 import pacman.logic.entity.PacMan;
+import pacman.logic.entity.Pellet;
+import pacman.logic.entity.Wall;
 
 @SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class is not a bean.
 public class MapParser {
@@ -90,7 +94,16 @@ public class MapParser {
     }
 
     private @NotNull Square parseSquare(char squareChar, int x, int y) {
-        return new Square();
+        switch (squareChar) {
+            case '#':
+                return new Square(new Wall(x, y, new WallSprite()));
+            case 'P':
+                return new Square(new PacMan(x, y, new PacmanSprite()));
+            case '.':
+                return new Square(new Pellet(x, y, new PelletSprite()));
+            default:
+                return new Square();
+        }
     }
 
     /**.
