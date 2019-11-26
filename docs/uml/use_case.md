@@ -1,60 +1,64 @@
 # Use Case Descriptions.
 ## Use Cases
-#### Authenticate:
+#### Register:
 `Author:` Paul Adriaanse
 
-`Date:` 25/11/2019
+`Date:` 26/11/2019
 
-`Purpose:` Authenticate as a user with the Database.
+`Purpose:` Add a new user to the Database.
 
 `Overview:`
 
-    The player is shown a screen with a username field and password field, a login button and a register button. If they want to log in, they fill in the fields and press the login button. If they want to register however, they press the register button.
-    Both of these are described in more detail in the use cases 'Register' and 'Log in'.
-    If Authentication is succesful, the player is redirected to the main menu.
+    The player sees a menu and chooses to register.
+    They then fill in the in the username and password fields, together with a second password field for verification, and press the register button to confirm their choices. The system then validates the input, according to the 'Validate' use case.
+    If this is succesful, the combination is registered in the database and the player is notified he has been registered and is directed to the main menu.
+    If this is not succesful, the player is notified the username is already taken, or a field was left empty.
+
+`Cross-Reference:` Requirement 1.1 a
+
+#### Validate:
+`Author:` Paul Adriaanse
+
+`Date:` 26/11/2019
+
+`Purpose:` Validate the register input fields.
+
+`Overview:`
+
+    Once the player presses the register button after having filled in the username and two password fields, the system validates the two password fields contain the same input, and it validates the username is not already registered in the database.
+    If either of these two are not succesfully validated, the player is notified of what was wrong.
+    If both validate correctly, the player should be registered as described in the 'Register' use case.
 
 `Cross-Reference:` Requirement 1.1 a
 
 #### Log in:
 `Author:` Paul Adriaanse
 
-`Date:` 25/11/2019
+`Date:` 26/11/2019
 
-`Purpose:` Authenticate as an existing user with the Database.
+`Purpose:` Log in as an existing user with the Database.
 
 `Overview:`
 
-    The player fills in their username & password, and presses the login button. The system then validates that the username & password combinations are registered in the database.
-    If this is the case, the log in is succesful, and the player is shown the main menu.
-    If this is not the case, the authentication fails, as described in the 'Fail Authentication' use case, and the player is notified his username or password was incorrect.
+    The player sees a menu and chooses to log in.
+    He then fills in their username & password, and presses the login button. The system then tries to authenticate the user according to the 'Authenticate' use case.
+    If this is succesful, and the player is logged in and shown the main menu.
+    If this is not succesful, the player is notified the combination is not correct.
 
 `Cross-Reference:` Requirement 1.1 a
 
-#### Register:
+#### Authenticate:
 `Author:` Paul Adriaanse
 
-`Date:` 25/11/2019
+`Date:` 26/11/2019
 
-`Purpose:` Authenticate as a new user with the Database.
+`Purpose:` Check the username & password fields have been registered with the database.
 
 `Overview:`
 
-    If the player pressed the register button to register as a new user, they are redirected to a new screen where they can fill in their username and password and press a 'register' button to confirm their choices. The system then validates no field was left empty and the username is not already registered in the database.
-    If this is succesful, the combination is registered in the database and the player is notified he has been registered and is redirected to the menu.
-    If this is not succesful, Authentication fails, as described in the'Fail Authentication' use case, the player is then notified the username is already taken, or a field was left empty.
-
-`Cross-Reference:` Requirement 1.1 a
-
-#### Fail Authentication:
-`Author:` Paul Adriaanse
-
-`Date:` 25/11/2019
-
-`Purpose:` Do not authenticate a user if he provided incorrect input.
-
-`Overview:`
-
-    If the player tries to log in with a username & password combination that was not registered in the database, or tries to register with an already existant username, or tries to register with an empty field, authentication fails and the player is notified of the reason (out of the above).
+    Once the player presses the login button after having filled in his username and password, the system validates username & password are registered in the database.
+    If this is the case the player should be logged in as described in the 'Log in' use case, along whith being shown the main menu.
+    If this is not the case, the player is notified the given username and password combination was incorrect.
 
 `Cross-Reference:` Requirement 1.1 a
 
