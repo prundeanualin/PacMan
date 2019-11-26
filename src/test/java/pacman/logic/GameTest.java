@@ -30,8 +30,9 @@ public class GameTest {
     }
 
     @Test
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // known bug of pmd with foreach loops.
     public void testUpdate() {
-        for (Entity entity : game.getLevel().getBoard().getEntities()) { // NOPMD foreach loop bug
+        for (Entity entity : game.getLevel().getBoard().getEntities()) {
             entity.setAlive(false);
         }
         game.setRunning(true);
