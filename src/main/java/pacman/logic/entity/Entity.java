@@ -21,7 +21,7 @@ public abstract class Entity {
     private Board board;
     private double posX;
     private double posY;
-    private Sprite sprite;
+    private Sprite<? extends Entity> sprite;
 
     private Direction direction = null;
     private boolean alive = true;
@@ -36,7 +36,8 @@ public abstract class Entity {
      * @param y The y position of the entity
      * @param sprite The sprite for rendering
      */
-    public Entity(@NotNull Board board, double x, double y, @NotNull Sprite sprite) {
+    public Entity(@NotNull Board board, double x, double y,
+                  @NotNull Sprite<? extends Entity> sprite) {
         this.board = board;
         this.posX = x;
         this.posY = y;
@@ -63,6 +64,16 @@ public abstract class Entity {
             Square newSquare = board.getSquare((int)posX, (int)posY);
             if (square.equals(newSquare)) {
                 square.moveEntityTo(this, newSquare);
+            }
+            if (posX < 0) {
+                posX += board.getWidth();
+            } else if (posX >= board.getWidth()) {
+                posX -= board.getWidth();
+            }
+            if (posY < 0) {
+                posY += board.getHeight();
+            } else if (posY >= board.getHeight()) {
+                posY -= board.getHeight();
             }
         }
     }

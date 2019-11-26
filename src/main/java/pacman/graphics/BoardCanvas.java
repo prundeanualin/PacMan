@@ -71,7 +71,11 @@ public class BoardCanvas extends Canvas {
      *
      * @param t The time since started in seconds.
      */
-    @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // known bug of pmd with foreach loops.
+    /*
+     * known bug of pmd with foreach loops
+     * it is always safe to draw an entity using its own sprite
+     */
+    @SuppressWarnings({"PMD.DataflowAnomalyAnalysis", "unchecked"})
     public void draw(double t) {
         clear();
         getGraphicsContext2D().setLineWidth(1 / scaleX);

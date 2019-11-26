@@ -7,7 +7,7 @@ import pacman.logic.level.Board;
 
 public class Pellet extends Entity {
 
-    private static final Sprite SPRITE = new PelletSprite();
+    private static final Sprite<Pellet> SPRITE = new PelletSprite();
 
     public Pellet(@NotNull Board board, int x, int y) {
         super(board, x + 0.5, y + 0.5, SPRITE);

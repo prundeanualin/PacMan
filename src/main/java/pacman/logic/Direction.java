@@ -15,17 +15,17 @@ public enum Direction {
 
     /**.
      * If the difference between the previous coordinate and the new one is
-     * positive on Y-axis and constant on X-axis, then the sprite has
-     * moved down
-     */
-    DOWN(0, 1, 3 * Math.PI / 2),
-
-    /**.
-     * If the difference between the previous coordinate and the new one is
      * negative on X-axis and constant on Y-axis, then the sprite has
      * moved left
      */
     LEFT(-1, 0, Math.PI),
+
+    /**.
+     * If the difference between the previous coordinate and the new one is
+     * positive on Y-axis and constant on X-axis, then the sprite has
+     * moved down
+     */
+    DOWN(0, 1, 3 * Math.PI / 2),
 
     /**.
      * If the difference between the previous coordinate and the new one is
@@ -44,6 +44,10 @@ public enum Direction {
         this.deltaX = deltaX;
         this.deltaY = deltaY;
         this.rotation = rotation;
+    }
+
+    public Direction getInverse() {
+        return Direction.values()[(ordinal() + 2) % values().length];
     }
 
     public int getDeltaX() {

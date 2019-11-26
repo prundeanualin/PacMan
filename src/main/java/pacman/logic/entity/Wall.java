@@ -7,7 +7,7 @@ import pacman.logic.level.Board;
 
 public class Wall extends Entity {
 
-    private static final Sprite SPRITE = new WallSprite();
+    private static final Sprite<Wall> SPRITE = new WallSprite();
 
     public Wall(@NotNull Board board, int x, int y) {
         super(board, x + 0.5, y + 0.5, SPRITE);

@@ -8,9 +8,12 @@ import pacman.graphics.sprite.Sprite;
 import pacman.logic.Direction;
 import pacman.logic.level.Board;
 
+@SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class is not a bean.
 public class PacMan extends Entity {
 
-    private static final Sprite SPRITE = new PacmanSprite();
+    private static final Sprite<PacMan> SPRITE = new PacmanSprite();
+
+    private Direction nextDirection = null;
 
     public PacMan(@NotNull Board board, double x, double y) {
         super(board, x, y, SPRITE);
@@ -19,11 +22,19 @@ public class PacMan extends Entity {
     @Override
     public void update(double dt) {
         super.update(dt);
+        if (nextDirection != null && nextDirection != getDirection()) {
+            double dx = Math.abs(getX() - (int)getX() - 0.5);
+            double dy = Math.abs(getY() - (int)getY() - 0.5);
+            if (getDirection() == nextDirection.getInverse() || (dx < 0.02 && dy < 0.02)) {
+                setDirection(nextDirection);
+            }
+        }
         Set<Entity> collisions = checkCollision();
         collisions.stream().filter(e -> e instanceof Pellet).forEach(e -> e.setAlive(false));
-        if (collisions.stream().anyMatch(Entity::isSolid)) {
-            setDirection(Direction.DOWN);
-        }
+    }
+
+    public void setNextDirection(Direction nextDirection) {
+        this.nextDirection = nextDirection;
     }
 
     @Override

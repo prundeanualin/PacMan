@@ -29,4 +29,8 @@ public class Level {
     public Board getBoard() {
         return board;
     }
+
+    public PacMan getPacMan() {
+        return pacMan;
+    }
 }
