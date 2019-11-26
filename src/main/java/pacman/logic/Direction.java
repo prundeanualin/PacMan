@@ -11,36 +11,43 @@ public enum Direction {
      * negative on Y-axis and constant on X-axis, then the sprite has
      * moved up
      */
-    UP(0, -1),
-
-    /**.
-     * If the difference between the previous coordinate and the new one is
-     * positive on Y-axis and constant on X-axis, then the sprite has
-     * moved down
-     */
-    DOWN(0, 1),
+    UP(0, -1, Math.PI / 2),
 
     /**.
      * If the difference between the previous coordinate and the new one is
      * negative on X-axis and constant on Y-axis, then the sprite has
      * moved left
      */
-    LEFT(-1, 0),
+    LEFT(-1, 0, Math.PI),
+
+    /**.
+     * If the difference between the previous coordinate and the new one is
+     * positive on Y-axis and constant on X-axis, then the sprite has
+     * moved down
+     */
+    DOWN(0, 1, 3 * Math.PI / 2),
 
     /**.
      * If the difference between the previous coordinate and the new one is
      * positive on X-axis and constant on Y-axis, then the sprite has
      * moved down
      */
-    RIGHT(1, 0);
+    RIGHT(1, 0, 0.0);
 
     private final int deltaX;
 
     private final int deltaY;
 
-    Direction(int deltX, int deltY) {
-        deltaX = deltX;
-        deltaY = deltY;
+    private final double rotation;
+
+    Direction(int deltaX, int deltaY, double rotation) {
+        this.deltaX = deltaX;
+        this.deltaY = deltaY;
+        this.rotation = rotation;
+    }
+
+    public Direction getInverse() {
+        return Direction.values()[(ordinal() + 2) % values().length];
     }
 
     public int getDeltaX() {
@@ -49,5 +56,9 @@ public enum Direction {
 
     public int getDeltaY() {
         return deltaY;
+    }
+
+    public double getRotation() {
+        return rotation;
     }
 }

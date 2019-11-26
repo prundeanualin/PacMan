@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.NotNull;
 import pacman.logic.entity.Entity;
+import pacman.logic.entity.Pellet;
 
 @SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class is not a bean.
 public class Board {
@@ -26,14 +28,27 @@ public class Board {
     }
 
     public @NotNull Square getSquare(int x, int y) {
-        assert x >= 0 && x < width;
-        assert y >= 0 && y < height;
+        if (x < 0) {
+            x += width;
+        } else if (x >= width) {
+            x -= width;
+        }
+        if (y < 0) {
+            y += height;
+        } else if (y >= height) {
+            y -= height;
+        }
         return squares.get(y * width + x);
     }
 
     protected void addSquare(@NotNull Square square) {
         square.getEntities().forEach(entities::add);
         squares.add(square);
+    }
+
+    protected void removeEntity(@NotNull Entity entity) {
+        entity.getSquare().removeEntity(entity);
+        entities.remove(entity);
     }
 
     public int getWidth() {
@@ -50,6 +65,16 @@ public class Board {
 
     public @NotNull Iterable<Square> getSquares() {
         return () -> squares.iterator();
+    }
+
+    public int computeScore() {
+        List<Entity> eatenPellets = entities.stream().filter(e -> !e.isAlive() && e instanceof Pellet).collect(Collectors.toList());
+        return eatenPellets.size();
+    }
+
+    public void removeDeadEntities() {
+        Set<Entity> dead = entities.stream().filter(e -> !e.isAlive()).collect(Collectors.toSet());
+        dead.forEach(this::removeEntity);
     }
 
 }

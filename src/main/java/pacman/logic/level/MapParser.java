@@ -9,11 +9,7 @@ import java.util.Scanner;
 
 import javafx.application.Platform;
 import org.jetbrains.annotations.NotNull;
-import pacman.graphics.sprite.PacmanSprite;
-import pacman.graphics.sprite.PelletSprite;
-import pacman.graphics.sprite.WallSprite;
 import pacman.logic.Direction;
-import pacman.logic.entity.Entity;
 import pacman.logic.entity.PacMan;
 import pacman.logic.entity.Pellet;
 import pacman.logic.entity.Wall;
@@ -78,9 +74,10 @@ public class MapParser {
         Board board = new Board(width, height);
         for (int j = 0; j < height; j++) {
             for (int i = 0; i < width; i++) {
-                board.addSquare(parseSquare(map[j][i], i, j));
+                parseSquare(board, map[j][i], i, j);
             }
         }
+
         return board;
     }
 
@@ -93,17 +90,26 @@ public class MapParser {
         return parseMap(new Scanner(mapString));
     }
 
-    private @NotNull Square parseSquare(char squareChar, int x, int y) {
+    private void parseSquare(@NotNull Board board, char squareChar, int x, int y) {
+        Square square = new Square(); // NOPMD variable is used
         switch (squareChar) {
             case '#':
-                return new Square(new Wall(x, y, new WallSprite()));
+                square.addEntity(new Wall(board, x, y));
+                break;
+            case '*':
+                square.addEntity(new Pellet(board, x, y));
+                break;
             case 'P':
-                return new Square(new PacMan(x, y, new PacmanSprite()));
+                PacMan pm = new PacMan(board, x + 0.5, y + 0.5);
+                pm.setDirection(Direction.RIGHT);
+                square.addEntity(pm);
+                break;
             case '.':
-                return new Square(new Pellet(x, y, new PelletSprite()));
+                break;
             default:
-                return new Square();
+                throw new IllegalArgumentException("Invalid character");
         }
+        board.addSquare(square);
     }
 
     /**.

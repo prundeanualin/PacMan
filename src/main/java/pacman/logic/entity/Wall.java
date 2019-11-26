@@ -2,10 +2,16 @@ package pacman.logic.entity;
 
 import org.jetbrains.annotations.NotNull;
 import pacman.graphics.sprite.Sprite;
+import pacman.graphics.sprite.WallSprite;
+import pacman.logic.level.Board;
 
-public class Wall extends Entity{
+public class Wall extends Entity {
 
-    public Wall(double x, double y, @NotNull Sprite sprite) {
-        super(x, y, sprite);
+    private static final Sprite<Wall> SPRITE = new WallSprite();
+
+    public Wall(@NotNull Board board, int x, int y) {
+        super(board, x + 0.5, y + 0.5, SPRITE);
+        setSolid(true);
     }
+
 }

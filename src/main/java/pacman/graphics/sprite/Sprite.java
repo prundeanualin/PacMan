@@ -10,7 +10,7 @@ import pacman.logic.entity.Entity;
  *
  * @author Ruben
  */
-public abstract class Sprite {
+public abstract class Sprite<E extends Entity> {
 
     /**
      * Draws the sprite.
@@ -20,7 +20,7 @@ public abstract class Sprite {
      * @param style The style to draw in
      * @param t The time in seconds
      */
-    public abstract void draw(@NotNull Entity entity, @NotNull GraphicsContext g,
+    public abstract void draw(@NotNull E entity, @NotNull GraphicsContext g,
                               @NotNull Style style, double t);
 
 }
