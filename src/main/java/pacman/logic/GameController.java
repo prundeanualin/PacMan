@@ -5,7 +5,13 @@ import java.util.List;
 
 import javafx.animation.AnimationTimer;
 
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import pacman.Main;
 import pacman.graphics.BoardCanvas;
 import pacman.logic.level.Level;
@@ -37,6 +43,7 @@ public class GameController {
     private BoardCanvas canvas;
     private Game game;
     private LevelFactory levelFactory;
+    private AnimationTimer timer;
 
     private double time;
     private boolean started = false;
@@ -54,6 +61,7 @@ public class GameController {
                 , Main.width, Main.height);
         canvas.setTranslateY(50);
         scoreLabel = new Label("Score: ");
+        updateLabel(scoreLabel);
     }
 
     /**
@@ -70,7 +78,7 @@ public class GameController {
      */
     protected void startTimer() {
         long start = System.nanoTime();
-        AnimationTimer timer = new AnimationTimer() {
+        timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
                 double t = (now - start) / 1E9;
@@ -89,6 +97,7 @@ public class GameController {
             throw new IllegalStateException("Can not pause a game that is not started");
         }
         game.setRunning(false);
+        timer.stop();
     }
 
     /**
@@ -109,7 +118,10 @@ public class GameController {
         double dt = t - time;
         time = t;
         game.update(dt);
-        scoreLabel.setText("Score is: " + game.getScore());
+        if(getGame().getLevel().getBoard().checkLevelWon())
+            scoreLabel.setText("You Won !!");
+        else
+            scoreLabel.setText("Score is: " + game.getScore());
         canvas.draw(t);
     }
 
@@ -127,6 +139,19 @@ public class GameController {
 
     public Label getScoreLabel() {
         return scoreLabel;
+    }
+
+    /**
+     * Sets the label's parameters for displaying score and username.
+     * @param scoreLabel the label on which will be displayed
+     */
+    public void updateLabel(Label scoreLabel) {
+        scoreLabel.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
+        scoreLabel.setFont(new Font(20));
+        scoreLabel.setTextFill(Color.WHEAT);
+        scoreLabel.setTranslateX(Main.width / 3 * 2);
+        scoreLabel.setTranslateY(20);
+        scoreLabel.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
     }
 }
 

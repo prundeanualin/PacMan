@@ -59,10 +59,10 @@ public abstract class Entity {
     public void update(double dt) {
         Square square = board.getSquare((int)posX, (int)posY); // NOPMD variable is used
         if (checkCollision().stream().noneMatch(Entity::isSolid) && direction != null) {
-            posX += dt * direction.getDeltaX();
-            posY += dt * direction.getDeltaY();
+            posX += 2 * dt * direction.getDeltaX();
+            posY += 2 * dt * direction.getDeltaY();
             Square newSquare = board.getSquare((int)posX, (int)posY);
-            if (square.equals(newSquare)) {
+            if (!square.equals(newSquare)) {
                 square.moveEntityTo(this, newSquare);
             }
             if (posX < 0) {

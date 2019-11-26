@@ -29,8 +29,8 @@ public class BoardCanvas extends Canvas {
      */
     private Board board;
 
-    public static double scaleX = -1;
-    public static double scaleY = -1;
+    private double scaleX;
+    private double scaleY;
 
     /**
      * Creates a new board canvas with specified dimensions.

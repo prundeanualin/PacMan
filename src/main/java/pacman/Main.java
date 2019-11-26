@@ -4,10 +4,12 @@ import java.io.IOException;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import pacman.graphics.BoardCanvas;
 import pacman.logic.Direction;
@@ -32,6 +34,7 @@ public class Main extends Application {
 //                .getBoard(), 800, 800);
         //Parent root = FXMLLoader.load(getClass().getResource("/views/login.fxml"));
         VBox root = new VBox();
+        root.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
         stage.setHeight(850);
         root.getChildren().add(GameController.getInstance().getScoreLabel());
         root.getChildren().add(GameController.getInstance().getCanvas());
