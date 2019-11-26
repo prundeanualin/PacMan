@@ -57,3 +57,12 @@ test:
   stage: test
   script:
     gradle check
+
+
+report:
+  stage: test
+  script:
+    - gradle test
+  artifacts:
+    reports:
+      junit: build/test-results/test/**/TEST-*.xml
