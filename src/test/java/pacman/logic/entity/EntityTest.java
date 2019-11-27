@@ -2,7 +2,6 @@ package pacman.logic.entity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,6 +13,7 @@ import pacman.logic.level.MapParser;
 
 import java.util.Iterator;
 
+@SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class is not a bean.
 public class EntityTest {
 
     private PacMan pacMan;
