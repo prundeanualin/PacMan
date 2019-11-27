@@ -58,7 +58,6 @@ test:
   script:
     gradle check
 
-
 report:
   stage: test
   script:
@@ -66,3 +65,10 @@ report:
   artifacts:
     reports:
       junit: build/test-results/test/**/TEST-*.xml
+
+include:
+  - template: Code-Quality.gitlab-ci.yml
+
+code_quality:
+  artifacts:
+    paths: [gl-code-quality-report.json]
