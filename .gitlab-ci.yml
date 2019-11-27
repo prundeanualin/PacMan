@@ -69,6 +69,7 @@ report:
 coverage:
   stage: test
   script:
+    - gradle test
     - gradle jacocoTestReport
     - gradle jacocoTestCoverageVerification
     - cat build/reports/jacoco/test/html/index.html
