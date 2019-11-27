@@ -41,17 +41,7 @@ public class Board {
      * @return The square at the specified location.
      */
     public @NotNull Square getSquare(int x, int y) {
-        if (x < 0) {
-            x += width;
-        } else if (x >= width) {
-            x -= width;
-        }
-        if (y < 0) {
-            y += height;
-        } else if (y >= height) {
-            y -= height;
-        }
-        return squares.get(y * width + x);
+        return squares.get((int)getPosY(y) * width + (int)getPosX(x));
     }
 
     /**
@@ -110,6 +100,34 @@ public class Board {
     public void removeDeadEntities() {
         Set<Entity> dead = entities.stream().filter(e -> !e.isAlive()).collect(Collectors.toSet());
         dead.forEach(this::removeEntity);
+    }
+
+    /**
+     * Gets x position on the board, with wraparound.
+     * @param x The x coordinate
+     * @return The x coordinate on the board
+     */
+    public double getPosX(double x) {
+        if (x < 0) {
+            x += width;
+        } else if (x >= width) {
+            x -= width;
+        }
+        return x;
+    }
+
+    /**
+     * Gets y position on the board, with wraparound.
+     * @param y The y coordinate
+     * @return The y coordinate on the board
+     */
+    public double getPosY(double y) {
+        if (y < 0) {
+            y += height;
+        } else if (y >= height) {
+            y -= height;
+        }
+        return y;
     }
 
 }
