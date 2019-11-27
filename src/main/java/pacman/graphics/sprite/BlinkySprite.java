@@ -13,6 +13,5 @@ public class BlinkySprite extends Sprite<Ghost>{
                      double t) {
         Image image= new Image(getClass().getResourceAsStream("images/blinky.png"));
         g.drawImage(image, 100, 100, image.getWidth()*0.5, image.getHeight()*0.5);
-
     }
 }
