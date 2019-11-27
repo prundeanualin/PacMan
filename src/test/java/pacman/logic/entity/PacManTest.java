@@ -1,0 +1,55 @@
+package pacman.logic.entity;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.Iterator;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import pacman.logic.Direction;
+import pacman.logic.level.Board;
+import pacman.logic.level.Level;
+import pacman.logic.level.LevelFactory;
+import pacman.logic.level.MapParser;
+
+@SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class is not a bean.
+public class PacManTest {
+
+    private PacMan pacMan;
+    private Entity pellet;
+    private Entity wall;
+
+    @BeforeEach
+    public void init() {
+        Board board = new MapParser("").parseMapFromString("*P#");
+        Level level = new LevelFactory().createLevel(board);
+        for (Entity entity : board.getEntities()) {
+            if (entity instanceof Pellet) pellet = (Pellet) entity;
+            if (entity instanceof Wall) wall = (Wall) entity;
+        }
+        pacMan = level.getPacMan();
+    }
+
+    @Test
+    public void testCollidePellet() {
+        pacMan.setDirection(Direction.LEFT);
+        pacMan.update(1);
+        assertTrue(pacMan.collide(pellet));
+    }
+
+    @Test
+    public void testCollideWall() {
+        pacMan.setDirection(Direction.RIGHT);
+        pacMan.update(0.2);
+        assertTrue(pacMan.collide(wall));
+    }
+
+    @Test
+    public void testChangeDirection() {
+        pacMan.setNextDirection(Direction.UP);
+        pacMan.update(0);
+        assertEquals(Direction.UP, pacMan.getDirection());
+    }
+
+}

@@ -8,6 +8,9 @@ import pacman.graphics.sprite.Sprite;
 import pacman.logic.Direction;
 import pacman.logic.level.Board;
 
+/**
+ * Represents the PacMan entity on the board.
+ */
 @SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class is not a bean.
 public class PacMan extends Entity {
 
@@ -15,6 +18,12 @@ public class PacMan extends Entity {
 
     private Direction nextDirection = null;
 
+    /**
+     * Creates a new PacMan.
+     * @param board The board PacMan is on
+     * @param x PacMan's x coordinate
+     * @param y PacMan's y coordinate
+     */
     public PacMan(@NotNull Board board, double x, double y) {
         super(board, x, y, SPRITE);
     }
@@ -33,6 +42,10 @@ public class PacMan extends Entity {
         collisions.stream().filter(e -> e instanceof Pellet).forEach(e -> e.setAlive(false));
     }
 
+    /**
+     * Sets the direction PacMan will go in at the next intersection.
+     * @param nextDirection The next direction
+     */
     public void setNextDirection(Direction nextDirection) {
         this.nextDirection = nextDirection;
     }
