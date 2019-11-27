@@ -38,7 +38,7 @@ test {
 
     jacoco {
         enabled = true
-        includes = ['nl.tudelft.cse.sem.*']
+        includes = ['pacman.*']
         excludes = []
     }
 }
