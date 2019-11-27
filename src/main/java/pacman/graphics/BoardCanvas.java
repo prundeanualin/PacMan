@@ -66,17 +66,18 @@ public class BoardCanvas extends Canvas {
         getGraphicsContext2D().fillRect(0, 0, getWidth(), getHeight());
     }
 
+
     /**
      * Draws everything on the canvas.
-     *
      * @param t The time since started in seconds.
-     */
-    /*
-     * known bug of pmd with foreach loops
-     * it is always safe to draw an entity using its own sprite
      */
     @SuppressWarnings({"PMD.DataflowAnomalyAnalysis", "unchecked"})
     public void draw(double t) {
+        /*
+         * Suppress warnings:
+         *  - known bug of pmd with foreach loops
+         *  - it is always safe to draw an entity using its own sprite
+         */
         clear();
         getGraphicsContext2D().setLineWidth(1 / scaleX);
         for (Entity e : board.getEntities()) {

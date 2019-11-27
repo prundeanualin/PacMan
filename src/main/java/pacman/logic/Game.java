@@ -37,7 +37,9 @@ public class Game {
      */
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // known bug of pmd with foreach loops.
     public void update(double dt) {
-        if (!running) return;
+        if (!running) {
+            return;
+        }
         for (Entity entity : getLevel().getBoard().getEntities()) {
             entity.update(dt);
         }
