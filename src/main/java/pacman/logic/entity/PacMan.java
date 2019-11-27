@@ -16,8 +16,6 @@ public class PacMan extends Entity {
 
     private static final Sprite<PacMan> SPRITE = new PacmanSprite();
 
-    private Direction nextDirection = null;
-
     /**
      * Creates a new PacMan.
      * @param board The board PacMan is on
@@ -31,23 +29,9 @@ public class PacMan extends Entity {
     @Override
     public void update(double dt) {
         super.update(dt);
-        if (nextDirection != null && nextDirection != getDirection()) {
-            double dx = Math.abs(getX() - (int)getX() - 0.5);
-            double dy = Math.abs(getY() - (int)getY() - 0.5);
-            if (getDirection() == nextDirection.getInverse() || (dx < 0.02 && dy < 0.02)) {
-                setDirection(nextDirection);
-            }
-        }
         Set<Entity> collisions = checkCollision();
+        // Set every collided pellet to dead
         collisions.stream().filter(e -> e instanceof Pellet).forEach(e -> e.setAlive(false));
-    }
-
-    /**
-     * Sets the direction PacMan will go in at the next intersection.
-     * @param nextDirection The next direction
-     */
-    public void setNextDirection(Direction nextDirection) {
-        this.nextDirection = nextDirection;
     }
 
     @Override
