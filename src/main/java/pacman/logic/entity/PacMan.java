@@ -32,13 +32,19 @@ public class PacMan extends Entity {
     public void update(double dt) {
         super.update(dt);
         if (nextDirection != null && nextDirection != getDirection()) {
-            double dx = Math.abs(getX() - (int)getX() - 0.5);
-            double dy = Math.abs(getY() - (int)getY() - 0.5);
+            // Get distance to center of square
+            double dx = Math.abs(getX() - Math.floor(getX()) - 0.5);
+            double dy = Math.abs(getY() - Math.floor(getY()) - 0.5);
+            /*
+             * PacMan changes direction if the set direction is opposite his current direction
+             * or if he is at the center of the square.
+             */
             if (getDirection() == nextDirection.getInverse() || (dx < 0.02 && dy < 0.02)) {
                 setDirection(nextDirection);
             }
         }
         Set<Entity> collisions = checkCollision();
+        // Set every collided pellet to dead
         collisions.stream().filter(e -> e instanceof Pellet).forEach(e -> e.setAlive(false));
     }
 
