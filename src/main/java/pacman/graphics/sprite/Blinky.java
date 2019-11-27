@@ -11,18 +11,17 @@ import org.jetbrains.annotations.NotNull;
 import pacman.graphics.Style;
 import pacman.logic.entity.Ghost;
 
-public class GhostSprite{
+public class Blinky {
 
-    @Override
     public void draw(@NotNull Ghost entity, @NotNull Style style) {
 
         Group root = new Group();
         Arc arc= createArc(ArcType.CHORD, 80, 100, style.getBlinkyColour());
 
         QuadCurve quadCurve1= createQuadCurve(50, 101, 65, 101, style.getBackgroundColor());
-        QuadCurve quadCurve2= createQuadCurve(65, 101, 80, 101, Color.BLACK);
-        QuadCurve quadCurve3= createQuadCurve(80, 101, 95, 101, Color.BLACK);
-        QuadCurve quadCurve4= createQuadCurve(95, 101, 110, 101, Color.BLACK);
+        QuadCurve quadCurve2= createQuadCurve(65, 101, 80, 101, style.getBackgroundColor());
+        QuadCurve quadCurve3= createQuadCurve(80, 101, 95, 101, style.getBackgroundColor());
+        QuadCurve quadCurve4= createQuadCurve(95, 101, 110, 101, style.getBackgroundColor());
 
         Circle circle1= createCircle(70, 60);
         Circle circle2= createCircle(90, 60);

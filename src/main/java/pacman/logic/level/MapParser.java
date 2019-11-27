@@ -9,7 +9,6 @@ import java.util.Scanner;
 
 import javafx.application.Platform;
 import org.jetbrains.annotations.NotNull;
-import pacman.graphics.sprite.GhostSprite;
 import pacman.logic.Direction;
 import pacman.logic.entity.*;
 
