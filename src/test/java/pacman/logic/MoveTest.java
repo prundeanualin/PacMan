@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
+import pacman.logic.entity.Ghost;
+import pacman.logic.entity.PacMan;
 
 /**
  * Test class for general movement.
@@ -13,17 +15,8 @@ import org.junit.jupiter.params.provider.EnumSource;
  */
 public abstract class MoveTest<E> {
 
-    private enum Direction {} // Temporary Definition. TODO: remove.
-
-    protected class Ghost {
-    } // Temporary Definition. TODO: remove.
-
-    protected class Player {
-        // Temporary Definition. TODO: remove.
-    }
-
     protected Ghost ghost;
-    protected Player player;
+    protected PacMan pacMan;
     protected boolean isGhost; // Whether or not this is a ghost.
 
     /**

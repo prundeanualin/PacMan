@@ -1,6 +1,6 @@
 package pacman.logic;
 
-public class MovePlayerTest extends MoveTest {
+public class MovePacManTest extends MoveTest {
 
     @Override
     public void setUp() {
