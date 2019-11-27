@@ -22,16 +22,17 @@ public abstract class Entity {
     private Sprite<? extends Entity> sprite;
 
     private Direction direction = null;
-    private boolean alive = true;
+    private Direction nextDirection = null;
 
+    private boolean alive = true;
     private boolean solid = false;
 
     /**
      * Creates an entity at the specified position with the specified sprite.
      *
-     * @param board The board the entity belongs to
-     * @param x The x position of the entity
-     * @param y The y position of the entity
+     * @param board  The board the entity belongs to
+     * @param x      The x position of the entity
+     * @param y      The y position of the entity
      * @param sprite The sprite for rendering
      */
     public Entity(@NotNull Board board, double x, double y,
@@ -44,6 +45,7 @@ public abstract class Entity {
 
     /**
      * Checks whether this entity collides with another entity.
+     *
      * @param other The other entity to check collision with
      * @return Whether the two entities collide
      */
@@ -69,23 +71,37 @@ public abstract class Entity {
             posX = board.getPosX(posX);
             posY = board.getPosX(posY);
         }
+
+        if (nextDirection != null && nextDirection != getDirection()) {
+            // Get distance to center of square
+            double dx = Math.abs(getX() - Math.floor(getX()) - 0.5);
+            double dy = Math.abs(getY() - Math.floor(getY()) - 0.5);
+            /*
+             * PacMan changes direction if the set direction is opposite his current direction
+             * or if he is at the center of the square.
+             */
+            if (getDirection() == nextDirection.getInverse() || (dx < 0.02 && dy < 0.02)) {
+                setDirection(nextDirection);
+            }
+        }
     }
 
     /**
      * Checks for collisions with the entities around this entity.
+     *
      * @return The set of entities this entity collides with
      */
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // known bug of pmd with foreach loops.
     public Set<Entity> checkCollision() {
         Set<Entity> collisions = new HashSet<>();
-        for (Entity entity : board.getSquare((int)posX, (int)posY).getEntities()) {
+        for (Entity entity : board.getSquare((int) posX, (int) posY).getEntities()) {
             if (entity != this && collide(entity)) {
                 collisions.add(entity);
             }
         }
         if (direction != null) {
-            for (Entity entity : board.getSquare((int)posX + direction.getDeltaX(),
-                    (int)posY + direction.getDeltaY()).getEntities()) {
+            for (Entity entity : board.getSquare((int) posX + direction.getDeltaX(),
+                    (int) posY + direction.getDeltaY()).getEntities()) {
                 if (entity != this && collide(entity)) {
                     collisions.add(entity);
                 }
@@ -96,6 +112,7 @@ public abstract class Entity {
 
     /**
      * Gets the x position of this entity.
+     *
      * @return The x position
      */
     public double getX() {
@@ -104,6 +121,7 @@ public abstract class Entity {
 
     /**
      * Gets the y position of this entity.
+     *
      * @return The y position
      */
     public double getY() {
@@ -112,6 +130,7 @@ public abstract class Entity {
 
     /**
      * Sets the x position of this entity.
+     *
      * @param x The x position
      */
     public void setX(double x) {
@@ -120,6 +139,7 @@ public abstract class Entity {
 
     /**
      * Sets the y position of this entity.
+     *
      * @param y The y position
      */
     public void setY(double y) {
@@ -128,6 +148,7 @@ public abstract class Entity {
 
     /**
      * Gets the direction this entity is moving in.
+     *
      * @return The direction, null if entity has no direction
      */
     public @Nullable Direction getDirection() {
@@ -136,6 +157,7 @@ public abstract class Entity {
 
     /**
      * Sets the direction of this entity.
+     *
      * @param direction The new direction or null if no direction
      */
     public void setDirection(@Nullable Direction direction) {
@@ -143,7 +165,16 @@ public abstract class Entity {
     }
 
     /**
+     * Sets the direction this entity will go in at the next intersection.
+     * @param nextDirection The next direction
+     */
+    public void setNextDirection(Direction nextDirection) {
+        this.nextDirection = nextDirection;
+    }
+
+    /**
      * Gets the sprite of this entity.
+     *
      * @return The sprite for rendering
      */
     public Sprite getSprite() {
@@ -152,6 +183,7 @@ public abstract class Entity {
 
     /**
      * Gets whether this entity is solid an cannot be passed though.
+     *
      * @return Whether this entity is solid
      */
     public boolean isSolid() {
@@ -160,6 +192,7 @@ public abstract class Entity {
 
     /**
      * Sets the solidity of this entity.
+     *
      * @param solid Whether the entity is solid or not
      */
     public void setSolid(boolean solid) {
@@ -168,6 +201,7 @@ public abstract class Entity {
 
     /**
      * Gets the board this entity is on.
+     *
      * @return The board
      */
     public Board getBoard() {
@@ -176,6 +210,7 @@ public abstract class Entity {
 
     /**
      * Gets the absolute distance to the specified position.
+     *
      * @param x The x position
      * @return The distance to the position
      */
@@ -189,6 +224,7 @@ public abstract class Entity {
 
     /**
      * Gets the absolute distance to the specified position.
+     *
      * @param y The y position
      * @return The distance to the position
      */
@@ -202,6 +238,7 @@ public abstract class Entity {
 
     /**
      * Gets whether the entity is alive.
+     *
      * @return The alive status of this entity
      */
     public boolean isAlive() {
@@ -210,6 +247,7 @@ public abstract class Entity {
 
     /**
      * Sets the alive status of this entity.
+     *
      * @param alive The new alive status
      */
     public void setAlive(boolean alive) {
@@ -218,10 +256,11 @@ public abstract class Entity {
 
     /**
      * Gets the square this entity is on.
+     *
      * @return The current square
      */
     public @NotNull Square getSquare() {
-        return board.getSquare((int)posX, (int)posY);
+        return board.getSquare((int) posX, (int) posY);
     }
 
 }
