@@ -70,7 +70,7 @@ coverage:
   stage: test
   script:
     - gradle jacocoTestReport
-    - gradle jacocoTestReportVerification
+    - gradle jacocoTestCoverageVerification
     - cat build/reports/jacoco/test/html/index.html
   coverage: '/Total.*?ctr2.*?ctr2">([0-9]{1,3})%/'
   artifacts:
