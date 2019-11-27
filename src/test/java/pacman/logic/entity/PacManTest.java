@@ -3,8 +3,6 @@ package pacman.logic.entity;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.Iterator;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pacman.logic.Direction;
@@ -21,12 +19,17 @@ public class PacManTest {
     private Entity wall;
 
     @BeforeEach
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // known bug of pmd with foreach loops.
     public void init() {
         Board board = new MapParser("").parseMapFromString("*P#");
         Level level = new LevelFactory().createLevel(board);
         for (Entity entity : board.getEntities()) {
-            if (entity instanceof Pellet) pellet = (Pellet) entity;
-            if (entity instanceof Wall) wall = (Wall) entity;
+            if (entity instanceof Pellet) {
+                pellet = (Pellet) entity;
+            }
+            if (entity instanceof Wall) {
+                wall = (Wall) entity;
+            }
         }
         pacMan = level.getPacMan();
     }

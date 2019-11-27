@@ -3,6 +3,8 @@ package pacman.logic.entity;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
+import java.util.Iterator;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pacman.logic.Direction;
@@ -10,8 +12,6 @@ import pacman.logic.level.Board;
 import pacman.logic.level.Level;
 import pacman.logic.level.LevelFactory;
 import pacman.logic.level.MapParser;
-
-import java.util.Iterator;
 
 @SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class is not a bean.
 public class EntityTest {
@@ -25,7 +25,9 @@ public class EntityTest {
         Level level = new LevelFactory().createLevel(board);
         Iterator<Entity> iter = board.getEntities().iterator();
         entity = iter.next();
-        if (!(entity instanceof Pellet)) entity = iter.next();
+        if (!(entity instanceof Pellet)) {
+            entity = iter.next();
+        }
         pacMan = level.getPacMan();
     }
 
