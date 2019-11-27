@@ -14,11 +14,18 @@ import pacman.logic.entity.PacMan;
 import pacman.logic.entity.Pellet;
 import pacman.logic.entity.Wall;
 
+/**
+ * Parses text to maps ({@link Board}s).
+ */
 @SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class is not a bean.
 public class MapParser {
 
     private File levelDirectory;
 
+    /**
+     * Creates a map parser.
+     * @param levelDirectory The directory to read levels from.
+     */
     public MapParser(String levelDirectory) {
         try {
             this.levelDirectory = new File(getClass().getResource(levelDirectory).toURI());

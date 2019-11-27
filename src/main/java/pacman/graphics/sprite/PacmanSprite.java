@@ -8,8 +8,6 @@ import pacman.logic.entity.PacMan;
 
 /**
  * Sprite for PacMan.
- *
- * @author Ruben
  */
 public class PacmanSprite extends Sprite<PacMan> {
 
