@@ -1,19 +1,17 @@
 package pacman.logic;
 
-import org.junit.jupiter.api.BeforeAll;
+import static org.junit.jupiter.api.Assertions.fail;
+
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test class for general movement.
  *
- * @param <Entity> The entity whose movement is tested.
+ * @param <E> The entity whose movement is tested.
  */
-public abstract class MoveTest<Entity> {
+public abstract class MoveTest<E> {
 
     private enum Direction {} // Temporary Definition. TODO: remove.
 
@@ -26,20 +24,19 @@ public abstract class MoveTest<Entity> {
 
     protected Ghost ghost;
     protected Player player;
-    protected boolean MOVE_TO_GHOST; // Whether Entity can move to a ghost, and this causes game end.
-    protected boolean MOVE_TO_PLAYER; // Whether Entity can move to a player, and this causes game end.
+    protected boolean isGhost; // Whether or not this is a ghost.
 
     /**
      * Sets up for the tests.
-     * This includes ghost, player, MOVE_TO_GHOST and MOVE_TO_PLAYER.
+     * This includes ghost, player and isGhost.
      * Should not set the map, as this should be test case specific.
      */
     @BeforeEach
-    public abstract void setup();
+    public abstract void setUp();
 
     /**
-     * Try to move the {@code Entity} to an empty square/tile.
-     * Assert he was moved moved and the game is NOT ended.
+     * Try to move the entity to an empty square/tile.
+     * Assert entity was moved moved and the game is NOT ended.
      */
     @ParameterizedTest
     @EnumSource(Direction.class)
@@ -48,8 +45,8 @@ public abstract class MoveTest<Entity> {
     }
 
     /**
-     * Try to move the ghost to a pellet.
-     * Assert he was moved moved and the game is NOT ended.
+     * Try to move the entity to a pellet.
+     * Assert entity was moved moved and the game is NOT ended.
      */
     @ParameterizedTest
     @EnumSource(Direction.class)
@@ -58,8 +55,8 @@ public abstract class MoveTest<Entity> {
     }
 
     /**
-     * Try to move the ghost to a wall.
-     * Assert he was NOT moved and the game is NOT ended.
+     * Try to move the entity to a wall.
+     * Assert entity was NOT moved and the game is NOT ended.
      */
     @ParameterizedTest
     @EnumSource(Direction.class)
@@ -68,8 +65,8 @@ public abstract class MoveTest<Entity> {
     }
 
     /**
-     * Try to move the ghost to another ghost.
-     * Assert he was (/NOT) moved and the game was (/NOT) ended iff (/NOT) MOVE_TO_GHOST.
+     * Try to move the entity to a ghost.
+     * Assert entity was moved and the game was ended iff the entity is not a ghost.
      */
     @ParameterizedTest
     @EnumSource(Direction.class)
@@ -78,8 +75,8 @@ public abstract class MoveTest<Entity> {
     }
 
     /**
-     * Try to move the ghost to the player.
-     * Assert he was (/NOT) moved and the game was (/NOT) ended iff (/NOT) MOVE_TO_PLAYER.
+     * Try to move the entity to a player.
+     * Assert entity was moved and the game was ended iff the entity is a ghost.
      */
     @ParameterizedTest
     @EnumSource(Direction.class)
@@ -88,8 +85,8 @@ public abstract class MoveTest<Entity> {
     }
 
     /**
-     * Try to move the ghost to outside the Board/Map.
-     * Assert he was (/NOT) moved and the game was (/NOT) ended.
+     * Try to move the entity to outside the Board/Map.
+     * Assert entity was (/NOT) moved and the game was (/NOT) ended.
      * Note: this is the trickiest test as it combines most/all of the other tests.
      */
     @ParameterizedTest
