@@ -22,6 +22,7 @@ public class MapParser {
 
     /**
      * Creates a map parser.
+     *
      * @param levelDirectory The directory to read levels from.
      */
     public MapParser(String levelDirectory) {
@@ -42,6 +43,7 @@ public class MapParser {
 
     /**
      * Reads the file and parses the map from the contents.
+     *
      * @param levelName The name of the level
      * @return A board parsed from the file
      */
@@ -58,6 +60,7 @@ public class MapParser {
 
     /**
      * Reads the scanner and parses the map from the contents.
+     *
      * @param scanner The scanner to read from
      * @return A board parsed from the scanner
      */
@@ -88,6 +91,7 @@ public class MapParser {
 
     /**
      * Parses a map from the given string.
+     *
      * @param mapString The string to read from
      * @return A board parsed from the string
      */
@@ -96,18 +100,18 @@ public class MapParser {
     }
 
     private void parseSquare(@NotNull Board board, char squareChar, int x, int y) {
-        Square square = new Square(); // NOPMD variable is used
+        Square square = new Square(board, x, y); // NOPMD variable is used
         switch (squareChar) {
             case '#':
-                square.addEntity(new Wall(board, x, y));
+                square.addEntity(new Wall(board, square));
                 break;
             case '*':
-                square.addEntity(new Pellet(board, x, y));
+                square.addEntity(new Pellet(board, square));
+            case 'B':
+                square.addEntity(new Blinky(board, square));
                 break;
             case 'P':
-                PacMan pm = new PacMan(board, x + 0.5, y + 0.5);
-                pm.setDirection(Direction.RIGHT);
-                square.addEntity(pm);
+                square.addEntity(new PacMan(board, square));
                 break;
             case '.':
                 break;
@@ -117,9 +121,11 @@ public class MapParser {
         board.addSquare(square);
     }
 
-    /**.
+    /**
+     * .
      * Check for validity of map, if it has lines of different lengths or if the file doesn't
      * contain any proper lines
+     *
      * @param mapText the lines read from the file
      */
     public void checkMapCorrectness(List<String> mapText) {

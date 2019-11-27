@@ -7,6 +7,7 @@ import pacman.graphics.sprite.PacmanSprite;
 import pacman.graphics.sprite.Sprite;
 import pacman.logic.Direction;
 import pacman.logic.level.Board;
+import pacman.logic.level.Square;
 
 /**
  * Represents the PacMan entity on the board.
@@ -18,12 +19,14 @@ public class PacMan extends Entity {
 
     /**
      * Creates a new PacMan.
-     * @param board The board PacMan is on
-     * @param x PacMan's x coordinate
-     * @param y PacMan's y coordinate
+     *
+     * @param board  The board PacMan is on
+     * @param square The square pacman is on
      */
-    public PacMan(@NotNull Board board, double x, double y) {
-        super(board, x, y, SPRITE);
+    public PacMan(@NotNull Board board, Square square) {
+        super(board, square, SPRITE);
+        direction = Direction.RIGHT;
+        Ghost.pacMan = this;
     }
 
     @Override

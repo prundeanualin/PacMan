@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import pacman.graphics.sprite.Sprite;
 import pacman.graphics.sprite.WallSprite;
 import pacman.logic.level.Board;
+import pacman.logic.level.Square;
 
 /**
  * Represents a wall.
@@ -15,11 +16,10 @@ public class Wall extends Entity {
     /**
      * Creates a wall.
      * @param board The board the wall is on
-     * @param x The x coordinate of the wall
-     * @param y The y coordinate of the wall
+     * @param square The square the wall is on
      */
-    public Wall(@NotNull Board board, int x, int y) {
-        super(board, x + 0.5, y + 0.5, SPRITE);
+    public Wall(@NotNull Board board, Square square) {
+        super(board, square, SPRITE);
         setSolid(true);
     }
 

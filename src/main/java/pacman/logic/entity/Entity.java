@@ -17,12 +17,13 @@ import pacman.logic.level.Square;
 public abstract class Entity {
 
     private Board board;
+    Square square;
     private double posX;
     private double posY;
     private Sprite<? extends Entity> sprite;
 
-    private Direction direction = null;
-    private Direction nextDirection = null;
+    Direction direction = null;
+    Direction nextDirection = null;
 
     private boolean alive = true;
     private boolean solid = false;
@@ -31,15 +32,15 @@ public abstract class Entity {
      * Creates an entity at the specified position with the specified sprite.
      *
      * @param board  The board the entity belongs to
-     * @param x      The x position of the entity
-     * @param y      The y position of the entity
+     * @param Square The square the entity belongs to
      * @param sprite The sprite for rendering
      */
-    public Entity(@NotNull Board board, double x, double y,
+    public Entity(@NotNull Board board, Square square,
                   @NotNull Sprite<? extends Entity> sprite) {
         this.board = board;
-        this.posX = x;
-        this.posY = y;
+        this.square = square;
+        this.posX = square.getX() + 0.5;
+        this.posY = square.getY() + 0.5;
         this.sprite = sprite;
     }
 
@@ -57,15 +58,14 @@ public abstract class Entity {
      * Updates the entity's position.
      */
     public void update(double dt) {
-        Square square = getSquare(); // NOPMD variable is used
         // If no collision with solid entities and entity is moving
         if (checkCollision().stream().noneMatch(Entity::isSolid) && direction != null) {
             posX += dt * direction.getDeltaX();
             posY += dt * direction.getDeltaY();
-            Square newSquare = getSquare();
+            Square newSquare = board.getSquare(posX, posY);
             // Check if entity moved squares
-            if (square.equals(newSquare)) {
-                square.moveEntityTo(this, newSquare);
+            if (newSquare != square) {
+                moveToSquare(newSquare);
             }
             // Wraparound
             posX = board.getPosX(posX);
@@ -108,6 +108,11 @@ public abstract class Entity {
             }
         }
         return collisions;
+    }
+
+    private void moveToSquare(Square newSquare){
+        square.moveEntity(this, newSquare);
+        this.square = newSquare;
     }
 
     /**
@@ -166,6 +171,7 @@ public abstract class Entity {
 
     /**
      * Sets the direction this entity will go in at the next intersection.
+     *
      * @param nextDirection The next direction
      */
     public void setNextDirection(Direction nextDirection) {
@@ -260,7 +266,7 @@ public abstract class Entity {
      * @return The current square
      */
     public @NotNull Square getSquare() {
-        return board.getSquare((int) posX, (int) posY);
+        return square;
     }
 
 }

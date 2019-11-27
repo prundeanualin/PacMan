@@ -35,12 +35,22 @@ public class Board {
     }
 
     /**
-     * Gets the square at the given position. If the location is off the board, it wrap around.
+     * Gets the square at the given position. If the location is off the board, it wraps around.
      * @param x The x coordinate of the square
      * @param y The y coordinate of the square
      * @return The square at the specified location.
      */
     public @NotNull Square getSquare(int x, int y) {
+        return squares.get((int)getPosY(y) * width + (int)getPosX(x));
+    }
+
+    /**
+     * Gets the square at the given position. If the location is off the board, it wraps around.
+     * @param x The x coordinate of the square
+     * @param y The y coordinate of the square
+     * @return The square at the specified location.
+     */
+    public @NotNull Square getSquare(double x, double y){
         return squares.get((int)getPosY(y) * width + (int)getPosX(x));
     }
 
