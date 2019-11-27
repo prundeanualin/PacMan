@@ -39,7 +39,7 @@ test {
     jacoco {
         enabled = true
         includes = ['pacman.*']
-        excludes = []
+        excludes = ['pacman.graphics.*']
     }
 }
 
