@@ -18,13 +18,8 @@ public class Blinky extends Ghost {
     }
 
     @Override
-    Direction chooseDirection() {
-        List<Square> options = getOptions();
-        return Direction.RIGHT;
+    Square chooseTarget(List<Square> options) {
         //TODO: calculate distances to pacman (or his square?) from the options, and choice the direction to the option that gives the smallest.
-    }
-
-    private Direction shortestPath(Square square) {
-        return Direction.RIGHT;
+        return options.get(0);
     }
 }

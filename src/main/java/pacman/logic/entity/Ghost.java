@@ -1,6 +1,5 @@
 package pacman.logic.entity;
 
-import org.jetbrains.annotations.NotNull;
 import pacman.graphics.sprite.Sprite;
 import pacman.logic.Direction;
 import pacman.logic.GameController;
@@ -43,10 +42,9 @@ public abstract class Ghost extends Entity {
         }
 
         if (square != oldSquare) { // Update choice when a new square is reached.
-            Direction choice = chooseDirection();
-            assert (choice != direction.getInverse());
-            nextDirection = choice;
-            oldSquare = square;
+            target = chooseTarget(getOptions());
+            nextDirection = square.directionOf(target);
+            oldSquare = square; // must be called after getOptions!
         }
     }
 
@@ -55,7 +53,7 @@ public abstract class Ghost extends Entity {
      *
      * @return list of target square options.
      */
-    protected List<Square> getOptions() {
+    private List<Square> getOptions() {
         List<Square> options = square.getNeighbours();
         for (Square s : options) {
             if (s.hasSolid() || s == oldSquare) {
@@ -70,5 +68,5 @@ public abstract class Ghost extends Entity {
      *
      * @return the direction the ghost wants to go in.
      */
-    abstract Direction chooseDirection();
+    abstract Square chooseTarget(List<Square> options);
 }
