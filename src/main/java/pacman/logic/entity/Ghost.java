@@ -6,6 +6,7 @@ import pacman.logic.GameController;
 import pacman.logic.level.Board;
 import pacman.logic.level.Square;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -56,10 +57,12 @@ public abstract class Ghost extends Entity {
      */
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // For each loop false warning.
     private List<Square> getOptions() {
-        List<Square> options = square.getNeighbours();
-        for (Square s : options) {
-            if (s.hasSolid() || s.equals(oldSquare)) {
-                options.remove(s);
+        List<Square> neighbours = square.getNeighbours();
+        List<Square> options = new ArrayList<>(4);
+
+        for (Square square : neighbours) {
+            if (!square.hasSolid() && !square.equals(oldSquare)) {
+                options.add(square);
             }
         }
         return options;
