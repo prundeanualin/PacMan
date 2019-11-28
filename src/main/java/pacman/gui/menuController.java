@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import database.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,7 +17,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-
+import lombok.Getter;
+import lombok.Setter;
 
 
 public class menuController implements Initializable {
@@ -38,6 +40,10 @@ public class menuController implements Initializable {
 
     @FXML
     private Button leaderboardButton;
+
+    @Getter
+    @Setter
+    private User user;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -68,13 +74,25 @@ public class menuController implements Initializable {
 //        });
 //        timeline.play();
 
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("gameWindow.fxml"));
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("/gameWindow.fxml"));
         Scene scene = new Scene(root);
         Stage window = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
         window.setScene(scene);
         window.show();
 
-
     }
-
+    @FXML
+    @SuppressWarnings("PMD")
+    private void viewProfile(ActionEvent event) throws IOException {
+        this.getUser();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/profileController.fxml"));
+        Parent root_profile = loader.load();
+        menuController controller = (menuController) loader.getController();
+        System.out.println(user.getUsername());
+        controller.setUser(user);
+        Scene scene2 = new Scene(root_profile);
+        Stage window2 = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+        window2.setScene(scene2);
+        window2.show();
+    }
 }

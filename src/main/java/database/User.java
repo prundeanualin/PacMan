@@ -22,4 +22,6 @@ public class User {
     @Getter
     @Setter
     private int score;
+
+    public User(){}
 }

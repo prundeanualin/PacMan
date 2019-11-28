@@ -1,5 +1,6 @@
 package controllers;
 
+import database.User;
 import game.GameFactory;
 import java.io.IOException;
 
@@ -15,6 +16,7 @@ public class MainMenuController {
 
     private Stage stage;
     private GameFactory gf;
+    private User userPrivate;
 
     @FXML
     public transient Button button;
@@ -29,7 +31,7 @@ public class MainMenuController {
         gf = gameFactory;
     }
 
-
+    public void setUser(User user){userPrivate = user;}
     /**.
      * Listening to clicks on the 'Start Game' button and launching a new game
      */
@@ -42,6 +44,7 @@ public class MainMenuController {
         gf.createGame(stage);
     }
 
+    public User getUser(){return userPrivate;}
     public GameFactory getGf() {
         return gf;
     }

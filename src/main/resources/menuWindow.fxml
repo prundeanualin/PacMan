@@ -1,20 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.effect.Blend?>
-<?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.effect.Lighting?>
-<?import javafx.scene.effect.Shadow?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.shape.Polygon?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
 <!--<?import javafx.scene.effect.Light.Distant?>-->
 
-<StackPane fx:id="parentContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="629.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pacman.gui.menuController">
+<StackPane fx:id="parentContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="629.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pacman.gui.menuController">
    <children>
       <AnchorPane fx:id="anchorRoot" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #000000;">
          <children>
@@ -30,9 +24,7 @@
                   </Label>
                </children>
             </HBox>
-            <Button fx:id="buttonPlay" layoutX="301.0" layoutY="276.0" mnemonicParsing="false"
-                    onAction="#loadGameScreen" prefHeight="59.0" prefWidth="85.0" style="-fx-border-color: #0B662B;
-                    -fx-border-width: 2; -fx-background-color: #025FBA;">
+            <Button fx:id="buttonPlay" layoutX="301.0" layoutY="276.0" mnemonicParsing="false" onAction="#loadGameScreen" prefHeight="59.0" prefWidth="85.0" style="-fx-border-color: #0B662B;                     -fx-border-width: 2; -fx-background-color: #025FBA;">
                <font>
                   <Font name="Comic Sans MS Bold" size="35.0" />
                </font>
@@ -40,7 +32,7 @@
                   <Polygon fill="#fcfcfc" points="4.493978500366211, 39.8684196472168, 50.0, 40.0, 25.884048461914062, 85.39007568359375" rotate="-90.0" stroke="#0d0d0d" strokeType="INSIDE" />
                </graphic>
             </Button>
-            <Button fx:id="profileButton" layoutX="238.0" layoutY="384.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="215.0" text="View Profile">
+            <Button fx:id="profileButton" layoutX="238.0" layoutY="384.0" mnemonicParsing="false" onAction="#viewProfile" prefHeight="31.0" prefWidth="215.0" text="View Profile">
                <font>
                   <Font name="Comic Sans MS Bold" size="25.0" />
                </font>

@@ -114,7 +114,11 @@ public class loginController implements Initializable {
         user.setUsername(usernameTextArea.getText());
         user.setPassword(passwordField.getText());
         if(loginDao.attemptLogin(user)){
-            Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("menuWindow.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/menuWindow.fxml"));
+            Parent root = loader.load();
+            menuController controller = (menuController) loader.getController();
+            System.out.println(user.getUsername());
+            controller.setUser(user);
             Scene scene = new Scene(root);
             Stage window = (Stage) ((javafx.scene.Node) event1.getSource()).getScene().getWindow();
             window.setScene(scene);
@@ -132,7 +136,6 @@ public class loginController implements Initializable {
             usernameTextArea.setText(null);
             passwordField.setText(null);
         }
-
 
     }
 
