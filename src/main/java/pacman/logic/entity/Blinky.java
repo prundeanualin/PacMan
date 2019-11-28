@@ -21,7 +21,7 @@ public class Blinky extends Ghost {
 //      Direction nextDir;
         for (Square s: options) {
             for(Entity n: s.getEntities()) {
-                if(n instanceof PacMan) {
+                if(n.equals(pacMan)) {
 //                  nextDir= square.directionOf(s);
                     return s;
                 }

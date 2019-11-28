@@ -68,7 +68,7 @@ public abstract class Ghost extends Entity {
     /**
      * Choose what direction the ghost should go in.
      *
-     * @return the direction the ghost wants to go in.
+     * @return the square the ghost wants to go towards.
      */
     abstract Square chooseTarget(List<Square> options);
 }
