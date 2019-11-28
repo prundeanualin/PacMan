@@ -26,9 +26,9 @@ public class profileController implements Initializable {
         FXMLLoader loader = new FXMLLoader();
         //Parent root = loader.load(getClass().getClassLoader().getResource("profile.fxml"));
         MainMenuController controller = (MainMenuController) loader.getController();
-        User user = controller.getUser();
-        UserDao userDao = new UserDao();
-        userNameLabel.setText(userDao.getUsernameFromDatabase(user));
+//        User user = controller.getUser();
+//        UserDao userDao = new UserDao();
+//        userNameLabel.setText(userDao.getUsernameFromDatabase(user));
 
     }
     @FXML
