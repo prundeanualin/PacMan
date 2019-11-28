@@ -1,9 +1,5 @@
 package pacman.graphics.gui;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +11,10 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 public class MenuController implements Initializable {
 
@@ -65,7 +65,7 @@ public class MenuController implements Initializable {
         timeline.play();
          */
 
-        Parent root = FXMLLoader.load(getClass().getResource("/views/game.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/views/gameWindow.fxml"));
         Scene scene = new Scene(root);
         Stage window = (Stage)((javafx.scene.Node) event.getSource()).getScene().getWindow();
         window.setScene(scene);

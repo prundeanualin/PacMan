@@ -15,7 +15,8 @@ import pacman.logic.level.Board;
  * Class for drawing the game board with everything on it.
  *
  * @author Ruben
- */
+ */// entities has access methods (though PMD does not recognize them), additionally class is not a bean.
+
 @SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class is not a bean.
 public class BoardCanvas extends Canvas {
 
@@ -39,7 +40,6 @@ public class BoardCanvas extends Canvas {
      * @param height The height of the canvas in pixels
      */
     public BoardCanvas(Board board, int width, int height) {
-        super(width, height);
 
         this.board = board;
         scaleX = width / (double) board.getWidth();
