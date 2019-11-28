@@ -39,15 +39,15 @@ public enum Direction {
      */
     RIGHT(1, 0, 0.0);
 
-    private final int deltaX;
+    private final int x;
 
-    private final int deltaY;
+    private final int y;
 
     private final double rotation;
 
-    Direction(int deltaX, int deltaY, double rotation) {
-        this.deltaX = deltaX;
-        this.deltaY = deltaY;
+    Direction(int x, int y, double rotation) {
+        this.x = x;
+        this.y = y;
         this.rotation = rotation;
     }
 
@@ -55,12 +55,12 @@ public enum Direction {
         return Direction.values()[(ordinal() + 2) % values().length];
     }
 
-    public int getDeltaX() {
-        return deltaX;
+    public int getX() {
+        return x;
     }
 
-    public int getDeltaY() {
-        return deltaY;
+    public int getY() {
+        return y;
     }
 
     public double getRotation() {
@@ -75,9 +75,10 @@ public enum Direction {
      * @return the direction represented by (x,y).
      */
     public static Direction getDirection(int x, int y) {
-        if (x == 1) return Direction.RIGHT;
-        if (x == -1) return Direction.LEFT;
-        if (y == 1) return Direction.UP;
-        return Direction.DOWN;
+        if (x == Direction.RIGHT.x) return Direction.RIGHT;
+        if (x == Direction.LEFT.x) return Direction.LEFT;
+        if (y == Direction.UP.y) return Direction.UP;
+        if (y == Direction.DOWN.y) return Direction.DOWN;
+        throw new IllegalArgumentException("Direction (" + x + ":" + y + ") does not exist.");
     }
 }

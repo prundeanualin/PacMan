@@ -60,11 +60,11 @@ public abstract class Entity {
     public void update(double dt) {
         // If no collision with solid entities and entity is moving
         if (checkCollision().stream().noneMatch(Entity::isSolid) && direction != null) {
-            posX += dt * direction.getDeltaX();
-            posY += dt * direction.getDeltaY();
+            posX += dt * direction.getX();
+            posY += dt * direction.getY();
             Square newSquare = board.getSquare(posX, posY);
             // Check if entity moved squares
-            if (newSquare != square) {
+            if (!newSquare.equals(square)) {
                 moveToSquare(newSquare);
             }
             // Wraparound
@@ -100,8 +100,8 @@ public abstract class Entity {
             }
         }
         if (direction != null) {
-            for (Entity entity : board.getSquare((int) posX + direction.getDeltaX(),
-                    (int) posY + direction.getDeltaY()).getEntities()) {
+            for (Entity entity : board.getSquare((int) posX + direction.getX(),
+                    (int) posY + direction.getY()).getEntities()) {
                 if (entity != this && collide(entity)) {
                     collisions.add(entity);
                 }
@@ -110,7 +110,7 @@ public abstract class Entity {
         return collisions;
     }
 
-    private void moveToSquare(Square newSquare){
+    private void moveToSquare(Square newSquare) {
         square.moveEntity(this, newSquare);
         this.square = newSquare;
     }

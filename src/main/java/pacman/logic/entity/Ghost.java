@@ -12,6 +12,7 @@ import java.util.Set;
 /**
  * Represents a ghost.
  */
+@SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class not a Bean.
 public abstract class Ghost extends Entity {
 
     static PacMan pacMan;
@@ -44,7 +45,7 @@ public abstract class Ghost extends Entity {
         if (square != oldSquare) { // Update choice when a new square is reached.
             target = chooseTarget(getOptions());
             nextDirection = square.directionOf(target);
-            oldSquare = square; // must be called after getOptions!
+            oldSquare = square; // must be called after getOptions, as this information is used.
         }
     }
 
@@ -53,10 +54,11 @@ public abstract class Ghost extends Entity {
      *
      * @return list of target square options.
      */
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // For each loop false warning.
     private List<Square> getOptions() {
         List<Square> options = square.getNeighbours();
         for (Square s : options) {
-            if (s.hasSolid() || s == oldSquare) {
+            if (s.hasSolid() || s.equals(oldSquare)) {
                 options.remove(s);
             }
         }

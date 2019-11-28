@@ -26,17 +26,17 @@ public class LevelFactoryTest {
 
     @Test
     public void testMultiplePacMan() {
-        Square square = new Square();
-        square.addEntity(new PacMan(board, 0, 0));
-        square.addEntity(new PacMan(board, 0, 0));
+        Square square = new Square(board, 0, 0);
+        square.addEntity(new PacMan(board, square));
+        square.addEntity(new PacMan(board, square));
         board.addSquare(square);
         assertThrows(IllegalArgumentException.class, () -> levelFactory.createLevel(board));
     }
 
     @Test
     public void testCreateLevelSuccess() {
-        Square square = new Square();
-        square.addEntity(new PacMan(board, 0, 0));
+        Square square = new Square(board, 0, 0);
+        square.addEntity(new PacMan(board, square));
         board.addSquare(square);
         assertNotNull(levelFactory.createLevel(board));
     }

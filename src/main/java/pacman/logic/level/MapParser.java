@@ -107,6 +107,7 @@ public class MapParser {
                 break;
             case '*':
                 square.addEntity(new Pellet(board, square));
+                break;
             case 'B':
                 square.addEntity(new Blinky(board, square));
                 break;
