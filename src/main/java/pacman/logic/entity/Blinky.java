@@ -1,14 +1,10 @@
 package pacman.logic.entity;
 
 import pacman.graphics.sprite.Sprite;
-import pacman.logic.Direction;
-import pacman.logic.GameController;
 import pacman.logic.level.Board;
+import java.util.List;
 import pacman.logic.level.Square;
 
-import javax.xml.stream.events.EntityReference;
-import java.util.List;
-import java.util.Set;
 
 public class Blinky extends Ghost {
 
@@ -20,13 +16,13 @@ public class Blinky extends Ghost {
 
     @Override
     Square chooseTarget(List<Square> options) {
-        //TODO: calculate distances to pacman (or his square?) from the options, and choice the direction to the option that gives the smallest.
-        Direction nextDir=null;
-        for (Square s: options){
-            Iterable<Entity> it=s.getEntities();
-            for(Entity n: it){
-                if(n instanceof PacMan){
-                    nextDir= square.directionOf(s);
+        //TODO: calculate distances to pacman (or his square?)
+        // from the options, and choice the direction to the option that gives the smallest.
+//      Direction nextDir;
+        for (Square s: options) {
+            for(Entity n: s.getEntities()) {
+                if(n instanceof PacMan) {
+//                  nextDir= square.directionOf(s);
                     return s;
                 }
             }

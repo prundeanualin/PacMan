@@ -50,7 +50,7 @@ public class Board {
      * @param y The y coordinate of the square
      * @return The square at the specified location.
      */
-    public @NotNull Square getSquare(double x, double y){
+    public @NotNull Square getSquare(double x, double y) {
         return squares.get((int)getPosY(y) * width + (int)getPosX(x));
     }
 

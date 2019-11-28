@@ -91,8 +91,10 @@ public class Square {
         } else if (y < Direction.DOWN.getY()) {
             y += board.getHeight();
         }
-        assert (x == Direction.LEFT.getY() || x == Direction.UP.getX() || x == Direction.RIGHT.getX());
-        assert (y == Direction.DOWN.getY() || y == Direction.RIGHT.getY() || y == Direction.UP.getY());
+        assert (x == Direction.LEFT.getY() || x == Direction.UP.getX() ||
+                x == Direction.RIGHT.getX());
+        assert (y == Direction.DOWN.getY() || y == Direction.RIGHT.getY() ||
+                y == Direction.UP.getY());
 
         return Direction.getDirection(x, y);
     }
