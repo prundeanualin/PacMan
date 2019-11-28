@@ -5,6 +5,8 @@ import board.Direction;
 import java.util.HashMap;
 import java.util.Map;
 
+//TODO not ready yet, still needs implementation of
+// behaviour and basic structure, this is just a mainframe
 public abstract class Ghost {
 
     // Map structure to hold every animation for each direction(up, down, left, right)

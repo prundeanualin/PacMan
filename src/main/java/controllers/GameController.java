@@ -2,8 +2,7 @@ package controllers;
 
 import game.Game;
 
-import java.io.IOException;
-
+import game.PacManApp;
 import javafx.fxml.FXML;
 
 import javafx.scene.canvas.Canvas;
@@ -17,15 +16,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-import level.MapParser;
 
+public class GameController {
 
-
-public class LevelController {
-
-    private static final double  HEIGHT = 700;
-    private static final double  WIDTH = 700;
-    private boolean start;
     private Game game;
     private Stage stage;
     @FXML
@@ -39,8 +32,8 @@ public class LevelController {
      */
     public void initialize() {
 
-        myCanvas.setHeight(HEIGHT);
-        myCanvas.setWidth(WIDTH);
+        myCanvas.setHeight(PacManApp.HEIGHT);
+        myCanvas.setWidth(PacManApp.WIDTH);
         gc = myCanvas.getGraphicsContext2D();
         Image background = new Image("static/black-background.jpg");
         gc.drawImage(background, 0, 0);
@@ -51,53 +44,44 @@ public class LevelController {
      * @param lvl the current level for the difficulty of the board
      */
     @SuppressWarnings("PMD")
-    public void paint(int lvl) {
-        MapParser mapParser = new MapParser();
-        String mapName = "/Level" + lvl + ".txt";
+    public void paint(int lvl, char[][] map) {
+
         char wall = '#';
         char ground = '.';
         char pellet = '*';
-        try {
-            char[][] map = mapParser.parseMap(mapName);
-            double posX = myCanvas.getWidth() / map[0].length;
-            double posY = myCanvas.getHeight() / map.length;
-            for (int i = 0; i < map.length; i++) {
-                for (int j = 0; j < map[0].length; j++) {
+        double posX = myCanvas.getWidth() / map[0].length;
+        double posY = myCanvas.getHeight() / map.length;
+        for (int i = 0; i < map.length; i++) {
+            for (int j = 0; j < map[0].length; j++) {
 
-                    if (map[i][j] == wall) {
-                        gc.setFill(Color.BLUE);
-                        gc.fillRect(posX * j, posY * i, posX, posY);
-                    } else if (map[i][j] == ground) {
-                        gc.setFill(Color.BLACK);
-                        gc.fillRect(posX * j, posY * i, posX, posY);
-                    } else if (map[i][j] == pellet) {
-                        gc.setFill(Color.BLACK);
-                        gc.fillRect(posX * j, posY * i, posX, posY);
-                        gc.setFill(Color.YELLOW);
-                        gc.fillRect(posX * j + posX / 2 - 5, posY * i + posY / 2 - 5, 10, 10);
-                    }
+                if (map[i][j] == wall) {
+                    gc.setFill(Color.BLUE);
+                    gc.fillRect(posX * j, posY * i, posX, posY);
+                } else if (map[i][j] == ground) {
+                    gc.setFill(Color.BLACK);
+                    gc.fillRect(posX * j, posY * i, posX, posY);
+                } else if (map[i][j] == pellet) {
+                    gc.setFill(Color.BLACK);
+                    gc.fillRect(posX * j, posY * i, posX, posY);
+                    gc.setFill(Color.YELLOW);
+                    gc.fillRect(posX * j + posX / 2 - 5, posY * i + posY / 2 - 5, 10, 10);
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
-    public void startWindow(int lvlCount) throws IOException {
-        paint(lvlCount);
-    }
-
-    /**.
+    /** The parsed map (2d array of chars) is displayed on the screen with the help of canvas paint.
      * Player is prompted with a preparing message when starting the game, following a click
      * on the screen and the start of the game.
      */
-    public void showStartMessage() {
+    public void startWindow(int lvlCount, char[][] map) {
+        paint(lvlCount, map);
         text.setText("Click to start the game");
         text.toFront();
         text.setFont(Font.font(30));
         text.setTextFill(Color.WHITE);
-        text.setTranslateX(HEIGHT / 5);
-        text.setTranslateY(HEIGHT / 5);
+        text.setTranslateX((float)PacManApp.WIDTH / 5);
+        text.setTranslateY((float)PacManApp.HEIGHT / 5);
     }
 
     /**.
@@ -109,8 +93,8 @@ public class LevelController {
         text.toFront();
         text.setFont(Font.font(30));
         text.setTextFill(Color.RED);
-        text.setTranslateX(HEIGHT / 5);
-        text.setTranslateY(HEIGHT / 5);
+        text.setTranslateX((float)PacManApp.WIDTH / 5);
+        text.setTranslateY((float)PacManApp.HEIGHT / 5);
         game.startGame();
     }
 
@@ -120,14 +104,6 @@ public class LevelController {
 
     public void setStage(Stage stage) {
         this.stage = stage;
-    }
-
-    public boolean isStart() {
-        return start;
-    }
-
-    public void setStart(boolean start) {
-        this.start = start;
     }
 
     public Game getGame() {

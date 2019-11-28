@@ -1,5 +1,7 @@
 package level;
 
+import javafx.application.Platform;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -65,7 +67,7 @@ public class MapParser {
             }
             return map;
         } catch (UnsupportedEncodingException e) {
-
+            Platform.exit();
             e.printStackTrace();
             return null;
         }

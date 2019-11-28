@@ -1,33 +1,47 @@
 package game;
 
+import controllers.MainMenuController;
+
 import java.io.IOException;
 
-import javafx.stage.Stage;
-import level.LevelFactory;
-import player.AccountFactory;
+import player.Account;
 
 
 public class GameFactory {
 
-    private transient AccountFactory playerFactory;
-    private transient LevelFactory levelFactory;
+    private Account playerAccount;
+    private MainMenuController mainMenuController;
 
-    public GameFactory(AccountFactory playerf, LevelFactory levelf) {
-        playerFactory = playerf;
-        levelFactory = levelf;
+    public GameFactory(Account playerac) {
+        playerAccount = playerac;
     }
 
     /**.
      * Interface for creating the initial game, making testing more approachable
      */
-    public void createGame(Stage stage) throws IOException {
-        Game game = new Game(playerFactory.createPlayer(), levelFactory.makeLevel(stage));
-        game.setController();
-        game.getLevel().showStartText();
+    public void createGame(int lvlCount) throws IOException {
+        Game game = new Game(playerAccount.createPlayer(), lvlCount);
+        game.setGameFactory(this);
+        game.showGame(mainMenuController.getStage());
     }
 
     public void setUserName(String username) {
-        playerFactory.setUsername(username);
+        playerAccount.setUsername(username);
     }
 
+    public Account getPlayerAccount() {
+        return playerAccount;
+    }
+
+    public void setPlayerAccount(Account playerAccount) {
+        this.playerAccount = playerAccount;
+    }
+
+    public MainMenuController getMainMenuController() {
+        return mainMenuController;
+    }
+
+    public void setMainMenuController(MainMenuController mainMenuController) {
+        this.mainMenuController = mainMenuController;
+    }
 }

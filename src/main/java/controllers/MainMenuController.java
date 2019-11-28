@@ -1,6 +1,5 @@
 package controllers;
 
-import database.User;
 import game.GameFactory;
 import java.io.IOException;
 
@@ -15,8 +14,7 @@ import javafx.stage.Stage;
 public class MainMenuController {
 
     private Stage stage;
-    private GameFactory gf;
-    private User userPrivate;
+    private GameFactory gameFactory;
 
     @FXML
     public transient Button button;
@@ -27,30 +25,31 @@ public class MainMenuController {
         button.setText("Let's Play !");
     }
 
-    public void setGameFactory(GameFactory gameFactory) {
-        gf = gameFactory;
-    }
-
-    public void setUser(User user){userPrivate = user;}
     /**.
      * Listening to clicks on the 'Start Game' button and launching a new game
      */
     @FXML
     @SuppressWarnings("PMD")
     public void onClick() throws IOException {
-        // Will be retrieved from the db (or newly created) when logging in/ registering
-        String username = "";
-        gf.setUserName(username);
-        gf.createGame(stage);
+        // TODO Will be retrieved from the db (or newly created)
+        //TODO when logging in/ registering
+        String username = "Alin";
+        // TODO the level at which the user wants to start playing..
+        //  maybe we ll implement some kind of save behaviour,
+        //TODO in which, once he reaches a specific level, the user
+        // can resume playing from that specific one. This will be stored in db
+        int lvlCount = 1;
+        gameFactory.setUserName(username);
+        gameFactory.setMainMenuController(this);
+        gameFactory.createGame(lvlCount);
     }
 
-    public User getUser(){return userPrivate;}
-    public GameFactory getGf() {
-        return gf;
+    public GameFactory getGameFactory() {
+        return gameFactory;
     }
 
-    public void setGf(GameFactory gf) {
-        this.gf = gf;
+    public void setGameFactory(GameFactory gameFact) {
+        gameFactory = gameFact;
     }
 
     public Stage getStage() {
