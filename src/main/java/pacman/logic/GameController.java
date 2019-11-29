@@ -1,6 +1,10 @@
 package pacman.logic;
 
 import database.User;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.animation.AnimationTimer;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
@@ -9,13 +13,11 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+
 import pacman.Main;
 import pacman.graphics.BoardCanvas;
 import pacman.logic.level.Level;
 import pacman.logic.level.LevelFactory;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Controller for the game, responsible for starting, pausing, updating and stopping the game.
@@ -114,10 +116,11 @@ public class GameController {
         double dt = t - time;
         time = t;
         game.update(dt);
-        if(getGame().getLevel().getBoard().checkLevelWon())
+        if (getGame().getLevel().getBoard().checkLevelWon()) {
             labelScore.setText("You Won !!");
-        else
+        } else {
             labelScore.setText("Score is: " + game.getScore());
+        }
         canvas.draw(t);
     }
 
@@ -142,21 +145,30 @@ public class GameController {
      * @param scoreLabel the label on which will be displayed
      */
     public void updateLabel(Label scoreLabel) {
-        scoreLabel.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
+        scoreLabel.setBackground(new Background(new BackgroundFill(Color.BLACK,
+                CornerRadii.EMPTY, Insets.EMPTY)));
         scoreLabel.setFont(new Font(20));
         scoreLabel.setTextFill(Color.WHEAT);
         scoreLabel.setTranslateX(Main.width / 3 * 2);
         scoreLabel.setTranslateY(20);
-        scoreLabel.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
+        scoreLabel.setBackground(new Background(new BackgroundFill(Color.BLACK,
+                CornerRadii.EMPTY, Insets.EMPTY)));
     }
 
+    /**
+     * Creating a new user from login details.
+     * @param user the user created
+     */
     public void setUser(User user) {
         getInstance().getGame().setPlayer(user);
     }
 
-    public void setUpGUI() {
-        canvas = new BoardCanvas(getGame().getLevel().getBoard()
-                , Main.width, Main.height);
+    /**
+     * Decoupling gui from logic for game initialization.
+     */
+    public void setUpGui() {
+        canvas = new BoardCanvas(getGame().getLevel().getBoard(),
+                Main.width, Main.height);
         canvas.setHeight(Main.height);
         canvas.setWidth(Main.width);
         canvas.setTranslateY(20);
