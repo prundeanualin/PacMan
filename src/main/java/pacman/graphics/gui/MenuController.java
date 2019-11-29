@@ -1,12 +1,6 @@
 package pacman.graphics.gui;
 
 import database.User;
-
-import java.io.IOException;
-
-import java.net.URL;
-import java.util.ResourceBundle;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -22,10 +16,13 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-
 import pacman.logic.Direction;
 import pacman.logic.GameController;
 import pacman.logic.entity.PacMan;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 public class MenuController implements Initializable {
 
@@ -56,8 +53,7 @@ public class MenuController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
     }
 
-    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
-    //known bug of pmd when using variable declaration
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis") //known bug of pmd when using variable declaration
     @FXML
     private void loadGameScreen(ActionEvent event)
             throws IOException {
@@ -65,9 +61,8 @@ public class MenuController implements Initializable {
         VBox root = new VBox();
         Stage stage = (Stage)((javafx.scene.Node) event.getSource()).getScene().getWindow();
         stage.setHeight(850);
-        root.setBackground(new Background(new BackgroundFill(Color.BLACK,
-                CornerRadii.EMPTY, Insets.EMPTY)));
-        GameController.getInstance().setUpGui();
+        root.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
+        GameController.getInstance().setUpGUI();
         GameController.getInstance().setUser(user);
         root.getChildren().add(GameController.getInstance().getScoreLabel());
         root.getChildren().add(GameController.getInstance().getCanvas());
@@ -98,10 +93,6 @@ public class MenuController implements Initializable {
 
     }
 
-    /**
-     * Setting the player from the details of the current user.
-     * @param us the current user
-     */
     public void setProfileDetails(User us) {
         user = us;
         userDetails.setText("User: " + user.getUsername()

@@ -1,12 +1,9 @@
 package database;
 
+import javax.swing.JOptionPane;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
-import javax.swing.JOptionPane;
-
-
 
 /**
  * New login class.
@@ -34,11 +31,11 @@ public class LoginDao {
             resultSet = statement.executeQuery();
 
             if (resultSet.next() == false) {
-                JOptionPane.showMessageDialog(null,
-                        "Incorrect Username Or Password",
-                        "Login Failed", 2);
+                JOptionPane.showMessageDialog(null, "Incorrect Username Or Password", "Login Failed", 2);
                 status = false;
-            } else {
+            }
+            else
+            {
                 status = true;
             }
             resultSet.close();
