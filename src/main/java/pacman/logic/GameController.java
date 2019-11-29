@@ -1,7 +1,7 @@
 package pacman.logic;
 
+import database.User;
 import javafx.animation.AnimationTimer;
-import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
@@ -39,12 +39,12 @@ public class GameController {
         return controller;
     }
 
-    @FXML
     private BoardCanvas canvas;
     private Game game;
     private LevelFactory levelFactory;
     private AnimationTimer timer;
     private Label labelScore;
+    private User user;
 
     private double time;
     private boolean started = false;
@@ -58,11 +58,6 @@ public class GameController {
         levels.add(levelFactory.createLevel("level_1"));
         this.game = new Game(new Player(), levels); //TODO
         this.time = 0.0;
-        canvas = new BoardCanvas(getGame().getLevel().getBoard()
-                , Main.width, Main.height);
-        canvas.setTranslateY(50);
-        labelScore = new Label("Score is: ");
-        updateLabel(labelScore);
     }
 
     /**
@@ -153,6 +148,20 @@ public class GameController {
         scoreLabel.setTranslateX(Main.width / 3 * 2);
         scoreLabel.setTranslateY(20);
         scoreLabel.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
+    }
+
+    public void setUser(User user) {
+        getInstance().getGame().setPlayer(user);
+    }
+
+    public void setUpGUI() {
+        canvas = new BoardCanvas(getGame().getLevel().getBoard()
+                , Main.width, Main.height);
+        canvas.setHeight(Main.height);
+        canvas.setWidth(Main.width);
+        canvas.setTranslateY(20);
+        labelScore = new Label("Score is: ");
+        updateLabel(labelScore);
     }
 }
 

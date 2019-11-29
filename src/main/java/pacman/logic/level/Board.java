@@ -1,14 +1,14 @@
 package pacman.logic.level;
 
+import org.jetbrains.annotations.NotNull;
+import pacman.logic.entity.Entity;
+import pacman.logic.entity.Pellet;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import org.jetbrains.annotations.NotNull;
-import pacman.logic.entity.Entity;
-import pacman.logic.entity.Pellet;
 
 @SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class is not a bean.
 public class Board {
@@ -19,6 +19,11 @@ public class Board {
     private List<Square> squares;
     private Set<Entity> entities;
 
+    /**
+     * Creating the logical board, on which collisions are based.
+     * @param width the width of the canvas
+     * @param height height of the canvas
+     */
     public Board(int width, int height) {
         this.width = width;
         this.height = height;
@@ -27,6 +32,12 @@ public class Board {
         this.entities = new HashSet<>();
     }
 
+    /**
+     * Retrieving a square from board.
+     * @param x coordinate x
+     * @param y coordinate y
+     * @return the Square at that position
+     */
     public @NotNull Square getSquare(int x, int y) {
         if (x < 0) {
             x += width;
@@ -67,18 +78,21 @@ public class Board {
         return () -> squares.iterator();
     }
 
-    @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // boolean won is a check for having any remaining pellets
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
+    // boolean won is a check for having any remaining pellets
     public boolean checkLevelWon() {
-        List<Entity> pellets = entities.stream().filter(e -> e instanceof Pellet).collect(Collectors.toList());
+        List<Entity> pellets = entities.stream().filter(e -> e instanceof Pellet)
+                .collect(Collectors.toList());
         boolean won = true;
-        for(Entity e: pellets) {
+        for (Entity e: pellets) {
             won = !e.isAlive();
         }
         return won;
     }
 
     public int computeScore() {
-        List<Entity> eatenPellets = entities.stream().filter(e -> !e.isAlive() && e instanceof Pellet).collect(Collectors.toList());
+        List<Entity> eatenPellets = entities.stream().filter(e -> !e.isAlive()
+                && e instanceof Pellet).collect(Collectors.toList());
         return eatenPellets.size();
     }
 

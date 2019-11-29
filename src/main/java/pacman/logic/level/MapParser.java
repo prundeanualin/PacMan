@@ -1,12 +1,5 @@
 package pacman.logic.level;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-
 import javafx.application.Platform;
 import org.jetbrains.annotations.NotNull;
 import pacman.logic.Direction;
@@ -14,11 +7,22 @@ import pacman.logic.entity.PacMan;
 import pacman.logic.entity.Pellet;
 import pacman.logic.entity.Wall;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
 @SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class is not a bean.
 public class MapParser {
 
     private File levelDirectory;
 
+    /**
+     * Creating the factory that loads a file, reads it and generates a board out of it
+     * @param levelDirectory the path to files that contain levels
+     */
     public MapParser(String levelDirectory) {
         try {
             this.levelDirectory = new File(getClass().getResource(levelDirectory).toURI());

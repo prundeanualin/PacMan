@@ -1,10 +1,11 @@
 package pacman.logic;
 
-import java.util.List;
-
+import database.User;
 import org.jetbrains.annotations.NotNull;
 import pacman.logic.entity.Entity;
 import pacman.logic.level.Level;
+
+import java.util.List;
 
 @SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class is not a bean.
 public class Game {
@@ -47,5 +48,9 @@ public class Game {
 
     protected int getScore() {
         return player.getScore();
+    }
+
+    protected void setPlayer(User user) {
+        player.setUsername(user.getUsername());
     }
 }

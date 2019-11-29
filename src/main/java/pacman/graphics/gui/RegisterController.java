@@ -18,13 +18,13 @@ import java.util.ResourceBundle;
 public class RegisterController implements Initializable {
 
     @FXML
-    private TextArea usernameTextBox;
+    private TextArea usernameTextBox; //NOPMD it's a gui object, no need to set and get it
 
     @FXML
-    private PasswordField passwordField;
+    private PasswordField passwordField; //NOPMD it's a gui object, no need to set and get it
 
     @FXML
-    private PasswordField confPass;
+    private PasswordField confPass; //NOPMD it's a gui object, no need to set and get it
 
     @FXML
     private Button registerButton;

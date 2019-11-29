@@ -11,7 +11,8 @@ import pacman.logic.level.Board;
  * Class for drawing the game board with everything on it.
  *
  * @author Ruben
- */// entities has access methods (though PMD does not recognize them), additionally class is not a bean.
+ */// entities has access methods (though PMD does not recognize them),
+  // additionally class is not a bean.
 
 @SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class is not a bean.
 public class BoardCanvas extends Canvas {
@@ -40,17 +41,6 @@ public class BoardCanvas extends Canvas {
         this.board = board;
         scaleX = width / (double) board.getWidth();
         scaleY = height / (double) board.getHeight();
-
-        // Starts a render loop
-//        final long start = System.nanoTime();
-//        AnimationTimer timer = new AnimationTimer() {
-//            @Override
-//            public void handle(long now) {
-//                long t = now - start;
-//                draw(t / 1E9);
-//            }
-//        };
-//        timer.start();
     }
 
     /**

@@ -4,12 +4,17 @@ import database.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import pacman.logic.Direction;
 import pacman.logic.GameController;
@@ -21,10 +26,10 @@ import java.util.ResourceBundle;
 
 public class MenuController implements Initializable {
 
-    private User user;
+    public static User user;
 
     @FXML
-    private Label userDetails;
+    private Label userDetails; //NOPMD no need for having set/get for thi gui element
 
     @FXML
     private StackPane parentContainer;
@@ -46,24 +51,25 @@ public class MenuController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
     }
 
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis") //known bug of pmd when using variable declaration
     @FXML
-    private void loadGameScreen(ActionEvent event) throws IOException {
+    private void loadGameScreen(ActionEvent event)
+            throws IOException {
 
-
-//        Parent root = FXMLLoader.load(getClass().getResource("/views/gameWindow.fxml"));
         VBox root = new VBox();
-//        root.getChildren().add(GameController.getInstance().getScoreLabel());
+        Stage stage = (Stage)((javafx.scene.Node) event.getSource()).getScene().getWindow();
+        stage.setHeight(850);
+        root.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
+        GameController.getInstance().setUpGUI();
+        GameController.getInstance().setUser(user);
+        root.getChildren().add(GameController.getInstance().getScoreLabel());
         root.getChildren().add(GameController.getInstance().getCanvas());
         Scene scene = new Scene(root);
-        Stage stage = (Stage)((javafx.scene.Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.show();
-
         GameController.getInstance().start();
-
 
         scene.setOnKeyPressed(e -> {
             PacMan pm = GameController.getInstance().getGame().getLevel().getPacMan();
@@ -89,14 +95,15 @@ public class MenuController implements Initializable {
 
     public void setProfileDetails(User us) {
         user = us;
-        userDetails.setText("User: " + user.getUsername() + "\n" + "High score: " + user.getScore());
+        userDetails.setText("User: " + user.getUsername()
+                + "\n" + "High score: " + user.getScore());
     }
 
-    public User getUser() {
+    public static User getUser() {
         return user;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public static void setUser(User user) {
+        MenuController.user = user;
     }
 }

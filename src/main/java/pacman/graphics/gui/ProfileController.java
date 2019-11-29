@@ -9,7 +9,7 @@ import java.awt.Label;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class profileController implements Initializable {
+public class ProfileController implements Initializable {
 
     @FXML
     private Label userNameLabel;
@@ -17,6 +17,7 @@ public class profileController implements Initializable {
     @FXML
     private Label scoreLabel;
 
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis") //knwon bug of pmd when declaring variables
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         FXMLLoader loader = new FXMLLoader();
