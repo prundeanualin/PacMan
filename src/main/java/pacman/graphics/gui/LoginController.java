@@ -104,7 +104,10 @@ public class LoginController implements Initializable {
         user.setUsername(usernameTextArea.getText());
         user.setPassword(passwordField.getText());
         if(loginDao.attemptLogin(user)) {
-            Parent root = FXMLLoader.load(getClass().getResource("/views/menu.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/menu.fxml"));
+            Parent root = loader.load();
+            MenuController controller = (MenuController) loader.getController();
+            controller.setProfileDetails(user);
             Scene scene = new Scene(root);
             Stage window = (Stage) ((javafx.scene.Node) event1.getSource()).getScene().getWindow();
             window.setScene(scene);

@@ -1,9 +1,5 @@
 package pacman.graphics;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Affine;

@@ -1,10 +1,7 @@
 package pacman.logic;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javafx.animation.AnimationTimer;
-
+import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
@@ -16,6 +13,9 @@ import pacman.Main;
 import pacman.graphics.BoardCanvas;
 import pacman.logic.level.Level;
 import pacman.logic.level.LevelFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Controller for the game, responsible for starting, pausing, updating and stopping the game.
@@ -39,11 +39,12 @@ public class GameController {
         return controller;
     }
 
-    private Label scoreLabel;
+    @FXML
     private BoardCanvas canvas;
     private Game game;
     private LevelFactory levelFactory;
     private AnimationTimer timer;
+    private Label labelScore;
 
     private double time;
     private boolean started = false;
@@ -60,8 +61,8 @@ public class GameController {
         canvas = new BoardCanvas(getGame().getLevel().getBoard()
                 , Main.width, Main.height);
         canvas.setTranslateY(50);
-        scoreLabel = new Label("Score: ");
-        updateLabel(scoreLabel);
+        labelScore = new Label("Score is: ");
+        updateLabel(labelScore);
     }
 
     /**
@@ -119,9 +120,9 @@ public class GameController {
         time = t;
         game.update(dt);
         if(getGame().getLevel().getBoard().checkLevelWon())
-            scoreLabel.setText("You Won !!");
+            labelScore.setText("You Won !!");
         else
-            scoreLabel.setText("Score is: " + game.getScore());
+            labelScore.setText("Score is: " + game.getScore());
         canvas.draw(t);
     }
 
@@ -138,7 +139,7 @@ public class GameController {
     }
 
     public Label getScoreLabel() {
-        return scoreLabel;
+        return labelScore;
     }
 
     /**
