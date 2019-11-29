@@ -16,7 +16,13 @@ plugins {
 
     // FindBugs / SpotBugs
     id "com.github.spotbugs" version "2.0.1"
+
+    // JavaFX
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.8'
 }
+
+mainClassName = 'pacman.Main'
 
 group 'nl.tudelft.cse.sem.template'
 version '1.0-SNAPSHOT'
@@ -40,7 +46,19 @@ test {
 dependencies {
     testImplementation('org.junit.jupiter:junit-jupiter:5.5.2')
     spotbugsPlugins 'com.h3xstream.findsecbugs:findsecbugs-plugin:1.7.1'
+    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.11'
+    compileOnly 'org.projectlombok:lombok:1.18.10'
+    annotationProcessor 'org.projectlombok:lombok:1.18.10'
+    compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.6'
+    compile 'org.jetbrains:annotations:13.0'
 }
+
+
+javafx {
+    version = "12.0.2"
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
+}
+
 
 jacocoTestCoverageVerification {
     violationRules {
@@ -60,12 +78,9 @@ jacocoTestCoverageVerification {
 
 checkstyle {
     toolVersion "8.25"
-	configFile = rootProject.file('config/checkstyle/checkstyle.xml')
+    configFile = rootProject.file('config/checkstyle/checkstyle.xml')
 }
 
-pmd {
-    incrementalAnalysis = true
-}
 
 spotbugs {
     sourceSets = [sourceSets.main]
@@ -74,6 +89,16 @@ spotbugs {
     reportLevel = "high"
     visitors = ["FindSqlInjection", "SwitchFallthrough"]
     excludeFilter = file("$rootProject.projectDir/config/spotbugs/excludeFilter.xml")
+}
+
+sourceSets.main {
+    java {
+        srcDir 'src/main/java'
+    }
+    resources {
+        srcDirs = ['src/main/java', 'src/main/resources']
+        exclude "**/*.java"
+    }
 }
 
 tasks.withType(SpotBugsTask) {
