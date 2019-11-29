@@ -3,7 +3,6 @@ package pacman.graphics;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Affine;
-
 import org.jetbrains.annotations.NotNull;
 import pacman.logic.entity.Entity;
 import pacman.logic.level.Board;
@@ -13,7 +12,7 @@ import pacman.logic.level.Board;
  *
  * @author Ruben
  */// entities has access methods (though PMD does not recognize them),
-//additionally class is not a bean.
+  // additionally class is not a bean.
 
 @SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class is not a bean.
 public class BoardCanvas extends Canvas {
@@ -58,9 +57,11 @@ public class BoardCanvas extends Canvas {
      *
      * @param t The time since started in seconds.
      */
+    /*
+     * known bug of pmd with foreach loops
+     * it is always safe to draw an entity using its own sprite
+     */
     @SuppressWarnings({"PMD.DataflowAnomalyAnalysis", "unchecked"})
-    // known bug of pmd with foreach loops
-    //it is always safe to draw an entity using its own sprite
     public void draw(double t) {
         clear();
         getGraphicsContext2D().setLineWidth(1 / scaleX);

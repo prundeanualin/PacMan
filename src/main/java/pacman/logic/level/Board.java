@@ -1,14 +1,14 @@
 package pacman.logic.level;
 
+import org.jetbrains.annotations.NotNull;
+import pacman.logic.entity.Entity;
+import pacman.logic.entity.Pellet;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import org.jetbrains.annotations.NotNull;
-import pacman.logic.entity.Entity;
-import pacman.logic.entity.Pellet;
 
 @SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class is not a bean.
 public class Board {
@@ -78,10 +78,6 @@ public class Board {
         return () -> squares.iterator();
     }
 
-    /**
-     * verifies if all pellets are eaten.
-     * @return boolean, if level is won
-     */
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     // boolean won is a check for having any remaining pellets
     public boolean checkLevelWon() {
@@ -94,10 +90,6 @@ public class Board {
         return won;
     }
 
-    /**
-     * compute the score of the game.
-     * @return the score
-     */
     public int computeScore() {
         List<Entity> eatenPellets = entities.stream().filter(e -> !e.isAlive()
                 && e instanceof Pellet).collect(Collectors.toList());
