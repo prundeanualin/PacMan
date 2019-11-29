@@ -78,6 +78,11 @@ public abstract class Entity {
         }
     }
 
+    /**
+     * Checks to see if the current entity collides with any other
+     * on the current square or on the next one he will be onto next frame.
+     * @return
+     */
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // known bug of pmd with foreach loops.
     public Set<Entity> checkCollision() {
         Set<Entity> collisions = new HashSet<>();

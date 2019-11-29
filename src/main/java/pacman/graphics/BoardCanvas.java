@@ -12,7 +12,7 @@ import pacman.logic.level.Board;
  *
  * @author Ruben
  */// entities has access methods (though PMD does not recognize them),
-  // additionally class is not a bean.
+// additionally class is not a bean.
 
 @SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class is not a bean.
 public class BoardCanvas extends Canvas {
@@ -57,11 +57,11 @@ public class BoardCanvas extends Canvas {
      *
      * @param t The time since started in seconds.
      */
+    @SuppressWarnings({"PMD.DataflowAnomalyAnalysis", "unchecked"})
     /*
      * known bug of pmd with foreach loops
      * it is always safe to draw an entity using its own sprite
      */
-    @SuppressWarnings({"PMD.DataflowAnomalyAnalysis", "unchecked"})
     public void draw(double t) {
         clear();
         getGraphicsContext2D().setLineWidth(1 / scaleX);
