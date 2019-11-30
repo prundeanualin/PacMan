@@ -75,10 +75,18 @@ public enum Direction {
      * @return the direction represented by (x,y).
      */
     public static Direction getDirection(int x, int y) {
-        if (x == Direction.RIGHT.x) {return Direction.RIGHT;}
-        if (x == Direction.LEFT.x) {return Direction.LEFT;}
-        if (y == Direction.UP.y) {return Direction.UP;}
-        if (y == Direction.DOWN.y) {return Direction.DOWN;}
+        if (x == Direction.RIGHT.x) {
+            return Direction.RIGHT;
+        }
+        if (x == Direction.LEFT.x) {
+            return Direction.LEFT;
+        }
+        if (y == Direction.UP.y) {
+            return Direction.UP;
+        }
+        if (y == Direction.DOWN.y) {
+            return Direction.DOWN;
+        }
         throw new IllegalArgumentException("Direction (" + x + ":" + y + ") does not exist.");
     }
 }

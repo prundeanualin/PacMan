@@ -1,14 +1,14 @@
 package pacman.logic.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 import pacman.graphics.sprite.Sprite;
 import pacman.logic.Direction;
 import pacman.logic.GameController;
 import pacman.logic.level.Board;
 import pacman.logic.level.Square;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 /**
  * Represents a ghost.
