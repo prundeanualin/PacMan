@@ -43,7 +43,7 @@ public abstract class Ghost extends Entity {
             GameController.getInstance().getGame().setRunning(false);
         }
 
-        if (square != oldSquare) { // Update choice when a new square is reached.
+        if (square != oldSquare && getOptions().size()>0) { // Update choice when a new square is reached.
             target = chooseTarget(getOptions());
 //            System.out.println(target);
             nextDirection = square.directionOf(target);
@@ -62,8 +62,7 @@ public abstract class Ghost extends Entity {
         List<Square> options = new ArrayList<>(4);
 
         for (Square square : neighbours) {
-            if (!square.hasSolid()){
-//                    && !square.equals(oldSquare)) {
+            if (!square.hasSolid() && !square.equals(oldSquare)) {
                 options.add(square);
             }
         }

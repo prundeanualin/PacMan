@@ -25,7 +25,7 @@ public class Blinky extends Ghost {
         int pacY = pac.getY();
         int min = Integer.MAX_VALUE;
         Square target = null;
-        System.out.println(options.size());
+//        System.out.println(options.size());
         for (Square s: options) {
             int x_dir = pacX - s.getX();
             int y_dir = pacY - s.getY();
