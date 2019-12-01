@@ -15,7 +15,7 @@ public class Blinky extends Ghost {
 
     public Blinky(Board board, Square square) {
         super(board, square, sprite);
-        direction= Direction.LEFT;
+        direction = Direction.LEFT;
     }
 
     @Override
@@ -23,14 +23,21 @@ public class Blinky extends Ghost {
         Square pac = pacMan.getSquare();
         int pacX = pac.getX();
         int pacY = pac.getY();
-        int min = Integer.MAX_VALUE;
+        float min = Float.MAX_VALUE;
         Square target = null;
-//        System.out.println(options.size());
-        for (Square s: options) {
-            int x_dir = pacX - s.getX();
-            int y_dir = pacY - s.getY();
-            if ((x_dir + y_dir) < min) {
-                min = x_dir + y_dir;
+
+        for (Square s : options) {
+            int x_dir = Math.abs(pacX - s.getX());
+            if (x_dir > getBoard().getWidth() / 2) {
+                x_dir = getBoard().getWidth() - x_dir;
+            }
+            int y_dir = Math.abs(pacY - s.getY());
+            if (y_dir > getBoard().getHeight() / 2) {
+                y_dir = getBoard().getHeight() - y_dir;
+            }
+            float dist = x_dir + y_dir;
+            if (dist < min) {
+                min = dist;
                 target = s;
             }
         }
