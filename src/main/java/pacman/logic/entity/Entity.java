@@ -94,14 +94,13 @@ public abstract class Entity {
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // known bug of pmd with foreach loops.
     public Set<Entity> checkCollision() {
         Set<Entity> collisions = new HashSet<>();
-        for (Entity entity : board.getSquare((int) posX, (int) posY).getEntities()) {
+        for (Entity entity : getSquare().getEntities()) {
             if (entity != this && collide(entity)) {
                 collisions.add(entity);
             }
         }
         if (direction != null) {
-            for (Entity entity : board.getSquare((int) posX + direction.getX(),
-                    (int) posY + direction.getY()).getEntities()) {
+            for (Entity entity : getSquare().getNeighbour(direction).getEntities()) {
                 if (entity != this && collide(entity)) {
                     collisions.add(entity);
                 }

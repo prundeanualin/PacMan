@@ -3,6 +3,7 @@ package pacman.logic.entity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+
 import pacman.graphics.sprite.Sprite;
 import pacman.logic.Direction;
 import pacman.logic.GameController;
@@ -43,10 +44,13 @@ public abstract class Ghost extends Entity {
             GameController.getInstance().getGame().setRunning(false);
         }
 
-        if (square != oldSquare && getOptions().size()>0) { // Update choice when a new square is reached.
-            target = chooseTarget(getOptions());
-//            System.out.println(target);
-            nextDirection = square.directionOf(target);
+        if (square != oldSquare) { // Update choice when a new square is reached.
+            List<Square> options = getOptions();
+            if (options.size() > 0) {
+                target = chooseTarget(options);
+                System.out.println(target);
+                nextDirection = square.directionOf(target);
+            }
             oldSquare = square; // must be called after getOptions, as this information is used.
         }
     }
