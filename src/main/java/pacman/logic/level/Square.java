@@ -86,16 +86,16 @@ public class Square {
         } else if (x < Direction.LEFT.getX()) {
             x += board.getWidth();
         }
-        if (y > Direction.UP.getY()) {
+        if (y > Direction.DOWN.getY()) {
             y -= board.getHeight();
-        } else if (y < Direction.DOWN.getY()) {
+        } else if (y < Direction.UP.getY()) {
             y += board.getHeight();
         }
         assert (x == Direction.LEFT.getY() || x == Direction.UP.getX() ||
                 x == Direction.RIGHT.getX());
         assert (y == Direction.DOWN.getY() || y == Direction.RIGHT.getY() ||
                 y == Direction.UP.getY());
-
+        
         return Direction.getDirection(x, y);
     }
 
@@ -154,5 +154,10 @@ public class Square {
 
     public boolean hasSolid() {
         return solid;
+    }
+
+    @Override
+    public String toString() {
+        return "Square " + x + ":" + y;
     }
 }

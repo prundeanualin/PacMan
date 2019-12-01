@@ -1,6 +1,8 @@
 package pacman.logic.entity;
 
 import java.util.List;
+
+import pacman.graphics.sprite.BlinkySprite;
 import pacman.graphics.sprite.Sprite;
 import pacman.logic.level.Board;
 import pacman.logic.level.Square;
@@ -8,7 +10,7 @@ import pacman.logic.level.Square;
 
 public class Blinky extends Ghost {
 
-    private static final Sprite<Ghost> sprite = null;
+    private static final Sprite<Ghost> sprite = new BlinkySprite();
 
     public Blinky(Board board, Square square) {
         super(board, square, sprite);
@@ -16,8 +18,6 @@ public class Blinky extends Ghost {
 
     @Override
     Square chooseTarget(List<Square> options) {
-        //TODO: calculate distances to pacman (or his square?)
-        // from the options, and choose the direction to the option that gives the smallest.
         Square pac = pacMan.getSquare();
         int pacX = pac.getX();
         int pacY = pac.getY();
@@ -35,7 +35,6 @@ public class Blinky extends Ghost {
         if (target == null) {
             return options.get(0);
         }
-
         return target;
     }
 }
