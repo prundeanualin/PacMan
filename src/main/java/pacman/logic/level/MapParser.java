@@ -1,5 +1,12 @@
 package pacman.logic.level;
 
+import javafx.application.Platform;
+import org.jetbrains.annotations.NotNull;
+import pacman.logic.Direction;
+import pacman.logic.entity.PacMan;
+import pacman.logic.entity.Pellet;
+import pacman.logic.entity.Wall;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
@@ -21,9 +28,8 @@ public class MapParser {
     private File levelDirectory;
 
     /**
-     * Creates a map parser.
-     *
-     * @param levelDirectory The directory to read levels from.
+     * Creating the factory that loads a file, reads it and generates a board out of it
+     * @param levelDirectory the path to files that contain levels
      */
     public MapParser(String levelDirectory) {
         try {

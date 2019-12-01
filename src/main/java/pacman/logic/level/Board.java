@@ -1,5 +1,9 @@
 package pacman.logic.level;
 
+import org.jetbrains.annotations.NotNull;
+import pacman.logic.entity.Entity;
+import pacman.logic.entity.Pellet;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -22,9 +26,9 @@ public class Board {
     private Set<Entity> entities;
 
     /**
-     * Creates a board with a specified size.
-     * @param width The width of the board
-     * @param height The height of the board
+     * Creating the logical board, on which collisions are based.
+     * @param width the width of the canvas
+     * @param height height of the canvas
      */
     public Board(int width, int height) {
         this.width = width;
@@ -35,10 +39,10 @@ public class Board {
     }
 
     /**
-     * Gets the square at the given position. If the location is off the board, it wraps around.
-     * @param x The x coordinate of the square
-     * @param y The y coordinate of the square
-     * @return The square at the specified location.
+     * Retrieving a square from board.
+     * @param x coordinate x
+     * @param y coordinate y
+     * @return the Square at that position
      */
     public @NotNull Square getSquare(int x, int y) {
         return squares.get((int)getPosY(y) * width + (int)getPosX(x));
@@ -102,6 +106,24 @@ public class Board {
      */
     public @NotNull Iterable<Square> getSquares() {
         return () -> squares.iterator();
+    }
+
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
+    // boolean won is a check for having any remaining pellets
+    public boolean checkLevelWon() {
+        List<Entity> pellets = entities.stream().filter(e -> e instanceof Pellet)
+                .collect(Collectors.toList());
+        boolean won = true;
+        for (Entity e: pellets) {
+            won = !e.isAlive();
+        }
+        return won;
+    }
+
+    public int computeScore() {
+        List<Entity> eatenPellets = entities.stream().filter(e -> !e.isAlive()
+                && e instanceof Pellet).collect(Collectors.toList());
+        return eatenPellets.size();
     }
 
     /**

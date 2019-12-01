@@ -1,9 +1,7 @@
 package pacman.graphics.gui;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-
+import database.LoginDao;
+import database.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +15,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+
+
 public class LoginController implements Initializable {
 
     @FXML
@@ -26,10 +29,10 @@ public class LoginController implements Initializable {
     private Button loginButton;
 
     @FXML
-    private PasswordField passwordField;
+    private PasswordField passwordField; //NOPMD it's a gui object, no need to set and get it
 
     @FXML
-    private TextArea usernameTextArea;
+    private TextArea usernameTextArea; //NOPMD it's a gui object, no need to set and get it
 
     @FXML
     private static StackPane parentContainer;
@@ -67,7 +70,7 @@ public class LoginController implements Initializable {
         timeline.play();
         */
 
-        Parent root = FXMLLoader.load(getClass().getResource("/views/register.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/views/registerWindow.fxml"));
         Scene scene = new Scene(root);
         Stage window = (Stage)((javafx.scene.Node) event.getSource()).getScene().getWindow();
         window.setScene(scene);
@@ -97,12 +100,31 @@ public class LoginController implements Initializable {
         });
         timeline.play();
         */
+        LoginDao loginDao = new LoginDao();
+        User user = new User();
+        user.setUsername(usernameTextArea.getText());
+        user.setPassword(passwordField.getText());
+        if (loginDao.attemptLogin(user)) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/menu.fxml"));
+            Parent root = loader.load();
+            MenuController controller = (MenuController) loader.getController();
+            controller.setProfileDetails(user);
+            Scene scene = new Scene(root);
+            Stage window = (Stage) ((javafx.scene.Node) event1.getSource()).getScene().getWindow();
+            window.setScene(scene);
+            window.show();
+        }  else {
+            /*
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information Dialog");
+            alert.setHeaderText("Username or password is incorrect");
+            alert.setContentText("Please try again");
 
-        Parent root = FXMLLoader.load(getClass().getResource("/views/menu.fxml"));
-        Scene scene = new Scene(root);
-        Stage window = (Stage)((javafx.scene.Node) event1.getSource()).getScene().getWindow();
-        window.setScene(scene);
-        window.show();
+            alert.showAndWait();
+            */
+            usernameTextArea.setText(null);
+            passwordField.setText(null);
+        }
 
     }
 
