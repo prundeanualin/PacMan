@@ -36,17 +36,4 @@ public class PacMan extends Entity {
         // Set every collided pellet to dead
         collisions.stream().filter(e -> e instanceof Pellet).forEach(e -> e.setAlive(false));
     }
-
-    @Override
-    public boolean collide(Entity other) {
-        double dx = distanceX(other.getX()); // NOPMD variable is used
-        double dy = distanceY(other.getY()); // NOPMD variable is used
-        if (other instanceof Pellet) {
-            return dx * dx + dy * dy < 0.25;
-        }
-        if (other instanceof Wall) {
-            return dx < 1.0 && dy < 1.0;
-        }
-        return false;
-    }
 }

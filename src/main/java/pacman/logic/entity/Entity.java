@@ -51,6 +51,17 @@ public abstract class Entity {
      * @return Whether the two entities collide
      */
     public boolean collide(Entity other) {
+        double dx = distanceX(other.getX()); // NOPMD variable is used
+        double dy = distanceY(other.getY()); // NOPMD variable is used
+        if (other instanceof Pellet) {
+            return dx * dx + dy * dy < 0.25;
+        }
+        if (other instanceof Wall) {
+            return dx < 1.0 && dy < 1.0;
+        }
+        if (other instanceof PacMan || other instanceof Ghost) {
+            return dx * dx + dy * dy < 0.75;
+        }
         return false;
     }
 
@@ -69,7 +80,7 @@ public abstract class Entity {
             }
             // Wraparound
             posX = board.getPosX(posX);
-            posY = board.getPosX(posY);
+            posY = board.getPosY(posY);
         }
 
         if (nextDirection != null && nextDirection != getDirection()) {
@@ -77,8 +88,8 @@ public abstract class Entity {
             double dx = Math.abs(getX() - Math.floor(getX()) - 0.5);
             double dy = Math.abs(getY() - Math.floor(getY()) - 0.5);
             /*
-             * PacMan changes direction if the set direction is opposite his current direction
-             * or if he is at the center of the square.
+             * Entities changes direction if the set direction is opposite their current direction
+             * or if they are at the center of the square.
              */
             if (getDirection() == nextDirection.getInverse() || (dx < 0.02 && dy < 0.02)) {
                 setDirection(nextDirection);
@@ -155,7 +166,8 @@ public abstract class Entity {
      *
      * @return The direction, null if entity has no direction
      */
-    public @Nullable Direction getDirection() {
+    public @Nullable
+    Direction getDirection() {
         return direction;
     }
 
@@ -264,7 +276,8 @@ public abstract class Entity {
      *
      * @return The current square
      */
-    public @NotNull Square getSquare() {
+    public @NotNull
+    Square getSquare() {
         return square;
     }
 

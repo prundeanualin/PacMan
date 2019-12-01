@@ -13,6 +13,6 @@ public class BlinkySprite extends Sprite<Ghost> {
     public void draw(@NotNull Ghost entity, @NotNull GraphicsContext g, @NotNull Style style,
                      double t) {
         g.setFill(style.getBlinkyColour());
-        g.drawImage(image, 0.5, 0.5, 1, 1);
+        g.drawImage(image, -0.5, -0.5, 1, 1);
     }
 }

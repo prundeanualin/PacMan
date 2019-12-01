@@ -48,7 +48,8 @@ public abstract class Ghost extends Entity {
             List<Square> options = getOptions();
             if (options.size() > 0) {
                 target = chooseTarget(options);
-                System.out.println(target);
+                System.out.println("Pacman: " + pacMan.getSquare());
+                System.out.println("Location: " + square + " Target: " + target);
                 nextDirection = square.directionOf(target);
             }
             oldSquare = square; // must be called after getOptions, as this information is used.
