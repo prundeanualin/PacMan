@@ -45,6 +45,7 @@ public abstract class Ghost extends Entity {
 
         if (square != oldSquare) { // Update choice when a new square is reached.
             target = chooseTarget(getOptions());
+//            System.out.println(target);
             nextDirection = square.directionOf(target);
             oldSquare = square; // must be called after getOptions, as this information is used.
         }
