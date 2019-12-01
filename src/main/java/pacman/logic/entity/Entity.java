@@ -32,7 +32,7 @@ public abstract class Entity {
      * Creates an entity at the specified position with the specified sprite.
      *
      * @param board  The board the entity belongs to
-     * @param Square The square the entity belongs to
+     * @param square The square the entity belongs to
      * @param sprite The sprite for rendering
      */
     public Entity(@NotNull Board board, Square square,
@@ -60,8 +60,8 @@ public abstract class Entity {
     public void update(double dt) {
         // If no collision with solid entities and entity is moving
         if (checkCollision().stream().noneMatch(Entity::isSolid) && direction != null) {
-            posX += 2 * dt * direction.getDeltaX();
-            posY += 2 * dt * direction.getDeltaY();
+            posX += 2 * dt * direction.getX();
+            posY += 2 * dt * direction.getY();
             Square newSquare = board.getSquare(posX, posY);
             // Check if entity moved squares
             if (!newSquare.equals(square)) {

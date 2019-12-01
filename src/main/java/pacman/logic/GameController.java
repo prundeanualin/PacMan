@@ -114,8 +114,10 @@ public class GameController {
         double dt = t - time;
         time = t;
         game.update(dt);
-        if(getGame().getLevel().getBoard().checkLevelWon())
+        if(getGame().getLevel().checkLevelWon())
             labelScore.setText("You Won !!");
+        else if(getGame().getLevel().checkLevelLost())
+                labelScore.setText("You Lost :C");
         else
             labelScore.setText("Score is: " + game.getScore());
         canvas.draw(t);

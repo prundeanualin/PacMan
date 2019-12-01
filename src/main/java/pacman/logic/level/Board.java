@@ -108,18 +108,6 @@ public class Board {
         return () -> squares.iterator();
     }
 
-    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
-    // boolean won is a check for having any remaining pellets
-    public boolean checkLevelWon() {
-        List<Entity> pellets = entities.stream().filter(e -> e instanceof Pellet)
-                .collect(Collectors.toList());
-        boolean won = true;
-        for (Entity e: pellets) {
-            won = !e.isAlive();
-        }
-        return won;
-    }
-
     public int computeScore() {
         List<Entity> eatenPellets = entities.stream().filter(e -> !e.isAlive()
                 && e instanceof Pellet).collect(Collectors.toList());
