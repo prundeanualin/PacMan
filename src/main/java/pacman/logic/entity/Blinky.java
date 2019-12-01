@@ -20,6 +20,9 @@ public class Blinky extends Ghost {
 
     @Override
     Square chooseTarget(List<Square> options) {
+        if (options.size() == 0) {
+            throw new IllegalArgumentException("Cannot choose target from empty list of options.");
+        }
         Square pac = pacMan.getSquare();
         int pacX = pac.getX();
         int pacY = pac.getY();
@@ -28,22 +31,18 @@ public class Blinky extends Ghost {
 
         for (Square s : options) {
             int x_dir = Math.abs(pacX - s.getX());
-            if (x_dir > getBoard().getWidth() / 2) {
-                x_dir = getBoard().getWidth() - x_dir;
-            }
+//            if (x_dir > getBoard().getWidth() / 2) {
+//                x_dir = getBoard().getWidth() - x_dir;
+//            }
             int y_dir = Math.abs(pacY - s.getY());
-            if (y_dir > getBoard().getHeight() / 2) {
-                y_dir = getBoard().getHeight() - y_dir;
-            }
+//            if (y_dir > getBoard().getHeight() / 2) {
+//                y_dir = getBoard().getHeight() - y_dir;
+//            }
             float dist = x_dir + y_dir;
             if (dist < min) {
                 min = dist;
                 target = s;
             }
-        }
-
-        if (target == null) {
-            return options.get(0);
         }
         return target;
     }
