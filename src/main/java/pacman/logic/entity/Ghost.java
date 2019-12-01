@@ -58,11 +58,12 @@ public abstract class Ghost extends Entity {
      */
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // For each loop false warning.
     private List<Square> getOptions() {
-        List<Square> neighbours = square.getNeighbours();
+        List<Square> neighbours = this.getSquare().getNeighbours();
         List<Square> options = new ArrayList<>(4);
 
         for (Square square : neighbours) {
-            if (!square.hasSolid() && !square.equals(oldSquare)) {
+            if (!square.hasSolid()){
+//                    && !square.equals(oldSquare)) {
                 options.add(square);
             }
         }
