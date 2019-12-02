@@ -39,7 +39,11 @@ public class PacMan extends Entity {
              * PacMan changes direction if the set direction is opposite his current direction
              * or if he is at the center of the square.
              */
-            if (getDirection() == nextDirection.getInverse() || (dx < 0.02 && dy < 0.02)) {
+            if (getDirection() == nextDirection.getInverse() || (dx < 0.05 && dy < 0.05)) {
+                if (getDirection() != nextDirection.getInverse()) {
+                    setX(Math.floor(getX()) + 0.5);
+                    setY(Math.floor(getY()) + 0.5);
+                }
                 setDirection(nextDirection);
             }
         }
