@@ -45,7 +45,11 @@ test {
 dependencies {
     testImplementation('org.junit.jupiter:junit-jupiter:5.5.2')
     spotbugsPlugins 'com.h3xstream.findsecbugs:findsecbugs-plugin:1.7.1'
-    compile group: 'org.jetbrains', name: 'annotations', version: '18.0.0'
+    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.11'
+    compileOnly 'org.projectlombok:lombok:1.18.10'
+    annotationProcessor 'org.projectlombok:lombok:1.18.10'
+    compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.6'
+    compile 'org.jetbrains:annotations:13.0'
 }
 
 jacocoTestReport {
@@ -73,14 +77,20 @@ jacocoTestCoverageVerification {
     }
 }
 
+pmd {
+    incrementalAnalysis = true
+}
+
+javafx {
+    version = "12.0.2"
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
+}
+
 checkstyle {
     toolVersion "8.25"
     configFile = rootProject.file('config/checkstyle/checkstyle.xml')
 }
 
-pmd {
-    incrementalAnalysis = true
-}
 
 spotbugs {
     sourceSets = [sourceSets.main]
@@ -104,11 +114,6 @@ sourceSets.main {
 tasks.withType(SpotBugsTask) {
     reports.xml.enabled = false
     reports.html.enabled = true
-}
-
-javafx {
-    version = "12.0.2"
-    modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
 
 wrapper {

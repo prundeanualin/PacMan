@@ -62,12 +62,12 @@ public abstract class Entity {
             posY += dt * direction.getDeltaY();
             Square newSquare = getSquare();
             // Check if entity moved squares
-            if (square.equals(newSquare)) {
+            if (!square.equals(newSquare)) {
                 square.moveEntityTo(this, newSquare);
             }
             // Wraparound
             posX = board.getPosX(posX);
-            posY = board.getPosX(posY);
+            posY = board.getPosY(posY);
         }
     }
 

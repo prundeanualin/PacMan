@@ -1,7 +1,6 @@
 package pacman.logic;
 
-import java.util.List;
-
+import database.User;
 import org.jetbrains.annotations.NotNull;
 import pacman.logic.entity.Entity;
 import pacman.logic.level.Level;
@@ -9,6 +8,8 @@ import pacman.logic.level.Level;
 /**
  * Represents a game with multiple levels.
  */
+import java.util.List;
+
 @SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class is not a bean.
 public class Game {
 
@@ -43,6 +44,7 @@ public class Game {
         for (Entity entity : getLevel().getBoard().getEntities()) {
             entity.update(dt);
         }
+        player.updateScore(getLevel().getBoard().computeScore() * 10);
         getLevel().getBoard().removeDeadEntities();
     }
 
@@ -70,4 +72,11 @@ public class Game {
         return levels.get(currentLevel);
     }
 
+    protected int getScore() {
+        return player.getScore();
+    }
+
+    protected void setPlayer(User user) {
+        player.setUsername(user.getUsername());
+    }
 }

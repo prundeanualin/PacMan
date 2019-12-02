@@ -1,9 +1,5 @@
 package pacman.graphics;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Affine;
@@ -15,7 +11,9 @@ import pacman.logic.level.Board;
  * Class for drawing the game board with everything on it.
  *
  * @author Ruben
- */
+ */// entities has access methods (though PMD does not recognize them),
+  // additionally class is not a bean.
+
 @SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class is not a bean.
 public class BoardCanvas extends Canvas {
 
@@ -29,8 +27,8 @@ public class BoardCanvas extends Canvas {
      */
     private Board board;
 
-    private final double scaleX;
-    private final double scaleY;
+    private double scaleX;
+    private double scaleY;
 
     /**
      * Creates a new board canvas with specified dimensions.
@@ -39,22 +37,10 @@ public class BoardCanvas extends Canvas {
      * @param height The height of the canvas in pixels
      */
     public BoardCanvas(Board board, int width, int height) {
-        super(width, height);
 
         this.board = board;
-        this.scaleX = width / (double) board.getWidth();
-        this.scaleY = height / (double) board.getHeight();
-
-        // Starts a render loop
-        final long start = System.nanoTime();
-        AnimationTimer timer = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                long t = now - start;
-                draw(t / 1E9);
-            }
-        };
-        timer.start();
+        scaleX = width / (double) board.getWidth();
+        scaleY = height / (double) board.getHeight();
     }
 
     /**

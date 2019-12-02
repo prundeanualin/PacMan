@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.NotNull;
 import pacman.logic.entity.Entity;
+import pacman.logic.entity.Pellet;
 
 /**
  * Represents a board with a grid of squares and entities.
@@ -92,6 +93,24 @@ public class Board {
      */
     public @NotNull Iterable<Square> getSquares() {
         return () -> squares.iterator();
+    }
+
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
+    public boolean checkLevelWon() {
+        List<Entity> pellets = entities.stream().filter(e -> e instanceof Pellet)
+                .collect(Collectors.toList());
+        // boolean won is a check for having any remaining pellets
+        boolean won = true;
+        for (Entity e: pellets) {
+            won = !e.isAlive();
+        }
+        return won;
+    }
+
+    public int computeScore() {
+        List<Entity> eatenPellets = entities.stream().filter(e -> !e.isAlive()
+                && e instanceof Pellet).collect(Collectors.toList());
+        return eatenPellets.size();
     }
 
     /**
