@@ -25,10 +25,10 @@ public class PacManTest {
         Level level = new LevelFactory().createLevel(board);
         for (Entity entity : board.getEntities()) {
             if (entity instanceof Pellet) {
-                pellet = (Pellet) entity;
+                pellet = entity;
             }
             if (entity instanceof Wall) {
-                wall = (Wall) entity;
+                wall = entity;
             }
         }
         pacMan = level.getPacMan();
@@ -43,8 +43,7 @@ public class PacManTest {
 
     @Test
     public void testCollideWall() {
-        pacMan.setDirection(Direction.RIGHT);
-        pacMan.update(0.2);
+        pacMan.setX(pacMan.getX() + 0.2);
         assertTrue(pacMan.collide(wall));
     }
 
