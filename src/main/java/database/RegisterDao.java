@@ -14,7 +14,8 @@ public class RegisterDao {
      */
     @SuppressWarnings("PMD")
     public boolean checkUserAlreadyExists(User user) {
-        Connection conn = DbConnect.getMyConnection();
+        DbConnect dbConnect = new DbConnect();
+        Connection conn = dbConnect.getMyConnection();
         PreparedStatement statement;
         ResultSet resultSet;
         String query = "SELECT Username FROM Users WHERE Username=?";
@@ -43,7 +44,8 @@ public class RegisterDao {
      */
     @SuppressWarnings("PMD")
     public void addUser(User user) {
-        Connection conn = DbConnect.getMyConnection();
+        DbConnect dbConnect = new DbConnect();
+        Connection conn = dbConnect.getMyConnection();
         PreparedStatement statement;
         String query = "INSERT INTO Users(Username,Password,Score)" + " VALUES(?,?,?)";
         try {

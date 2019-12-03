@@ -16,8 +16,9 @@ public class UserDao {
      */
     @SuppressWarnings("PMD")
     public String getUsernameFromDatabase(User user) {
+        DbConnect dbConnect = new DbConnect();
         String finalUsername = "";
-        Connection conn = DbConnect.getMyConnection();
+        Connection conn = dbConnect.getMyConnection();
         Statement statement;
         ResultSet resultSet;
         String query = "SELECT 'Username' FROM 'Users' WHERE 'Username' =?";
@@ -48,8 +49,9 @@ public class UserDao {
      */
     @SuppressWarnings("PMD")
     public int retrieveScore(User user) {
+        DbConnect dbConnect = new DbConnect();
         int score = 0;
-        Connection conn = DbConnect.getMyConnection();
+        Connection conn = dbConnect.getMyConnection();
         Statement statement;
         ResultSet resultSet;
         String query = "SELECT 'Score' FROM 'Users' WHERE 'Username' =?";
@@ -77,8 +79,9 @@ public class UserDao {
      */
     @SuppressWarnings("PMD")
     public int getUserIdFromDatabase(User user) {
+        DbConnect dbConnect = new DbConnect();
         int id = 0;
-        Connection conn = DbConnect.getMyConnection();
+        Connection conn = dbConnect.getMyConnection();
         Statement statement;
         ResultSet resultSet;
         String query = "SELECT 'Id' FROM 'Users' WHERE 'Username' =?";
@@ -105,7 +108,8 @@ public class UserDao {
      */
     @SuppressWarnings("PMD")
     public void updateUserScore(User user) {
-        Connection conn = DbConnect.getMyConnection();
+        DbConnect dbConnect = new DbConnect();
+        Connection conn = dbConnect.getMyConnection();
         Statement statement;
         String query = "UPDATE 'Users' SET 'Score'=?";
         try {
@@ -129,7 +133,8 @@ public class UserDao {
      */
     @SuppressWarnings("PMD")
     public void updateUserUsername(User user) {
-        Connection conn = DbConnect.getMyConnection();
+        DbConnect dbConnect = new DbConnect();
+        Connection conn = dbConnect.getMyConnection();
         Statement statement;
         String query = "UPDATE 'Users' SET 'Username'=?";
         try {
@@ -153,7 +158,8 @@ public class UserDao {
      */
     @SuppressWarnings("PMD")
     public void updateUserPassword(User user) {
-        Connection conn = DbConnect.getMyConnection();
+        DbConnect dbConnect = new DbConnect();
+        Connection conn = dbConnect.getMyConnection();
         Statement statement;
         String query = "UPDATE 'Users' SET 'Password'=?";
         try {
@@ -169,4 +175,30 @@ public class UserDao {
             System.out.println("Error occurred");
         }
     }
+
+    /**
+     * Method which deletes user.
+     *
+     * @param user as param.
+     */
+    @SuppressWarnings("PMD")
+    public void deleteUser(User user) {
+        DbConnect dbConnect = new DbConnect();
+        Connection conn = dbConnect.getMyConnection();
+        Statement statement;
+        String query = "DELETE FROM Users WHERE Username=?";
+        try {
+            statement = conn.prepareStatement(query);
+            ((PreparedStatement) statement).setString(1, user.getUsername());
+            ((PreparedStatement) statement).executeUpdate();
+            if (((PreparedStatement) statement).executeUpdate() > 0) {
+                JOptionPane.showMessageDialog(null, "Successfully updated", "Database info", 1);
+            }
+            statement.close();
+            conn.close();
+        } catch (Exception e) {
+            System.out.println("Error occurred");
+        }
+    }
+
 }
