@@ -120,6 +120,8 @@ public class MapParser {
             case 'P':
                 square.addEntity(new PacMan(board, square));
                 break;
+            case 'p':
+                square.addEntity(new Pinky(board, square));
             case '.':
                 break;
             default:
