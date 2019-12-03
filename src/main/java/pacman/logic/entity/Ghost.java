@@ -18,7 +18,6 @@ import pacman.logic.level.Square;
 public abstract class Ghost extends Entity {
 
     static PacMan pacMan;
-    private Square target;
     private Square oldSquare;
 
     /**
@@ -47,8 +46,9 @@ public abstract class Ghost extends Entity {
         if (square != oldSquare) { // Update choice when a new square is reached.
             List<Square> options = getOptions();
             if (options.size() > 0) {
-                target = chooseTarget(options);
-                nextDirection = square.directionOf(target);
+                Square target = chooseTarget();
+                Square next= closestNeighbour(target);
+                nextDirection = square.directionOf(next);
             }
             oldSquare = square; // must be called after getOptions, as this information is used.
         }
@@ -77,5 +77,26 @@ public abstract class Ghost extends Entity {
      *
      * @return the square the ghost wants to go towards.
      */
-    abstract Square chooseTarget(List<Square> options);
+    abstract Square chooseTarget();
+
+    private Square closestNeighbour(Square target) {
+        List<Square> options= getOptions();
+        if (options.size() == 0) {
+            throw new IllegalArgumentException("Cannot choose target from empty list of options.");
+        }
+
+        float min = Float.MAX_VALUE;
+        Square next = null;
+
+        for (Square s : options) {
+            int x_dir = Math.abs(target.getX() - s.getX());
+            int y_dir = Math.abs(target.getY() - s.getY());
+            float dist = x_dir + y_dir;
+            if (dist < min) {
+                min = dist;
+                next = s;
+            }
+        }
+        return next;
+    }
 }
