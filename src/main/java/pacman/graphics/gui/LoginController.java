@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -32,7 +33,7 @@ public class LoginController implements Initializable {
     private PasswordField passwordField; //NOPMD it's a gui object, no need to set and get it
 
     @FXML
-    private TextArea usernameTextArea; //NOPMD it's a gui object, no need to set and get it
+    private TextField usernameTextField; //NOPMD it's a gui object, no need to set and get it
 
     @FXML
     private static StackPane parentContainer;
@@ -102,7 +103,7 @@ public class LoginController implements Initializable {
         */
         LoginDao loginDao = new LoginDao();
         User user = new User();
-        user.setUsername(usernameTextArea.getText());
+        user.setUsername(usernameTextField.getText());
         user.setPassword(passwordField.getText());
         if (loginDao.attemptLogin(user)) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/menu.fxml"));
@@ -122,7 +123,7 @@ public class LoginController implements Initializable {
 
             alert.showAndWait();
             */
-            usernameTextArea.setText(null);
+            usernameTextField.setText(null);
             passwordField.setText(null);
         }
 
