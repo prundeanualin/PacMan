@@ -35,10 +35,10 @@ public class GameTest {
         for (Entity entity : game.getLevel().getBoard().getEntities()) {
             entity.setAlive(false);
         }
-        game.setRunning(true);
+        game.setState(GameState.RUNNING);
         game.update(0);
         Iterator<Entity> iterator = game.getLevel().getBoard().getEntities().iterator();
-        game.getLevel().getBoard().getEntities().forEach(System.out::println);
+        iterator.next();
         assertFalse(iterator.hasNext());
     }
 
