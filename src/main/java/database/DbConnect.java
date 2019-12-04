@@ -30,9 +30,4 @@ public class DbConnect {
         }
         return connection;
     }
-
-    public static void main(String[] args) {
-        DbConnect dbConnect = new DbConnect();
-        dbConnect.getMyConnection();
-    }
 }

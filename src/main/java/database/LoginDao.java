@@ -34,9 +34,12 @@ public class LoginDao {
             resultSet = statement.executeQuery();
 
             if (resultSet.next() == false) {
+                /*
                 JOptionPane.showMessageDialog(null,
                         "Incorrect Username Or Password",
                         "Login Failed", 2);
+
+                 */
                 status = false;
             } else {
                 status = true;

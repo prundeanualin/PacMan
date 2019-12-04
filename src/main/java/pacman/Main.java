@@ -21,7 +21,7 @@ public class Main extends Application {
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // Variable definitions necessary
     public void start(Stage stage) throws IOException {
 
-        Parent root = FXMLLoader.load(getClass().getResource("/views/splashScreen.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("views/splashScreen.fxml"));
         Scene scene = new Scene(root);
 
         stage.setScene(scene);

@@ -53,10 +53,12 @@ public class RegisterDao {
             statement.setString(1, user.getUsername());
             statement.setString(2, user.getPassword());
             statement.setInt(3, user.getScore());
-
+            statement.executeUpdate();
+            /*
             if (statement.executeUpdate() > 0) {
                 JOptionPane.showMessageDialog(null, "New User Added");
             }
+            */
             statement.close();
             conn.close();
         } catch (Exception e) {

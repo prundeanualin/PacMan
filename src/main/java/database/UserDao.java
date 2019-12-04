@@ -21,7 +21,7 @@ public class UserDao {
         Connection conn = dbConnect.getMyConnection();
         Statement statement;
         ResultSet resultSet;
-        String query = "SELECT 'Username' FROM 'Users' WHERE 'Username' =?";
+        String query = "SELECT Username FROM Users WHERE Username=?";
         try {
             statement = conn.prepareStatement(query);
             ((PreparedStatement) statement).setString(1, user.getUsername());
@@ -42,6 +42,39 @@ public class UserDao {
     }
 
     /**
+     * Method which retrieves user.
+     *
+     * @param user as param.
+     * @return the desired user password.
+     */
+    @SuppressWarnings("PMD")
+    public String getUserPasswordFromDatabase(User user) {
+        DbConnect dbConnect = new DbConnect();
+        String finalPassword = "";
+        Connection conn = dbConnect.getMyConnection();
+        Statement statement;
+        ResultSet resultSet;
+        String query = "SELECT Password FROM Users WHERE Username=?";
+        try {
+            statement = conn.prepareStatement(query);
+            ((PreparedStatement) statement).setString(1, user.getUsername());
+            resultSet = ((PreparedStatement) statement).executeQuery();
+            if (resultSet.next()) {
+                finalPassword = resultSet.getString("Password");
+            } else {
+                finalPassword = "No user password found";
+            }
+            resultSet.close();
+            statement.close();
+            conn.close();
+        } catch (Exception e) {
+            System.out.println("Error occurred");
+            finalPassword = "Error";
+        }
+        return finalPassword;
+    }
+
+    /**
      * Method which retrieves score.
      *
      * @param user as param.
@@ -54,7 +87,7 @@ public class UserDao {
         Connection conn = dbConnect.getMyConnection();
         Statement statement;
         ResultSet resultSet;
-        String query = "SELECT 'Score' FROM 'Users' WHERE 'Username' =?";
+        String query = "SELECT Score FROM Users WHERE Username=?";
         try {
             statement = conn.prepareStatement(query);
             ((PreparedStatement) statement).setString(1, user.getUsername());
@@ -84,7 +117,7 @@ public class UserDao {
         Connection conn = dbConnect.getMyConnection();
         Statement statement;
         ResultSet resultSet;
-        String query = "SELECT 'Id' FROM 'Users' WHERE 'Username' =?";
+        String query = "SELECT Id FROM Users WHERE Username=?";
         try {
             statement = conn.prepareStatement(query);
             ((PreparedStatement) statement).setString(1, user.getUsername());
@@ -111,14 +144,17 @@ public class UserDao {
         DbConnect dbConnect = new DbConnect();
         Connection conn = dbConnect.getMyConnection();
         Statement statement;
-        String query = "UPDATE 'Users' SET 'Score'=?";
+        String query = "UPDATE Users SET Score=? WHERE Username=?";
         try {
             statement = conn.prepareStatement(query);
             ((PreparedStatement) statement).setInt(1, user.getScore());
+            ((PreparedStatement) statement).setString(2, user.getUsername());
             ((PreparedStatement) statement).executeUpdate();
+            /*
             if (((PreparedStatement) statement).executeUpdate() > 0) {
                 JOptionPane.showMessageDialog(null, "Successfully updated", "Database info", 1);
             }
+             */
             statement.close();
             conn.close();
         } catch (Exception e) {
@@ -136,14 +172,17 @@ public class UserDao {
         DbConnect dbConnect = new DbConnect();
         Connection conn = dbConnect.getMyConnection();
         Statement statement;
-        String query = "UPDATE 'Users' SET 'Username'=?";
+        String query = "UPDATE Users SET Username=? WHERE Password=?";
         try {
             statement = conn.prepareStatement(query);
             ((PreparedStatement) statement).setString(1, user.getUsername());
+            ((PreparedStatement) statement).setString(2, user.getPassword());
             ((PreparedStatement) statement).executeUpdate();
+            /*
             if (((PreparedStatement) statement).executeUpdate() > 0) {
                 JOptionPane.showMessageDialog(null, "Successfully updated", "Database info", 1);
             }
+             */
             statement.close();
             conn.close();
         } catch (Exception e) {
@@ -161,14 +200,17 @@ public class UserDao {
         DbConnect dbConnect = new DbConnect();
         Connection conn = dbConnect.getMyConnection();
         Statement statement;
-        String query = "UPDATE 'Users' SET 'Password'=?";
+        String query = "UPDATE Users SET Password=? WHERE Username=?";
         try {
             statement = conn.prepareStatement(query);
             ((PreparedStatement) statement).setString(1, user.getPassword());
+            ((PreparedStatement) statement).setString(2, user.getUsername());
             ((PreparedStatement) statement).executeUpdate();
+            /*
             if (((PreparedStatement) statement).executeUpdate() > 0) {
                 JOptionPane.showMessageDialog(null, "Successfully updated", "Database info", 1);
             }
+             */
             statement.close();
             conn.close();
         } catch (Exception e) {
@@ -191,9 +233,11 @@ public class UserDao {
             statement = conn.prepareStatement(query);
             ((PreparedStatement) statement).setString(1, user.getUsername());
             ((PreparedStatement) statement).executeUpdate();
+            /*
             if (((PreparedStatement) statement).executeUpdate() > 0) {
                 JOptionPane.showMessageDialog(null, "Successfully updated", "Database info", 1);
             }
+            */
             statement.close();
             conn.close();
         } catch (Exception e) {
