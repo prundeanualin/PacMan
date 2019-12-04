@@ -1,5 +1,6 @@
 package pacman.logic;
 
+@SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class is not a bean.
 public class Player {
 
     private int score; //NOPMD instead of calling set, it seems more

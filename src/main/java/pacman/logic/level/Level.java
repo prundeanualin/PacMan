@@ -33,4 +33,13 @@ public class Level {
     public PacMan getPacMan() {
         return pacMan;
     }
+
+    public Set<Ghost> getGhosts() {
+        return ghosts;
+    }
+
+    public Set<Pellet> getPellets() {
+        return pellets;
+    }
+
 }

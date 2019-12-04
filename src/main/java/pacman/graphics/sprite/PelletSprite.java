@@ -7,8 +7,6 @@ import pacman.logic.entity.Pellet;
 
 /**
  * Sprite for a pellet.
- *
- * @author Ruben
  */
 public class PelletSprite extends Sprite<Pellet> {
 
