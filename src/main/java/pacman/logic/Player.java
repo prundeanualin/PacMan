@@ -1,34 +1,40 @@
 package pacman.logic;
 
+import javafx.beans.Observable;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ObservableIntegerValue;
+import javafx.beans.value.ObservableValue;
+
 @SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class is not a bean.
 public class Player {
 
-    private int score;
     private String username;
-    private int lives = 3;
+    private IntegerProperty score = new SimpleIntegerProperty();
+    private IntegerProperty lives = new SimpleIntegerProperty(3);
 
     public Player() {
 
     }
 
-    public int getLives() {
+    public ObservableIntegerValue getLives() {
         return lives;
     }
 
     public boolean hasLives() {
-        return lives > 0;
+        return lives.get() > 0;
     }
 
     public void loseLife() {
-        lives--;
+        lives.set(lives.get() - 1);
     }
 
-    public int getScore() {
-        return this.score;
+    public ObservableIntegerValue getScore() {
+        return score;
     }
 
     public void updateScore(int score) {
-        this.score += score;
+        this.score.set(this.score.get() + score);
     }
 
     public void setUsername(String nm) {username = nm;}

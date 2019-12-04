@@ -1,4 +1,4 @@
-package pacman.logic;
+package pacman.logic.game;
 
 public enum GameState {
 

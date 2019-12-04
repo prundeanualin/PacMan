@@ -6,7 +6,6 @@ import java.util.Set;
 
 import pacman.graphics.sprite.Sprite;
 import pacman.logic.Direction;
-import pacman.logic.GameController;
 import pacman.logic.level.Board;
 import pacman.logic.level.Square;
 

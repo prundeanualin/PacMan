@@ -1,4 +1,4 @@
-package pacman.logic;
+package pacman.logic.game;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -8,8 +8,10 @@ import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import pacman.logic.Player;
 import pacman.logic.entity.Entity;
-import pacman.logic.entity.Pellet;
+import pacman.logic.game.Game;
+import pacman.logic.game.GameState;
 import pacman.logic.level.Board;
 import pacman.logic.level.Level;
 import pacman.logic.level.LevelFactory;

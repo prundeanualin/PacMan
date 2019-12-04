@@ -1,7 +1,11 @@
-package pacman.logic;
+package pacman.logic.game;
 
 import database.User;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ObservableValue;
 import org.jetbrains.annotations.NotNull;
+import pacman.logic.Player;
 import pacman.logic.entity.Entity;
 import pacman.logic.level.Level;
 
@@ -17,7 +21,7 @@ public class Game {
 
     private List<Level> levels;
     private int currentLevel;
-    private GameState state;
+    private ObjectProperty<GameState> state;
 
     /**
      * Creates a new game.
@@ -29,7 +33,7 @@ public class Game {
         this.player = player;
         this.levels = levels;
         this.currentLevel = 0;
-        this.state = GameState.READY;
+        this.state = new SimpleObjectProperty<>(GameState.READY);
     }
 
     /**
@@ -56,10 +60,10 @@ public class Game {
             getLevel().revivePlayer();
         }
         if (!player.hasLives()) {
-            state = GameState.LOST;
+            state.set(GameState.LOST);
         }
         if (getLevel().levelWon()) {
-            state = GameState.WON;
+            state.set(GameState.WON);
         }
     }
 
@@ -68,7 +72,7 @@ public class Game {
      * @return True iff the game is running
      */
     public boolean isRunning() {
-        return state == GameState.RUNNING;
+        return state.get() == GameState.RUNNING;
     }
 
     /**
@@ -79,20 +83,20 @@ public class Game {
         return levels.get(currentLevel);
     }
 
-    protected int getScore() {
-        return player.getScore();
-    }
-
     protected void setPlayer(User user) {
         player.setUsername(user.getUsername());
     }
 
-    public @NotNull GameState getState() {
+    public @NotNull ObservableValue<GameState> getState() {
         return state;
     }
 
     protected void setState(@NotNull GameState state) {
-        this.state = state;
+        this.state.set(state);
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 
 }

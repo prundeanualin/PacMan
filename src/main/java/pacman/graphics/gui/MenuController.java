@@ -16,8 +16,9 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import pacman.graphics.GameView;
 import pacman.logic.Direction;
-import pacman.logic.GameController;
+import pacman.logic.game.GameController;
 import pacman.logic.entity.PacMan;
 
 import java.io.IOException;
@@ -58,14 +59,15 @@ public class MenuController implements Initializable {
     private void loadGameScreen(ActionEvent event)
             throws IOException {
 
-        VBox root = new VBox();
+//        VBox root = new VBox();
         Stage stage = (Stage)((javafx.scene.Node) event.getSource()).getScene().getWindow();
-        stage.setHeight(850);
-        root.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
-        GameController.getInstance().setUpGUI();
-        GameController.getInstance().setUser(user);
-        root.getChildren().add(GameController.getInstance().getScoreLabel());
-        root.getChildren().add(GameController.getInstance().getCanvas());
+//        stage.setHeight(850);
+//        root.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
+//        GameController.getInstance().setUpGUI();
+//        GameController.getInstance().setUser(user);
+//        root.getChildren().add(GameController.getInstance().getScoreLabel());
+//        root.getChildren().add(GameController.getInstance().getCanvas());
+        GameView root = new GameView(GameController.getInstance().getGame(), 800, 800);
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();

@@ -1,4 +1,4 @@
-package pacman.logic;
+package pacman.logic.game;
 
 import database.User;
 import javafx.animation.AnimationTimer;
@@ -11,11 +11,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import pacman.Main;
 import pacman.graphics.BoardCanvas;
+import pacman.logic.Player;
 import pacman.logic.level.Level;
 import pacman.logic.level.LevelFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Controller for the game, responsible for starting, pausing, updating and stopping the game.
@@ -39,11 +41,9 @@ public class GameController {
         return controller;
     }
 
-    private BoardCanvas canvas;
     private Game game;
     private LevelFactory levelFactory;
     private AnimationTimer timer;
-    private Label labelScore;
     private User user;
 
     private double time;
@@ -98,7 +98,7 @@ public class GameController {
      * Unpauses the game.
      */
     public void unpause() {
-        if (game.getState() != GameState.PAUSED) {
+        if (game.getState().getValue() != GameState.PAUSED) {
             throw new IllegalStateException("Can not unpause a game that is not paused");
         }
         game.setState(GameState.RUNNING);
@@ -112,18 +112,6 @@ public class GameController {
         double dt = t - time;
         time = t;
         game.update(dt);
-        switch (game.getState()) {
-            case WON:
-                labelScore.setText("You Won !!");
-                break;
-            case LOST:
-                labelScore.setText("You Lost :C");
-                break;
-            default:
-                labelScore.setText("Score is: " + game.getScore());
-                break;
-        }
-        canvas.draw(t);
     }
 
     /**
@@ -134,40 +122,10 @@ public class GameController {
         return game;
     }
 
-    public BoardCanvas getCanvas() {
-        return canvas;
-    }
-
-    public Label getScoreLabel() {
-        return labelScore;
-    }
-
-    /**
-     * Sets the label's parameters for displaying score and username.
-     * @param scoreLabel the label on which will be displayed
-     */
-    public void updateLabel(Label scoreLabel) {
-        scoreLabel.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
-        scoreLabel.setFont(new Font(20));
-        scoreLabel.setTextFill(Color.WHEAT);
-        scoreLabel.setTranslateX(Main.width / 3 * 2);
-        scoreLabel.setTranslateY(20);
-        scoreLabel.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
-    }
-
     public void setUser(User user) {
         getInstance().getGame().setPlayer(user);
     }
 
-    public void setUpGUI() {
-        canvas = new BoardCanvas(getGame().getLevel().getBoard()
-                , Main.width, Main.height);
-        canvas.setHeight(Main.height);
-        canvas.setWidth(Main.width);
-        canvas.setTranslateY(20);
-        labelScore = new Label("Score is: ");
-        updateLabel(labelScore);
-    }
 }
 
 
