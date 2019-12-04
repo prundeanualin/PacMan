@@ -17,6 +17,9 @@ public class PacMan extends Entity {
 
     private static final Sprite<PacMan> SPRITE = new PacmanSprite();
 
+    private boolean immune = false;
+    private double immuneTimer = 0.0;
+
     /**
      * Creates a new PacMan.
      *
@@ -33,7 +36,22 @@ public class PacMan extends Entity {
     public void update(double dt) {
         super.update(dt);
         Set<Entity> collisions = checkCollision();
-        // Set every collided pellet to dead
-        collisions.stream().filter(e -> e instanceof Pellet).forEach(e -> e.setAlive(false));
+        if (immune) {
+            immuneTimer -= dt;
+            immune = immuneTimer > 0.0;
+        } else {
+            // Set every collided pellet to dead
+            collisions.stream().filter(e -> e instanceof Pellet).forEach(e -> e.setAlive(false));
+        }
     }
+
+    public boolean isImmune() {
+        return immune;
+    }
+
+    public void enterImmunity() {
+        immune = true;
+        immuneTimer = 2.0;
+    }
+
 }

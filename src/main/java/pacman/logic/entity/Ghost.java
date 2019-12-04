@@ -38,9 +38,8 @@ public abstract class Ghost extends Entity {
 
         // Collided with PacMan
         Set<Entity> collisions = checkCollision();
-        if (collisions.contains(pacMan)) {
+        if (collisions.contains(pacMan) && !pacMan.isImmune()) {
             pacMan.setAlive(false);
-            GameController.getInstance().getGame().setRunning(false);
         }
 
         if (square != oldSquare) { // Update choice when a new square is reached.

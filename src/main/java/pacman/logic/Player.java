@@ -1,12 +1,26 @@
 package pacman.logic;
 
+@SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class is not a bean.
 public class Player {
 
-    private int score; //NOPMD instead of calling set, it seems more logical to have an updateScore method
-    private String username; //NOPMD no need to get it as well
+    private int score;
+    private String username;
+    private int lives = 3;
 
     public Player() {
 
+    }
+
+    public int getLives() {
+        return lives;
+    }
+
+    public boolean hasLives() {
+        return lives > 0;
+    }
+
+    public void loseLife() {
+        lives--;
     }
 
     public int getScore() {

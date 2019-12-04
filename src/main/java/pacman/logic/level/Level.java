@@ -37,16 +37,27 @@ public class Level {
         return pacMan;
     }
 
-    // boolean won is a check for having any remaining pellets
-    public boolean checkLevelWon() {
+    /**
+     * Checks if the level was won.
+     * @return False iff there are pellets left in the level
+     */
+    public boolean levelWon() {
         return pellets.size() == 0;
     }
 
     /**
-     * Checks if the game is lost.
-     * @return whether pacman isnt alive
+     * Checks if PacMan was hit and therefore should lose a life.
+     * @return whether PacMan was hit
      */
-    public boolean checkLevelLost(){
+    public boolean wasPacManHit(){
         return !pacMan.isAlive();
     }
+
+    /**
+     * Revives the player.
+     */
+    public void revivePlayer() {
+        pacMan.setAlive(true);
+    }
+
 }

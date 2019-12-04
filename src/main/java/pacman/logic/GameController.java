@@ -47,7 +47,6 @@ public class GameController {
     private User user;
 
     private double time;
-    private boolean started = false;
 
     /**
      * Creates the game controller. Initializes the game, player and levels.
@@ -65,8 +64,7 @@ public class GameController {
      */
     public void start() {
         startTimer();
-        game.setRunning(true);
-        started = true;
+        game.setState(GameState.RUNNING);
     }
 
     /**
@@ -89,10 +87,10 @@ public class GameController {
      * Pauses the game.
      */
     public void pause() {
-        if (!started) {
-            throw new IllegalStateException("Can not pause a game that is not started");
+        if (!game.isRunning()) {
+            throw new IllegalStateException("Can not pause a game that is not running");
         }
-        game.setRunning(false);
+        game.setState(GameState.PAUSED);
         timer.stop();
     }
 
@@ -100,10 +98,10 @@ public class GameController {
      * Unpauses the game.
      */
     public void unpause() {
-        if (!started) {
-            throw new IllegalStateException("Can not unpause a game that is not started");
+        if (game.getState() != GameState.PAUSED) {
+            throw new IllegalStateException("Can not unpause a game that is not paused");
         }
-        game.setRunning(true);
+        game.setState(GameState.RUNNING);
     }
 
     /**
@@ -114,12 +112,17 @@ public class GameController {
         double dt = t - time;
         time = t;
         game.update(dt);
-        if(getGame().getLevel().checkLevelWon())
-            labelScore.setText("You Won !!");
-        else if(getGame().getLevel().checkLevelLost())
+        switch (game.getState()) {
+            case WON:
+                labelScore.setText("You Won !!");
+                break;
+            case LOST:
                 labelScore.setText("You Lost :C");
-        else
-            labelScore.setText("Score is: " + game.getScore());
+                break;
+            default:
+                labelScore.setText("Score is: " + game.getScore());
+                break;
+        }
         canvas.draw(t);
     }
 

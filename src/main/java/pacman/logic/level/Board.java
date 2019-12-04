@@ -2,6 +2,7 @@ package pacman.logic.level;
 
 import org.jetbrains.annotations.NotNull;
 import pacman.logic.entity.Entity;
+import pacman.logic.entity.PacMan;
 import pacman.logic.entity.Pellet;
 
 import java.util.ArrayList;
@@ -118,7 +119,9 @@ public class Board {
      * Removes the dead entities from the board.
      */
     public void removeDeadEntities() {
-        Set<Entity> dead = entities.stream().filter(e -> !e.isAlive()).collect(Collectors.toSet());
+        // We do not remove PacMan
+        Set<Entity> dead = entities.stream().filter(e -> !e.isAlive() && !(e instanceof PacMan))
+                .collect(Collectors.toSet());
         dead.forEach(this::removeEntity);
     }
 

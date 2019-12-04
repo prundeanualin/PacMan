@@ -17,8 +17,7 @@ public class Game {
 
     private List<Level> levels;
     private int currentLevel;
-
-    private boolean running = false;
+    private GameState state;
 
     /**
      * Creates a new game.
@@ -30,6 +29,7 @@ public class Game {
         this.player = player;
         this.levels = levels;
         this.currentLevel = 0;
+        this.state = GameState.READY;
     }
 
     /**
@@ -38,7 +38,7 @@ public class Game {
      */
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // known bug of pmd with foreach loops.
     public void update(double dt) {
-        if (!running) {
+        if (!isRunning()) {
             return;
         }
         for (Entity entity : getLevel().getBoard().getEntities()) {
@@ -46,6 +46,21 @@ public class Game {
         }
         player.updateScore(getLevel().getBoard().computeScore() * 10);
         getLevel().getBoard().removeDeadEntities();
+        checkWinLoss();
+    }
+
+    private void checkWinLoss() {
+        if (getLevel().wasPacManHit()) {
+            player.loseLife();
+            getLevel().getPacMan().enterImmunity();
+            getLevel().revivePlayer();
+        }
+        if (!player.hasLives()) {
+            state = GameState.LOST;
+        }
+        if (getLevel().levelWon()) {
+            state = GameState.WON;
+        }
     }
 
     /**
@@ -53,15 +68,7 @@ public class Game {
      * @return True iff the game is running
      */
     public boolean isRunning() {
-        return running;
-    }
-
-    /**
-     * Sets the running status of the game.
-     * @param running Whether the game is running or not
-     */
-    public void setRunning(boolean running) {
-        this.running = running;
+        return state == GameState.RUNNING;
     }
 
     /**
@@ -79,4 +86,13 @@ public class Game {
     protected void setPlayer(User user) {
         player.setUsername(user.getUsername());
     }
+
+    public @NotNull GameState getState() {
+        return state;
+    }
+
+    protected void setState(@NotNull GameState state) {
+        this.state = state;
+    }
+
 }
