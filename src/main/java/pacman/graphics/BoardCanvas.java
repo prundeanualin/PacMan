@@ -1,7 +1,5 @@
 package pacman.graphics;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -127,13 +125,13 @@ public class BoardCanvas extends Canvas {
         text.setFont(new Font("Joker", 30));
         root.getChildren().add(text);
         Button btn = new Button("Start Next Level");
-        btn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                setBoard(GameController.getInstance().getGame().getLevel().getBoard());
-                dialog.close();
-                GameController.getInstance().unpause();
-            }
+        btn.setBackground(new Background(new BackgroundFill(Color.YELLOW,
+                CornerRadii.EMPTY, Insets.EMPTY)));
+        btn.setTextFill(Color.BLACK);
+        btn.setOnAction(event -> {
+            setBoard(GameController.getInstance().getGame().getLevel().getBoard());
+            dialog.close();
+            GameController.getInstance().unpause();
         });
         root.getChildren().add(btn);
         Scene scene = new Scene(root);

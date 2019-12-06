@@ -8,9 +8,12 @@ import pacman.logic.level.Level;
 import pacman.logic.level.LevelFactory;
 import pacman.logic.level.MapParser;
 
+@SuppressWarnings("PMD.DataflowAnomalyAnalysis")
+//tests have some variables that fall into the PMD bugs spectrum
 class WallTest {
 
-    private Board board;
+    private Board board; //NOPMD no need for getters/setters,
+    // it's just for keeping track of it while testing
 
     @BeforeEach
     public void init() {
@@ -21,9 +24,10 @@ class WallTest {
     @Test
     public void createWall() {
         Wall wall = null;
-        for(Entity e: board.getEntities()) {
-            if (e instanceof Wall)
-                wall =(Wall) e;
+        for (Entity e: board.getEntities()) {
+            if (e instanceof Wall) {
+                wall = (Wall) e;
+            }
         }
         Assertions.assertNotNull(wall);
     }

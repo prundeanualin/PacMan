@@ -19,6 +19,9 @@ public class EntityTest {
     private PacMan pacMan;
     private Entity entity;
 
+    /**
+     * setting up the testing environment.
+     */
     @BeforeEach
     public void init() {
         Board board = new MapParser("").parseMapFromString("*P");
@@ -35,7 +38,7 @@ public class EntityTest {
     public void testUpdate() {
         entity.setDirection(Direction.RIGHT);
         entity.update(0.1);
-        assertEquals(0.6, entity.getX(), 0.001);
+        assertEquals(0.7, entity.getX(), 0.001);
     }
 
     @Test

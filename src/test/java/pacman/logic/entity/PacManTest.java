@@ -18,6 +18,9 @@ public class PacManTest {
     private Entity pellet;
     private Entity wall;
 
+    /**
+     * setting up the testing environment.
+     */
     @BeforeEach
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // known bug of pmd with foreach loops.
     public void init() {
@@ -37,7 +40,7 @@ public class PacManTest {
     @Test
     public void testCollidePellet() {
         pacMan.setDirection(Direction.LEFT);
-        pacMan.update(1);
+        pacMan.update(0.5);
         assertTrue(pacMan.collide(pellet));
     }
 

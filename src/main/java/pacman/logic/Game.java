@@ -69,7 +69,7 @@ public class Game {
     /**
      * Increases the level for the player who just won the last level.
      */
-    public void nextLevel() {
+    public void advanceLevel() {
         currentLevel += 1;
     }
 

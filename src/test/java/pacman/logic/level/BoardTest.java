@@ -1,6 +1,9 @@
 package pacman.logic.level;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.stream.StreamSupport;
 
@@ -10,11 +13,15 @@ import pacman.logic.entity.Entity;
 import pacman.logic.entity.PacMan;
 import pacman.logic.entity.Pellet;
 
+@SuppressWarnings("PMD.DataflowAnomalyAnalysis")
+//tests have some variables that fall into the PMD bugs spectrum
 class BoardTest {
 
-    Board board;
-    Level level;
-    Entity entity;
+    Board board; //NOPMD
+    Level level; //NOPMD
+    Entity entity; //NOPMD
+    //no need for getters/setters,
+    // it's just for keeping track of it while testing
 
     @BeforeEach
     public void init() {
@@ -38,35 +45,43 @@ class BoardTest {
 
     @Test
     void removeEntity() {
-        for(Entity e: board.getEntities()) {
-            if(e instanceof PacMan)
+        for (Entity e: board.getEntities()) {
+            if (e instanceof PacMan) {
                 entity = e;
+            }
         }
         Square sq = entity.getSquare();
         board.removeEntity(entity);
-        assertEquals(0, StreamSupport.stream(sq.getEntities().spliterator(), false).count());
-        assertTrue(StreamSupport.stream(board.getEntities().spliterator(), false).noneMatch(a -> a instanceof PacMan));
+        assertEquals(0, StreamSupport.stream(sq.getEntities().spliterator(),
+                false).count());
+        assertTrue(StreamSupport.stream(board.getEntities().spliterator(),
+                false).noneMatch(a -> a instanceof PacMan));
     }
 
     @Test
     void getEntities() {
-        assertEquals(4, StreamSupport.stream(board.getEntities().spliterator(), false).count());
+        assertEquals(4, StreamSupport.stream(board.getEntities().spliterator(),
+                false).count());
     }
 
     @Test
     void getSquares() {
-        assertEquals(5, StreamSupport.stream(board.getSquares().spliterator(), false).count());
+        assertEquals(5, StreamSupport.stream(board.getSquares().spliterator(),
+                false).count());
     }
 
     @Test
     void checkLevelWon() {
-        for(Entity e: board.getEntities()) {
-            if(e instanceof Pellet)
+        for (Entity e: board.getEntities()) {
+            if (e instanceof Pellet) {
                 e.setAlive(false);
+            }
         }
-        assertTrue(StreamSupport.stream(board.getEntities().spliterator(), false).noneMatch(e -> e instanceof Pellet && e.isAlive()));
+        assertTrue(StreamSupport.stream(board.getEntities().spliterator(), false)
+                .noneMatch(e -> e instanceof Pellet && e.isAlive()));
         board.addSquare(new Square(new Pellet(board, 0, 0)));
-        assertFalse(StreamSupport.stream(board.getEntities().spliterator(), false).noneMatch(e -> e instanceof Pellet && e.isAlive()));
+        assertFalse(StreamSupport.stream(board.getEntities().spliterator(), false)
+                .noneMatch(e -> e instanceof Pellet && e.isAlive()));
     }
 
     @Test
@@ -81,8 +96,10 @@ class BoardTest {
     void removeDeadEntities() {
         Pellet p = new Pellet(board, 0, 0);
         board.addSquare(new Square(p));
-        assertTrue(StreamSupport.stream(board.getEntities().spliterator(), false).anyMatch(e -> e instanceof Pellet));
+        assertTrue(StreamSupport.stream(board.getEntities().spliterator(),
+                false).anyMatch(e -> e instanceof Pellet));
         board.removeEntity(p);
-        assertFalse(StreamSupport.stream(board.getEntities().spliterator(), false).anyMatch(e -> e instanceof Pellet));
+        assertFalse(StreamSupport.stream(board.getEntities().spliterator(),
+                false).anyMatch(e -> e instanceof Pellet));
     }
 }

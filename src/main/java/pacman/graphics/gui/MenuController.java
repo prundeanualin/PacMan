@@ -82,6 +82,7 @@ public class MenuController implements Initializable {
     /**
      * starting the game window and timers.
      */
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     public void startGame() {
         GameController.getInstance().start();
 
@@ -123,5 +124,21 @@ public class MenuController implements Initializable {
 
     public static void setUser(User user) {
         MenuController.user = user;
+    }
+
+    public Scene getScene() {
+        return scene;
+    }
+
+    public void setScene(Scene scene) {
+        this.scene = scene;
+    }
+
+    public Stage getStage() {
+        return stage;
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 }

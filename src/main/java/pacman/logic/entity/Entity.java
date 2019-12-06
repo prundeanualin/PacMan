@@ -57,7 +57,7 @@ public abstract class Entity {
     public void update(double dtSmall) {
         Square square = getSquare(); // NOPMD variable is used
         // If no collision with solid entities and entity is moving
-        double dt = 2 * dtSmall;
+        double dt = 2 * dtSmall; //NOPMD needed to change the speed of the entities' movement
         if (direction != null) {
             posX += dt * direction.getDeltaX();
             posY += dt * direction.getDeltaY();
