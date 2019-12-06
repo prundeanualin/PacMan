@@ -23,15 +23,9 @@ public class Game {
     private boolean running = false;
 
     /**
-<<<<<<< HEAD
-     * Creating a game with its dependencies.
-     * @param player the player created from user details
-     * @param levels the levels he is able to play
-=======
      * Creates a new game.
      * @param player The player who plays the game
      * @param levels The levels in the game
->>>>>>> c0f09407c89fca96c5e2effb10e415bc0bc0b601
      */
     public Game(Player player, List<Level> levels) {
         assert !levels.isEmpty();
@@ -41,13 +35,8 @@ public class Game {
     }
 
     /**
-<<<<<<< HEAD
-     * Creating animations with regular time intervals updates around 60 fps.
-     * @param dt the time interval
-=======
      * Updates the game.
      * @param dt The time that has passed
->>>>>>> c0f09407c89fca96c5e2effb10e415bc0bc0b601
      */
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // known bug of pmd with foreach loops.
     public void update(double dt) {
@@ -75,6 +64,13 @@ public class Game {
      */
     public void setRunning(boolean running) {
         this.running = running;
+    }
+
+    /**
+     * Increases the level for the player who just won the last level.
+     */
+    public void nextLevel() {
+        currentLevel += 1;
     }
 
     /**

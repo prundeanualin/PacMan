@@ -58,7 +58,9 @@ public class GameController {
         List<Level> levels = new ArrayList<>();
         this.levelFactory = new LevelFactory();
         levels.add(levelFactory.createLevel("level_1"));
-        this.game = new Game(new Player(), levels); //TODO
+        levels.add(levelFactory.createLevel("level_2"));
+        //levels.add(levelFactory.createLevel("level_3"));
+        this.game = new Game(new Player(), levels);
         this.time = 0.0;
     }
 
@@ -106,6 +108,7 @@ public class GameController {
             throw new IllegalStateException("Can not unpause a game that is not started");
         }
         game.setRunning(true);
+        timer.start();
     }
 
     /**
@@ -117,11 +120,21 @@ public class GameController {
         time = t;
         game.update(dt);
         if (getGame().getLevel().getBoard().checkLevelWon()) {
-            labelScore.setText("You Won !!");
+            pause();
+            nextLevel();
         } else {
             labelScore.setText("Score is: " + game.getScore());
         }
         canvas.draw(t);
+    }
+
+    /**
+     * creates a new level for the user who just won the current one.
+     */
+    public void nextLevel() {
+        getGame().nextLevel();
+//        unpause();
+        getCanvas().levelWon();
     }
 
     /**
@@ -171,6 +184,7 @@ public class GameController {
         labelScore = new Label("Score is: ");
         updateLabel(labelScore);
     }
+
 }
 
 

@@ -29,6 +29,8 @@ import pacman.logic.entity.PacMan;
 public class MenuController implements Initializable {
 
     public static User user;
+    private Scene scene;
+    private Stage stage;
 
     @FXML
     private Label userDetails; //NOPMD no need for having set/get for thi gui element
@@ -62,7 +64,7 @@ public class MenuController implements Initializable {
             throws IOException {
 
         VBox root = new VBox();
-        Stage stage = (Stage)((javafx.scene.Node) event.getSource()).getScene().getWindow();
+        stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
         stage.setHeight(850);
         root.setBackground(new Background(new BackgroundFill(Color.BLACK,
                 CornerRadii.EMPTY, Insets.EMPTY)));
@@ -70,9 +72,17 @@ public class MenuController implements Initializable {
         GameController.getInstance().setUser(user);
         root.getChildren().add(GameController.getInstance().getScoreLabel());
         root.getChildren().add(GameController.getInstance().getCanvas());
-        Scene scene = new Scene(root);
+        scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+        startGame();
+
+    }
+
+    /**
+     * starting the game window and timers.
+     */
+    public void startGame() {
         GameController.getInstance().start();
 
         scene.setOnKeyPressed(e -> {

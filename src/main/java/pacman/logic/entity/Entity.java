@@ -54,9 +54,10 @@ public abstract class Entity {
     /**
      * Updates the entity's position.
      */
-    public void update(double dt) {
+    public void update(double dtSmall) {
         Square square = getSquare(); // NOPMD variable is used
         // If no collision with solid entities and entity is moving
+        double dt = 2 * dtSmall;
         if (direction != null) {
             posX += dt * direction.getDeltaX();
             posY += dt * direction.getDeltaY();
@@ -77,14 +78,8 @@ public abstract class Entity {
     }
 
     /**
-<<<<<<< HEAD
-     * Checks to see if the current entity collides with any other
-     * on the current square or on the next one he will be onto next frame.
-     * @return
-=======
      * Checks for collisions with the entities around this entity.
      * @return The set of entities this entity collides with
->>>>>>> c0f09407c89fca96c5e2effb10e415bc0bc0b601
      */
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // known bug of pmd with foreach loops.
     public Set<Entity> checkCollision() {
