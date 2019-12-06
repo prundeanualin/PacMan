@@ -123,7 +123,7 @@ public class GameController {
             pause();
             nextLevel();
         } else {
-            labelScore.setText("Score is: " + game.getScore());
+            labelScore.setText("Score : " + game.getScore());
         }
         canvas.draw(t);
     }
@@ -133,7 +133,6 @@ public class GameController {
      */
     public void nextLevel() {
         getGame().advanceLevel();
-//        unpause();
         getCanvas().levelWon();
     }
 
@@ -179,8 +178,8 @@ public class GameController {
         canvas = new BoardCanvas(getGame().getLevel().getBoard());
         canvas.setHeight(Main.height - 50);
         canvas.setWidth(Main.width);
-        canvas.setTranslateY(50);
-        labelScore = new Label("Score is: ");
+        canvas.setTranslateY(15);
+        labelScore = new Label("Score : ");
         updateLabel(labelScore);
     }
 

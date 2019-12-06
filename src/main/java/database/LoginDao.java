@@ -1,6 +1,7 @@
 package database;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
@@ -20,9 +21,9 @@ public class LoginDao {
      */
     @SuppressWarnings("PMD")
     public boolean attemptLogin(User user) {
-
+        DbConnect dbConnect = new DbConnect();
         boolean status = false;
-        Connection conn = DbConnect.getMyConnection();
+        Connection conn = dbConnect.getMyConnection();
         PreparedStatement statement;
         ResultSet resultSet;
         String query = "SELECT Username,Password FROM Users WHERE Username=? AND Password=?";
@@ -33,9 +34,12 @@ public class LoginDao {
             resultSet = statement.executeQuery();
 
             if (resultSet.next() == false) {
+                /*
                 JOptionPane.showMessageDialog(null,
                         "Incorrect Username Or Password",
                         "Login Failed", 2);
+
+                 */
                 status = false;
             } else {
                 status = true;

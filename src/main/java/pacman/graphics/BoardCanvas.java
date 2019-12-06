@@ -137,6 +137,11 @@ public class BoardCanvas extends Canvas {
         dialog.show();
     }
 
+    /**
+     * After a new level is created, sets that level's board to
+     * canvas' board.
+     * @param board the new board created for the next level
+     */
     public void setBoard(Board board) {
         this.board = board;
         scaleX = Main.width / (double) board.getWidth();
