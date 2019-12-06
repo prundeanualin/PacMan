@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import org.jetbrains.annotations.NotNull;
+import pacman.Main;
 import pacman.logic.GameController;
 import pacman.logic.entity.Entity;
 import pacman.logic.level.Board;
@@ -46,15 +47,12 @@ public class BoardCanvas extends Canvas {
 
     /**
      * Creates a new board canvas with specified dimensions.
-     *
-     * @param width The width of the canvas in pixels
-     * @param height The height of the canvas in pixels
      */
-    public BoardCanvas(Board board, int width, int height) {
+    public BoardCanvas(Board board) {
 
         this.board = board;
-        scaleX = width / (double) board.getWidth();
-        scaleY = height / (double) board.getHeight();
+        scaleX = Main.width / (double) board.getWidth();
+        scaleY = Main.height / (double) board.getHeight();
     }
 
     /**
@@ -141,5 +139,7 @@ public class BoardCanvas extends Canvas {
 
     public void setBoard(Board board) {
         this.board = board;
+        scaleX = Main.width / (double) board.getWidth();
+        scaleY = Main.height / (double) board.getHeight();
     }
 }

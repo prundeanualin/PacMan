@@ -176,11 +176,10 @@ public class GameController {
      * Decoupling gui from logical structure.
      */
     public void setUpGui() {
-        canvas = new BoardCanvas(getGame().getLevel().getBoard(),
-                Main.width, Main.height);
-        canvas.setHeight(Main.height);
+        canvas = new BoardCanvas(getGame().getLevel().getBoard());
+        canvas.setHeight(Main.height - 50);
         canvas.setWidth(Main.width);
-        canvas.setTranslateY(20);
+        canvas.setTranslateY(50);
         labelScore = new Label("Score is: ");
         updateLabel(labelScore);
     }
