@@ -11,7 +11,7 @@
    <children>
       <ImageView fitHeight="800.0" fitWidth="801.0" nodeOrientation="INHERIT" pickOnBounds="true">
          <image>
-            <Image url="@../../../../../background_final.jpg" />
+            <Image url="@../background_final.jpg" />
          </image>
          <effect>
             <DropShadow />

@@ -121,7 +121,11 @@ public class GameController {
         game.update(dt);
         if (getGame().getLevel().getBoard().checkLevelWon()) {
             pause();
-            nextLevel();
+            if (getGame().won(1)) {
+                getCanvas().createWindow("!GAME WON!", "Go to Main Menu", 20, true);
+            } else {
+                nextLevel();
+            }
         } else {
             labelScore.setText("Score : " + game.getScore());
         }
@@ -133,7 +137,7 @@ public class GameController {
      */
     public void nextLevel() {
         getGame().advanceLevel();
-        getCanvas().levelWon();
+        getCanvas().createWindow("LEVEL WON !", "Start Next Level", 30, false);
     }
 
     /**

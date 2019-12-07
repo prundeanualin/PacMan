@@ -88,4 +88,9 @@ public class Game {
     protected void setPlayer(User user) {
         player.setUsername(user.getUsername());
     }
+
+    protected boolean won(int lvlMax) {
+        return currentLevel == lvlMax;
+    }
+
 }

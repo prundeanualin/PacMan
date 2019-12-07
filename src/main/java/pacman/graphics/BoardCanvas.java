@@ -1,6 +1,10 @@
 package pacman.graphics;
 
+import java.io.IOException;
+
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
@@ -109,32 +113,44 @@ public class BoardCanvas extends Canvas {
 
     /**
      * Displaying a dialog window for announcing that the level is won
-     * and waiting to start the next level.
+     * and waiting to start the next level/ game is won and button
+     * that sends user back to main menu.
      */
-    public void levelWon() {
-        Stage dialog = new Stage();
-        dialog.initModality(Modality.APPLICATION_MODAL);
-        dialog.initStyle(StageStyle.UNDECORATED);
+    public void createWindow(String msg1, String msg2, int size, boolean won) {
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.UNDECORATED);
         VBox root = new VBox(70);
         root.setBackground(new Background(new BackgroundFill(Color.BLACK,
                 CornerRadii.EMPTY, Insets.EMPTY)));
-        Text text = new Text("LEVEL WON !!");
+        Text text = new Text(msg1);
         text.setFill(Color.WHEAT);
-        text.setFont(new Font("Joker", 30));
+        text.setFont(new Font("Joker", size));
         root.getChildren().add(text);
-        Button btn = new Button("Start Next Level");
+        Button btn = new Button(msg2);
         btn.setBackground(new Background(new BackgroundFill(Color.YELLOW,
                 CornerRadii.EMPTY, Insets.EMPTY)));
         btn.setTextFill(Color.BLACK);
         btn.setOnAction(event -> {
-            setBoard(GameController.getInstance().getGame().getLevel().getBoard());
-            dialog.close();
-            GameController.getInstance().unpause();
+            if (won) {
+                try {
+                    Parent roots = FXMLLoader.load(getClass().getResource("/views/menu.fxml"));
+                    Scene sc = new Scene(roots);
+                    stage.setScene(sc);
+                    stage.show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                setBoard(GameController.getInstance().getGame().getLevel().getBoard());
+                stage.close();
+                GameController.getInstance().unpause();
+            }
         });
         root.getChildren().add(btn);
         Scene scene = new Scene(root);
-        dialog.setScene(scene);
-        dialog.show();
+        stage.setScene(scene);
+        stage.show();
     }
 
     /**
