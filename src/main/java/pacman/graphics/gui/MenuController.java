@@ -20,8 +20,11 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import pacman.Main;
+import pacman.graphics.BoardCanvas;
 import pacman.logic.Direction;
 import pacman.logic.GameController;
 import pacman.logic.entity.PacMan;
@@ -68,7 +71,7 @@ public class MenuController implements Initializable {
         stage.setHeight(850);
         root.setBackground(new Background(new BackgroundFill(Color.BLACK,
                 CornerRadii.EMPTY, Insets.EMPTY)));
-        GameController.getInstance().setUpGui();
+        prepareGuiGame();
         GameController.getInstance().setUser(user);
         root.getChildren().add(GameController.getInstance().getScoreLabel());
         root.getChildren().add(GameController.getInstance().getCanvas());
@@ -140,5 +143,34 @@ public class MenuController implements Initializable {
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    /**
+     * Decoupling gui from logical structure.
+     */
+    private void prepareGuiGame() {
+        BoardCanvas canvas = new BoardCanvas(GameController.getInstance()
+                .getGame().getLevel().getBoard());
+        canvas.setHeight(Main.height - 50);
+        canvas.setWidth(Main.width);
+        canvas.setTranslateY(15);
+        Label labelScore = new Label("Score : ");
+        updateLabel(labelScore);
+        GameController.getInstance().setUpGui(canvas, labelScore);
+    }
+
+    /**
+     * Sets the label's parameters for displaying score and username.
+     * @param scoreLabel the label on which will be displayed
+     */
+    private void updateLabel(Label scoreLabel) {
+        scoreLabel.setBackground(new Background(new BackgroundFill(Color.BLACK,
+                CornerRadii.EMPTY, Insets.EMPTY)));
+        scoreLabel.setFont(new Font(20));
+        scoreLabel.setTextFill(Color.WHEAT);
+        scoreLabel.setTranslateX(Main.width / 3 * 2);
+        scoreLabel.setTranslateY(20);
+        scoreLabel.setBackground(new Background(new BackgroundFill(Color.BLACK,
+                CornerRadii.EMPTY, Insets.EMPTY)));
     }
 }
