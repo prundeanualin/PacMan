@@ -24,7 +24,7 @@ public class PacMan extends Entity {
      * Creates a new PacMan.
      *
      * @param board  The board PacMan is on
-     * @param square The square pacman is on
+     * @param square The square PacMan is on
      */
     public PacMan(@NotNull Board board, Square square) {
         super(board, square, SPRITE);

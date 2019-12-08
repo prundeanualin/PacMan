@@ -1,5 +1,6 @@
 package pacman.logic.game;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.util.ArrayList;
@@ -42,6 +43,17 @@ public class GameTest {
         Iterator<Entity> iterator = game.getLevel().getBoard().getEntities().iterator();
         iterator.next();
         assertFalse(iterator.hasNext());
+    }
+
+    @Test
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
+    public void testLoss() {
+        game.setState(GameState.RUNNING);
+        game.getPlayer().loseLife();
+        game.getPlayer().loseLife();
+        game.getPlayer().loseLife();
+        game.update(0);
+        assertEquals(GameState.LOST, game.getState().getValue());
     }
 
 }
