@@ -51,6 +51,7 @@ public class GameControllerTest {
         assertThrows(IllegalStateException.class, () -> GameController.getInstance().pause());
     }
 
+
     @Test
     @Order(3)
     public void testUnpauseNotStarted() {
