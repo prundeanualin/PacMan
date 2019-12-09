@@ -8,6 +8,9 @@ import pacman.graphics.sprite.Sprite;
 import pacman.logic.Direction;
 import pacman.logic.level.Board;
 
+/**
+ * Represents the PacMan entity on the board.
+ */
 @SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class is not a bean.
 public class PacMan extends Entity {
 
@@ -15,6 +18,12 @@ public class PacMan extends Entity {
 
     private Direction nextDirection = null;
 
+    /**
+     * Creates a new PacMan.
+     * @param board The board PacMan is on
+     * @param x PacMan's x coordinate
+     * @param y PacMan's y coordinate
+     */
     public PacMan(@NotNull Board board, double x, double y) {
         super(board, x, y, SPRITE);
     }
@@ -23,16 +32,30 @@ public class PacMan extends Entity {
     public void update(double dt) {
         super.update(dt);
         if (nextDirection != null && nextDirection != getDirection()) {
-            double dx = Math.abs(getX() - (int)getX() - 0.5);
-            double dy = Math.abs(getY() - (int)getY() - 0.5);
-            if (getDirection() == nextDirection.getInverse() || (dx < 0.02 && dy < 0.02)) {
+            // Get distance to center of square
+            double dx = Math.abs(getX() - Math.floor(getX()) - 0.5);
+            double dy = Math.abs(getY() - Math.floor(getY()) - 0.5);
+            /*
+             * PacMan changes direction if the set direction is opposite his current direction
+             * or if he is at the center of the square.
+             */
+            if (getDirection() == nextDirection.getInverse() || (dx < 0.05 && dy < 0.05)) {
+                if (getDirection() != nextDirection.getInverse()) {
+                    setX(Math.floor(getX()) + 0.5);
+                    setY(Math.floor(getY()) + 0.5);
+                }
                 setDirection(nextDirection);
             }
         }
         Set<Entity> collisions = checkCollision();
+        // Set every collided pellet to dead
         collisions.stream().filter(e -> e instanceof Pellet).forEach(e -> e.setAlive(false));
     }
 
+    /**
+     * Sets the direction PacMan will go in at the next intersection.
+     * @param nextDirection The next direction
+     */
     public void setNextDirection(Direction nextDirection) {
         this.nextDirection = nextDirection;
     }

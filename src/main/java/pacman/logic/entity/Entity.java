@@ -12,8 +12,6 @@ import pacman.logic.level.Square;
 
 /**
  * Represents an entity with a position, velocity and a sprite.
- *
- * @author Ruben
  */
 @SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class is not a bean.
 public abstract class Entity {
@@ -56,28 +54,33 @@ public abstract class Entity {
     /**
      * Updates the entity's position.
      */
-    public void update(double dt) {
-        Square square = board.getSquare((int)posX, (int)posY); // NOPMD variable is used
-        if (checkCollision().stream().noneMatch(Entity::isSolid) && direction != null) {
-            posX += 2 * dt * direction.getDeltaX();
-            posY += 2 * dt * direction.getDeltaY();
-            Square newSquare = board.getSquare((int)posX, (int)posY);
+    public void update(double dtSmall) {
+        Square square = getSquare(); // NOPMD variable is used
+        // If no collision with solid entities and entity is moving
+        double dt = 2 * dtSmall; //NOPMD needed to change the speed of the entities' movement
+        if (direction != null) {
+            posX += dt * direction.getDeltaX();
+            posY += dt * direction.getDeltaY();
+            if (checkCollision().stream().anyMatch(Entity::isSolid)) {
+                posX -= dt * direction.getDeltaX();
+                posY -= dt * direction.getDeltaY();
+                return;
+            }
+            Square newSquare = getSquare();
+            // Check if entity moved squares
             if (!square.equals(newSquare)) {
                 square.moveEntityTo(this, newSquare);
             }
-            if (posX < 0) {
-                posX += board.getWidth();
-            } else if (posX >= board.getWidth()) {
-                posX -= board.getWidth();
-            }
-            if (posY < 0) {
-                posY += board.getHeight();
-            } else if (posY >= board.getHeight()) {
-                posY -= board.getHeight();
-            }
+            // Wraparound
+            posX = board.getPosX(posX);
+            posY = board.getPosY(posY);
         }
     }
 
+    /**
+     * Checks for collisions with the entities around this entity.
+     * @return The set of entities this entity collides with
+     */
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // known bug of pmd with foreach loops.
     public Set<Entity> checkCollision() {
         Set<Entity> collisions = new HashSet<>();
@@ -129,10 +132,18 @@ public abstract class Entity {
         this.posY = y;
     }
 
+    /**
+     * Gets the direction this entity is moving in.
+     * @return The direction, null if entity has no direction
+     */
     public @Nullable Direction getDirection() {
         return direction;
     }
 
+    /**
+     * Sets the direction of this entity.
+     * @param direction The new direction or null if no direction
+     */
     public void setDirection(@Nullable Direction direction) {
         this.direction = direction;
     }
@@ -145,18 +156,35 @@ public abstract class Entity {
         return sprite;
     }
 
+    /**
+     * Gets whether this entity is solid an cannot be passed though.
+     * @return Whether this entity is solid
+     */
     public boolean isSolid() {
         return solid;
     }
 
+    /**
+     * Sets the solidity of this entity.
+     * @param solid Whether the entity is solid or not
+     */
     public void setSolid(boolean solid) {
         this.solid = solid;
     }
 
+    /**
+     * Gets the board this entity is on.
+     * @return The board
+     */
     public Board getBoard() {
         return board;
     }
 
+    /**
+     * Gets the absolute distance to the specified position.
+     * @param x The x position
+     * @return The distance to the position
+     */
     protected double distanceX(double x) {
         double dx = Math.abs(posX - x);
         if (2 * dx > board.getWidth()) {
@@ -165,6 +193,11 @@ public abstract class Entity {
         return dx;
     }
 
+    /**
+     * Gets the absolute distance to the specified position.
+     * @param y The y position
+     * @return The distance to the position
+     */
     protected double distanceY(double y) {
         double dy = Math.abs(posY - y);
         if (2 * dy > board.getHeight()) {
@@ -173,14 +206,26 @@ public abstract class Entity {
         return dy;
     }
 
+    /**
+     * Gets whether the entity is alive.
+     * @return The alive status of this entity
+     */
     public boolean isAlive() {
         return alive;
     }
 
+    /**
+     * Sets the alive status of this entity.
+     * @param alive The new alive status
+     */
     public void setAlive(boolean alive) {
         this.alive = alive;
     }
 
+    /**
+     * Gets the square this entity is on.
+     * @return The current square
+     */
     public @NotNull Square getSquare() {
         return board.getSquare((int)posX, (int)posY);
     }
