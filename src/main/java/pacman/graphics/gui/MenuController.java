@@ -71,7 +71,9 @@ public class MenuController implements Initializable {
         stage.setHeight(850);
         root.setBackground(new Background(new BackgroundFill(Color.BLACK,
                 CornerRadii.EMPTY, Insets.EMPTY)));
+
         prepareGuiGame();
+
         GameController.getInstance().setUser(user);
         root.getChildren().add(GameController.getInstance().getScoreLabel());
         root.getChildren().add(GameController.getInstance().getCanvas());

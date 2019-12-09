@@ -13,6 +13,8 @@ public class Main extends Application {
     public static final int width = 800;
     public static final int height = 800;
 
+    public static Stage stage;
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -21,11 +23,11 @@ public class Main extends Application {
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // Variable definitions necessary
     public void start(Stage stage) throws IOException {
 
-        Parent root = FXMLLoader.load(getClass().getResource("/views/splashScreen.fxml"));
-        Scene scene = new Scene(root);
-
         stage.setHeight(Main.height);
         stage.setWidth(Main.width);
+        Main.stage = stage;
+        Parent root = FXMLLoader.load(getClass().getResource("/views/splashScreen.fxml"));
+        Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
 
