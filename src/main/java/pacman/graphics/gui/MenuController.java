@@ -53,7 +53,7 @@ public class MenuController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
     }
 
-    @SuppressWarnings("PMD.DataflowAnomalyAnalysis") //known bug of pmd when using variable declaration
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis") //known bug of pmd when// using variable declaration
     @FXML
     private void loadGameScreen(ActionEvent event)
             throws IOException {
@@ -61,7 +61,8 @@ public class MenuController implements Initializable {
         VBox root = new VBox();
         Stage stage = (Stage)((javafx.scene.Node) event.getSource()).getScene().getWindow();
         stage.setHeight(850);
-        root.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
+        root.setBackground(new Background(new BackgroundFill(Color.BLACK,
+                CornerRadii.EMPTY, Insets.EMPTY)));
         GameController.getInstance().setUpGUI();
         GameController.getInstance().setUser(user);
         root.getChildren().add(GameController.getInstance().getScoreLabel());
@@ -93,6 +94,10 @@ public class MenuController implements Initializable {
 
     }
 
+    /**
+     * method to set a user's profile with their username and password.
+     * @param us The current user (player).
+     */
     public void setProfileDetails(User us) {
         user = us;
         userDetails.setText("User: " + user.getUsername()
