@@ -64,6 +64,10 @@ public class Board {
         squares.add(square);
     }
 
+    public void addEntity(@NotNull Entity entity){
+        entities.add(entity);
+    }
+
     /**
      * Removes an entity from the board.
      * @param entity The entity to remove

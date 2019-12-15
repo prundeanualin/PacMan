@@ -36,9 +36,9 @@ public class EntityTest {
 
     @Test
     public void testUpdate() {
-        entity.setDirection(Direction.RIGHT);
-        entity.update(0.1);
-        assertEquals(0.7, entity.getX(), 0.001);
+        pacMan.setDirection(Direction.RIGHT);
+        pacMan.update(0.1);
+        assertEquals(1.7, pacMan.getX(), 0.001);
     }
 
     @Test

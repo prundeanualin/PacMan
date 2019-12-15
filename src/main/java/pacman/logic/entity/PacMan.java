@@ -13,7 +13,7 @@ import pacman.logic.level.Square;
  * Represents the PacMan entity on the board.
  */
 @SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class is not a bean.
-public class PacMan extends Entity {
+public class PacMan extends MovingEntity {
 
     private static final Sprite<PacMan> SPRITE = new PacmanSprite();
 

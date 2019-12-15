@@ -15,7 +15,7 @@ import pacman.logic.level.Square;
  * Represents a ghost.
  */
 @SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class not a Bean.
-public abstract class Ghost extends Entity {
+public abstract class Ghost extends MovingEntity {
 
     static PacMan pacMan;
     private Square oldSquare;

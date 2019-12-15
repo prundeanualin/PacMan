@@ -15,7 +15,8 @@ public class Wall extends Entity {
 
     /**
      * Creates a wall.
-     * @param board The board the wall is on
+     *
+     * @param board  The board the wall is on
      * @param square The square the wall is on
      */
     public Wall(@NotNull Board board, Square square) {
@@ -23,4 +24,7 @@ public class Wall extends Entity {
         setSolid(true);
     }
 
+    @Override
+    public void update(double dtSmall) {
+    }
 }

@@ -95,7 +95,7 @@ public class Square {
                 x == Direction.RIGHT.getX());
         assert (y == Direction.DOWN.getY() || y == Direction.RIGHT.getY() ||
                 y == Direction.UP.getY());
-        
+
         return Direction.getDirection(x, y);
     }
 
@@ -115,8 +115,8 @@ public class Square {
      * @param newSquare The square to move the entity to
      */
     public void moveEntity(@NotNull Entity entity, @NotNull Square newSquare) {
-        this.entities.remove(entity);
-        newSquare.entities.add(entity);
+        this.removeEntity(entity);
+        newSquare.addEntity(entity);
     }
 
     /**
@@ -124,8 +124,16 @@ public class Square {
      *
      * @param entity The entity to add
      */
-    protected final void addEntity(@NotNull Entity entity) {
+    public final void addEntity(@NotNull Entity entity) {
         this.entities.add(entity);
+
+        entity.setSquare(this);
+        if (entity.getX() == -1) { // See if position was uninitialized.
+            entity.setX(x + 0.5);
+            entity.setY(y + 0.5);
+            board.addEntity(entity);
+        }
+
         assert (!solid); // A square with a solid should not be receiving entities.
         if (entity.isSolid()) {
             solid = true;

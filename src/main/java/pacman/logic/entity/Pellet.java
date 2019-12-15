@@ -22,4 +22,7 @@ public class Pellet extends Entity {
     public Pellet(@NotNull Board board, Square square) {
         super(board, square, SPRITE);
     }
+
+    @Override
+    public void update(double dtSmall) {}
 }

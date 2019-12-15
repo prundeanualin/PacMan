@@ -25,7 +25,7 @@ class BoardTest {
 
     @BeforeEach
     public void init() {
-        board = new MapParser(".").parseMapFromString("##P.#");
+        board = new MapParser(".").parseMapFromString(".#P*#");
         level = new LevelFactory().createLevel(board);
     }
 
@@ -33,29 +33,6 @@ class BoardTest {
     void getSquare() {
         Square square = board.getSquare(1, 0);
         assertNotNull(square);
-    }
-
-    @Test
-    void addSquare() {
-        entity = new Pellet(board, 0, 0);
-        board.addSquare(new Square(entity));
-        int a = 0;
-        assertEquals(6, StreamSupport.stream(board.getSquares().spliterator(), false).count());
-    }
-
-    @Test
-    void removeEntity() {
-        for (Entity e: board.getEntities()) {
-            if (e instanceof PacMan) {
-                entity = e;
-            }
-        }
-        Square sq = entity.getSquare();
-        board.removeEntity(entity);
-        assertEquals(0, StreamSupport.stream(sq.getEntities().spliterator(),
-                false).count());
-        assertTrue(StreamSupport.stream(board.getEntities().spliterator(),
-                false).noneMatch(a -> a instanceof PacMan));
     }
 
     @Test
@@ -71,34 +48,54 @@ class BoardTest {
     }
 
     @Test
+    void addSquare() {
+        board.addSquare(new Square(board, 5, 0));
+        assertEquals(6, StreamSupport.stream(board.getSquares().spliterator(), false).count());
+    }
+
+    @Test
+    void removeEntity() {
+        for (Entity e : board.getEntities()) {
+            if (e instanceof PacMan) {
+                entity = e;
+            }
+        }
+        Square sq = entity.getSquare();
+        board.removeEntity(entity);
+        assertEquals(0, StreamSupport.stream(sq.getEntities().spliterator(),
+                false).count());
+        assertTrue(StreamSupport.stream(board.getEntities().spliterator(),
+                false).noneMatch(a -> a instanceof PacMan));
+    }
+
+    @Test
     void checkLevelWon() {
-        for (Entity e: board.getEntities()) {
+        for (Entity e : board.getEntities()) {
             if (e instanceof Pellet) {
                 e.setAlive(false);
             }
         }
         assertTrue(StreamSupport.stream(board.getEntities().spliterator(), false)
                 .noneMatch(e -> e instanceof Pellet && e.isAlive()));
-        board.addSquare(new Square(new Pellet(board, 0, 0)));
+        board.getSquare(0, 0).addEntity(new Pellet(board, null));
         assertFalse(StreamSupport.stream(board.getEntities().spliterator(), false)
                 .noneMatch(e -> e instanceof Pellet && e.isAlive()));
     }
 
     @Test
     void computeScore() {
-        Pellet p = new Pellet(board, 0, 0);
+        Pellet p = new Pellet(board, board.getSquare(0, 0));
         p.setAlive(false);
-        board.addSquare(new Square(p));
         assertEquals(1, board.computeScore());
     }
 
     @Test
     void removeDeadEntities() {
-        Pellet p = new Pellet(board, 0, 0);
-        board.addSquare(new Square(p));
+        Pellet p = (Pellet) board.getSquare(3, 0).getEntities().iterator().next();
+        p.setAlive(false);
         assertTrue(StreamSupport.stream(board.getEntities().spliterator(),
                 false).anyMatch(e -> e instanceof Pellet));
-        board.removeEntity(p);
+        board.removeDeadEntities();
         assertFalse(StreamSupport.stream(board.getEntities().spliterator(),
                 false).anyMatch(e -> e instanceof Pellet));
     }

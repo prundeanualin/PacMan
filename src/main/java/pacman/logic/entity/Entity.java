@@ -16,10 +16,10 @@ import pacman.logic.level.Square;
 @SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class is not a bean.
 public abstract class Entity {
 
-    private Board board;
+    Board board;
     Square square;
-    private double posX;
-    private double posY;
+    double posX;
+    double posY;
     private Sprite<? extends Entity> sprite;
 
     Direction direction = null;
@@ -30,18 +30,28 @@ public abstract class Entity {
 
     /**
      * Creates an entity at the specified position with the specified sprite.
+     * If square is null, it's position is undefined but may be set by adding it to a square later.
+     * If the square is defined, the entity will be added to the square.
      *
      * @param board  The board the entity belongs to
-     * @param square The square the entity belongs to
+     * @param square The square the entity belongs to, if applicable
      * @param sprite The sprite for rendering
+     * @see Square#addEntity(Entity)
      */
     public Entity(@NotNull Board board, Square square,
                   @NotNull Sprite<? extends Entity> sprite) {
         this.board = board;
-        this.square = square;
-        this.posX = square.getX() + 0.5;
-        this.posY = square.getY() + 0.5;
         this.sprite = sprite;
+        this.square = square;
+        if (square != null) {
+            this.posX = square.getX() + 0.5;
+            this.posY = square.getY() + 0.5;
+            square.addEntity(this);
+            board.addEntity(this);
+        } else {
+            this.posX = -1;
+            this.posY = -1;
+        }
     }
 
     /**
@@ -66,43 +76,9 @@ public abstract class Entity {
     }
 
     /**
-     * Updates the entity's position.
+     * Updates the entity each game cycle.
      */
-    public void update(double dtSmall) {
-        Square square = getSquare(); // NOPMD variable is used
-        // If no collision with solid entities and entity is moving
-        double dt = 2 * dtSmall; //NOPMD needed to change the speed of the entities' movement
-        if (direction != null) {
-            posX += dt * direction.getDeltaX();
-            posY += dt * direction.getDeltaY();
-            if (checkCollision().stream().anyMatch(Entity::isSolid)) {
-                posX -= dt * direction.getDeltaX();
-                posY -= dt * direction.getDeltaY();
-                return;
-            }
-            Square newSquare = getSquare();
-            // Check if entity moved squares
-            if (!square.equals(newSquare)) {
-                moveToSquare(newSquare);
-            }
-            // Wraparound
-            posX = board.getPosX(posX);
-            posY = board.getPosY(posY);
-        }
-
-        if (nextDirection != null && nextDirection != getDirection()) {
-            // Get distance to center of square
-            double dx = Math.abs(getX() - Math.floor(getX()) - 0.5);
-            double dy = Math.abs(getY() - Math.floor(getY()) - 0.5);
-            /*
-             * Entities changes direction if the set direction is opposite their current direction
-             * or if they are at the center of the square.
-             */
-            if (getDirection() == nextDirection.getInverse() || (dx < 0.02 && dy < 0.02)) {
-                setDirection(nextDirection);
-            }
-        }
-    }
+    public abstract void update(double dtSmall);
 
     /**
      * Checks for collisions with the entities around this entity.
@@ -127,9 +103,8 @@ public abstract class Entity {
         return collisions;
     }
 
-    private void moveToSquare(Square newSquare) {
+    public void moveToSquare(Square newSquare) {
         square.moveEntity(this, newSquare);
-        this.square = newSquare;
     }
 
     /**
@@ -288,4 +263,12 @@ public abstract class Entity {
         return square;
     }
 
+    /**
+     * Sets the square of this entity.
+     *
+     * @param square the new square.
+     */
+    public void setSquare(Square square) {
+        this.square = square;
+    }
 }
