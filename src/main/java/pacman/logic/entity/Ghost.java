@@ -47,7 +47,7 @@ public abstract class Ghost extends MovingEntity {
             List<Square> options = getOptions();
             if (options.size() > 0) {
                 Square target = chooseTarget();
-                Square next= closestNeighbour(target);
+                Square next= closestNeighbour(target, options);
                 nextDirection = square.directionOf(next);
             }
             oldSquare = square; // must be called after getOptions, as this information is used.
@@ -80,8 +80,7 @@ public abstract class Ghost extends MovingEntity {
     abstract Square chooseTarget();
 
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // Foreach loop incorrectly marked as UR anomaly.
-    private Square closestNeighbour(Square target) {
-        List<Square> options= getOptions();
+    private Square closestNeighbour(Square target, List<Square> options) {
         if (options.size() == 0) {
             throw new IllegalArgumentException("Cannot choose target from empty list of options.");
         }

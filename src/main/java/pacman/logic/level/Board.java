@@ -148,12 +148,8 @@ public class Board {
      * @return The x coordinate on the board
      */
     public double getPosX(double x) {
-        if (x < 0) {
-            x += width;
-        } else if (x >= width) {
-            x -= width;
-        }
-        return x;
+        double x2 = x % width;
+        return x2 < 0 ? x2 + width : x2;
     }
 
     /**
@@ -163,12 +159,8 @@ public class Board {
      * @return The y coordinate on the board
      */
     public double getPosY(double y) {
-        if (y < 0) {
-            y += height;
-        } else if (y >= height) {
-            y -= height;
-        }
-        return y;
+        double y2 = y % height;
+        return y2 < 0 ? y2 + height : y2;
     }
 
 }

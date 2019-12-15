@@ -37,7 +37,7 @@ public abstract class MovingEntity extends Entity {
                 posX -= dt * direction.getX();
                 posY -= dt * direction.getY();
             } else {
-                Square newSquare = getSquare();
+                Square newSquare = board.getSquare(posX, posY);
                 // Check if entity moved squares
                 if (!square.equals(newSquare)) {
                     moveToSquare(newSquare);
@@ -48,7 +48,7 @@ public abstract class MovingEntity extends Entity {
             }
         }
 
-        if (nextDirection != null && nextDirection != getDirection()) {
+        if (nextDirection != null && nextDirection != getDirection() && !square.getNeighbour(nextDirection).hasSolid()) {
             // Get distance to center of square
             double dx = Math.abs(getX() - Math.floor(getX()) - 0.5);
             double dy = Math.abs(getY() - Math.floor(getY()) - 0.5);
@@ -56,7 +56,11 @@ public abstract class MovingEntity extends Entity {
              * Entities changes direction if the set direction is opposite their current direction
              * or if they are at the center of the square.
              */
-            if (getDirection() == nextDirection.getInverse() || (dx < 0.02 && dy < 0.02)) {
+            if (getDirection() == nextDirection.getInverse() || (dx < 0.05 && dy < 0.05)) {
+                if (getDirection() != nextDirection.getInverse()) {
+                    setX(Math.floor(getX()) + 0.5);
+                    setY(Math.floor(getY()) + 0.5);
+                }
                 setDirection(nextDirection);
             }
         }

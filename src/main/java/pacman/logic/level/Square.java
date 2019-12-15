@@ -81,6 +81,7 @@ public class Square {
         int x = otherSquare.x - this.x;
         int y = otherSquare.y - this.y;
 
+        // Deal with warping.
         if (x > Direction.RIGHT.getX()) {
             x -= board.getWidth();
         } else if (x < Direction.LEFT.getX()) {
