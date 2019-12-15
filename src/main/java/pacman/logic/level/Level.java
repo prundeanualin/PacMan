@@ -37,6 +37,15 @@ public class Level {
         return pacMan;
     }
 
+    public Set<Ghost> getGhosts() {
+        return ghosts;
+    }
+
+    public Set<Pellet> getPellets() {
+        return pellets;
+    }
+
+
     // boolean won is a check for having any remaining pellets
     public boolean checkLevelWon() {
         return pellets.size() == 0;

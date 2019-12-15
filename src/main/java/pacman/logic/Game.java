@@ -1,15 +1,17 @@
 package pacman.logic;
 
 import database.User;
+
+import java.util.List;
+
 import org.jetbrains.annotations.NotNull;
 import pacman.logic.entity.Entity;
 import pacman.logic.level.Level;
 
-import java.util.List;
-
 /**
  * Represents a game with multiple levels.
  */
+
 @SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class is not a bean.
 public class Game {
 
@@ -65,6 +67,13 @@ public class Game {
     }
 
     /**
+     * Increases the level for the player who just won the last level.
+     */
+    public void advanceLevel() {
+        currentLevel += 1;
+    }
+
+    /**
      * Gets the current level.
      * @return The level currently playing
      */
@@ -79,4 +88,9 @@ public class Game {
     protected void setPlayer(User user) {
         player.setUsername(user.getUsername());
     }
+
+    protected boolean won(int lvlMax) {
+        return currentLevel == lvlMax;
+    }
+
 }

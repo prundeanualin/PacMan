@@ -1,6 +1,9 @@
 package pacman.logic;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -9,7 +12,6 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pacman.logic.entity.Entity;
-import pacman.logic.entity.Pellet;
 import pacman.logic.level.Board;
 import pacman.logic.level.Level;
 import pacman.logic.level.LevelFactory;
@@ -20,6 +22,9 @@ public class GameTest {
 
     private Game game;
 
+    /**
+     * setting up the testing environment.
+     */
     @BeforeEach
     public void init() {
         Board board = new MapParser("").parseMapFromString("*P");
@@ -40,6 +45,13 @@ public class GameTest {
         Iterator<Entity> iterator = game.getLevel().getBoard().getEntities().iterator();
         game.getLevel().getBoard().getEntities().forEach(System.out::println);
         assertFalse(iterator.hasNext());
+    }
+
+    @Test
+    public void testLevel() {
+        assertTrue(game.getLevel().getGhosts().isEmpty());
+        assertNotNull(game.getLevel().getPacMan());
+        assertEquals(1, game.getLevel().getPellets().size());
     }
 
 }

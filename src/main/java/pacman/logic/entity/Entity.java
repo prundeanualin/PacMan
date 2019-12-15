@@ -68,14 +68,21 @@ public abstract class Entity {
     /**
      * Updates the entity's position.
      */
-    public void update(double dt) {
+    public void update(double dtSmall) {
+        Square square = getSquare(); // NOPMD variable is used
         // If no collision with solid entities and entity is moving
-        if (checkCollision().stream().noneMatch(Entity::isSolid) && direction != null) {
-            posX += 2 * dt * direction.getX();
-            posY += 2 * dt * direction.getY();
-            Square newSquare = board.getSquare(posX, posY);
+        double dt = 2 * dtSmall; //NOPMD needed to change the speed of the entities' movement
+        if (direction != null) {
+            posX += dt * direction.getDeltaX();
+            posY += dt * direction.getDeltaY();
+            if (checkCollision().stream().anyMatch(Entity::isSolid)) {
+                posX -= dt * direction.getDeltaX();
+                posY -= dt * direction.getDeltaY();
+                return;
+            }
+            Square newSquare = getSquare();
             // Check if entity moved squares
-            if (!newSquare.equals(square)) {
+            if (!square.equals(newSquare)) {
                 moveToSquare(newSquare);
             }
             // Wraparound
