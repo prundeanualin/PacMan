@@ -24,7 +24,8 @@ public class Board {
 
     /**
      * Creates a board with a specified size.
-     * @param width The width of the board
+     *
+     * @param width  The width of the board
      * @param height The height of the board
      */
     public Board(int width, int height) {
@@ -37,26 +38,31 @@ public class Board {
 
     /**
      * Gets the square at the given position. If the location is off the board, it wraps around.
+     *
      * @param x The x coordinate of the square
      * @param y The y coordinate of the square
      * @return The square at the specified location.
      */
-    public @NotNull Square getSquare(int x, int y) {
-        return squares.get((int)getPosY(y) * width + (int)getPosX(x));
+    public @NotNull
+    Square getSquare(int x, int y) {
+        return squares.get((int) getPosY(y) * width + (int) getPosX(x));
     }
 
     /**
      * Gets the square at the given position. If the location is off the board, it wraps around.
+     *
      * @param x The x coordinate of the square
      * @param y The y coordinate of the square
      * @return The square at the specified location.
      */
-    public @NotNull Square getSquare(double x, double y) {
-        return squares.get((int)getPosY(y) * width + (int)getPosX(x));
+    public @NotNull
+    Square getSquare(double x, double y) {
+        return squares.get((int) getPosY(y) * width + (int) getPosX(x));
     }
 
     /**
      * Adds a square to the board.
+     *
      * @param square The square to add
      */
     protected void addSquare(@NotNull Square square) {
@@ -64,12 +70,13 @@ public class Board {
         squares.add(square);
     }
 
-    public void addEntity(@NotNull Entity entity){
+    public void addEntity(@NotNull Entity entity) {
         entities.add(entity);
     }
 
     /**
      * Removes an entity from the board.
+     *
      * @param entity The entity to remove
      */
     protected void removeEntity(@NotNull Entity entity) {
@@ -79,6 +86,7 @@ public class Board {
 
     /**
      * Gets the width of the board.
+     *
      * @return The width
      */
     public int getWidth() {
@@ -87,6 +95,7 @@ public class Board {
 
     /**
      * Gets the height of the board.
+     *
      * @return The height
      */
     public int getHeight() {
@@ -95,22 +104,27 @@ public class Board {
 
     /**
      * Gets the entities.
+     *
      * @return The entities as an iterable
      */
-    public @NotNull Iterable<Entity> getEntities() {
+    public @NotNull
+    Iterable<Entity> getEntities() {
         return () -> entities.iterator();
     }
 
     /**
      * Gets the squares.
+     *
      * @return The squares as an iterable
      */
-    public @NotNull Iterable<Square> getSquares() {
+    public @NotNull
+    Iterable<Square> getSquares() {
         return () -> squares.iterator();
     }
 
     /**
      * Calculates the current score of the player.
+     *
      * @return score
      */
     public int computeScore() {
@@ -129,6 +143,7 @@ public class Board {
 
     /**
      * Gets x position on the board, with wraparound.
+     *
      * @param x The x coordinate
      * @return The x coordinate on the board
      */
@@ -143,6 +158,7 @@ public class Board {
 
     /**
      * Gets y position on the board, with wraparound.
+     *
      * @param y The y coordinate
      * @return The y coordinate on the board
      */

@@ -28,6 +28,7 @@ public abstract class MovingEntity extends Entity {
         Square square = getSquare(); // NOPMD variable is used
         // If no collision with solid entities and entity is moving
         double dt = 2 * dtSmall; //NOPMD needed to change the speed of the entities' movement
+        //TODO: either add speed, or make this more intuitive.
         if (direction != null) {
             posX += dt * direction.getX();
             posY += dt * direction.getY();

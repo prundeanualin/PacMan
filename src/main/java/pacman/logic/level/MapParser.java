@@ -24,6 +24,7 @@ public class MapParser {
 
     /**
      * Creates a map parser that loads a file, reads it and generates a board out of it.
+     *
      * @param levelDirectory The directory to read levels from.
      */
     public MapParser(String levelDirectory) {
@@ -65,7 +66,8 @@ public class MapParser {
      * @param scanner The scanner to read from
      * @return A board parsed from the scanner
      */
-    public @NotNull Board parseMap(@NotNull Scanner scanner) {
+    public @NotNull
+    Board parseMap(@NotNull Scanner scanner) {
         List<String> lines = new ArrayList<>();
         while (scanner.hasNextLine()) {
             lines.add(scanner.nextLine());
@@ -96,13 +98,14 @@ public class MapParser {
      * @param mapString The string to read from
      * @return A board parsed from the string
      */
-    public @NotNull Board parseMapFromString(@NotNull String mapString) {
+    public @NotNull
+    Board parseMapFromString(@NotNull String mapString) {
         return parseMap(new Scanner(mapString));
     }
 
     private void parseSquare(@NotNull Board board, char squareChar, int x, int y) {
         Square square = new Square(board, x, y); // NOPMD variable is used
-        switch (squareChar) {
+        switch (squareChar) { // NOPMD , default case can not break as it throws an exception.
             case '#':
                 square.addEntity(new Wall(board, square));
                 break;

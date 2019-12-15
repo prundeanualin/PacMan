@@ -79,6 +79,7 @@ public abstract class Ghost extends MovingEntity {
      */
     abstract Square chooseTarget();
 
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // Foreach loop incorrectly marked as UR anomaly.
     private Square closestNeighbour(Square target) {
         List<Square> options= getOptions();
         if (options.size() == 0) {
