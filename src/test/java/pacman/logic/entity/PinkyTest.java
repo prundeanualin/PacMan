@@ -23,18 +23,18 @@ public class PinkyTest {
 
     @ParameterizedTest
     @CsvSource({"UP, 4, 0", "RIGHT, 8, 4", "DOWN, 4, 8", "LEFT, 0, 4"})
-    public void targetTest(Direction pacmanDirection, int x, int y) {
+    public void chaseTargetTest(Direction pacmanDirection, int x, int y) {
         Board board = MapParser.parseMapFromString(map);
         board.pacman.setDirection(pacmanDirection);
         Pinky p = (Pinky) board.ghosts.iterator().next();
-        assertEquals(board.getSquare(x, y), p.chooseTarget());
+        assertEquals(board.getSquare(x, y), p.chaseTarget());
     }
 
     @Test
-    public void targetTestWithoutPacman() {
+    public void chaseTargetTestWithoutPacMan() {
         Board board = MapParser.parseMapFromString(map);
         board.removeEntity(board.pacman);
         Pinky p = (Pinky) board.ghosts.iterator().next();
-        assertNull(p.chooseTarget());
+        assertNull(p.chaseTarget());
     }
 }

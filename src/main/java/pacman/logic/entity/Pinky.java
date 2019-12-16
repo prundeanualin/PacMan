@@ -1,5 +1,7 @@
 package pacman.logic.entity;
 
+import java.util.List;
+
 import pacman.graphics.sprite.PinkySprite;
 import pacman.graphics.sprite.Sprite;
 import pacman.logic.Direction;
@@ -15,8 +17,12 @@ public class Pinky extends Ghost {
         direction = Direction.LEFT;
     }
 
+    /**
+     * {@inheritDoc}
+     * Pinky should always try to target the square 4 ahead of PacMan.
+     */
     @Override
-    Square chooseTarget() {
+    protected Square chaseTarget() {
         PacMan pac = board.pacman;
         if (pac == null) return null;
         Square pacSquare = pac.getSquare();
@@ -28,5 +34,11 @@ public class Pinky extends Ghost {
         Math.max(0, Math.min(y, board.getHeight() - 1));
         // It's not a problem if this is a wall, Pinky would circle around it.
         return getBoard().getSquare(x, y);
+    }
+
+    @Override
+    protected Square scatterTarget() {
+        //TODO implement pinky's scatter:
+        return null;
     }
 }

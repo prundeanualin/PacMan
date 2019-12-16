@@ -19,19 +19,19 @@ public class BlinkyTest {
 
     @ParameterizedTest
     @EnumSource(Direction.class)
-    public void testTargetWithPacMan(Direction pacDirection) {
+    public void chaseTargetTest(Direction pacDirection) {
         Board board = MapParser.parseMapFromString(map);
         board.pacman.setDirection(pacDirection);
         Blinky blinky = new Blinky(board, board.getSquare(1, 0));
-        assertEquals(blinky.chooseTarget(), board.getSquare(0, 0));
+        assertEquals(blinky.chaseTarget(), board.getSquare(0, 0));
     }
 
     @Test
-    public void testTargetWithoutPacMan() {
+    public void chaseTargetTestWithoutPacMan() {
         Board board = MapParser.parseMapFromString(map);
         board.removeEntity(board.pacman);
         Blinky blinky = new Blinky(board, board.getSquare(1, 0));
-        assertNull(blinky.chooseTarget());
+        assertNull(blinky.chaseTarget());
     }
 
 }

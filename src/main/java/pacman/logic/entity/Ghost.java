@@ -17,6 +17,13 @@ import pacman.logic.level.Square;
 @SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class not a Bean.
 public abstract class Ghost extends MovingEntity {
 
+    public enum Mode {
+        CHASE,
+        SCATTER,
+        FRIGHTENED;
+    }
+
+    protected Mode mode = Mode.CHASE;
     private Square oldSquare;
 
     /**
@@ -44,7 +51,7 @@ public abstract class Ghost extends MovingEntity {
 
         if (square != oldSquare) { // Update choice when a new square is reached.
             List<Square> options = getOptions();
-            Square target = chooseTarget();
+            Square target = chooseTarget(options);
             if (options.size() > 0 && target != null) {
                 Square next = closestNeighbour(target, options);
                 nextDirection = square.directionOf(next);
@@ -54,12 +61,12 @@ public abstract class Ghost extends MovingEntity {
     }
 
     /**
-     * Returns a list of all options a ghost has as target squares.
+     * Returns a list of all options a ghost has as next squares.
      *
      * @return list of target square options.
      */
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // For each loop false warning.
-    private List<Square> getOptions() {
+    protected List<Square> getOptions() {
         List<Square> neighbours = this.getSquare().getNeighbours();
         List<Square> options = new ArrayList<>(4);
 
@@ -70,13 +77,6 @@ public abstract class Ghost extends MovingEntity {
         }
         return options;
     }
-
-    /**
-     * Choose what direction the ghost should go in.
-     *
-     * @return the square the ghost wants to go towards.
-     */
-    abstract Square chooseTarget();
 
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // Foreach loop incorrectly marked as UR anomaly.
     private Square closestNeighbour(Square target, List<Square> options) {
@@ -97,5 +97,55 @@ public abstract class Ghost extends MovingEntity {
             }
         }
         return next;
+    }
+
+    /**
+     * Choose what direction the ghost should go in.
+     *
+     * @param nextOptions the neighbouring squares the ghost can go to.
+     * @return the square the ghost wants to go towards.
+     * @see this#chaseTarget()
+     * @see this#scatterTarget() 
+     * @see this#frightenedTarget(List) 
+     */
+    private Square chooseTarget(List<Square> nextOptions) {
+        switch (mode) {
+            case CHASE:
+                return chaseTarget();
+            case SCATTER:
+                return scatterTarget();
+            case FRIGHTENED:
+                return frightenedTarget(nextOptions);
+            default:
+                throw new IllegalStateException("No target behavior implemented for: " + mode.toString());
+        }
+    }
+
+    /**
+     * Chooses the default chase mode target of the ghost.
+     *
+     * @return the target
+     * @see this#chooseTarget(List)
+     */
+    protected abstract Square chaseTarget();
+
+    /**
+     * Chooses the scatter mode target of the ghost.
+     *
+     * @return the target (should be a wall in scatter mode)
+     * @see this#chooseTarget(List)
+     */
+    protected abstract Square scatterTarget();
+
+    /**
+     * Chooses the frightened mode target of the ghost.
+     *
+     * @param options the neighbouring options the ghost can access.
+     * @return the target (should be randomly picked from intersection options)
+     * @see this#chooseTarget(List) 
+     */
+    private final Square frightenedTarget(List<Square> options) {
+        //TODO choose random direction from options;
+        return null;
     }
 }
