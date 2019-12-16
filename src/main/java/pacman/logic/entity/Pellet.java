@@ -25,4 +25,9 @@ public class Pellet extends Entity {
 
     @Override
     public void update(double dtSmall) {}
+
+    @Override
+    protected boolean isWithinBound(double dx, double dy) {
+        return dx * dx + dy * dy < 0.25;
+    }
 }

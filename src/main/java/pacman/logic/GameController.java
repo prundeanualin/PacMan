@@ -109,13 +109,12 @@ public class GameController {
     /**
      * Updates the game.
      *
-     * @param t The current time since start in seconds.
+     * @param newTime The current time since start in seconds.
      */
-    protected void update(double t) {
-        double dt = t - time;
-        dt = dt > MAX_TIME ? MAX_TIME : dt; // In exceptional cases use MAX_TIME.
-        dt = dt < 0 ? MAX_TIME : dt;
-        time = t;
+    protected void update(double newTime) {
+        double dt = Math.min(newTime - time, MAX_TIME); // In exceptional cases use MAX_TIME.
+        if (dt < 0) dt = MAX_TIME; // overflow, if possible.
+        time = newTime;
         game.update(dt);
         if (getGame().getLevel().checkLevelWon()) {
             pause();
@@ -129,7 +128,7 @@ public class GameController {
                 labelScore.setText("Score : " + game.getScore());
             }
         }
-        canvas.draw(t);
+        canvas.draw(newTime);
     }
 
     /**

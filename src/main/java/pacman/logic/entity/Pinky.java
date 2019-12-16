@@ -18,25 +18,13 @@ public class Pinky extends Ghost {
     @Override
     Square chooseTarget() {
         Square pac = pacMan.getSquare();
-        Direction pacDir= pacMan.getDirection();
-        int x= pac.getX() + pacDir.getX()*4;
-        int y= pac.getY() + pacDir.getY()*4;
+        Direction pacDir = pacMan.getDirection();
+        int x = pac.getX() + pacDir.getX() * 4;
+        int y = pac.getY() + pacDir.getY() * 4;
 
-        if(x> getBoard().getWidth()){
-            x= getBoard().getWidth()-1;
-        }else if(x<0){
-            x=0;
-        }
-        if(y>getBoard().getHeight()){
-            y= getBoard().getHeight()-1;
-        }
-        else if(y<0){
-            y= 0;
-        }
-
-        if(getBoard().getSquare(x, y).hasSolid()){
-            return getBoard().getSquare(x, y).getNeighbours().get(0);
-        }
+        Math.max(0, Math.min(x, board.getWidth() - 1));
+        Math.max(0, Math.min(y, board.getHeight() - 1));
+        // It's not a problem if this is a wall, Pinky would circle around it.
         return getBoard().getSquare(x, y);
     }
 }
