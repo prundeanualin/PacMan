@@ -1,35 +1,40 @@
 package pacman.logic.entity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import pacman.logic.Direction;
 import pacman.logic.level.Board;
 import pacman.logic.level.MapParser;
 
 public class PinkyTest {
+    private final String map = ".........\n" +
+            ".........\n" +
+            ".........\n" +
+            ".........\n" +
+            "....Pp...\n" +
+            ".........\n" +
+            ".........\n" +
+            ".........\n" +
+            ".........\n";
 
-    @Test
-    public void basicTest() {
-        String map = "....." +
-                "P...." +
-                "....p";
+    @ParameterizedTest
+    @CsvSource({"UP, 4, 0", "RIGHT, 8, 4", "DOWN, 4, 8", "LEFT, 0, 4"})
+    public void targetTest(Direction pacmanDirection, int x, int y) {
         Board board = MapParser.parseMapFromString(map);
-        board.pacman.setDirection(Direction.RIGHT);
+        board.pacman.setDirection(pacmanDirection);
         Pinky p = (Pinky) board.ghosts.iterator().next();
-        assertEquals(board.getSquare(4, 0), p.chooseTarget());
+        assertEquals(board.getSquare(x, y), p.chooseTarget());
     }
 
     @Test
-    public void shantedTest() {
-        String map = "....p.." +
-                "......." +
-                "......P" +
-                "......." +
-                ".......";
+    public void targetTestWithoutPacman() {
         Board board = MapParser.parseMapFromString(map);
-        board.pacman.setDirection(Direction.LEFT);
+        board.removeEntity(board.pacman);
         Pinky p = (Pinky) board.ghosts.iterator().next();
-        assertEquals(board.getSquare(0, 4), p.chooseTarget());
+        assertNull(p.chooseTarget());
     }
 }

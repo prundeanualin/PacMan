@@ -17,10 +17,12 @@ public class Pinky extends Ghost {
 
     @Override
     Square chooseTarget() {
-        Square pac = board.pacman.getSquare();
+        PacMan pac = board.pacman;
+        if (pac == null) return null;
+        Square pacSquare = pac.getSquare();
         Direction pacDir = board.pacman.getDirection();
-        int x = pac.getX() + pacDir.getX() * 4;
-        int y = pac.getY() + pacDir.getY() * 4;
+        int x = pacSquare.getX() + pacDir.getX() * 4;
+        int y = pacSquare.getY() + pacDir.getY() * 4;
 
         Math.max(0, Math.min(x, board.getWidth() - 1));
         Math.max(0, Math.min(y, board.getHeight() - 1));
