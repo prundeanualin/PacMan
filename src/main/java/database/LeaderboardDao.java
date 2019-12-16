@@ -18,7 +18,8 @@ public class LeaderboardDao {
             statement.setInt(1, amount);
 
             List<User> result = new ArrayList<>();
-            ResultSet results = statement.executeQuery();
+            ResultSet results = statement.executeQuery(); // NOPMD Everything is closed
+            statement.close();
             while (results.next()) {
                 User user = new User();
                 user.setId(results.getInt("Id"));
@@ -27,6 +28,7 @@ public class LeaderboardDao {
                 user.setScore(results.getInt("Score"));
                 result.add(user);
             }
+            results.close();
 
             return result;
         } catch (SQLException e) {

@@ -16,6 +16,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+@SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class is not a bean.
 public class LeaderboardController implements Initializable {
 
     private static int LEADERBOARD_AMOUNT = 5;
