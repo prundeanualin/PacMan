@@ -17,8 +17,8 @@ public class Pinky extends Ghost {
 
     @Override
     Square chooseTarget() {
-        Square pac = pacMan.getSquare();
-        Direction pacDir = pacMan.getDirection();
+        Square pac = board.pacman.getSquare();
+        Direction pacDir = board.pacman.getDirection();
         int x = pac.getX() + pacDir.getX() * 4;
         int y = pac.getY() + pacDir.getY() * 4;
 

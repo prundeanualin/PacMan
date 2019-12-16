@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.NotNull;
 import pacman.logic.entity.Entity;
+import pacman.logic.entity.Ghost;
+import pacman.logic.entity.PacMan;
 import pacman.logic.entity.Pellet;
 
 /**
@@ -21,6 +23,10 @@ public class Board {
 
     private List<Square> squares;
     private Set<Entity> entities;
+    // TODO: Likely remove Level & LevelFactory entirely.
+    public PacMan pacman;
+    public Set<Ghost> ghosts;
+    public Set<Pellet> pellets;
 
     /**
      * Creates a board with a specified size.
@@ -32,8 +38,10 @@ public class Board {
         this.width = width;
         this.height = height;
 
-        this.squares = new ArrayList<>(width * height);
-        this.entities = new HashSet<>();
+        this.squares = new ArrayList<Square>(width * height);
+        this.entities = new HashSet<Entity>();
+        this.ghosts = new HashSet<Ghost>();
+        this.pellets = new HashSet<Pellet>();
     }
 
     /**
@@ -62,15 +70,32 @@ public class Board {
 
     /**
      * Adds a square to the board.
+     * Should generally only be called by {@link Square#Square(Board, int, int)}.
      *
      * @param square The square to add
      */
     protected void addSquare(@NotNull Square square) {
-        square.getEntities().forEach(entities::add);
+        // square.getEntities().forEach(this::addEntity);
+        // !Square should never contain entities before instantiation.
         squares.add(square);
     }
 
-    public void addEntity(@NotNull Entity entity) {
+    /**
+     * Adds entity to this board.
+     * Should generally only be called by {@link Square#addEntity(Entity)}.
+     *
+     * @param entity the entity to add.
+     * @see Square#addEntity(Entity)
+     */
+    protected void addEntity(@NotNull Entity entity) {
+        if (entity instanceof PacMan) {
+            assert (pacman == null);
+            pacman = (PacMan) entity;
+        } else if (entity instanceof Ghost) {
+            ghosts.add((Ghost) entity);
+        } else if (entity instanceof Pellet) {
+            pellets.add((Pellet) entity);
+        }
         entities.add(entity);
     }
 
@@ -79,7 +104,15 @@ public class Board {
      *
      * @param entity The entity to remove
      */
-    protected void removeEntity(@NotNull Entity entity) {
+    public void removeEntity(@NotNull Entity entity) {
+        if (entity instanceof PacMan) {
+            System.err.println("PacMan was removed from the board!");
+            pacman = null; //NOPMD Exceptional situation, but not unthinkable.
+        } else if (entity instanceof Ghost) {
+            ghosts.remove((Ghost) entity);
+        } else if (entity instanceof Pellet) {
+            pellets.remove((Pellet) entity);
+        }
         entity.getSquare().removeEntity(entity);
         entities.remove(entity);
     }

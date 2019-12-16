@@ -17,7 +17,6 @@ import pacman.logic.level.Square;
 @SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class not a Bean.
 public abstract class Ghost extends MovingEntity {
 
-    static PacMan pacMan;
     private Square oldSquare;
 
     /**
@@ -38,16 +37,16 @@ public abstract class Ghost extends MovingEntity {
 
         // Collided with PacMan
         Set<Entity> collisions = checkCollision();
-        if (collisions.contains(pacMan)) {
-            pacMan.setAlive(false);
+        if (collisions.contains(board.pacman)) {
+            board.pacman.setAlive(false);
             GameController.getInstance().getGame().setRunning(false);
         }
 
         if (square != oldSquare) { // Update choice when a new square is reached.
             List<Square> options = getOptions();
-            if (options.size() > 0) {
-                Square target = chooseTarget();
-                Square next= closestNeighbour(target, options);
+            Square target = chooseTarget();
+            if (options.size() > 0 && target != null) {
+                Square next = closestNeighbour(target, options);
                 nextDirection = square.directionOf(next);
             }
             oldSquare = square; // must be called after getOptions, as this information is used.

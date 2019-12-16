@@ -22,23 +22,14 @@ public class Square {
     private boolean solid;
 
     /**
-     * Creates a new empty square.
+     * Creates a new empty square and adds it to the board.
      */
-    public Square(Board board, int x, int y) {
+    public Square(@NotNull Board board, int x, int y) {
         this.board = board;
         this.x = x;
         this.y = y;
         this.entities = new HashSet<>();
-    }
-
-    /**
-     * Creates a new square containing the entity.
-     *
-     * @param entity The entity in the square
-     */
-    protected Square(@NotNull Entity entity, Board board, int x, int y) {
-        this(board, x, y);
-        addEntity(entity);
+        board.addSquare(this);
     }
 
     /**
@@ -121,7 +112,7 @@ public class Square {
     }
 
     /**
-     * Adds an entity to this square.
+     * Adds an entity to this square, and the board if possible.
      *
      * @param entity The entity to add
      */

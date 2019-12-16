@@ -26,7 +26,6 @@ public class PacMan extends MovingEntity {
     public PacMan(@NotNull Board board, Square square) {
         super(board, square, SPRITE);
         direction = Direction.RIGHT;
-        Ghost.pacMan = this;
     }
 
     @Override

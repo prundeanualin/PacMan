@@ -18,8 +18,8 @@ public abstract class Entity {
 
     Board board;
     Square square;
-    double posX;
-    double posY;
+    double posX = -1; // Not on board.
+    double posY = -1; // Not on board.
     private Sprite<? extends Entity> sprite;
 
     Direction direction = null;
@@ -44,13 +44,7 @@ public abstract class Entity {
         this.sprite = sprite;
         this.square = square;
         if (square != null) {
-            this.posX = square.getX() + 0.5;
-            this.posY = square.getY() + 0.5;
             square.addEntity(this);
-            board.addEntity(this);
-        } else {
-            this.posX = -1;
-            this.posY = -1;
         }
     }
 
@@ -92,7 +86,7 @@ public abstract class Entity {
     public Set<Entity> checkCollision() {
         Set<Entity> collisions = new HashSet<>();
         for (Entity entity : getSquare().getEntities()) {
-            if (this!=entity && collide(entity)) {
+            if (this != entity && collide(entity)) {
                 collisions.add(entity);
             }
         }
