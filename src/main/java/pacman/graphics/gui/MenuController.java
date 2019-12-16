@@ -3,8 +3,10 @@ package pacman.graphics.gui;
 import database.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -20,6 +22,7 @@ import pacman.graphics.GameView;
 import pacman.logic.Direction;
 import pacman.logic.game.GameController;
 import pacman.logic.entity.PacMan;
+import pacman.logic.game.GameState;
 
 import java.io.IOException;
 import java.net.URL;
@@ -93,6 +96,21 @@ public class MenuController implements Initializable {
             }
         });
 
+        GameController.getInstance().getGame().getState().addListener((ob, o, n) -> {
+            if (n == GameState.WON || n == GameState.LOST) {
+                gameFinished(stage);
+            }
+        });
+
+    }
+
+    private void gameFinished(Stage window) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/views/leaderboard.fxml"));
+            window.getScene().setRoot(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setProfileDetails(User us) {

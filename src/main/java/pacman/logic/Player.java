@@ -11,7 +11,7 @@ public class Player {
 
     private String username;
     private IntegerProperty score = new SimpleIntegerProperty();
-    private IntegerProperty lives = new SimpleIntegerProperty(3);
+    private IntegerProperty lives = new SimpleIntegerProperty(1);
 
     public Player() {
 
