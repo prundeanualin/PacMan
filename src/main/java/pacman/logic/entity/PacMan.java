@@ -34,13 +34,13 @@ public class PacMan extends MovingEntity {
     @Override
     public void update(double dt) {
         super.update(dt);
-        Set<Entity> collisions = checkCollision();
         if (immune) {
             immuneTimer -= dt;
             immune = immuneTimer > 0.0;
         } else {
             // Set every collided pellet to dead
-            collisions.stream().filter(e -> e instanceof Pellet).forEach(e -> e.setAlive(false));
+            checkCollision().stream().filter(e -> e instanceof Pellet)
+                    .forEach(e -> e.setAlive(false));
         }
     }
 
