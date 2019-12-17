@@ -28,7 +28,7 @@ public class GhostTest {
     }
 
     @Test
-    public void updatePacmanAlive(){
+    public void updatePacmanAlive() {
         board = MapParser.parseMapFromString(map);
         ghost = new Blinky(board, board.getSquare(2, 0));
         board.pacman.setAlive(true);
@@ -37,5 +37,7 @@ public class GhostTest {
         ghost.update(0.5);
         assertTrue(board.pacman.isAlive());
     }
+
+
 
 }
