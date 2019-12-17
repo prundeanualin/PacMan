@@ -14,9 +14,8 @@ import pacman.logic.level.Square;
  * Represents a ghost.
  */
 @SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class not a Bean.
-public abstract class Ghost extends Entity {
+public abstract class Ghost extends MovingEntity {
 
-    static PacMan pacMan;
     private Square oldSquare;
 
     /**
@@ -37,15 +36,15 @@ public abstract class Ghost extends Entity {
 
         // Collided with PacMan
         Set<Entity> collisions = checkCollision();
-        if (collisions.contains(pacMan) && !pacMan.isImmune()) {
-            pacMan.setAlive(false);
+        if (collisions.contains(board.pacman) && !board.pacman.isImmune()) {
+            board.pacman.setAlive(false);
         }
 
         if (square != oldSquare) { // Update choice when a new square is reached.
             List<Square> options = getOptions();
-            if (options.size() > 0) {
-                Square target = chooseTarget();
-                Square next= closestNeighbour(target);
+            Square target = chooseTarget();
+            if (options.size() > 0 && target != null) {
+                Square next = closestNeighbour(target, options);
                 nextDirection = square.directionOf(next);
             }
             oldSquare = square; // must be called after getOptions, as this information is used.
@@ -77,8 +76,8 @@ public abstract class Ghost extends Entity {
      */
     abstract Square chooseTarget();
 
-    private Square closestNeighbour(Square target) {
-        List<Square> options= getOptions();
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // Foreach loop incorrectly marked as UR anomaly.
+    private Square closestNeighbour(Square target, List<Square> options) {
         if (options.size() == 0) {
             throw new IllegalArgumentException("Cannot choose target from empty list of options.");
         }

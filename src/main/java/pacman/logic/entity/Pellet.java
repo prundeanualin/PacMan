@@ -22,4 +22,12 @@ public class Pellet extends Entity {
     public Pellet(@NotNull Board board, Square square) {
         super(board, square, SPRITE);
     }
+
+    @Override
+    public void update(double dtSmall) {}
+
+    @Override
+    protected boolean isWithinBound(double dx, double dy) {
+        return dx * dx + dy * dy < 0.25;
+    }
 }

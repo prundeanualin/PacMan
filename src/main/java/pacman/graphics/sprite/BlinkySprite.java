@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import pacman.graphics.Style;
 import pacman.logic.entity.Ghost;
 
+@SuppressWarnings("PMD.BeanMembersShouldSerialize") // Not a bean.
 public class BlinkySprite extends Sprite<Ghost> {
     Image image = new Image(getClass().getResourceAsStream("/images/blinky.png"));
 

@@ -19,6 +19,9 @@ public class PacManTest {
     private Entity pellet;
     private Entity wall;
 
+    /**
+     * setting up the testing environment.
+     */
     @BeforeEach
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // known bug of pmd with foreach loops.
     public void init() {
@@ -26,10 +29,10 @@ public class PacManTest {
         Level level = new LevelFactory().createLevel(board);
         for (Entity entity : board.getEntities()) {
             if (entity instanceof Pellet) {
-                pellet = (Pellet) entity;
+                pellet = entity;
             }
             if (entity instanceof Wall) {
-                wall = (Wall) entity;
+                wall = entity;
             }
         }
         pacMan = level.getPacMan();
@@ -38,14 +41,13 @@ public class PacManTest {
     @Test
     public void testCollidePellet() {
         pacMan.setDirection(Direction.LEFT);
-        pacMan.update(1);
+        pacMan.update(0.5);
         assertTrue(pacMan.collide(pellet));
     }
 
     @Test
     public void testCollideWall() {
-        pacMan.setDirection(Direction.RIGHT);
-        pacMan.update(0.2);
+        pacMan.setX(pacMan.getX() + 0.2);
         assertTrue(pacMan.collide(wall));
     }
 

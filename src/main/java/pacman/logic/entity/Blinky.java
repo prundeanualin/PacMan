@@ -20,7 +20,7 @@ public class Blinky extends Ghost {
 
     @Override
     Square chooseTarget() {
-        Square pac = pacMan.getSquare();
-        return pac;
+        if (board.pacman == null) return null;
+        else return board.pacman.getSquare();
     }
 }

@@ -11,8 +11,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pacman.logic.Player;
 import pacman.logic.entity.Entity;
-import pacman.logic.game.Game;
-import pacman.logic.game.GameState;
 import pacman.logic.level.Board;
 import pacman.logic.level.Level;
 import pacman.logic.level.LevelFactory;
@@ -23,6 +21,9 @@ public class GameTest {
 
     private Game game;
 
+    /**
+     * setting up the testing environment.
+     */
     @BeforeEach
     public void init() {
         Board board = new MapParser("").parseMapFromString("*P");

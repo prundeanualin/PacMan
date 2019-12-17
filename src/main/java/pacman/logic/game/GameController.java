@@ -1,23 +1,15 @@
 package pacman.logic.game;
 
 import database.User;
-import javafx.animation.AnimationTimer;
-import javafx.geometry.Insets;
-import javafx.scene.control.Label;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import pacman.Main;
-import pacman.graphics.BoardCanvas;
-import pacman.logic.Player;
-import pacman.logic.level.Level;
-import pacman.logic.level.LevelFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
+import javafx.animation.AnimationTimer;
+
+import pacman.logic.Player;
+import pacman.logic.level.Level;
+import pacman.logic.level.LevelFactory;
 
 /**
  * Controller for the game, responsible for starting, pausing, updating and stopping the game.
@@ -32,6 +24,7 @@ public class GameController {
 
     /**
      * Gets the GameController instance. There is only one instance.
+     *
      * @return The game controller
      */
     public static GameController getInstance() {
@@ -47,6 +40,8 @@ public class GameController {
     private User user;
 
     private double time;
+    private boolean started = false;
+    private final double MAX_TIME = 0.5;
 
     /**
      * Creates the game controller. Initializes the game, player and levels.
@@ -55,7 +50,8 @@ public class GameController {
         List<Level> levels = new ArrayList<>();
         this.levelFactory = new LevelFactory();
         levels.add(levelFactory.createLevel("level_1"));
-        this.game = new Game(new Player(), levels); //TODO
+        levels.add(levelFactory.createLevel("level_2"));
+        this.game = new Game(new Player(), levels);
         this.time = 0.0;
     }
 
@@ -71,16 +67,17 @@ public class GameController {
      * Starts the timer for updating the game.
      */
     protected void startTimer() {
-        long start = System.nanoTime();
-        timer = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                double t = (now - start) / 1E9;
-                update(t);
-            }
-        };
+        long start = System.nanoTime(); //NOPMD no reasonable rule violations
+        if (timer == null) {
+            timer = new AnimationTimer() {
+                @Override
+                public void handle(long now) {
+                    double t = (now - start) / 1E9;
+                    update(t);
+                }
+            };
+        }
         timer.start();
-
     }
 
     /**
@@ -102,20 +99,31 @@ public class GameController {
             throw new IllegalStateException("Can not unpause a game that is not paused");
         }
         game.setState(GameState.RUNNING);
+        timer.start();
     }
 
     /**
      * Updates the game.
-     * @param t The current time since start in seconds.
+     *
+     * @param newTime The current time since start in seconds.
      */
-    public void update(double t) {
-        double dt = t - time;
-        time = t;
+    protected void update(double newTime) {
+        double dt = Math.min(newTime - time, MAX_TIME); // In exceptional cases use MAX_TIME.
+        if (dt < 0) dt = MAX_TIME; // overflow, if possible.
+        time = newTime;
         game.update(dt);
     }
 
     /**
+     * creates a new level for the user who just won the current one.
+     */
+    public void nextLevel() {
+        getGame().advanceLevel();
+    }
+
+    /**
      * Gets the game instance.
+     *
      * @return The game
      */
     public Game getGame() {
@@ -124,6 +132,14 @@ public class GameController {
 
     public void setUser(User user) {
         getInstance().getGame().setPlayer(user);
+    }
+
+    public void setTimer(AnimationTimer at) {
+        timer = at;
+    }
+
+    public void setGame(Game g) {
+        game = g;
     }
 
 }

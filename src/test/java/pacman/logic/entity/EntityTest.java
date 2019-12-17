@@ -2,6 +2,7 @@ package pacman.logic.entity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Iterator;
 
@@ -19,6 +20,9 @@ public class EntityTest {
     private PacMan pacMan;
     private Entity entity;
 
+    /**
+     * setting up the testing environment.
+     */
     @BeforeEach
     public void init() {
         Board board = new MapParser("").parseMapFromString("*P");
@@ -33,16 +37,24 @@ public class EntityTest {
 
     @Test
     public void testUpdate() {
-        entity.setDirection(Direction.RIGHT);
-        entity.update(0.1);
-        assertEquals(0.6, entity.getX(), 0.001);
+        pacMan.setDirection(Direction.RIGHT);
+        pacMan.update(0.1);
+        assertEquals(1.7, pacMan.getX(), 0.001);
+    }
+
+    @Test
+    public void testNoCollision() {
+        pacMan.setDirection(Direction.LEFT);
+        assertFalse(entity.collide(pacMan));
+        assertEquals(0, pacMan.checkCollision().size());
     }
 
     @Test
     public void testCollision() {
         pacMan.setDirection(Direction.LEFT);
-        pacMan.update(1);
-        assertFalse(entity.collide(pacMan));
+        pacMan.update(0.5);
+        assertTrue(entity.collide(pacMan));
+        assertEquals(1, pacMan.checkCollision().size());
     }
 
     @Test
