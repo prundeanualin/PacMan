@@ -22,47 +22,70 @@ public abstract class MovingEntity extends Entity {
     }
 
     /**
-     * Updates the entity's position during the game cycle.
+     * Updates the entity's position & direction during the game cycle.
      */
     public void update(double dtSmall) {
-        Square square = getSquare(); // NOPMD variable is used
-        // If no collision with solid entities and entity is moving
+        //TODO: either add speed, or make this more *2 intuitive.
         double dt = 2 * dtSmall; //NOPMD needed to change the speed of the entities' movement
-        //TODO: either add speed, or make this more intuitive.
+
         if (direction != null) {
-            posX += dt * direction.getX();
-            posY += dt * direction.getY();
-
-            if (checkCollision().stream().anyMatch(Entity::isSolid)) {
-                posX -= dt * direction.getX();
-                posY -= dt * direction.getY();
-            } else {
-                Square newSquare = board.getSquare(posX, posY);
-                // Check if entity moved squares
-                if (!square.equals(newSquare)) {
-                    moveToSquare(newSquare);
-                }
-                // Wraparound
-                posX = board.getPosX(posX);
-                posY = board.getPosY(posY);
-            }
+            updatePosition(dt * direction.getX(), dt * direction.getY());
         }
 
-        if (nextDirection != null && nextDirection != getDirection() && !square.getNeighbour(nextDirection).hasSolid()) {
-            // Get distance to center of square
-            double dx = Math.abs(getX() - Math.floor(getX()) - 0.5);
-            double dy = Math.abs(getY() - Math.floor(getY()) - 0.5);
-            /*
-             * Entities changes direction if the set direction is opposite their current direction
-             * or if they are at the center of the square.
-             */
-            if (getDirection() == nextDirection.getInverse() || (dx < 0.05 && dy < 0.05)) {
-                if (getDirection() != nextDirection.getInverse()) {
-                    setX(Math.floor(getX()) + 0.5);
-                    setY(Math.floor(getY()) + 0.5);
-                }
-                setDirection(nextDirection);
+        if (nextDirection != null && nextDirection != getDirection()
+                && !square.getNeighbour(nextDirection).hasSolid()) {
+            updateDirection();
+        }
+    }
+
+    /**
+     * Updates the Entity's position given dx & dy.
+     *
+     * @param dx the amount to move horizontally.
+     * @param dy the amount to move vertically.
+     */
+    private void updatePosition(double dx, double dy) {
+        double oldX = posX;
+        double oldY = posY;
+        // Update position + wraparound.
+        posX = board.getPosX(oldX + dx);
+        posY = board.getPosY(oldY + dy);
+
+        // If this results in collision, revert.
+        if (checkCollision().stream().anyMatch(Entity::isSolid)) {
+            posX = oldX;
+            posY = oldY;
+        } else {
+            Square newSquare = board.getSquare(posX, posY);
+            // Update Square.
+            if (!square.equals(newSquare)) {
+                moveToSquare(newSquare);
             }
         }
+    }
+
+    /**
+     * Updates the Entity's direction.
+     * This only if the next direction is backwards, or if at the center of a square.
+     */
+    private void updateDirection() {
+        // Get distance to center of square
+        double dx = Math.abs(posX - Math.floor(posX) - 0.5); //NOPMD false DU anomaly.
+        double dy = Math.abs(posY - Math.floor(posY) - 0.5); //NOPMD false DU anomaly.
+
+        // If nextDirection is opposite of current direction or if ~at center of square.
+        if (getDirection() == nextDirection.getInverse()) {
+            setDirection(nextDirection);
+        } else if (dx < 0.05 && dy < 0.05) {
+            // shift to center to prevent getting stuck.
+            this.posX = square.getX() + 0.5;
+            this.posY = square.getY() + 0.5;
+            setDirection(nextDirection);
+        }
+    }
+
+    @Override
+    protected boolean isWithinBound(double dx, double dy) {
+        return dx * dx + dy * dy < 0.75;
     }
 }

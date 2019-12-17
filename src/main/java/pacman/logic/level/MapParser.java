@@ -66,7 +66,7 @@ public class MapParser {
      * @param scanner The scanner to read from
      * @return A board parsed from the scanner
      */
-    public @NotNull
+    public static @NotNull
     Board parseMap(@NotNull Scanner scanner) {
         List<String> lines = new ArrayList<>();
         while (scanner.hasNextLine()) {
@@ -98,34 +98,33 @@ public class MapParser {
      * @param mapString The string to read from
      * @return A board parsed from the string
      */
-    public @NotNull
+    public static @NotNull
     Board parseMapFromString(@NotNull String mapString) {
         return parseMap(new Scanner(mapString));
     }
 
-    private void parseSquare(@NotNull Board board, char squareChar, int x, int y) {
+    private static void parseSquare(@NotNull Board board, char squareChar, int x, int y) {
         Square square = new Square(board, x, y); // NOPMD variable is used
         switch (squareChar) { // NOPMD , default case can not break as it throws an exception.
             case '#':
-                square.addEntity(new Wall(board, square));
+                new Wall(board, square);
                 break;
             case '*':
-                square.addEntity(new Pellet(board, square));
+                new Pellet(board, square);
                 break;
             case 'B':
-                square.addEntity(new Blinky(board, square));
+                new Blinky(board, square);
                 break;
             case 'P':
-                square.addEntity(new PacMan(board, square));
+                new PacMan(board, square);
                 break;
             case 'p':
-                square.addEntity(new Pinky(board, square));
+                new Pinky(board, square);
             case '.':
                 break;
             default:
                 throw new IllegalArgumentException("Invalid character");
         }
-        board.addSquare(square);
     }
 
     /**
@@ -135,7 +134,7 @@ public class MapParser {
      *
      * @param mapText the lines read from the file
      */
-    public void checkMapCorrectness(List<String> mapText) {
+    public static void checkMapCorrectness(List<String> mapText) {
         if (mapText == null || mapText.isEmpty()) {
             throw new IllegalArgumentException("Invalid map format: "
                     + "No existing rows inside the map file");

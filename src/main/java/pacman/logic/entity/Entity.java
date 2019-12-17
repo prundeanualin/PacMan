@@ -18,8 +18,8 @@ public abstract class Entity {
 
     Board board;
     Square square;
-    double posX;
-    double posY;
+    double posX = -1; // Not on board.
+    double posY = -1; // Not on board.
     private Sprite<? extends Entity> sprite;
 
     Direction direction = null;
@@ -44,13 +44,7 @@ public abstract class Entity {
         this.sprite = sprite;
         this.square = square;
         if (square != null) {
-            this.posX = square.getX() + 0.5;
-            this.posY = square.getY() + 0.5;
             square.addEntity(this);
-            board.addEntity(this);
-        } else {
-            this.posX = -1;
-            this.posY = -1;
         }
     }
 
@@ -59,21 +53,24 @@ public abstract class Entity {
      *
      * @param other The other entity to check collision with
      * @return Whether the two entities collide
+     * @see this#isWithinBound(double, double)
      */
     public boolean collide(Entity other) {
         double dx = distanceX(other.getX()); // NOPMD variable is used
         double dy = distanceY(other.getY()); // NOPMD variable is used
-        if (other instanceof Pellet) {
-            return dx * dx + dy * dy < 0.25;
-        }
-        if (other instanceof Wall) {
-            return dx < 1.0 && dy < 1.0;
-        }
-        if (other instanceof PacMan || other instanceof Ghost) {
-            return dx * dx + dy * dy < 0.75;
-        }
-        return false;
+        return other.isWithinBound(dx, dy);
     }
+
+    /**
+     * Checks whether an entity at distance dx, dy is inside this entity's bounds.
+     * In which case it should collide.
+     *
+     * @param dx the horizontal distance to the other entity.
+     * @param dy the vertical distance to the other entity.
+     * @return whether this distance means the other entity is within this entity's bounds.
+     * @see this#collide(Entity)
+     */
+    protected abstract boolean isWithinBound(double dx, double dy);
 
     /**
      * Updates the entity each game cycle.
@@ -89,13 +86,13 @@ public abstract class Entity {
     public Set<Entity> checkCollision() {
         Set<Entity> collisions = new HashSet<>();
         for (Entity entity : getSquare().getEntities()) {
-            if (entity != this && collide(entity)) {
+            if (this != entity && collide(entity)) {
                 collisions.add(entity);
             }
         }
         if (direction != null) {
             for (Entity entity : getSquare().getNeighbour(direction).getEntities()) {
-                if (entity != this && collide(entity)) {
+                if (collide(entity)) {
                     collisions.add(entity);
                 }
             }
@@ -215,10 +212,10 @@ public abstract class Entity {
      */
     protected double distanceX(double x) {
         double dx = Math.abs(posX - x);
-        if (2 * dx > board.getWidth()) {
+        if (2 * dx > board.getWidth())
             return board.getWidth() - dx;
-        }
-        return dx;
+        else
+            return dx;
     }
 
     /**

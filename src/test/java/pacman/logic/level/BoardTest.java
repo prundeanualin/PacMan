@@ -48,12 +48,6 @@ class BoardTest {
     }
 
     @Test
-    void addSquare() {
-        board.addSquare(new Square(board, 5, 0));
-        assertEquals(6, StreamSupport.stream(board.getSquares().spliterator(), false).count());
-    }
-
-    @Test
     void removeEntity() {
         for (Entity e : board.getEntities()) {
             if (e instanceof PacMan) {
