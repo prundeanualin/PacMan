@@ -17,7 +17,8 @@ public abstract class MovingEntity extends Entity {
      * @param square The square the entity belongs to
      * @param sprite The sprite for rendering
      */
-    public MovingEntity(@NotNull Board board, Square square, @NotNull Sprite<? extends Entity> sprite) {
+    public MovingEntity(@NotNull Board board, Square square,
+                        @NotNull Sprite<? extends Entity> sprite) {
         super(board, square, sprite);
     }
 

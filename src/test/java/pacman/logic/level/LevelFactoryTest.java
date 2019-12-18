@@ -3,8 +3,8 @@ package pacman.logic.level;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import pacman.logic.entity.PacMan;
 
@@ -25,13 +25,13 @@ public class LevelFactoryTest {
         assertThrows(IllegalArgumentException.class, () -> levelFactory.createLevel(board));
     }
 
-    // @Test Illegal Argument exception already thrown during the second instantiation.
+    /*@Test Illegal Argument exception already thrown during the second instantiation.
     public void testMultiplePacMan() {
         Square square = new Square(board, 0, 0);
         new PacMan(board, square);
         new PacMan(board, square);
         assertThrows(IllegalArgumentException.class, () -> levelFactory.createLevel(board));
-    }
+    }*/
 
     @Test
     public void testCreateLevelSuccess() {

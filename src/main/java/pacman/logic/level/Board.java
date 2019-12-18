@@ -8,9 +8,9 @@ import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.NotNull;
 import pacman.logic.entity.Entity;
+import pacman.logic.entity.Ghost;
 import pacman.logic.entity.PacMan;
 import pacman.logic.entity.Pellet;
-import pacman.logic.entity.Ghost;
 
 /**
  * Represents a board with a grid of squares and entities.
@@ -51,8 +51,7 @@ public class Board {
      * @param y The y coordinate of the square
      * @return The square at the specified location.
      */
-    public @NotNull
-    Square getSquare(int x, int y) {
+    public @NotNull Square getSquare(int x, int y) {
         return squares.get((int) getPosY(y) * width + (int) getPosX(x));
     }
 
@@ -63,8 +62,7 @@ public class Board {
      * @param y The y coordinate of the square
      * @return The square at the specified location.
      */
-    public @NotNull
-    Square getSquare(double x, double y) {
+    public @NotNull Square getSquare(double x, double y) {
         return squares.get((int) getPosY(y) * width + (int) getPosX(x));
     }
 
@@ -140,8 +138,7 @@ public class Board {
      *
      * @return The entities as an iterable
      */
-    public @NotNull
-    Iterable<Entity> getEntities() {
+    public @NotNull Iterable<Entity> getEntities() {
         return () -> entities.iterator();
     }
 
@@ -150,8 +147,7 @@ public class Board {
      *
      * @return The squares as an iterable
      */
-    public @NotNull
-    Iterable<Square> getSquares() {
+    public @NotNull Iterable<Square> getSquares() {
         return () -> squares.iterator();
     }
 

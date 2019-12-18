@@ -24,8 +24,10 @@ public class Blinky extends Ghost {
      */
     @Override
     protected Square chaseTarget() {
-        if (board.pacman == null) return null;
-        else return board.pacman.getSquare();
+        if (board.pacman == null) {
+            return null;
+        }
+        return board.pacman.getSquare();
     }
 
     @Override

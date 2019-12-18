@@ -2,7 +2,6 @@ package pacman.graphics.gui;
 
 import database.User;
 import java.io.IOException;
-
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -18,17 +17,15 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import pacman.graphics.GameView;
 
 import pacman.Main;
-import pacman.graphics.BoardCanvas;
+import pacman.graphics.GameView;
 import pacman.logic.Direction;
-import pacman.logic.game.GameController;
 import pacman.logic.entity.PacMan;
+import pacman.logic.game.GameController;
 
 public class MenuController implements Initializable {
 

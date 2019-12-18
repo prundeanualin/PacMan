@@ -57,7 +57,7 @@ public class Level {
      * Checks if PacMan was hit and therefore should lose a life.
      * @return whether PacMan was hit
      */
-    public boolean wasPacManHit(){
+    public boolean wasPacManHit() {
         return !pacMan.isAlive();
     }
 
