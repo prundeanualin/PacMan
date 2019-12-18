@@ -1,4 +1,4 @@
-package database;
+package pacman.database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

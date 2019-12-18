@@ -1,7 +1,7 @@
 package pacman.graphics.gui;
 
-import database.RegisterDao;
-import database.User;
+import pacman.database.RegisterDao;
+import pacman.database.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

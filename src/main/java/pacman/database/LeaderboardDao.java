@@ -1,4 +1,4 @@
-package database;
+package pacman.database;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -19,7 +19,6 @@ public class LeaderboardDao {
 
             List<User> result = new ArrayList<>();
             ResultSet results = statement.executeQuery(); // NOPMD Everything is closed
-            statement.close();
             while (results.next()) {
                 User user = new User();
                 user.setId(results.getInt("Id"));
@@ -28,6 +27,7 @@ public class LeaderboardDao {
                 user.setScore(results.getInt("Score"));
                 result.add(user);
             }
+            statement.close();
             results.close();
 
             return result;

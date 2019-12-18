@@ -1,12 +1,11 @@
 package pacman.graphics.gui;
 
-import database.LeaderboardDao;
-import database.User;
+import pacman.database.LeaderboardDao;
+import pacman.database.User;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import pacman.graphics.Style;
 import pacman.logic.game.GameController;

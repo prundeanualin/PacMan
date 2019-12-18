@@ -1,4 +1,4 @@
-package database;
+package pacman.database;
 
 import javax.swing.JOptionPane;
 import java.sql.Connection;

@@ -1,4 +1,4 @@
-package database;
+package pacman.database;
 
 import javax.swing.*;
 import java.sql.Connection;

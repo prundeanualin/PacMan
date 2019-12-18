@@ -1,4 +1,4 @@
-package database;
+package pacman.database;
 
 //import lombok.Getter;
 //import lombok.Setter;

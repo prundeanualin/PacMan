@@ -1,23 +1,13 @@
 package pacman.logic.game;
 
-import database.User;
+import pacman.database.User;
 import javafx.animation.AnimationTimer;
-import javafx.geometry.Insets;
-import javafx.scene.control.Label;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import pacman.Main;
-import pacman.graphics.BoardCanvas;
 import pacman.logic.Player;
 import pacman.logic.level.Level;
 import pacman.logic.level.LevelFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Controller for the game, responsible for starting, pausing, updating and stopping the game.
