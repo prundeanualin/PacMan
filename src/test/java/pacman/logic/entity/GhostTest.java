@@ -1,5 +1,6 @@
 package pacman.logic.entity;
 
+
 import org.junit.jupiter.api.Test;
 import pacman.logic.Direction;
 import pacman.logic.level.Board;
@@ -11,6 +12,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
 public class GhostTest {
 
     private final String map = "P.*#";
@@ -18,7 +20,7 @@ public class GhostTest {
     private Ghost ghost;
 
     @Test
-    public void updatePacmanDies(){
+    public void updatePacmanDies() {
         board = MapParser.parseMapFromString(map);
         ghost = new Blinky(board, board.getSquare(1, 0));
         board.pacman.setAlive(true);
@@ -52,19 +54,19 @@ public class GhostTest {
 
 
     @Test
-    public void noTarget(){
-        String mapp= "..*#";
-        board= MapParser.parseMapFromString(mapp);
-        ghost= new Blinky(board, board.getSquare(1,0));
+    public void noTarget() {
+        String mapp = "..*#";
+        board = MapParser.parseMapFromString(mapp);
+        ghost = new Blinky(board, board.getSquare(1,0));
         ghost.update(0.5);
         assertTrue(ghost.oldSquare.equals(ghost.square));
     }
 
     @Test
-    public void noOptions(){
-        String map= ".";
-        board= MapParser.parseMapFromString(map);
-        ghost= new Blinky(board, board.getSquare(0,0));
+    public void noOptions() {
+        String map = ".";
+        board = MapParser.parseMapFromString(map);
+        ghost = new Blinky(board, board.getSquare(0,0));
         ghost.update(0);
         assertTrue(ghost.oldSquare.equals(ghost.square));
     }
@@ -74,18 +76,15 @@ public class GhostTest {
      * The neighbors don't consist of solids(walls).
      */
     @Test
-    public void getOptionsNoWalls(){
-        String mapp= "P...*#";
-        board= MapParser.parseMapFromString(mapp);
-        ghost= new Blinky(board, board.getSquare(2,0));
+    public void getOptionsNoWalls() {
+        String mapp = "P...*#";
+        board = MapParser.parseMapFromString(mapp);
+        ghost = new Blinky(board, board.getSquare(2,0));
         List<Square> options = new ArrayList<>();
         options.add(board.getSquare(1,0));
         options.add(board.getSquare(3,0));
         assertEquals(2, ghost.getOptions().size());
-//
         assertEquals(options, ghost.getOptions());
-
-//        assertEquals(options, ghost.getOptions());
     }
 
 //    @Test
@@ -98,26 +97,27 @@ public class GhostTest {
 //        for(Square s: ghost.getOptions()){
 //            System.out.println(s.hasSolid());
 //        }
-////        System.out.println(square.hasSolid());
-////        assertEquals(ghost.getOptions(), options);
-////        assertEquals(1, ghost.getOptions().size());
+//        System.out.println(square.hasSolid());
+//        assertEquals(ghost.getOptions(), options);
+//        assertEquals(1, ghost.getOptions().size());
 //    }
 
     @Test
-    public void closestNeighborThrowsException(){
-        String mapp= "P.";
-        board= MapParser.parseMapFromString(mapp);
-        ghost= new Blinky(board, board.getSquare(1,0));
-        List<Square> options= new ArrayList<>();
-        assertThrows(IllegalArgumentException.class, () -> ghost.closestNeighbour(board.pacman.square, options));
+    public void closestNeighborThrowsException() {
+        String mapp = "P.";
+        board = MapParser.parseMapFromString(mapp);
+        ghost = new Blinky(board, board.getSquare(1,0));
+        List<Square> options = new ArrayList<>();
+        assertThrows(IllegalArgumentException.class, () ->
+                ghost.closestNeighbour(board.pacman.square, options));
     }
 
     @Test
-    public void closestNeighbor(){
-        String mapp= "P..*#";
-        board= MapParser.parseMapFromString(map);
-        ghost= new Blinky(board, board.getSquare(2,0));
-        List<Square>options= new ArrayList<>();
+    public void closestNeighbor() {
+        String mapp = "P..*#";
+        board = MapParser.parseMapFromString(mapp);
+        ghost = new Blinky(board, board.getSquare(2,0));
+        List<Square> options = new ArrayList<>();
         options.add(board.getSquare(1,0));
         options.add(board.getSquare(3,0));
         assertEquals(board.getSquare(1,0), ghost.closestNeighbour(board.pacman.square, options));

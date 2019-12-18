@@ -170,4 +170,8 @@ public class Square {
                 Objects.equals(entities, square.entities);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(board, entities, x, y, solid);
+    }
 }
