@@ -1,4 +1,4 @@
-package database;
+package pacman.database;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 

@@ -1,4 +1,4 @@
-package database;
+package pacman.database;
 
 import static junit.framework.TestCase.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -20,29 +20,29 @@ import org.mockito.Mockito;
 //some helper test scope variables
 public class RegisterDaoTest {
 
-    private UserDao userDao;
+    private static UserDao userDao;
 
     @Mock
-    private DbConnect dbConnect;
+    private static DbConnect dbConnect;
 
     @Mock
-    private Connection connection;
+    private static Connection connection;
 
     @Mock
-    private PreparedStatement preparedStatement;
+    private static PreparedStatement preparedStatement;
 
     @Mock
-    private ResultSet resultSet;
+    private static ResultSet resultSet;
 
 
-    private User user;
+    private static User user;
 
     /**
      * Setting up the testing environment for the database.
      * @throws SQLException in case the connection is not ok
      */
     @BeforeAll
-    public void setUp() throws SQLException {
+    public static void setUp() throws SQLException {
         userDao = new UserDao();
 
         when(connection.prepareStatement(any(String.class))).thenReturn(preparedStatement);

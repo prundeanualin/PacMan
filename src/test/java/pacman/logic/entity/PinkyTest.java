@@ -11,7 +11,7 @@ import pacman.logic.level.Board;
 import pacman.logic.level.MapParser;
 
 public class PinkyTest {
-    private final String map = ".........\n" +
+    private final String map = ".........\n" + // NOPMD string repetition necessary
             ".........\n" +
             ".........\n" +
             ".........\n" +

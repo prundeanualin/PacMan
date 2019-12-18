@@ -1,6 +1,5 @@
 package pacman.logic.entity;
 
-
 import org.junit.jupiter.api.Test;
 import pacman.logic.Direction;
 import pacman.logic.level.Board;
@@ -12,7 +11,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
+@SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class is not a bean.
 public class GhostTest {
 
     private final String map = "P.*#";
@@ -107,7 +106,7 @@ public class GhostTest {
         String mapp = "P.";
         board = MapParser.parseMapFromString(mapp);
         ghost = new Blinky(board, board.getSquare(1,0));
-        List<Square> options = new ArrayList<>();
+        List<Square> options = new ArrayList<>(); // NOPMD variable used
         assertThrows(IllegalArgumentException.class, () ->
                 ghost.closestNeighbour(board.pacman.square, options));
     }
