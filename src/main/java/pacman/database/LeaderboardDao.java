@@ -11,9 +11,24 @@ import java.util.List;
 
 public class LeaderboardDao {
 
+    public void enterScore(User user, int score) {
+        DbConnect connect = new DbConnect();
+        try (Connection conn = connect.getMyConnection()) {
+            PreparedStatement statement = conn
+                    .prepareStatement("UPDATE Users SET Score=? WHERE Username=?");
+            statement.setInt(1, score);
+            statement.setString(2, user.getUsername());
+            statement.execute();
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public @NotNull List<User> getTop(int amount) {
-        try (Connection conn = DbConnect.getMyConnection()) {
-            PreparedStatement statement = DbConnect.getMyConnection()
+        DbConnect connect = new DbConnect();
+        try (Connection conn = connect.getMyConnection()) {
+            PreparedStatement statement = conn
                     .prepareStatement("SELECT * FROM Users ORDER BY Score DESC LIMIT ?");
             statement.setInt(1, amount);
 

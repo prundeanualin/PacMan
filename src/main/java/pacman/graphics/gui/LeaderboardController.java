@@ -35,6 +35,8 @@ public class LeaderboardController implements Initializable {
         }
 
         LeaderboardDao dao = new LeaderboardDao();
+        dao.enterScore(GameController.getInstance().getUser(),
+                GameController.getInstance().getGame().getPlayer().getScore().get());
         List<User> users = dao.getTop(LEADERBOARD_AMOUNT);
         for (int i = 0; i < users.size(); i++) {
             Label label = new Label((i+1) + ". " + users.get(i).getUsername() + ": "
