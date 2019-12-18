@@ -3,8 +3,7 @@ package pacman.logic.level;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
 import pacman.logic.entity.PacMan;
@@ -26,8 +25,7 @@ public class LevelFactoryTest {
         assertThrows(IllegalArgumentException.class, () -> levelFactory.createLevel(board));
     }
 
-    @Ignore("IllegalArgumentException is already thrown during instantiation of second PacMan.")
-    @Test
+    // @Test Illegal Argument exception already thrown during the second instantiation.
     public void testMultiplePacMan() {
         Square square = new Square(board, 0, 0);
         new PacMan(board, square);

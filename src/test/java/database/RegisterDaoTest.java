@@ -10,7 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeAll;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -60,7 +60,7 @@ public class RegisterDaoTest {
         when(preparedStatement.executeQuery()).thenReturn(resultSet);
     }
 
-    @Test(expected = Exception.class)
+    @Test
     public void nullCreateThrowsException() {
         RegisterDao registerDao = Mockito.mock(RegisterDao.class);
         Mockito.doThrow(new Exception()).when(registerDao).addUser(null);

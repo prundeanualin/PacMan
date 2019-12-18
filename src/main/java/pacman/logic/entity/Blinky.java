@@ -18,9 +18,19 @@ public class Blinky extends Ghost {
         direction = Direction.LEFT;
     }
 
+    /**
+     * {@inheritDoc}
+     * Blinky should always try to target PacMan.
+     */
     @Override
-    Square chooseTarget() {
+    protected Square chaseTarget() {
         if (board.pacman == null) return null;
         else return board.pacman.getSquare();
+    }
+
+    @Override
+    protected Square scatterTarget() {
+        //TODO implement blinky's scatter:
+        return null;
     }
 }

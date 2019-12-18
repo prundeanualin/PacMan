@@ -1,13 +1,10 @@
 package pacman.logic.level;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.jetbrains.annotations.NotNull;
 import pacman.logic.Direction;
 import pacman.logic.entity.Entity;
+
+import java.util.*;
 
 /**
  * Represents a square on the board.
@@ -83,7 +80,7 @@ public class Square {
         } else if (y < Direction.UP.getY()) {
             y += board.getHeight();
         }
-        assert (x == Direction.LEFT.getY() || x == Direction.UP.getX() ||
+        assert (x == Direction.LEFT.getX() || x == Direction.UP.getX() ||
                 x == Direction.RIGHT.getX());
         assert (y == Direction.DOWN.getY() || y == Direction.RIGHT.getY() ||
                 y == Direction.UP.getY());
@@ -159,5 +156,22 @@ public class Square {
     @Override
     public String toString() {
         return "Square " + x + ":" + y;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Square)) return false;
+        Square square = (Square) o;
+        return x == square.x &&
+                y == square.y &&
+                solid == square.solid &&
+                Objects.equals(board, square.board) &&
+                Objects.equals(entities, square.entities);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(board, entities, x, y, solid);
     }
 }
