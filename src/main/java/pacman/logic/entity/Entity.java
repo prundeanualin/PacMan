@@ -1,14 +1,14 @@
 package pacman.logic.entity;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import pacman.graphics.sprite.Sprite;
 import pacman.logic.Direction;
 import pacman.logic.level.Board;
 import pacman.logic.level.Square;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Represents an entity with a position, velocity and a sprite.
@@ -17,7 +17,7 @@ import pacman.logic.level.Square;
 public abstract class Entity {
 
     Board board;
-    Square square;
+    protected Square square;
     double posX = -1; // Not on board.
     double posY = -1; // Not on board.
     private Sprite<? extends Entity> sprite;

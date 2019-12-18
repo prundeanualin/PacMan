@@ -1,14 +1,14 @@
 package pacman.logic.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
 import pacman.graphics.sprite.Sprite;
 import pacman.logic.Direction;
 import pacman.logic.GameController;
 import pacman.logic.level.Board;
 import pacman.logic.level.Square;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -24,7 +24,7 @@ public abstract class Ghost extends MovingEntity {
     }
 
     protected Mode mode = Mode.CHASE;
-    private Square oldSquare;
+    protected Square oldSquare;
 
     /**
      * Creates a ghost.
@@ -79,7 +79,7 @@ public abstract class Ghost extends MovingEntity {
     }
 
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // Foreach loop incorrectly marked as UR anomaly.
-    private Square closestNeighbour(Square target, List<Square> options) {
+    protected Square closestNeighbour(Square target, List<Square> options) {
         if (options.size() == 0) {
             throw new IllegalArgumentException("Cannot choose target from empty list of options.");
         }
@@ -108,7 +108,7 @@ public abstract class Ghost extends MovingEntity {
      * @see this#scatterTarget() 
      * @see this#frightenedTarget(List) 
      */
-    private Square chooseTarget(List<Square> nextOptions) {
+    protected Square chooseTarget(List<Square> nextOptions) {
         switch (mode) {
             case CHASE:
                 return chaseTarget();

@@ -50,6 +50,25 @@ public class GhostTest {
 //        assertEquals(0, ghost.getY());
 //    }
 
+
+    @Test
+    public void noTarget(){
+        String mapp= "..*#";
+        board= MapParser.parseMapFromString(mapp);
+        ghost= new Blinky(board, board.getSquare(1,0));
+        ghost.update(0.5);
+        assertTrue(ghost.oldSquare.equals(ghost.square));
+    }
+
+    @Test
+    public void noOptions(){
+        String map= ".";
+        board= MapParser.parseMapFromString(map);
+        ghost= new Blinky(board, board.getSquare(0,0));
+        ghost.update(0);
+        assertTrue(ghost.oldSquare.equals(ghost.square));
+    }
+
     /**
      * Test to get the square options the ghost can move to.
      * The neighbors don't consist of solids(walls).
@@ -60,8 +79,8 @@ public class GhostTest {
         board= MapParser.parseMapFromString(mapp);
         ghost= new Blinky(board, board.getSquare(2,0));
         List<Square> options = new ArrayList<>();
-        options.add(new Square(board, 1,0));
-        options.add(new Square(board, 3, 0));
+        options.add(board.getSquare(1,0));
+        options.add(board.getSquare(3,0));
         assertEquals(2, ghost.getOptions().size());
 //
         assertEquals(options, ghost.getOptions());
@@ -75,23 +94,38 @@ public class GhostTest {
 //        board= MapParser.parseMapFromString(mapp);
 //        ghost= new Blinky(board, board.getSquare(1,0));
 //        List<Square> options = new ArrayList<>();
-//        options.add(new Square(board, 0,0));
+//        options.add(board.getSquare(0,0));
+//        for(Square s: ghost.getOptions()){
+//            System.out.println(s.hasSolid());
+//        }
 ////        System.out.println(square.hasSolid());
 ////        assertEquals(ghost.getOptions(), options);
 ////        assertEquals(1, ghost.getOptions().size());
-//        System.out.println(board.pacman.getY());
-//        System.out.println(ghost.getY());
 //    }
 
-//    @Test(expected = IllegalArgumentException.class)
-//    public void closestNeighborThrowsException(){
-//        String mapp= ".";
-//        board= MapParser.parseMapFromString(mapp);
-//        ghost= new Blinky(board, board.getSquare(0,0));
-//        List<Square> options= new ArrayList<>();
-//
-//
-//    }
+    @Test
+    public void closestNeighborThrowsException(){
+        String mapp= "P.";
+        board= MapParser.parseMapFromString(mapp);
+        ghost= new Blinky(board, board.getSquare(1,0));
+        List<Square> options= new ArrayList<>();
+        assertThrows(IllegalArgumentException.class, () -> ghost.closestNeighbour(board.pacman.square, options));
+    }
+
+    @Test
+    public void closestNeighbor(){
+        String mapp= "P..*#";
+        board= MapParser.parseMapFromString(map);
+        ghost= new Blinky(board, board.getSquare(2,0));
+        List<Square>options= new ArrayList<>();
+        options.add(board.getSquare(1,0));
+        options.add(board.getSquare(3,0));
+        assertEquals(board.getSquare(1,0), ghost.closestNeighbour(board.pacman.square, options));
+    }
+
+
+
+
 
 
 
