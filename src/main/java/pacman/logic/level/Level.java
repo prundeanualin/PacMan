@@ -45,6 +45,14 @@ public class Level {
         return pellets.size() == 0;
     }
 
+    public Set<Ghost> getGhosts() {
+        return ghosts;
+    }
+
+    public Set<Pellet> getPellets() {
+        return pellets;
+    }
+
     /**
      * Checks if PacMan was hit and therefore should lose a life.
      * @return whether PacMan was hit

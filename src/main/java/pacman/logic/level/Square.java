@@ -1,13 +1,10 @@
 package pacman.logic.level;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.jetbrains.annotations.NotNull;
 import pacman.logic.Direction;
 import pacman.logic.entity.Entity;
+
+import java.util.*;
 
 /**
  * Represents a square on the board.
@@ -22,23 +19,14 @@ public class Square {
     private boolean solid;
 
     /**
-     * Creates a new empty square.
+     * Creates a new empty square and adds it to the board.
      */
-    public Square(Board board, int x, int y) {
+    public Square(@NotNull Board board, int x, int y) {
         this.board = board;
         this.x = x;
         this.y = y;
         this.entities = new HashSet<>();
-    }
-
-    /**
-     * Creates a new square containing the entity.
-     *
-     * @param entity The entity in the square
-     */
-    protected Square(@NotNull Entity entity, Board board, int x, int y) {
-        this(board, x, y);
-        addEntity(entity);
+        board.addSquare(this);
     }
 
     /**
@@ -81,6 +69,7 @@ public class Square {
         int x = otherSquare.x - this.x;
         int y = otherSquare.y - this.y;
 
+        // Deal with warping.
         if (x > Direction.RIGHT.getX()) {
             x -= board.getWidth();
         } else if (x < Direction.LEFT.getX()) {
@@ -91,11 +80,11 @@ public class Square {
         } else if (y < Direction.UP.getY()) {
             y += board.getHeight();
         }
-        assert (x == Direction.LEFT.getY() || x == Direction.UP.getX() ||
+        assert (x == Direction.LEFT.getX() || x == Direction.UP.getX() ||
                 x == Direction.RIGHT.getX());
         assert (y == Direction.DOWN.getY() || y == Direction.RIGHT.getY() ||
                 y == Direction.UP.getY());
-        
+
         return Direction.getDirection(x, y);
     }
 
@@ -115,17 +104,25 @@ public class Square {
      * @param newSquare The square to move the entity to
      */
     public void moveEntity(@NotNull Entity entity, @NotNull Square newSquare) {
-        this.entities.remove(entity);
-        newSquare.entities.add(entity);
+        this.removeEntity(entity);
+        newSquare.addEntity(entity);
     }
 
     /**
-     * Adds an entity to this square.
+     * Adds an entity to this square, and the board if possible.
      *
      * @param entity The entity to add
      */
-    protected final void addEntity(@NotNull Entity entity) {
+    public final void addEntity(@NotNull Entity entity) {
         this.entities.add(entity);
+
+        entity.setSquare(this);
+        if (entity.getX() == -1) { // See if position was uninitialized.
+            entity.setX(x + 0.5);
+            entity.setY(y + 0.5);
+            board.addEntity(entity);
+        }
+
         assert (!solid); // A square with a solid should not be receiving entities.
         if (entity.isSolid()) {
             solid = true;
@@ -159,5 +156,22 @@ public class Square {
     @Override
     public String toString() {
         return "Square " + x + ":" + y;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Square)) return false;
+        Square square = (Square) o;
+        return x == square.x &&
+                y == square.y &&
+                solid == square.solid &&
+                Objects.equals(board, square.board) &&
+                Objects.equals(entities, square.entities);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(board, entities, x, y, solid);
     }
 }

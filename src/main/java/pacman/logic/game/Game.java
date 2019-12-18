@@ -4,12 +4,13 @@ import pacman.database.User;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
+
+import java.util.List;
+
 import org.jetbrains.annotations.NotNull;
 import pacman.logic.Player;
 import pacman.logic.entity.Entity;
 import pacman.logic.level.Level;
-
-import java.util.List;
 
 /**
  * Represents a game with multiple levels.
@@ -76,6 +77,13 @@ public class Game {
     }
 
     /**
+     * Increases the level for the player who just won the last level.
+     */
+    public void advanceLevel() {
+        currentLevel += 1;
+    }
+
+    /**
      * Gets the current level.
      * @return The level currently playing
      */
@@ -97,6 +105,10 @@ public class Game {
 
     public Player getPlayer() {
         return player;
+    }
+
+    protected boolean won(int lvlMax) {
+        return currentLevel == lvlMax;
     }
 
 }

@@ -9,6 +9,7 @@ import pacman.logic.entity.PacMan;
 /**
  * Sprite for PacMan.
  */
+@SuppressWarnings("PMD.BeanMembersShouldSerialize") // Not a bean.
 public class PacmanSprite extends Sprite<PacMan> {
 
     private static final double MAX_ANGLE = 40.0;

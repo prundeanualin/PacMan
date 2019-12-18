@@ -4,9 +4,7 @@ package pacman.database;
 //import lombok.Setter;
 
 
-
 public class User {
-
 
     private int id;
     private String username;
@@ -43,5 +41,25 @@ public class User {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        User user = (User) o;
+        return getId() == user.getId()
+                && getScore() == user.getScore()
+                && getUsername().equals(user.getUsername())
+                && getPassword().equals(user.getPassword());
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 }

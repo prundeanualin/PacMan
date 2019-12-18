@@ -11,11 +11,7 @@ public class Player {
 
     private String username;
     private IntegerProperty score = new SimpleIntegerProperty();
-    private IntegerProperty lives = new SimpleIntegerProperty(3);
-
-    public Player() {
-
-    }
+    private IntegerProperty lives = new SimpleIntegerProperty(1);
 
     public ObservableIntegerValue getLives() {
         return lives;
@@ -37,6 +33,11 @@ public class Player {
         this.score.set(this.score.get() + score);
     }
 
-    public void setUsername(String nm) {username = nm;}
+    public void setUsername(String nm) {
+        username = nm;
+    }
 
+    public String getUsername() {
+        return username;
+    }
 }

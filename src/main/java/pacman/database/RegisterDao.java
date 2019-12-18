@@ -1,9 +1,10 @@
 package pacman.database;
 
-import javax.swing.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+
+import javax.swing.JOptionPane;
 
 
 public class RegisterDao {
@@ -14,7 +15,8 @@ public class RegisterDao {
      */
     @SuppressWarnings("PMD")
     public boolean checkUserAlreadyExists(User user) {
-        Connection conn = DbConnect.getMyConnection();
+        DbConnect dbConnect = new DbConnect();
+        Connection conn = dbConnect.getMyConnection();
         PreparedStatement statement;
         ResultSet resultSet;
         String query = "SELECT Username FROM Users WHERE Username=?";
@@ -43,7 +45,8 @@ public class RegisterDao {
      */
     @SuppressWarnings("PMD")
     public void addUser(User user) {
-        Connection conn = DbConnect.getMyConnection();
+        DbConnect dbConnect = new DbConnect();
+        Connection conn = dbConnect.getMyConnection();
         PreparedStatement statement;
         String query = "INSERT INTO Users(Username,Password,Score)" + " VALUES(?,?,?)";
         try {
@@ -51,10 +54,12 @@ public class RegisterDao {
             statement.setString(1, user.getUsername());
             statement.setString(2, user.getPassword());
             statement.setInt(3, user.getScore());
-
+            statement.executeUpdate();
+            /*
             if (statement.executeUpdate() > 0) {
                 JOptionPane.showMessageDialog(null, "New User Added");
             }
+            */
             statement.close();
             conn.close();
         } catch (Exception e) {

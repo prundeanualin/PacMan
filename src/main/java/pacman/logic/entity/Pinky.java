@@ -1,5 +1,7 @@
 package pacman.logic.entity;
 
+import java.util.List;
+
 import pacman.graphics.sprite.PinkySprite;
 import pacman.graphics.sprite.Sprite;
 import pacman.logic.Direction;
@@ -15,28 +17,28 @@ public class Pinky extends Ghost {
         direction = Direction.LEFT;
     }
 
+    /**
+     * {@inheritDoc}
+     * Pinky should always try to target the square 4 ahead of PacMan.
+     */
     @Override
-    Square chooseTarget() {
-        Square pac = pacMan.getSquare();
-        Direction pacDir= pacMan.getDirection();
-        int x= pac.getX() + pacDir.getX()*4;
-        int y= pac.getY() + pacDir.getY()*4;
+    protected Square chaseTarget() {
+        PacMan pac = board.pacman;
+        if (pac == null) return null;
+        Square pacSquare = pac.getSquare();
+        Direction pacDir = board.pacman.getDirection();
+        int x = pacSquare.getX() + pacDir.getX() * 4;
+        int y = pacSquare.getY() + pacDir.getY() * 4;
 
-        if(x> getBoard().getWidth()){
-            x= getBoard().getWidth()-1;
-        }else if(x<0){
-            x=0;
-        }
-        if(y>getBoard().getHeight()){
-            y= getBoard().getHeight()-1;
-        }
-        else if(y<0){
-            y= 0;
-        }
-
-        if(getBoard().getSquare(x, y).hasSolid()){
-            return getBoard().getSquare(x, y).getNeighbours().get(0);
-        }
+        Math.max(0, Math.min(x, board.getWidth() - 1));
+        Math.max(0, Math.min(y, board.getHeight() - 1));
+        // It's not a problem if this is a wall, Pinky would circle around it.
         return getBoard().getSquare(x, y);
+    }
+
+    @Override
+    protected Square scatterTarget() {
+        //TODO implement pinky's scatter:
+        return null;
     }
 }
