@@ -6,8 +6,19 @@ import java.sql.ResultSet;
 
 import javax.swing.JOptionPane;
 
-
+@SuppressWarnings("PMD.BeanMembersShouldSerialize")
 public class RegisterDao {
+
+    private DbConnect dbConnect;
+
+    public RegisterDao() {
+        this(new DbConnect());
+    }
+
+    public RegisterDao(DbConnect dbConnect) {
+        this.dbConnect = dbConnect;
+    }
+
     /**
      * Method that checks if user exists.
      *
@@ -15,7 +26,6 @@ public class RegisterDao {
      */
     @SuppressWarnings("PMD")
     public boolean checkUserAlreadyExists(User user) {
-        DbConnect dbConnect = new DbConnect();
         Connection conn = dbConnect.getMyConnection();
         PreparedStatement statement;
         ResultSet resultSet;
@@ -26,7 +36,7 @@ public class RegisterDao {
 
             resultSet = statement.executeQuery();
 
-            if (resultSet.next() == false) {
+            if (!resultSet.next()) {
                 return false;
             }
             statement.close();
@@ -45,7 +55,6 @@ public class RegisterDao {
      */
     @SuppressWarnings("PMD")
     public void addUser(User user) {
-        DbConnect dbConnect = new DbConnect();
         Connection conn = dbConnect.getMyConnection();
         PreparedStatement statement;
         String query = "INSERT INTO Users(Username,Password,Score)" + " VALUES(?,?,?)";

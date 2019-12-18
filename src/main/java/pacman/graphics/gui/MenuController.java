@@ -1,7 +1,6 @@
 package pacman.graphics.gui;
 
 import java.io.IOException;
-
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -27,11 +26,9 @@ import pacman.Main;
 import pacman.database.User;
 import pacman.graphics.GameView;
 import pacman.logic.Direction;
-import pacman.logic.game.GameController;
 import pacman.logic.entity.PacMan;
+import pacman.logic.game.GameController;
 import pacman.logic.game.GameState;
-
-import static javax.swing.text.StyleConstants.Background;
 
 public class MenuController implements Initializable {
 

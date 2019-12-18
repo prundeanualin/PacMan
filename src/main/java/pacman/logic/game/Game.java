@@ -1,13 +1,12 @@
 package pacman.logic.game;
 
-import pacman.database.User;
+import java.util.List;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
 
-import java.util.List;
-
 import org.jetbrains.annotations.NotNull;
+import pacman.database.User;
 import pacman.logic.Player;
 import pacman.logic.entity.Entity;
 import pacman.logic.level.Level;

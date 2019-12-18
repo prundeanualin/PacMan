@@ -1,7 +1,5 @@
 package pacman.database;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,21 +7,33 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jetbrains.annotations.NotNull;
+
 public class LeaderboardDao {
 
+    /**
+     * Updates the score of a user in the database.
+     * @param user The user to update
+     * @param score The user's new score
+     */
     public void enterScore(User user, int score) {
         try (Connection conn = new DbConnect().getMyConnection()) {
             PreparedStatement statement = conn
                     .prepareStatement("UPDATE Users SET Score=? WHERE Username=?");
             statement.setInt(1, score);
             statement.setString(2, user.getUsername());
-            statement.execute();
+            statement.executeUpdate();
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Gets the top scores in the database.
+     * @param amount The amount of scores to get
+     * @return The top users, ordered by descending score
+     */
     public @NotNull List<User> getTop(int amount) {
         try (Connection conn = new DbConnect().getMyConnection()) {
             PreparedStatement statement = conn

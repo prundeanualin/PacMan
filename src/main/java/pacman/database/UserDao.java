@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 
 
 public class UserDao {
+
     /**
      * Method which retrieves user.
      *

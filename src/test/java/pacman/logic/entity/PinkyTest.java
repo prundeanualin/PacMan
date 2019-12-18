@@ -11,15 +11,15 @@ import pacman.logic.level.Board;
 import pacman.logic.level.MapParser;
 
 public class PinkyTest {
-    private final String map = ".........\n" + // NOPMD string repetition necessary
-            ".........\n" +
-            ".........\n" +
-            ".........\n" +
-            "....Pp...\n" +
-            ".........\n" +
-            ".........\n" +
-            ".........\n" +
-            ".........\n";
+    private final String map = ".........\n" // NOPMD string repetition necessary
+            + ".........\n"
+            + ".........\n"
+            + ".........\n"
+            + "....Pp...\n"
+            + ".........\n"
+            + ".........\n"
+            + ".........\n"
+            + ".........\n";
 
     @ParameterizedTest
     @CsvSource({"UP, 4, 0", "RIGHT, 8, 4", "DOWN, 4, 8", "LEFT, 0, 4"})

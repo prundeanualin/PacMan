@@ -24,7 +24,9 @@ public class Pinky extends Ghost {
     @Override
     protected Square chaseTarget() {
         PacMan pac = board.pacman;
-        if (pac == null) return null;
+        if (pac == null) {
+            return null;
+        }
         Square pacSquare = pac.getSquare();
         Direction pacDir = board.pacman.getDirection();
         int x = pacSquare.getX() + pacDir.getX() * 4;

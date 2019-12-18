@@ -1,10 +1,14 @@
 package pacman.logic.level;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+
 import org.jetbrains.annotations.NotNull;
 import pacman.logic.Direction;
 import pacman.logic.entity.Entity;
-
-import java.util.*;
 
 /**
  * Represents a square on the board.
@@ -80,10 +84,10 @@ public class Square {
         } else if (y < Direction.UP.getY()) {
             y += board.getHeight();
         }
-        assert (x == Direction.LEFT.getX() || x == Direction.UP.getX() ||
-                x == Direction.RIGHT.getX());
-        assert (y == Direction.DOWN.getY() || y == Direction.RIGHT.getY() ||
-                y == Direction.UP.getY());
+        assert (x == Direction.LEFT.getX() || x == Direction.UP.getX()
+                || x == Direction.RIGHT.getX());
+        assert (y == Direction.DOWN.getY() || y == Direction.RIGHT.getY()
+                || y == Direction.UP.getY());
 
         return Direction.getDirection(x, y);
     }
@@ -160,14 +164,18 @@ public class Square {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Square)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Square)) {
+            return false;
+        }
         Square square = (Square) o;
-        return x == square.x &&
-                y == square.y &&
-                solid == square.solid &&
-                Objects.equals(board, square.board) &&
-                Objects.equals(entities, square.entities);
+        return x == square.x
+                && y == square.y
+                && solid == square.solid
+                && Objects.equals(board, square.board)
+                && Objects.equals(entities, square.entities);
     }
 
     @Override

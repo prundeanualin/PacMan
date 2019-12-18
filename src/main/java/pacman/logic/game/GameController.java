@@ -1,6 +1,5 @@
 package pacman.logic.game;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import javafx.animation.AnimationTimer;
@@ -108,7 +107,9 @@ public class GameController {
      */
     protected void update(double newTime) {
         double dt = Math.min(newTime - time, MAX_TIME); // In exceptional cases use MAX_TIME.
-        if (dt < 0) dt = MAX_TIME; // overflow, if possible.
+        if (dt < 0) {
+            dt = MAX_TIME; // overflow, if possible.
+        }
         time = newTime;
         game.update(dt);
     }

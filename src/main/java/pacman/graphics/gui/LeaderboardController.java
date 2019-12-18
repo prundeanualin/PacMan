@@ -1,19 +1,19 @@
 package pacman.graphics.gui;
 
-import pacman.database.LeaderboardDao;
-import pacman.database.User;
+import java.net.URL;
+import java.util.List;
+import java.util.ResourceBundle;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import pacman.database.LeaderboardDao;
+import pacman.database.User;
 import pacman.graphics.Style;
 import pacman.logic.game.GameController;
 import pacman.logic.game.GameState;
-
-import java.net.URL;
-import java.util.List;
-import java.util.ResourceBundle;
 
 @SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class is not a bean.
 public class LeaderboardController implements Initializable {
@@ -39,7 +39,7 @@ public class LeaderboardController implements Initializable {
                 GameController.getInstance().getGame().getPlayer().getScore().get());
         List<User> users = dao.getTop(LEADERBOARD_AMOUNT);
         for (int i = 0; i < users.size(); i++) {
-            Label label = new Label((i+1) + ". " + users.get(i).getUsername() + ": "
+            Label label = new Label((i + 1) + ". " + users.get(i).getUsername() + ": "
                     + users.get(i).getScore());
             label.setTextFill(Style.CLASSIC.getTextColour());
             label.setFont(Font.font(24));
