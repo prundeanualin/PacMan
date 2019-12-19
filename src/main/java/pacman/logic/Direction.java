@@ -75,7 +75,7 @@ public enum Direction {
      * @return the direction represented by (x,y).
      */
     public static Direction getDirection(int x, int y) {
-        for (Direction dir : values()) {
+        for (Direction dir : values()) { // NOPMD Bug with foreach
             if (dir.x == x && dir.y == y) {
                 return dir;
             }
