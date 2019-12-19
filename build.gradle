@@ -16,7 +16,13 @@ plugins {
 
     // FindBugs / SpotBugs
     id "com.github.spotbugs" version "2.0.1"
+
+    // JavaFX
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.8'
 }
+
+mainClassName = 'pacman.Main'
 
 group 'nl.tudelft.cse.sem.template'
 version '1.0-SNAPSHOT'
@@ -32,40 +38,69 @@ test {
 
     jacoco {
         enabled = true
-        includes = ['nl.tudelft.cse.sem.*']
-        excludes = []
+        includes = ['pacman*']
     }
 }
 
 dependencies {
     testImplementation('org.junit.jupiter:junit-jupiter:5.5.2')
     spotbugsPlugins 'com.h3xstream.findsecbugs:findsecbugs-plugin:1.7.1'
+    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.11'
+    compileOnly 'org.projectlombok:lombok:1.18.10'
+    annotationProcessor 'org.projectlombok:lombok:1.18.10'
+    compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.6'
+    compile 'org.jetbrains:annotations:13.0'
+    testCompile 'junit:junit:4.11'
+    testCompile group: 'org.mockito', name: 'mockito-core', version: '3.0.0'
+    testCompile group: 'org.powermock', name: 'powermock-module-junit4', version: '2.0.4'
+}
+
+
+javafx {
+    version = "12.0.2"
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
+}
+
+
+jacocoTestReport {
+    afterEvaluate {
+        classDirectories = files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: 'pacman/graphics/**')
+        })
+    }
 }
 
 jacocoTestCoverageVerification {
     violationRules {
-        rule {
+        rule { // Min 50% branch coverage
             enabled = true
             element = 'CLASS'
-            includes = ['nl.tudelft.cse.sem.*']
+            includes = ['pacman.*']
+            excludes = ['pacman.graphics*', 'pacman.Main']
 
             limit {
-                counter = 'LINE'
-                value = 'TOTALCOUNT'
-                maximum = 0.3
+                counter = 'BRANCH'
+                value = 'COVEREDRATIO'
+                minimum = 0.5
             }
         }
     }
 }
 
-checkstyle {
-    toolVersion "8.25"
-	configFile = rootProject.file('config/checkstyle/checkstyle.xml')
-}
-
 pmd {
     incrementalAnalysis = true
 }
+
+javafx {
+    version = "12.0.2"
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
+}
+
+checkstyle {
+    toolVersion "8.25"
+    configFile = rootProject.file('config/checkstyle/checkstyle.xml')
+}
+
 
 spotbugs {
     sourceSets = [sourceSets.main]
@@ -74,6 +109,16 @@ spotbugs {
     reportLevel = "high"
     visitors = ["FindSqlInjection", "SwitchFallthrough"]
     excludeFilter = file("$rootProject.projectDir/config/spotbugs/excludeFilter.xml")
+}
+
+sourceSets.main {
+    java {
+        srcDir 'src/main/java'
+    }
+    resources {
+        srcDirs = ['src/main/java', 'src/main/resources']
+        exclude "**/*.java"
+    }
 }
 
 tasks.withType(SpotBugsTask) {
