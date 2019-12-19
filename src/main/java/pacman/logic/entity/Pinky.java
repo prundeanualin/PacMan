@@ -1,7 +1,5 @@
 package pacman.logic.entity;
 
-import java.util.List;
-
 import pacman.graphics.sprite.PinkySprite;
 import pacman.graphics.sprite.Sprite;
 import pacman.logic.Direction;
@@ -11,10 +9,12 @@ import pacman.logic.level.Square;
 public class Pinky extends Ghost {
 
     private static final Sprite<Ghost> sprite = new PinkySprite();
+    private static Square HOME_CORNER;
 
     public Pinky(Board board, Square square) {
         super(board, square, sprite);
         direction = Direction.LEFT;
+        HOME_CORNER = board.getSquare(0, 0);
     }
 
     /**
@@ -36,9 +36,16 @@ public class Pinky extends Ghost {
         return getBoard().getSquare(x, y);
     }
 
+    /**
+     * Getting the "home square' of each ghost, while in scattered mode.
+     * @return Home square for Pinky, which is top left.
+     */
     @Override
     protected Square scatterTarget() {
-        //TODO implement pinky's scatter:
-        return null;
+        if (oldSquare == HOME_CORNER) {
+            return HOME_CORNER.getNeighbour(Direction.DOWN);
+        } else {
+            return HOME_CORNER;
+        }
     }
 }

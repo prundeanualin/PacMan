@@ -1,10 +1,10 @@
 package pacman.logic.level;
 
+import java.util.*;
+
 import org.jetbrains.annotations.NotNull;
 import pacman.logic.Direction;
 import pacman.logic.entity.Entity;
-
-import java.util.*;
 
 /**
  * Represents a square on the board.

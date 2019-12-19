@@ -119,16 +119,21 @@ public class GameController {
         if (getGame().getLevel().checkLevelWon()) {
             pause();
             if (getGame().won(1)) {
+                getCanvas().end_animations(true);
                 getCanvas().createWindow("!GAME WON!", "Go to Main Menu", 20, true);
             } else {
                 nextLevel();
             }
+        } else if (getGame().getLevel().checkLevelLost()) {
+            pause();
+            getCanvas().end_animations(false);
+            getCanvas().createWindow("YOU LOST :(", "Go to Main Menu", 20, true);
         } else {
             if (labelScore != null) {
                 labelScore.setText("Score : " + game.getScore());
             }
         }
-        canvas.draw(newTime);
+        getCanvas().draw(newTime);
     }
 
     /**

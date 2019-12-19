@@ -1,14 +1,15 @@
 package pacman.logic.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
+
 import pacman.graphics.sprite.Sprite;
 import pacman.logic.Direction;
 import pacman.logic.GameController;
 import pacman.logic.level.Board;
 import pacman.logic.level.Square;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 
 /**
@@ -145,7 +146,7 @@ public abstract class Ghost extends MovingEntity {
      * @see this#chooseTarget(List) 
      */
     private final Square frightenedTarget(List<Square> options) {
-        //TODO choose random direction from options;
-        return null;
+        int a = ThreadLocalRandom.current().nextInt(0, options.size());
+        return options.get(a);
     }
 }

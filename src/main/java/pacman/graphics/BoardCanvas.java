@@ -22,8 +22,10 @@ import javafx.stage.StageStyle;
 
 import org.jetbrains.annotations.NotNull;
 import pacman.Main;
+import pacman.graphics.sprite.PacmanSprite;
 import pacman.logic.GameController;
 import pacman.logic.entity.Entity;
+import pacman.logic.entity.PacMan;
 import pacman.logic.level.Board;
 
 /**
@@ -116,7 +118,7 @@ public class BoardCanvas extends Canvas {
      * and waiting to start the next level/ game is won and button
      * that sends user back to main menu.
      */
-    public void createWindow(String msg1, String msg2, int size, boolean won) {
+    public void createWindow(String msg1, String msg2, int size, boolean menu) {
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initStyle(StageStyle.UNDECORATED);
@@ -132,7 +134,7 @@ public class BoardCanvas extends Canvas {
                 CornerRadii.EMPTY, Insets.EMPTY)));
         btn.setTextFill(Color.BLACK);
         btn.setOnAction(event -> {
-            if (won) {
+            if (menu) {
                 try {
                     Parent roots = FXMLLoader.load(getClass().getResource("/views/menu.fxml"));
                     Scene sc = new Scene(roots);
@@ -151,6 +153,18 @@ public class BoardCanvas extends Canvas {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+    }
+
+    /**
+     * Some death animations for PacMan.
+     */
+    public void end_animations(boolean alive) {
+        PacMan player = board.pacman;
+        getGraphicsContext2D().setLineWidth(1 / scaleX);
+        getGraphicsContext2D().scale(scaleX, scaleY);
+        getGraphicsContext2D().translate(player.getX(), player.getY());
+        PacmanSprite ps = (PacmanSprite)player.getSprite();
+        ps.animation(player, getGraphicsContext2D(), drawStyle, alive);
     }
 
     /**
