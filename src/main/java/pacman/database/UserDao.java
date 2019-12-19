@@ -3,12 +3,23 @@ package pacman.database;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.swing.JOptionPane;
 
-
+@SuppressWarnings("PMD.BeanMembersShouldSerialize")
 public class UserDao {
+
+    private DbConnect connect;
+
+    public UserDao() {
+        this(new DbConnect());
+    }
+
+    public UserDao(DbConnect connect) {
+        this.connect = connect;
+    }
 
     /**
      * Method which retrieves user.
@@ -16,28 +27,26 @@ public class UserDao {
      * @param user as param.
      * @return the desired user.
      */
-    @SuppressWarnings("PMD")
     public String getUsernameFromDatabase(User user) {
-        DbConnect dbConnect = new DbConnect();
-        String finalUsername = "";
-        Connection conn = dbConnect.getMyConnection();
-        Statement statement;
-        ResultSet resultSet;
+        String finalUsername = ""; // NOPMD variable used
+        Connection conn = connect.getMyConnection(); // NOPMD is closed
+        Statement statement; // NOPMD is closed
+        ResultSet resultSet; // NOPMD is closed
         String query = "SELECT Username FROM Users WHERE Username=?";
         try {
             statement = conn.prepareStatement(query);
             ((PreparedStatement) statement).setString(1, user.getUsername());
             resultSet = ((PreparedStatement) statement).executeQuery();
             if (resultSet.next()) {
-                finalUsername = resultSet.getString("Username");
+                finalUsername = resultSet.getString("Username"); // NOPMD variable used
             } else {
-                finalUsername = "No user found";
+                finalUsername = "No user found"; // NOPMD variable used
             }
             resultSet.close();
             statement.close();
             conn.close();
-        } catch (Exception e) {
-            System.out.println("Error occurred");
+        } catch (SQLException e) {
+            e.printStackTrace();
             finalUsername = "Error";
         }
         return finalUsername;
@@ -49,28 +58,26 @@ public class UserDao {
      * @param user as param.
      * @return the desired user password.
      */
-    @SuppressWarnings("PMD")
     public String getUserPasswordFromDatabase(User user) {
-        DbConnect dbConnect = new DbConnect();
-        String finalPassword = "";
-        Connection conn = dbConnect.getMyConnection();
-        Statement statement;
-        ResultSet resultSet;
+        String finalPassword = ""; // NOPMD variable used
+        Connection conn = connect.getMyConnection(); // NOPMD is closed
+        Statement statement; // NOPMD is closed
+        ResultSet resultSet; // NOPMD is closed
         String query = "SELECT Password FROM Users WHERE Username=?";
         try {
             statement = conn.prepareStatement(query);
             ((PreparedStatement) statement).setString(1, user.getUsername());
             resultSet = ((PreparedStatement) statement).executeQuery();
             if (resultSet.next()) {
-                finalPassword = resultSet.getString("Password");
+                finalPassword = resultSet.getString("Password"); // NOPMD variable used
             } else {
-                finalPassword = "No user password found";
+                finalPassword = "No user password found"; // NOPMD variable used
             }
             resultSet.close();
             statement.close();
             conn.close();
-        } catch (Exception e) {
-            System.out.println("Error occurred");
+        } catch (SQLException e) {
+            e.printStackTrace();
             finalPassword = "Error";
         }
         return finalPassword;
@@ -82,13 +89,11 @@ public class UserDao {
      * @param user as param.
      * @return user's score.
      */
-    @SuppressWarnings("PMD")
     public int retrieveScore(User user) {
-        DbConnect dbConnect = new DbConnect();
-        int score = 0;
-        Connection conn = dbConnect.getMyConnection();
-        Statement statement;
-        ResultSet resultSet;
+        int score = 0; // NOPMD variable used
+        Connection conn = connect.getMyConnection(); // NOPMD is closed
+        Statement statement; // NOPMD is closed
+        ResultSet resultSet; // NOPMD is closed
         String query = "SELECT Score FROM Users WHERE Username=?";
         try {
             statement = conn.prepareStatement(query);
@@ -100,8 +105,8 @@ public class UserDao {
             resultSet.close();
             statement.close();
             conn.close();
-        } catch (Exception e) {
-            System.out.println("Error occurred");
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return score;
     }
@@ -112,13 +117,11 @@ public class UserDao {
      * @param user as param.
      * @return user's id.
      */
-    @SuppressWarnings("PMD")
     public int getUserIdFromDatabase(User user) {
-        DbConnect dbConnect = new DbConnect();
-        int id = 0;
-        Connection conn = dbConnect.getMyConnection();
-        Statement statement;
-        ResultSet resultSet;
+        int id = 0; // NOPMD variable used
+        Connection conn = connect.getMyConnection(); // NOPMD is closed
+        Statement statement; // NOPMD is closed
+        ResultSet resultSet; // NOPMD is closed
         String query = "SELECT Id FROM Users WHERE Username=?";
         try {
             statement = conn.prepareStatement(query);
@@ -130,8 +133,8 @@ public class UserDao {
             resultSet.close();
             statement.close();
             conn.close();
-        } catch (Exception e) {
-            System.out.println("Error occurred");
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return id;
     }
@@ -141,11 +144,9 @@ public class UserDao {
      *
      * @param user as param.
      */
-    @SuppressWarnings("PMD")
     public void updateUserScore(User user) {
-        DbConnect dbConnect = new DbConnect();
-        Connection conn = dbConnect.getMyConnection();
-        Statement statement;
+        Connection conn = connect.getMyConnection(); // NOPMD is closed
+        Statement statement; // NOPMD is closed
         String query = "UPDATE Users SET Score=? WHERE Username=?";
         try {
             statement = conn.prepareStatement(query);
@@ -159,8 +160,8 @@ public class UserDao {
              */
             statement.close();
             conn.close();
-        } catch (Exception e) {
-            System.out.println("Error occurred");
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -169,11 +170,9 @@ public class UserDao {
      *
      * @param user as param.
      */
-    @SuppressWarnings("PMD")
     public void updateUserUsername(User user) {
-        DbConnect dbConnect = new DbConnect();
-        Connection conn = dbConnect.getMyConnection();
-        Statement statement;
+        Connection conn = connect.getMyConnection(); // NOPMD is closed
+        Statement statement; // NOPMD is closed
         String query = "UPDATE Users SET Username=? WHERE Password=?";
         try {
             statement = conn.prepareStatement(query);
@@ -187,8 +186,8 @@ public class UserDao {
              */
             statement.close();
             conn.close();
-        } catch (Exception e) {
-            System.out.println("Error occurred");
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -197,11 +196,9 @@ public class UserDao {
      *
      * @param user as param.
      */
-    @SuppressWarnings("PMD")
     public void updateUserPassword(User user) {
-        DbConnect dbConnect = new DbConnect();
-        Connection conn = dbConnect.getMyConnection();
-        Statement statement;
+        Connection conn = connect.getMyConnection(); // NOPMD is closed
+        Statement statement; // NOPMD is closed
         String query = "UPDATE Users SET Password=? WHERE Username=?";
         try {
             statement = conn.prepareStatement(query);
@@ -215,8 +212,8 @@ public class UserDao {
              */
             statement.close();
             conn.close();
-        } catch (Exception e) {
-            System.out.println("Error occurred");
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -225,11 +222,9 @@ public class UserDao {
      *
      * @param user as param.
      */
-    @SuppressWarnings("PMD")
     public void deleteUser(User user) {
-        DbConnect dbConnect = new DbConnect();
-        Connection conn = dbConnect.getMyConnection();
-        Statement statement;
+        Connection conn = connect.getMyConnection(); // NOPMD is closed
+        Statement statement; // NOPMD is closed
         String query = "DELETE FROM Users WHERE Username=?";
         try {
             statement = conn.prepareStatement(query);
@@ -242,8 +237,8 @@ public class UserDao {
             */
             statement.close();
             conn.close();
-        } catch (Exception e) {
-            System.out.println("Error occurred");
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 

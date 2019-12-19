@@ -9,7 +9,18 @@ import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
 
+@SuppressWarnings("PMD.BeanMembersShouldSerialize")
 public class LeaderboardDao {
+
+    private DbConnect connect;
+
+    public LeaderboardDao() {
+        this(new DbConnect());
+    }
+
+    public LeaderboardDao(DbConnect connect) {
+        this.connect = connect;
+    }
 
     /**
      * Updates the score of a user in the database.
@@ -17,7 +28,7 @@ public class LeaderboardDao {
      * @param score The user's new score
      */
     public void enterScore(User user, int score) {
-        try (Connection conn = new DbConnect().getMyConnection()) {
+        try (Connection conn = connect.getMyConnection()) {
             PreparedStatement statement = conn
                     .prepareStatement("UPDATE Users SET Score=? WHERE Username=?");
             statement.setInt(1, score);
@@ -35,7 +46,7 @@ public class LeaderboardDao {
      * @return The top users, ordered by descending score
      */
     public @NotNull List<User> getTop(int amount) {
-        try (Connection conn = new DbConnect().getMyConnection()) {
+        try (Connection conn = connect.getMyConnection()) {
             PreparedStatement statement = conn
                     .prepareStatement("SELECT * FROM Users ORDER BY Score DESC LIMIT ?");
             statement.setInt(1, amount);
