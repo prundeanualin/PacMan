@@ -12,10 +12,16 @@ public class Blinky extends Ghost {
     private static final Sprite<Ghost> sprite = new BlinkySprite();
     private static Square HOME_CORNER;
 
+    /**
+     * Creating Blinky.
+     * @param board the board
+     * @param square Blinky's square
+     */
     public Blinky(Board board, Square square) {
         super(board, square, sprite);
         direction = Direction.LEFT;
-        HOME_CORNER = board.getSquare(board.getWidth(), 0);
+        HOME_CORNER = board.getSquare(board.getWidth(), 0);//NOPMD
+        // needed to initialize it here with board as parameter
     }
 
     /**

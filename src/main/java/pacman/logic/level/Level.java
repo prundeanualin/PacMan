@@ -2,12 +2,9 @@ package pacman.logic.level;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.NotNull;
-import pacman.logic.entity.Entity;
 import pacman.logic.entity.Ghost;
 import pacman.logic.entity.PacMan;
 import pacman.logic.entity.Pellet;
@@ -48,14 +45,14 @@ public class Level {
 
     // boolean won is a check for having any remaining pellets
     public boolean checkLevelWon() {
-        return pellets.size() == 0;
+        return board.pellets.size() == 0;
     }
 
     /**
      * Checks if the game is lost.
      * @return whether pacman isnt alive
      */
-    public boolean checkLevelLost(){
+    public boolean checkLevelLost() {
         return !pacMan.isAlive();
     }
 }

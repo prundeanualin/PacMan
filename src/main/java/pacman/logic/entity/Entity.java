@@ -145,8 +145,7 @@ public abstract class Entity {
      *
      * @return The direction, null if entity has no direction
      */
-    public @Nullable
-    Direction getDirection() {
+    public @Nullable Direction getDirection() {
         return direction;
     }
 
@@ -256,8 +255,7 @@ public abstract class Entity {
      *
      * @return The current square
      */
-    public @NotNull
-    Square getSquare() {
+    public @NotNull Square getSquare() {
         return square;
     }
 

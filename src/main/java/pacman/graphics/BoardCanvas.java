@@ -22,6 +22,7 @@ import javafx.stage.StageStyle;
 
 import org.jetbrains.annotations.NotNull;
 import pacman.Main;
+import pacman.graphics.gui.MenuController;
 import pacman.graphics.sprite.PacmanSprite;
 import pacman.logic.GameController;
 import pacman.logic.entity.Entity;
@@ -91,9 +92,21 @@ public class BoardCanvas extends Canvas {
         for (Entity e : board.getEntities()) {
             getGraphicsContext2D().scale(scaleX, scaleY);
             getGraphicsContext2D().translate(e.getX(), e.getY());
-            e.getSprite().draw(e, getGraphicsContext2D(), drawStyle, t);
-            getGraphicsContext2D().setTransform(new Affine());
+            if (e instanceof PacMan && !e.isAlive()) {
+                end_animations((PacMan) e);
+            } else {
+                e.getSprite().draw(e, getGraphicsContext2D(), drawStyle, t);
+                getGraphicsContext2D().setTransform(new Affine());
+            }
         }
+    }
+
+    /**
+     * Some death animations for PacMan.
+     */
+    public void end_animations(PacMan player) {
+        PacmanSprite ps = (PacmanSprite)player.getSprite();
+        ps.animation(getGraphicsContext2D(), drawStyle, player.isAlive());
     }
 
     /**
@@ -123,23 +136,30 @@ public class BoardCanvas extends Canvas {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initStyle(StageStyle.UNDECORATED);
         VBox root = new VBox(70);
-        root.setBackground(new Background(new BackgroundFill(Color.BLACK,
+        root.setBackground(new Background(new BackgroundFill(Color.BLUEVIOLET,
                 CornerRadii.EMPTY, Insets.EMPTY)));
         Text text = new Text(msg1);
         text.setFill(Color.WHEAT);
         text.setFont(new Font("Joker", size));
         root.getChildren().add(text);
         Button btn = new Button(msg2);
-        btn.setBackground(new Background(new BackgroundFill(Color.YELLOW,
+        btn.setBackground(new Background(new BackgroundFill(Color.GREENYELLOW,
                 CornerRadii.EMPTY, Insets.EMPTY)));
         btn.setTextFill(Color.BLACK);
         btn.setOnAction(event -> {
             if (menu) {
                 try {
-                    Parent roots = FXMLLoader.load(getClass().getResource("/views/menu.fxml"));
+                    stage.close();
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/menu.fxml"));
+                    Parent roots = loader.load();
+                    MenuController controller = (MenuController) loader.getController();
+                    controller.setProfileDetails(MenuController.user);
                     Scene sc = new Scene(roots);
-                    stage.setScene(sc);
-                    stage.show();
+                    clear();
+                    GameController.getInstance().reset();
+                    Stage stg = MenuController.stage;
+                    stg.setScene(sc);
+                    stg.show();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -153,18 +173,6 @@ public class BoardCanvas extends Canvas {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-    }
-
-    /**
-     * Some death animations for PacMan.
-     */
-    public void end_animations(boolean alive) {
-        PacMan player = board.pacman;
-        getGraphicsContext2D().setLineWidth(1 / scaleX);
-        getGraphicsContext2D().scale(scaleX, scaleY);
-        getGraphicsContext2D().translate(player.getX(), player.getY());
-        PacmanSprite ps = (PacmanSprite)player.getSprite();
-        ps.animation(player, getGraphicsContext2D(), drawStyle, alive);
     }
 
     /**

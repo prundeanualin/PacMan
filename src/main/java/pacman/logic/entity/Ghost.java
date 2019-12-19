@@ -37,6 +37,7 @@ public abstract class Ghost extends MovingEntity {
     public Ghost(Board board, Square square, Sprite<? extends Ghost> sprite) {
         super(board, square, sprite);
         direction = Direction.RIGHT;
+        oldSquare = square;
     }
 
     @Override
@@ -79,7 +80,8 @@ public abstract class Ghost extends MovingEntity {
         return options;
     }
 
-    @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // Foreach loop incorrectly marked as UR anomaly.
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
+    // Foreach loop incorrectly marked as UR anomaly.
     protected Square closestNeighbour(Square target, List<Square> options) {
         if (options.size() == 0) {
             throw new IllegalArgumentException("Cannot choose target from empty list of options.");
@@ -89,9 +91,9 @@ public abstract class Ghost extends MovingEntity {
         Square next = null;
 
         for (Square s : options) {
-            int x_dir = Math.abs(target.getX() - s.getX());
-            int y_dir = Math.abs(target.getY() - s.getY());
-            float dist = x_dir + y_dir;
+            int xdir = Math.abs(target.getXs() - s.getXs());
+            int ydir = Math.abs(target.getYs() - s.getYs());
+            float dist = xdir + ydir;
             if (dist < min) {
                 min = dist;
                 next = s;
@@ -118,7 +120,8 @@ public abstract class Ghost extends MovingEntity {
             case FRIGHTENED:
                 return frightenedTarget(nextOptions);
             default:
-                throw new IllegalStateException("No target behavior implemented for: " + mode.toString());
+                throw new IllegalStateException("No target behavior implemented for: "
+                        + mode.toString());
         }
     }
 

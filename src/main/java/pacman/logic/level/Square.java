@@ -1,10 +1,15 @@
 package pacman.logic.level;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 import org.jetbrains.annotations.NotNull;
 import pacman.logic.Direction;
 import pacman.logic.entity.Entity;
+import pacman.logic.entity.Wall;
 
 /**
  * Represents a square on the board.
@@ -14,17 +19,17 @@ public class Square {
 
     private Board board;
     private Set<Entity> entities;
-    private int x;
-    private int y;
+    private int xs;
+    private int ys;
     private boolean solid;
 
     /**
      * Creates a new empty square and adds it to the board.
      */
-    public Square(@NotNull Board board, int x, int y) {
+    public Square(@NotNull Board board, int xs, int ys) {
         this.board = board;
-        this.x = x;
-        this.y = y;
+        this.xs = xs;
+        this.ys = ys;
         this.entities = new HashSet<>();
         board.addSquare(this);
     }
@@ -54,7 +59,7 @@ public class Square {
     }
 
     public Square getNeighbour(Direction direction) {
-        return board.getSquare(x + direction.getX(), y + direction.getY());
+        return board.getSquare(xs + direction.getX(), ys + direction.getY());
     }
 
     /**
@@ -66,8 +71,8 @@ public class Square {
      * @return the direction from this to the other square.
      */
     public Direction directionOf(Square otherSquare) {
-        int x = otherSquare.x - this.x;
-        int y = otherSquare.y - this.y;
+        int x = otherSquare.xs - this.xs;
+        int y = otherSquare.ys - this.ys;
 
         // Deal with warping.
         if (x > Direction.RIGHT.getX()) {
@@ -80,10 +85,10 @@ public class Square {
         } else if (y < Direction.UP.getY()) {
             y += board.getHeight();
         }
-        assert (x == Direction.LEFT.getX() || x == Direction.UP.getX() ||
-                x == Direction.RIGHT.getX());
-        assert (y == Direction.DOWN.getY() || y == Direction.RIGHT.getY() ||
-                y == Direction.UP.getY());
+        assert (x == Direction.LEFT.getX() || x == Direction.UP.getX()
+                || x == Direction.RIGHT.getX());
+        assert (y == Direction.DOWN.getY() || y == Direction.RIGHT.getY()
+                || y == Direction.UP.getY());
 
         return Direction.getDirection(x, y);
     }
@@ -118,13 +123,13 @@ public class Square {
 
         entity.setSquare(this);
         if (entity.getX() == -1) { // See if position was uninitialized.
-            entity.setX(x + 0.5);
-            entity.setY(y + 0.5);
+            entity.setX(xs + 0.5);
+            entity.setY(ys + 0.5);
             board.addEntity(entity);
         }
 
         assert (!solid); // A square with a solid should not be receiving entities.
-        if (entity.isSolid()) {
+        if (entity.isSolid() || entity instanceof Wall) {
             solid = true;
         }
     }
@@ -141,12 +146,12 @@ public class Square {
         }
     }
 
-    public int getX() {
-        return x;
+    public int getXs() {
+        return xs;
     }
 
-    public int getY() {
-        return y;
+    public int getYs() {
+        return ys;
     }
 
     public boolean hasSolid() {
@@ -155,23 +160,27 @@ public class Square {
 
     @Override
     public String toString() {
-        return "Square " + x + ":" + y;
+        return "Square " + xs + ":" + ys;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Square)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Square)) {
+            return false;
+        }
         Square square = (Square) o;
-        return x == square.x &&
-                y == square.y &&
-                solid == square.solid &&
-                Objects.equals(board, square.board) &&
-                Objects.equals(entities, square.entities);
+        return xs == square.xs
+                && ys == square.ys
+                && solid == square.solid
+                && Objects.equals(board, square.board)
+                && Objects.equals(entities, square.entities);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(board, entities, x, y, solid);
+        return Objects.hash(board, entities, xs, ys, solid);
     }
 }

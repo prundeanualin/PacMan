@@ -22,6 +22,7 @@ public class GameController {
      * The game controller singleton.
      */
     private static GameController controller = null;
+    private static boolean toReset = false;
 
     /**
      * Gets the GameController instance. There is only one instance.
@@ -29,7 +30,7 @@ public class GameController {
      * @return The game controller
      */
     public static GameController getInstance() {
-        if (controller == null) {
+        if (controller == null || toReset) {
             controller = new GameController();
         }
         return controller;
@@ -44,7 +45,7 @@ public class GameController {
 
     private double time;
     private boolean started = false;
-    private final double MAX_TIME = 0.5;
+    private final double maxTime = 0.5;
 
     /**
      * Creates the game controller. Initializes the game, player and levels.
@@ -112,28 +113,28 @@ public class GameController {
      * @param newTime The current time since start in seconds.
      */
     protected void update(double newTime) {
-        double dt = Math.min(newTime - time, MAX_TIME); // In exceptional cases use MAX_TIME.
-        if (dt < 0) dt = MAX_TIME; // overflow, if possible.
+        double dt = Math.min(newTime - time, maxTime); // In exceptional cases use MAX_TIME.
+        if (dt < 0) {
+            dt = maxTime; // overflow, if possible.
+        }
         time = newTime;
         game.update(dt);
+        getCanvas().draw(newTime);
         if (getGame().getLevel().checkLevelWon()) {
             pause();
             if (getGame().won(1)) {
-                getCanvas().end_animations(true);
                 getCanvas().createWindow("!GAME WON!", "Go to Main Menu", 20, true);
             } else {
                 nextLevel();
             }
         } else if (getGame().getLevel().checkLevelLost()) {
             pause();
-            getCanvas().end_animations(false);
             getCanvas().createWindow("YOU LOST :(", "Go to Main Menu", 20, true);
         } else {
             if (labelScore != null) {
                 labelScore.setText("Score : " + game.getScore());
             }
         }
-        getCanvas().draw(newTime);
     }
 
     /**
@@ -177,6 +178,10 @@ public class GameController {
     public void setUpGui(BoardCanvas bc, Label l) {
         canvas = bc;
         labelScore = l;
+    }
+
+    public void reset() {
+        toReset = true;
     }
 }
 

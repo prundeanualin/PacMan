@@ -21,7 +21,6 @@ public class Wall extends Entity {
      */
     public Wall(@NotNull Board board, Square square) {
         super(board, square, SPRITE);
-        setSolid(true);
     }
 
     @Override
