@@ -74,8 +74,9 @@ public enum Direction {
      * @param y - y equivalent
      * @return the direction represented by (x,y).
      */
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // known bug of pmd with foreach loops.
     public static Direction getDirection(int x, int y) {
-        for (Direction dir : values()) { // NOPMD Bug with foreach
+        for (Direction dir : values()) {
             if (dir.x == x && dir.y == y) {
                 return dir;
             }
