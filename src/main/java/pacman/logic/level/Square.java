@@ -3,6 +3,7 @@ package pacman.logic.level;
 import org.jetbrains.annotations.NotNull;
 import pacman.logic.Direction;
 import pacman.logic.entity.Entity;
+import pacman.logic.entity.Wall;
 
 import java.util.*;
 
@@ -124,7 +125,7 @@ public class Square {
         }
 
         assert (!solid); // A square with a solid should not be receiving entities.
-        if (entity.isSolid()) {
+        if (entity.isSolid()|| entity instanceof Wall) {
             solid = true;
         }
     }

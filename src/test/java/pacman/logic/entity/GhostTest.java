@@ -43,14 +43,13 @@ public class GhostTest {
         assertTrue(board.pacman.isAlive());
     }
 
-//    @Test
-//    public void ghostDoesntMove(){
-//        board= MapParser.parseMapFromString(map);
-//        ghost= new Blinky(board, board.getSquare(1,0));
-//        ghost.update(0.5);
-//        assertEquals(1, ghost.getX());
-//        assertEquals(0, ghost.getY());
-//    }
+    @Test
+    public void ghostDoesntMove(){
+        board= MapParser.parseMapFromString(map);
+        ghost= new Blinky(board, board.getSquare(1,0));
+        ghost.update(0.0);
+        assertEquals(ghost.oldSquare, ghost.square);
+    }
 
 
     @Test
@@ -71,6 +70,18 @@ public class GhostTest {
         assertTrue(ghost.oldSquare.equals(ghost.square));
     }
 
+//    @Test
+//    public void TargetNoOptions(){
+//        String map= "P#.\n" +
+//                "#.#\n" +
+//                ".#.";
+//        board= MapParser.parseMapFromString(map);
+//        ghost= new Blinky(board, board.getSquare(1,1));
+//        Square s= ghost.getSquare();
+//        ghost.update(0.5);
+//        assertTrue(s.equals(ghost.getSquare()));
+//    }
+
     /**
      * Test to get the square options the ghost can move to.
      * The neighbors don't consist of solids(walls).
@@ -87,20 +98,20 @@ public class GhostTest {
         assertEquals(options, ghost.getOptions());
     }
 
-//    @Test
-//    public void getOptionsWithWalls(){
-//        String mapp= "#P.##";
-//        board= MapParser.parseMapFromString(mapp);
-//        ghost= new Blinky(board, board.getSquare(1,0));
-//        List<Square> options = new ArrayList<>();
-//        options.add(board.getSquare(0,0));
-//        for(Square s: ghost.getOptions()){
-//            System.out.println(s.hasSolid());
-//        }
-//        System.out.println(square.hasSolid());
-//        assertEquals(ghost.getOptions(), options);
-//        assertEquals(1, ghost.getOptions().size());
-//    }
+    @Test
+    public void getOptionsWithWalls(){
+        String mapp= ".#.\n" +
+                "P.#\n" +
+                "...";
+        board= MapParser.parseMapFromString(mapp);
+        ghost= new Blinky(board, board.getSquare(1,1));
+        ghost.setDirection(Direction.RIGHT);
+        List<Square> expected = new ArrayList<>();
+        expected.add(board.getSquare(1,2));
+        expected.add(board.getSquare(0,1));
+        assertTrue(ghost.getOptions().containsAll(expected));
+        assertEquals(2, ghost.getOptions().size());
+    }
 
     @Test
     public void closestNeighborThrowsException() {

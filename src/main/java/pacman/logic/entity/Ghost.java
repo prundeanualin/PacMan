@@ -36,6 +36,7 @@ public abstract class Ghost extends MovingEntity {
     public Ghost(Board board, Square square, Sprite<? extends Ghost> sprite) {
         super(board, square, sprite);
         direction = Direction.RIGHT;
+        oldSquare = square;
     }
 
     @Override
