@@ -79,8 +79,8 @@ public abstract class MovingEntity extends Entity {
             setDirection(nextDirection);
         } else if (dx < 0.05 && dy < 0.05) {
             // shift to center to prevent getting stuck.
-            this.posX = square.getX() + 0.5;
-            this.posY = square.getY() + 0.5;
+            this.posX = square.getXs() + 0.5;
+            this.posY = square.getYs() + 0.5;
             setDirection(nextDirection);
         }
     }

@@ -12,10 +12,15 @@ import pacman.logic.level.MapParser;
 
 @SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class is not a bean.
 public class BlinkyTest {
+
     private final String map = "P.*#";
     private Board board;
     private Blinky blinky;
 
+    /**
+     * Test to see the square picked by blinky in chase mode for specific diretions of pacman.
+     * @param pacDirection possible directions for pacman.
+     */
     @ParameterizedTest
     @EnumSource(Direction.class)
     public void chaseTargetTest(Direction pacDirection) {

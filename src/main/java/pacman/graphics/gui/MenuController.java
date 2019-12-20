@@ -1,7 +1,7 @@
 package pacman.graphics.gui;
 
 import database.User;
-import java.io.IOException;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -30,8 +30,9 @@ import pacman.logic.game.GameController;
 public class MenuController implements Initializable {
 
     public static User user;
-    private Scene scene;
-    private Stage stage;
+    private Scene scene;    //NOPMD no need for get/set for this one;
+    // it is just for ease of use
+    public static Stage stage;
 
     @FXML
     private Label userDetails; //NOPMD no need for having set/get for thi gui element
@@ -61,8 +62,15 @@ public class MenuController implements Initializable {
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     //known bug of pmd when using variable declaration
     @FXML
-    private void loadGameScreen(ActionEvent event)
-            throws IOException {
+    private void loadGameScreen(ActionEvent event) {
+        startGame(event);
+    }
+
+    /**
+     * Starting the game window and timers.
+     */
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
+    public void startGame(ActionEvent event) {
 
         Stage stage = (Stage)((javafx.scene.Node) event.getSource()).getScene().getWindow();
         GameView root = new GameView(GameController.getInstance().getGame(), 800, 800);
@@ -70,15 +78,7 @@ public class MenuController implements Initializable {
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-        startGame();
 
-    }
-
-    /**
-     * Starting the game window and timers.
-     */
-    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
-    public void startGame() {
         GameController.getInstance().start();
 
         scene.setOnKeyPressed(e -> {
@@ -100,7 +100,6 @@ public class MenuController implements Initializable {
                     // NOOP
             }
         });
-
     }
 
     /**
@@ -111,30 +110,6 @@ public class MenuController implements Initializable {
         user = us;
         userDetails.setText("User: " + user.getUsername()
                 + "\n" + "High score: " + user.getScore());
-    }
-
-    public static User getUser() {
-        return user;
-    }
-
-    public static void setUser(User user) {
-        MenuController.user = user;
-    }
-
-    public Scene getScene() {
-        return scene;
-    }
-
-    public void setScene(Scene scene) {
-        this.scene = scene;
-    }
-
-    public Stage getStage() {
-        return stage;
-    }
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
     }
 
     /**

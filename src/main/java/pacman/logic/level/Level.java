@@ -2,12 +2,9 @@ package pacman.logic.level;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.NotNull;
-import pacman.logic.entity.Entity;
 import pacman.logic.entity.Ghost;
 import pacman.logic.entity.PacMan;
 import pacman.logic.entity.Pellet;
@@ -42,7 +39,7 @@ public class Level {
      * @return False iff there are pellets left in the level
      */
     public boolean levelWon() {
-        return pellets.size() == 0;
+        return board.pellets.size() == 0;
     }
 
     public Set<Ghost> getGhosts() {

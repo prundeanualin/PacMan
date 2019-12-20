@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import javafx.application.Platform;
+
 import org.jetbrains.annotations.NotNull;
 import pacman.logic.entity.Blinky;
 import pacman.logic.entity.PacMan;

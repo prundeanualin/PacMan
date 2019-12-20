@@ -21,6 +21,7 @@ public class GameController {
      * The game controller singleton.
      */
     private static GameController controller = null;
+    private static boolean toReset = false;
 
     /**
      * Gets the GameController instance. There is only one instance.
@@ -28,7 +29,7 @@ public class GameController {
      * @return The game controller
      */
     public static GameController getInstance() {
-        if (controller == null) {
+        if (controller == null || toReset) {
             controller = new GameController();
         }
         return controller;
@@ -41,7 +42,7 @@ public class GameController {
 
     private double time;
     private boolean started = false;
-    private final double MAX_TIME = 0.5;
+    private final double maxTime = 0.5;
 
     /**
      * Creates the game controller. Initializes the game, player and levels.
@@ -108,9 +109,9 @@ public class GameController {
      * @param newTime The current time since start in seconds.
      */
     protected void update(double newTime) {
-        double dt = Math.min(newTime - time, MAX_TIME); // In exceptional cases use MAX_TIME.
+        double dt = Math.min(newTime - time, maxTime); // In exceptional cases use maxTime.
         if (dt < 0) {
-            dt = MAX_TIME; // overflow, if possible.
+            dt = maxTime; // overflow, if possible.
         }
         time = newTime;
         game.update(dt);
@@ -142,6 +143,10 @@ public class GameController {
 
     public void setGame(Game g) {
         game = g;
+    }
+
+    public void reset() {
+        toReset = true;
     }
 
 }

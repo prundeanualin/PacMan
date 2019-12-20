@@ -2,6 +2,7 @@ package pacman.logic.game;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -42,6 +43,7 @@ public class GameTest {
         game.setState(GameState.RUNNING);
         game.update(0);
         Iterator<Entity> iterator = game.getLevel().getBoard().getEntities().iterator();
+        assertTrue(iterator.hasNext());
         iterator.next();
         assertFalse(iterator.hasNext());
     }

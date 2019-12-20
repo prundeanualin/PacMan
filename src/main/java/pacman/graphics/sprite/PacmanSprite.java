@@ -1,7 +1,9 @@
 package pacman.graphics.sprite;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
+
 import org.jetbrains.annotations.NotNull;
 import pacman.graphics.Style;
 import pacman.logic.entity.PacMan;
@@ -31,4 +33,22 @@ public class PacmanSprite extends Sprite<PacMan> {
         }
     }
 
+    /**
+     * Draws a pacman sad/happy face.
+     * @param gc graphics of the board canvas
+     * @param style style
+     * @param alive happy/sad
+     */
+    public void animation(@NotNull GraphicsContext gc, @NotNull Style style, boolean alive) {
+        gc.setFill(style.getPacmanColour());
+        gc.fillOval(-0.4, -0.4, 0.8, 0.8);
+        gc.setFill(Color.BLACK);
+        gc.fillOval(-0.25, -0.25, 0.2, 0.2);
+        gc.fillOval(0.08, -0.25, 0.2, 0.2);
+        if (alive) {
+            gc.fillArc(-0.15, -0.1, 0.3, 0.3, 180, 180, ArcType.ROUND);
+        } else {
+            gc.fillArc(-0.15, 0.05, 0.3, 0.3, 0, 180, ArcType.ROUND);
+        }
+    }
 }
