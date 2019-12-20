@@ -1,21 +1,16 @@
 package pacman.logic;
 
 import database.User;
-import javafx.animation.AnimationTimer;
-import javafx.geometry.Insets;
-import javafx.scene.control.Label;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import pacman.Main;
-import pacman.graphics.BoardCanvas;
-import pacman.logic.level.Level;
-import pacman.logic.level.LevelFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javafx.animation.AnimationTimer;
+import javafx.scene.control.Label;
+
+import pacman.graphics.BoardCanvas;
+import pacman.logic.level.Level;
+import pacman.logic.level.LevelFactory;
 
 /**
  * Controller for the game, responsible for starting, pausing, updating and stopping the game.
@@ -30,6 +25,7 @@ public class GameController {
 
     /**
      * Gets the GameController instance. There is only one instance.
+     *
      * @return The game controller
      */
     public static GameController getInstance() {
@@ -48,6 +44,7 @@ public class GameController {
 
     private double time;
     private boolean started = false;
+    private final double MAX_TIME = 0.5;
 
     /**
      * Creates the game controller. Initializes the game, player and levels.
@@ -56,7 +53,8 @@ public class GameController {
         List<Level> levels = new ArrayList<>();
         this.levelFactory = new LevelFactory();
         levels.add(levelFactory.createLevel("level_1"));
-        this.game = new Game(new Player(), levels); //TODO
+        levels.add(levelFactory.createLevel("level_2"));
+        this.game = new Game(new Player(), levels);
         this.time = 0.0;
     }
 
@@ -73,16 +71,17 @@ public class GameController {
      * Starts the timer for updating the game.
      */
     protected void startTimer() {
-        long start = System.nanoTime();
-        timer = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                double t = (now - start) / 1E9;
-                update(t);
-            }
-        };
+        long start = System.nanoTime(); //NOPMD no reasonable rule violations
+        if (timer == null) {
+            timer = new AnimationTimer() {
+                @Override
+                public void handle(long now) {
+                    double t = (now - start) / 1E9;
+                    update(t);
+                }
+            };
+        }
         timer.start();
-
     }
 
     /**
@@ -104,25 +103,45 @@ public class GameController {
             throw new IllegalStateException("Can not unpause a game that is not started");
         }
         game.setRunning(true);
+        timer.start();
     }
 
     /**
      * Updates the game.
-     * @param t The current time since start in seconds.
+     *
+     * @param newTime The current time since start in seconds.
      */
-    public void update(double t) {
-        double dt = t - time;
-        time = t;
+    protected void update(double newTime) {
+        double dt = Math.min(newTime - time, MAX_TIME); // In exceptional cases use MAX_TIME.
+        if (dt < 0) dt = MAX_TIME; // overflow, if possible.
+        time = newTime;
         game.update(dt);
-        if(getGame().getLevel().getBoard().checkLevelWon())
-            labelScore.setText("You Won !!");
-        else
-            labelScore.setText("Score is: " + game.getScore());
-        canvas.draw(t);
+        if (getGame().getLevel().checkLevelWon()) {
+            pause();
+            if (getGame().won(1)) {
+                getCanvas().createWindow("!GAME WON!", "Go to Main Menu", 20, true);
+            } else {
+                nextLevel();
+            }
+        } else {
+            if (labelScore != null) {
+                labelScore.setText("Score : " + game.getScore());
+            }
+        }
+        canvas.draw(newTime);
+    }
+
+    /**
+     * creates a new level for the user who just won the current one.
+     */
+    public void nextLevel() {
+        getGame().advanceLevel();
+        getCanvas().createWindow("LEVEL WON !", "Start Next Level", 30, false);
     }
 
     /**
      * Gets the game instance.
+     *
      * @return The game
      */
     public Game getGame() {
@@ -137,31 +156,22 @@ public class GameController {
         return labelScore;
     }
 
-    /**
-     * Sets the label's parameters for displaying score and username.
-     * @param scoreLabel the label on which will be displayed
-     */
-    public void updateLabel(Label scoreLabel) {
-        scoreLabel.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
-        scoreLabel.setFont(new Font(20));
-        scoreLabel.setTextFill(Color.WHEAT);
-        scoreLabel.setTranslateX(Main.width / 3 * 2);
-        scoreLabel.setTranslateY(20);
-        scoreLabel.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
-    }
-
     public void setUser(User user) {
         getInstance().getGame().setPlayer(user);
     }
 
-    public void setUpGUI() {
-        canvas = new BoardCanvas(getGame().getLevel().getBoard()
-                , Main.width, Main.height);
-        canvas.setHeight(Main.height);
-        canvas.setWidth(Main.width);
-        canvas.setTranslateY(20);
-        labelScore = new Label("Score is: ");
-        updateLabel(labelScore);
+
+    public void setTimer(AnimationTimer at) {
+        timer = at;
+    }
+
+    public void setGame(Game g) {
+        game = g;
+    }
+
+    public void setUpGui(BoardCanvas bc, Label l) {
+        canvas = bc;
+        labelScore = l;
     }
 }
 

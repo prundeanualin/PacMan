@@ -7,8 +7,6 @@ import pacman.logic.entity.Entity;
 
 /**
  * Represents a drawable sprite.
- *
- * @author Ruben
  */
 public abstract class Sprite<E extends Entity> {
 
