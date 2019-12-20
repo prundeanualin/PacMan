@@ -10,6 +10,7 @@ import pacman.logic.level.MapParser;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+@SuppressWarnings("PMD.BeanMembersShouldSerialize") // Not a bean.
 public class BlinkyTest {
     private final String map = "P.*#";
     private Board board;

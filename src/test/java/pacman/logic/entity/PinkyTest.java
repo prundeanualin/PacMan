@@ -10,8 +10,9 @@ import pacman.logic.level.MapParser;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+@SuppressWarnings("PMD.BeanMembersShouldSerialize") // not a bean.
 public class PinkyTest {
-    private final String map = ".........\n"
+    private final String map = ".........\n" // NOPMD , literal improves readability.
             + ".........\n"
             + ".........\n"
             + ".........\n"
@@ -22,10 +23,9 @@ public class PinkyTest {
             + ".........\n";
 
     /**
-     *
      * @param pacmanDirection the direction Pinky is looking towards.
-     * @param x x-coordinate.
-     * @param y y-coordinate.
+     * @param x               x-coordinate.
+     * @param y               y-coordinate.
      */
     @ParameterizedTest
     @CsvSource({"UP, 4, 0", "RIGHT, 8, 4", "DOWN, 4, 8", "LEFT, 0, 4"})

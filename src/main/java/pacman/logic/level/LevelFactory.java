@@ -32,6 +32,7 @@ public class LevelFactory {
 
     /**
      * Creates a level factory where the levels are stored in the specified directory.
+     *
      * @param levelDirectory The directory where the levels are stored
      */
     public LevelFactory(String levelDirectory) {
@@ -40,29 +41,33 @@ public class LevelFactory {
 
     /**
      * Reads a level from the file with the specified name.
+     *
      * @param levelName The name of the level file
      * @return The level read from the file
      */
-    public @NotNull Level createLevel(String levelName) {
+    public @NotNull
+    Level createLevel(String levelName) {
         Board board = mapParser.parseMap(levelName);
         return createLevel(board);
     }
 
     /**
      * Creates a level from the given board.
+     *
      * @param board The board to create the level from
      * @return The level created from the board
      */
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // known bug of pmd with foreach loops.
-    public @NotNull Level createLevel(@NotNull Board board) {
+    public @NotNull
+    Level createLevel(@NotNull Board board) {
         PacMan pacMan = null;
         Set<Ghost> ghosts = new HashSet<>();
         Set<Pellet> pellets = new HashSet<>();
         for (Entity entity : board.getEntities()) {
             if (entity instanceof PacMan) {
-                if (pacMan != null) {
-                    throw new IllegalArgumentException("There can not be multiple PacMen");
-                }
+                //if (pacMan != null) {
+                //    throw new IllegalArgumentException("There can not be multiple PacMen");
+                //} Will not happen, is already caughtin pacman initialization.
                 pacMan = (PacMan) entity;
             } else if (entity instanceof Ghost) {
                 ghosts.add((Ghost) entity);
