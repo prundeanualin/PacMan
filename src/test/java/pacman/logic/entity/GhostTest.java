@@ -45,14 +45,13 @@ public class GhostTest {
         assertTrue(board.pacman.isAlive());
     }
 
-    /*@Test
-    public void ghostDoesntMove(){
-        board= MapParser.parseMapFromString(map);
-        ghost= new Blinky(board, board.getSquare(1,0));
-        ghost.update(0.5);
-        assertEquals(1, ghost.getX());
-        assertEquals(0, ghost.getY());
-    }*/
+    @Test
+    public void ghostDoesntMove() {
+        board = MapParser.parseMapFromString(map);
+        ghost = new Blinky(board, board.getSquare(1,0));
+        ghost.update(0.0);
+        assertEquals(ghost.oldSquare, ghost.square);
+    }
 
     @Test
     public void noTarget() {
@@ -88,29 +87,29 @@ public class GhostTest {
         assertEquals(options, ghost.getOptions());
     }
 
-    /*@Test
-    public void getOptionsWithWalls(){
-        String mapp= "#P.##";
-        board= MapParser.parseMapFromString(mapp);
-        ghost= new Blinky(board, board.getSquare(1,0));
-        List<Square> options = new ArrayList<>();
-        options.add(board.getSquare(0,0));
-        for(Square s: ghost.getOptions()){
-            System.out.println(s.hasSolid());
-        }
-        System.out.println(square.hasSolid());
-        assertEquals(ghost.getOptions(), options);
-        assertEquals(1, ghost.getOptions().size());
-    }*/
+    @Test
+    public void getOptionsWithWalls() {
+        String mapp = ".#.\n"
+                + "P.#\n"
+                + "...";
+        board = MapParser.parseMapFromString(mapp);
+        ghost = new Blinky(board, board.getSquare(1,1));
+        ghost.setDirection(Direction.RIGHT);
+        List<Square> expected = new ArrayList<>();
+        expected.add(board.getSquare(1,2));
+        expected.add(board.getSquare(0,1));
+        assertTrue(ghost.getOptions().containsAll(expected));
+        assertEquals(2, ghost.getOptions().size());
+    }
 
     @Test
     public void closestNeighborThrowsException() {
         String mapp = "P.";
         board = MapParser.parseMapFromString(mapp);
         ghost = new Blinky(board, board.getSquare(1,0));
-        List<Square> options = new ArrayList<>(); // NOPMD variable used
+        List<Square> expected = new ArrayList<>(); //NOPMD variable needed for testing purposes
         assertThrows(IllegalArgumentException.class, () ->
-                ghost.closestNeighbour(board.pacman.square, options));
+                ghost.closestNeighbour(board.pacman.square, expected));
     }
 
     @Test

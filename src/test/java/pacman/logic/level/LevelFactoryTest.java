@@ -31,8 +31,7 @@ public class LevelFactoryTest {
         new PacMan(board, square);
         new PacMan(board, square);
         assertThrows(IllegalArgumentException.class, () -> levelFactory.createLevel(board));
-    }
-    */
+    }*/
 
     @Test
     public void testCreateLevelSuccess() {

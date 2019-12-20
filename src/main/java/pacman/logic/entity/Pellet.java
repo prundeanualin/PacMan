@@ -25,7 +25,6 @@ public class Pellet extends Entity {
 
     @Override
     public void update(double dtSmall) {
-
     }
 
     @Override
