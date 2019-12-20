@@ -89,4 +89,9 @@ public abstract class MovingEntity extends Entity {
     protected boolean isWithinBound(double dx, double dy) {
         return dx * dx + dy * dy < 0.75;
     }
+
+    @Override
+    public boolean isSolid() {
+        return false;
+    }
 }

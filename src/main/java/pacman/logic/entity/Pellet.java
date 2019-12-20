@@ -31,4 +31,9 @@ public class Pellet extends Entity {
     protected boolean isWithinBound(double dx, double dy) {
         return dx * dx + dy * dy < 0.25;
     }
+
+    @Override
+    public boolean isSolid() {
+        return false;
+    }
 }
