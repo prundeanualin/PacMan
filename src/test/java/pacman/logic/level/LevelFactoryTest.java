@@ -25,14 +25,6 @@ public class LevelFactoryTest {
         assertThrows(IllegalArgumentException.class, () -> levelFactory.createLevel(board));
     }
 
-    /*@Test Illegal Argument exception already thrown during the second instantiation.
-    public void testMultiplePacMan() {
-        Square square = new Square(board, 0, 0);
-        new PacMan(board, square);
-        new PacMan(board, square);
-        assertThrows(IllegalArgumentException.class, () -> levelFactory.createLevel(board));
-    }*/
-
     @Test
     public void testCreateLevelSuccess() {
         Square square = new Square(board, 0, 0);
