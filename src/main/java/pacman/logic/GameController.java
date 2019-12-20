@@ -25,6 +25,7 @@ public class GameController {
 
     /**
      * Gets the GameController instance. There is only one instance.
+     *
      * @return The game controller
      */
     public static GameController getInstance() {
@@ -43,6 +44,7 @@ public class GameController {
 
     private double time;
     private boolean started = false;
+    private final double MAX_TIME = 0.5;
 
     /**
      * Creates the game controller. Initializes the game, player and levels.
@@ -106,13 +108,15 @@ public class GameController {
 
     /**
      * Updates the game.
-     * @param t The current time since start in seconds.
+     *
+     * @param newTime The current time since start in seconds.
      */
-    protected void update(double t) {
-        double dt = t - time;
-        time = t;
+    protected void update(double newTime) {
+        double dt = Math.min(newTime - time, MAX_TIME); // In exceptional cases use MAX_TIME.
+        if (dt < 0) dt = MAX_TIME; // overflow, if possible.
+        time = newTime;
         game.update(dt);
-        if (getGame().getLevel().getBoard().checkLevelWon()) {
+        if (getGame().getLevel().checkLevelWon()) {
             pause();
             if (getGame().won(1)) {
                 getCanvas().createWindow("!GAME WON!", "Go to Main Menu", 20, true);
@@ -124,7 +128,7 @@ public class GameController {
                 labelScore.setText("Score : " + game.getScore());
             }
         }
-        canvas.draw(t);
+        canvas.draw(newTime);
     }
 
     /**
@@ -137,6 +141,7 @@ public class GameController {
 
     /**
      * Gets the game instance.
+     *
      * @return The game
      */
     public Game getGame() {

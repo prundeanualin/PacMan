@@ -42,4 +42,17 @@ public class Level {
         return pellets;
     }
 
+
+    // boolean won is a check for having any remaining pellets
+    public boolean checkLevelWon() {
+        return pellets.size() == 0;
+    }
+
+    /**
+     * Checks if the game is lost.
+     * @return whether pacman isnt alive
+     */
+    public boolean checkLevelLost(){
+        return !pacMan.isAlive();
+    }
 }

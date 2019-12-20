@@ -1,29 +1,39 @@
 package pacman.logic;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static pacman.logic.Direction.DOWN;
+import static pacman.logic.Direction.LEFT;
+import static pacman.logic.Direction.RIGHT;
+import static pacman.logic.Direction.UP;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.EnumSource;
+
+import java.util.Map;
 
 public class DirectionTest {
 
-    @Test
-    public void testInverseDirectionUp() {
-        assertEquals(Direction.UP.getInverse(), Direction.DOWN);
+    private static final Map<Direction, Direction> INVERSES = Map.of(UP, DOWN, DOWN, UP, LEFT,
+            RIGHT, RIGHT, LEFT);
+
+    @ParameterizedTest
+    @EnumSource(Direction.class)
+    public void testInverse(Direction dir) {
+        assertEquals(INVERSES.get(dir), dir.getInverse());
     }
 
-    @Test
-    public void testInverseDirectionDown() {
-        assertEquals(Direction.DOWN.getInverse(), Direction.UP);
+    @ParameterizedTest
+    @CsvSource({"1,0,RIGHT", "-1,0,LEFT", "0,1,DOWN", "0,-1,UP"})
+    public void testFromCoords(int x, int y, Direction dir) {
+        assertEquals(dir, Direction.getDirection(x, y));
     }
 
-    @Test
-    public void testInverseDirectionLeft() {
-        assertEquals(Direction.LEFT.getInverse(), Direction.RIGHT);
-    }
-
-    @Test
-    public void testInverseDirectionRight() {
-        assertEquals(Direction.RIGHT.getInverse(), Direction.LEFT);
+    @ParameterizedTest
+    @CsvSource({"1,1","0,0","2,1","1,2"})
+    public void testWrongCoords(int x, int y) {
+        assertThrows(IllegalArgumentException.class, () -> Direction.getDirection(x, y));
     }
 
 }

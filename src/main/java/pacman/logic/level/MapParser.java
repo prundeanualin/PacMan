@@ -11,9 +11,7 @@ import java.util.Scanner;
 import javafx.application.Platform;
 import org.jetbrains.annotations.NotNull;
 import pacman.logic.Direction;
-import pacman.logic.entity.PacMan;
-import pacman.logic.entity.Pellet;
-import pacman.logic.entity.Wall;
+import pacman.logic.entity.*;
 
 
 /**
@@ -26,6 +24,7 @@ public class MapParser {
 
     /**
      * Creates a map parser that loads a file, reads it and generates a board out of it.
+     *
      * @param levelDirectory The directory to read levels from.
      */
     public MapParser(String levelDirectory) {
@@ -46,6 +45,7 @@ public class MapParser {
 
     /**
      * Reads the file and parses the map from the contents.
+     *
      * @param levelName The name of the level
      * @return A board parsed from the file
      */
@@ -62,10 +62,12 @@ public class MapParser {
 
     /**
      * Reads the scanner and parses the map from the contents.
+     *
      * @param scanner The scanner to read from
      * @return A board parsed from the scanner
      */
-    public @NotNull Board parseMap(@NotNull Scanner scanner) {
+    public static @NotNull
+    Board parseMap(@NotNull Scanner scanner) {
         List<String> lines = new ArrayList<>();
         while (scanner.hasNextLine()) {
             lines.add(scanner.nextLine());
@@ -92,41 +94,47 @@ public class MapParser {
 
     /**
      * Parses a map from the given string.
+     *
      * @param mapString The string to read from
      * @return A board parsed from the string
      */
-    public @NotNull Board parseMapFromString(@NotNull String mapString) {
+    public static @NotNull
+    Board parseMapFromString(@NotNull String mapString) {
         return parseMap(new Scanner(mapString));
     }
 
-    private void parseSquare(@NotNull Board board, char squareChar, int x, int y) {
-        Square square = new Square(); // NOPMD variable is used
-        switch (squareChar) {
+    private static void parseSquare(@NotNull Board board, char squareChar, int x, int y) {
+        Square square = new Square(board, x, y); // NOPMD variable is used
+        switch (squareChar) { // NOPMD , default case can not break as it throws an exception.
             case '#':
-                square.addEntity(new Wall(board, x, y));
+                new Wall(board, square);
                 break;
             case '*':
-                square.addEntity(new Pellet(board, x, y));
+                new Pellet(board, square);
+                break;
+            case 'B':
+                new Blinky(board, square);
                 break;
             case 'P':
-                PacMan pm = new PacMan(board, x + 0.5, y + 0.5);
-                pm.setDirection(Direction.RIGHT);
-                square.addEntity(pm);
+                new PacMan(board, square);
                 break;
+            case 'p':
+                new Pinky(board, square);
             case '.':
                 break;
             default:
                 throw new IllegalArgumentException("Invalid character");
         }
-        board.addSquare(square);
     }
 
-    /**.
+    /**
+     * .
      * Check for validity of map, if it has lines of different lengths or if the file doesn't
      * contain any proper lines
+     *
      * @param mapText the lines read from the file
      */
-    public void checkMapCorrectness(List<String> mapText) {
+    public static void checkMapCorrectness(List<String> mapText) {
         if (mapText == null || mapText.isEmpty()) {
             throw new IllegalArgumentException("Invalid map format: "
                     + "No existing rows inside the map file");
