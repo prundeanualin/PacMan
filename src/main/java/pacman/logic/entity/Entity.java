@@ -26,7 +26,6 @@ public abstract class Entity {
     Direction nextDirection = null;
 
     private boolean alive = true;
-    private boolean solid = false;
 
     /**
      * Creates an entity at the specified position with the specified sprite.
@@ -182,18 +181,7 @@ public abstract class Entity {
      *
      * @return Whether this entity is solid
      */
-    public boolean isSolid() {
-        return solid;
-    }
-
-    /**
-     * Sets the solidity of this entity.
-     *
-     * @param solid Whether the entity is solid or not
-     */
-    public void setSolid(boolean solid) {
-        this.solid = solid;
-    }
+    public abstract boolean isSolid();
 
     /**
      * Gets the board this entity is on.

@@ -125,7 +125,7 @@ public class Square {
         }
 
         assert (!solid); // A square with a solid should not be receiving entities.
-        if (entity.isSolid()|| entity instanceof Wall) {
+        if (entity.isSolid()) {
             solid = true;
         }
     }

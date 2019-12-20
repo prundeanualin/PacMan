@@ -31,4 +31,9 @@ public class Wall extends Entity {
     protected boolean isWithinBound(double dx, double dy) {
         return dx < 1.0 && dy < 1.0;
     }
+
+    @Override
+    public boolean isSolid() {
+        return true;
+    }
 }
