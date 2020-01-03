@@ -9,7 +9,6 @@ import java.util.Set;
 import org.jetbrains.annotations.NotNull;
 import pacman.logic.Direction;
 import pacman.logic.entity.Entity;
-import pacman.logic.entity.Wall;
 
 /**
  * Represents a square on the board.
@@ -59,7 +58,7 @@ public class Square {
     }
 
     public Square getNeighbour(Direction direction) {
-        return board.getSquare(xs + direction.getX(), ys + direction.getY());
+        return board.getSquare(xs + direction.getDx(), ys + direction.getDy());
     }
 
     /**
@@ -75,20 +74,20 @@ public class Square {
         int y = otherSquare.ys - this.ys;
 
         // Deal with warping.
-        if (x > Direction.RIGHT.getX()) {
+        if (x > Direction.RIGHT.getDx()) {
             x -= board.getWidth();
-        } else if (x < Direction.LEFT.getX()) {
+        } else if (x < Direction.LEFT.getDx()) {
             x += board.getWidth();
         }
-        if (y > Direction.DOWN.getY()) {
+        if (y > Direction.DOWN.getDy()) {
             y -= board.getHeight();
-        } else if (y < Direction.UP.getY()) {
+        } else if (y < Direction.UP.getDy()) {
             y += board.getHeight();
         }
-        assert (x == Direction.LEFT.getX() || x == Direction.UP.getX()
-                || x == Direction.RIGHT.getX());
-        assert (y == Direction.DOWN.getY() || y == Direction.RIGHT.getY()
-                || y == Direction.UP.getY());
+        assert (x == Direction.LEFT.getDx() || x == Direction.UP.getDx()
+                || x == Direction.RIGHT.getDx());
+        assert (y == Direction.DOWN.getDy() || y == Direction.RIGHT.getDy()
+                || y == Direction.UP.getDy());
 
         return Direction.getDirection(x, y);
     }

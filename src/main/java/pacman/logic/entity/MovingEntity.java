@@ -30,7 +30,7 @@ public abstract class MovingEntity extends Entity {
         double dt = 2 * dtSmall; //NOPMD needed to change the speed of the entities' movement
 
         if (direction != null) {
-            updatePosition(dt * direction.getX(), dt * direction.getY());
+            updatePosition(dt * direction.getDx(), dt * direction.getDy());
         }
 
         if (nextDirection != null && nextDirection != getDirection()
