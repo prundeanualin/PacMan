@@ -1,0 +1,166 @@
+package pacman.graphics;
+
+import java.io.IOException;
+
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Button;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.transform.Affine;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+
+import org.jetbrains.annotations.NotNull;
+import pacman.Main;
+import pacman.logic.GameController;
+import pacman.logic.entity.Entity;
+import pacman.logic.level.Board;
+
+/**
+ * Class for drawing the game board with everything on it.
+ *
+ * @author Ruben
+ */// entities has access methods (though PMD does not recognize them),
+// additionally class is not a bean.
+
+@SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class is not a bean.
+public class BoardCanvas extends Canvas {
+
+    /**
+     * The style to draw in.
+     */
+    private Style drawStyle = Style.CLASSIC;
+
+    /**
+     * The board that should be drawn.
+     */
+    private Board board;
+
+    private double scaleX;
+    private double scaleY;
+
+    /**
+     * Creates a new board canvas with specified dimensions.
+     */
+    public BoardCanvas(Board board) {
+
+        this.board = board;
+        scaleX = Main.width / (double) board.getWidth();
+        scaleY = Main.height / (double) board.getHeight();
+    }
+
+    /**
+     * Clears the canvas with the background colour.
+     */
+    private void clear() {
+        Color bg = drawStyle.getBackgroundColor();
+        getGraphicsContext2D().setFill(new Color(bg.getRed(), bg.getGreen(), bg.getBlue(), 1.0));
+        getGraphicsContext2D().fillRect(0, 0, getWidth(), getHeight());
+    }
+
+
+    /**
+     * Draws everything on the canvas.
+     * @param t The time since started in seconds.
+     */
+    @SuppressWarnings({"PMD.DataflowAnomalyAnalysis", "unchecked"})
+    /*
+     * known bug of pmd with foreach loops
+     * it is always safe to draw an entity using its own sprite
+     */
+    public void draw(double t) {
+        /*
+         * Suppress warnings:
+         *  - known bug of pmd with foreach loops
+         *  - it is always safe to draw an entity using its own sprite
+         */
+        clear();
+        getGraphicsContext2D().setLineWidth(1 / scaleX);
+        for (Entity e : board.getEntities()) {
+            getGraphicsContext2D().scale(scaleX, scaleY);
+            getGraphicsContext2D().translate(e.getX(), e.getY());
+            e.getSprite().draw(e, getGraphicsContext2D(), drawStyle, t);
+            getGraphicsContext2D().setTransform(new Affine());
+        }
+    }
+
+    /**
+     * Sets the style that is used to draw with.
+     *
+     * @param drawStyle The new draw style
+     */
+    public void setDrawStyle(@NotNull Style drawStyle) {
+        this.drawStyle = drawStyle;
+    }
+
+    /**
+     * Gets the style that is used to draw with.
+     * @return The current draw style
+     */
+    public Style getDrawStyle() {
+        return drawStyle;
+    }
+
+    /**
+     * Displaying a dialog window for announcing that the level is won
+     * and waiting to start the next level/ game is won and button
+     * that sends user back to main menu.
+     */
+    public void createWindow(String msg1, String msg2, int size, boolean won) {
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.UNDECORATED);
+        VBox root = new VBox(70);
+        root.setBackground(new Background(new BackgroundFill(Color.BLACK,
+                CornerRadii.EMPTY, Insets.EMPTY)));
+        Text text = new Text(msg1);
+        text.setFill(Color.WHEAT);
+        text.setFont(new Font("Joker", size));
+        root.getChildren().add(text);
+        Button btn = new Button(msg2);
+        btn.setBackground(new Background(new BackgroundFill(Color.YELLOW,
+                CornerRadii.EMPTY, Insets.EMPTY)));
+        btn.setTextFill(Color.BLACK);
+        btn.setOnAction(event -> {
+            if (won) {
+                try {
+                    Parent roots = FXMLLoader.load(getClass().getResource("/views/menu.fxml"));
+                    Scene sc = new Scene(roots);
+                    stage.setScene(sc);
+                    stage.show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                setBoard(GameController.getInstance().getGame().getLevel().getBoard());
+                stage.close();
+                GameController.getInstance().unpause();
+            }
+        });
+        root.getChildren().add(btn);
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    /**
+     * After a new level is created, sets that level's board to
+     * canvas' board.
+     * @param board the new board created for the next level
+     */
+    public void setBoard(Board board) {
+        this.board = board;
+        scaleX = Main.width / (double) board.getWidth();
+        scaleY = Main.height / (double) board.getHeight();
+    }
+}
