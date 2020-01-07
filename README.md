@@ -1,4 +1,5 @@
 ### TUDelft Software Engineering Methods Project - PacMan ###
+[![pipeline status](https://gitlab.ewi.tudelft.nl/cse2115/2019-2020/PM/sem-group-25/template/badges/master/coverage.svg)](https://gitlab.ewi.tudelft.nl/cse2115/2019-2020/PM/sem-group-25/template/commits/master)
 ## Group 25 ##
 
 
