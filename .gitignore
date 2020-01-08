@@ -80,12 +80,6 @@ out/production/classes/pacman/logic/Game.class
 out/production/classes/pacman/graphics/gui/LoginController.class
 out/production/classes/pacman/graphics/Style.class
 out/production/classes/pacman/graphics/BoardCanvas.class
-out/test/classes/database/LoginDaoTest.class
-out/test/classes/database/UserTest.class
-out/test/classes/database/UserDaoTest.class
-src/test/java/database/UserDaoTest.java
-src/test/java/database/UserTest.java
-src/test/java/database/LoginDaoTest.java
 out/production/classes/database/EncryptionDao.class
 out/production/classes/database/PasswordEncryptionService.class
 =======
