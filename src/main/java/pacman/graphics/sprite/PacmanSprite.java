@@ -8,9 +8,8 @@ import pacman.logic.entity.PacMan;
 
 /**
  * Sprite for PacMan.
- *
- * @author Ruben
  */
+@SuppressWarnings("PMD.BeanMembersShouldSerialize") // Not a bean.
 public class PacmanSprite extends Sprite<PacMan> {
 
     @Override

@@ -7,6 +7,7 @@ build/**
 
 # Editor settings
 .idea/**
+<<<<<<< HEAD
 .out/**
 out/production/classes/pacman/gui/graphics/boardCanvas.class
 out/production/classes/pacman/gui/graphics/boardCanvas$1.class
@@ -87,3 +88,6 @@ src/test/java/database/UserTest.java
 src/test/java/database/LoginDaoTest.java
 out/production/classes/database/EncryptionDao.class
 out/production/classes/database/PasswordEncryptionService.class
+=======
+out/**
+>>>>>>> 15e564e6d3dbaa605f7339839fb098b1fdd21234

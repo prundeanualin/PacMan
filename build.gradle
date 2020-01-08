@@ -38,8 +38,7 @@ test {
 
     jacoco {
         enabled = true
-        includes = ['nl.tudelft.cse.sem.*']
-        excludes = []
+        includes = ['pacman*']
     }
 }
 
@@ -63,20 +62,38 @@ javafx {
 }
 
 
+jacocoTestReport {
+    afterEvaluate {
+        classDirectories = files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: 'pacman/graphics/**')
+        })
+    }
+}
+
 jacocoTestCoverageVerification {
     violationRules {
-        rule {
+        rule { // Min 50% branch coverage
             enabled = true
             element = 'CLASS'
-            includes = ['nl.tudelft.cse.sem.*']
+            includes = ['pacman.*']
+            excludes = ['pacman.graphics*', 'pacman.Main']
 
             limit {
-                counter = 'LINE'
-                value = 'TOTALCOUNT'
-                maximum = 0.3
+                counter = 'BRANCH'
+                value = 'COVEREDRATIO'
+                minimum = 0.5
             }
         }
     }
+}
+
+pmd {
+    incrementalAnalysis = true
+}
+
+javafx {
+    version = "12.0.2"
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
 
 checkstyle {

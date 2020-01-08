@@ -5,6 +5,9 @@ import org.jetbrains.annotations.NotNull;
 import pacman.graphics.Style;
 import pacman.logic.entity.Wall;
 
+/**
+ * Sprite for the walls.
+ */
 public class WallSprite extends Sprite<Wall> {
 
     @Override

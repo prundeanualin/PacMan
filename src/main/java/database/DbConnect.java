@@ -10,7 +10,7 @@ public class DbConnect {
      * @return connection variable
      */
     @SuppressWarnings("PMD")
-    public Connection getMyConnection(){
+    public Connection getMyConnection() {
         Connection connection = null;
         String url = "jdbc:mysql://projects-db.ewi.tudelft.nl:3306/"
                 +

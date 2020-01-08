@@ -4,10 +4,7 @@ package database;
 //import lombok.Setter;
 
 
-import java.util.Objects;
-
 public class User {
-
 
     private int id;
     private String username;
@@ -48,12 +45,21 @@ public class User {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         User user = (User) o;
-        return getId() == user.getId() &&
-                getScore() == user.getScore() &&
-                getUsername().equals(user.getUsername()) &&
-                getPassword().equals(user.getPassword());
+        return getId() == user.getId()
+                && getScore() == user.getScore()
+                && getUsername().equals(user.getUsername())
+                && getPassword().equals(user.getPassword());
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 }
