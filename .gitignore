@@ -85,3 +85,5 @@ out/test/classes/database/UserDaoTest.class
 src/test/java/database/UserDaoTest.java
 src/test/java/database/UserTest.java
 src/test/java/database/LoginDaoTest.java
+out/production/classes/database/EncryptionDao.class
+out/production/classes/database/PasswordEncryptionService.class

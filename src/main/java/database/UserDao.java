@@ -1,10 +1,12 @@
 package database;
 
-import javax.swing.JOptionPane;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Base64;
 
 
 public class UserDao {
@@ -17,7 +19,7 @@ public class UserDao {
     @SuppressWarnings("PMD")
     public String getUsernameFromDatabase(User user) {
         DbConnect dbConnect = new DbConnect();
-        String finalUsername = "";
+        String finalUsername;
         Connection conn = dbConnect.getMyConnection();
         Statement statement;
         ResultSet resultSet;
@@ -168,15 +170,15 @@ public class UserDao {
      * @param user as param.
      */
     @SuppressWarnings("PMD")
-    public void updateUserUsername(User user) {
+    public void updateUserUsername(User user){
         DbConnect dbConnect = new DbConnect();
         Connection conn = dbConnect.getMyConnection();
         Statement statement;
-        String query = "UPDATE Users SET Username=? WHERE Password=?";
+        String query = "UPDATE Users SET Username=? WHERE Score=?";
         try {
             statement = conn.prepareStatement(query);
             ((PreparedStatement) statement).setString(1, user.getUsername());
-            ((PreparedStatement) statement).setString(2, user.getPassword());
+            ((PreparedStatement) statement).setInt(2, user.getScore());
             ((PreparedStatement) statement).executeUpdate();
             /*
             if (((PreparedStatement) statement).executeUpdate() > 0) {
@@ -200,10 +202,20 @@ public class UserDao {
         DbConnect dbConnect = new DbConnect();
         Connection conn = dbConnect.getMyConnection();
         Statement statement;
+        EncryptionDao encryptionDao = new EncryptionDao();
+        byte[] encryptedPass = new byte[64];
+        String userSalt = encryptionDao.getUserSalt(user);
+
+        PasswordEncryptionService passwordEncryptionService = new PasswordEncryptionService();
+        try{
+            encryptedPass = passwordEncryptionService.getEncryptedPassword(user.getPassword(), Base64.getDecoder().decode(userSalt));
+        }
+        catch (NoSuchAlgorithmException | InvalidKeySpecException e)
+        { }
         String query = "UPDATE Users SET Password=? WHERE Username=?";
         try {
             statement = conn.prepareStatement(query);
-            ((PreparedStatement) statement).setString(1, user.getPassword());
+            ((PreparedStatement) statement).setString(1, Base64.getEncoder().encodeToString(encryptedPass));
             ((PreparedStatement) statement).setString(2, user.getUsername());
             ((PreparedStatement) statement).executeUpdate();
             /*
