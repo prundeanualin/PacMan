@@ -1,15 +1,14 @@
 package pacman.logic.entity;
 
-import pacman.graphics.sprite.Sprite;
-import pacman.logic.Direction;
-import pacman.logic.GameController;
-import pacman.logic.level.Board;
-import pacman.logic.level.Square;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 
+import pacman.graphics.sprite.Sprite;
+import pacman.logic.Direction;
+import pacman.logic.level.Board;
+import pacman.logic.level.Square;
 
 /**
  * Represents a ghost.
@@ -45,9 +44,8 @@ public abstract class Ghost extends MovingEntity {
 
         // Collided with PacMan
         Set<Entity> collisions = checkCollision();
-        if (collisions.contains(board.pacman)) {
+        if (collisions.contains(board.pacman) && !board.pacman.isImmune()) {
             board.pacman.setAlive(false);
-            GameController.getInstance().getGame().setRunning(false);
         }
 
         if (square != oldSquare) { // Update choice when a new square is reached.
@@ -79,7 +77,8 @@ public abstract class Ghost extends MovingEntity {
         return options;
     }
 
-    @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // Foreach loop incorrectly marked as UR anomaly.
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
+    // Foreach loop incorrectly marked as UR anomaly.
     protected Square closestNeighbour(Square target, List<Square> options) {
         if (options.size() == 0) {
             throw new IllegalArgumentException("Cannot choose target from empty list of options.");
@@ -89,9 +88,9 @@ public abstract class Ghost extends MovingEntity {
         Square next = null;
 
         for (Square s : options) {
-            int x_dir = Math.abs(target.getX() - s.getX());
-            int y_dir = Math.abs(target.getY() - s.getY());
-            float dist = x_dir + y_dir;
+            int xdir = Math.abs(target.getXs() - s.getXs());
+            int ydir = Math.abs(target.getYs() - s.getYs());
+            float dist = xdir + ydir;
             if (dist < min) {
                 min = dist;
                 next = s;
@@ -118,7 +117,8 @@ public abstract class Ghost extends MovingEntity {
             case FRIGHTENED:
                 return frightenedTarget(nextOptions);
             default:
-                throw new IllegalStateException("No target behavior implemented for: " + mode.toString());
+                throw new IllegalStateException("No target behavior implemented for: "
+                        + mode.toString());
         }
     }
 
@@ -146,7 +146,7 @@ public abstract class Ghost extends MovingEntity {
      * @see this#chooseTarget(List) 
      */
     private final Square frightenedTarget(List<Square> options) {
-        //TODO choose random direction from options;
-        return null;
+        int a = ThreadLocalRandom.current().nextInt(0, options.size());
+        return options.get(a);
     }
 }

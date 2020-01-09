@@ -39,15 +39,15 @@ public enum Direction {
      */
     RIGHT(1, 0, 0.0);
 
-    private final int x;
+    private final int xs;
 
-    private final int y;
+    private final int ys;
 
     private final double rotation;
 
     Direction(int x, int y, double rotation) {
-        this.x = x;
-        this.y = y;
+        this.xs = x;
+        this.ys = y;
         this.rotation = rotation;
     }
 
@@ -56,11 +56,11 @@ public enum Direction {
     }
 
     public int getX() {
-        return x;
+        return xs;
     }
 
     public int getY() {
-        return y;
+        return ys;
     }
 
     public double getRotation() {
@@ -77,7 +77,7 @@ public enum Direction {
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // known bug of pmd with foreach loops.
     public static Direction getDirection(int x, int y) {
         for (Direction dir : values()) {
-            if (dir.x == x && dir.y == y) {
+            if (dir.xs == x && dir.ys == y) {
                 return dir;
             }
         }
