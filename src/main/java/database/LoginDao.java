@@ -32,14 +32,16 @@ public class LoginDao {
         ResultSet resultSet;
         byte[] encryptedPass = new byte[64];
         PasswordEncryptionService passwordEncryptionService = new PasswordEncryptionService();
-        try{
+        try {
             String newSalt = encryptionDao.getUserSalt(user);
-            if(newSalt.isEmpty())
+            if (newSalt.isEmpty()) {
                 return false;
-            encryptedPass = passwordEncryptionService.getEncryptedPassword(user.getPassword(), Base64.getDecoder().decode(newSalt));
+            }
+            encryptedPass = passwordEncryptionService.getEncryptedPassword(user.getPassword(),
+                    Base64.getDecoder().decode(newSalt));
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            System.out.println("error occurred");
         }
-        catch (NoSuchAlgorithmException | InvalidKeySpecException e)
-        { }
         String query = "SELECT Username,Password FROM Users WHERE Username=? AND Password=?";
         try {
             statement = conn.prepareStatement(query);

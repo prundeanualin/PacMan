@@ -1,7 +1,5 @@
 package database;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeAll;
 import org.mockito.Mock;
@@ -17,7 +15,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
-
+@SuppressWarnings("PMD")
 public class RegisterDaoTest {
 
     private UserDao userDao;
@@ -58,20 +56,21 @@ public class RegisterDaoTest {
         when(preparedStatement.executeQuery()).thenReturn(resultSet);
     }
 
-    @Test(expected=Exception.class)
+    @Test(expected = Exception.class)
     public void nullCreateThrowsException() {
         RegisterDao registerDao = Mockito.mock(RegisterDao.class);
         Mockito.doThrow(new Exception()).when(registerDao).addUser(null);
     }
+
     @Test
     public void testAddingUser() {
         RegisterDao registerDao = Mockito.mock(RegisterDao.class);
         registerDao.addUser(user);
-        Mockito.verify(registerDao,times(1)).addUser(user);
+        Mockito.verify(registerDao, times(1)).addUser(user);
     }
 
     @Test
-    public void addNewUser(){
+    public void addNewUser() {
         User user2 = new User();
         userDao = new UserDao();
         user2.setUsername("Lil Peep");
@@ -85,8 +84,7 @@ public class RegisterDaoTest {
     }
 
     @Test
-    public void checkUserExistTrue()
-    {
+    public void checkUserExistTrue() {
         user = new User();
         userDao = new UserDao();
         user.setUsername("Lil Peep");
@@ -99,8 +97,7 @@ public class RegisterDaoTest {
     }
 
     @Test
-    public void checkUserExistsFalse()
-    {
+    public void checkUserExistsFalse() {
         user = new User();
         userDao = new UserDao();
         user.setUsername("Lil Peep");
@@ -109,8 +106,9 @@ public class RegisterDaoTest {
         RegisterDao registerDao = new RegisterDao();
         assertEquals(false, registerDao.checkUserAlreadyExists(user));
     }
+
     @Test
-    public void testAddingDuplicates(){
+    public void testAddingDuplicates() {
         User user2 = user;
         RegisterDao registerDao = Mockito.mock(RegisterDao.class);
         registerDao.addUser(user);

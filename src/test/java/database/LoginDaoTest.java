@@ -8,6 +8,7 @@ import org.mockito.Mockito;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertEquals;
 
+@SuppressWarnings("PMD")
 public class LoginDaoTest {
     private UserDao userDao;
     private LoginDao loginDao;
@@ -15,8 +16,7 @@ public class LoginDaoTest {
     private User user;
 
     @BeforeEach
-    public void setUp()
-    {
+    public void setUp() {
         user = new User();
         user.setUsername("Lil Boat");
         user.setPassword("12345");
@@ -27,13 +27,13 @@ public class LoginDaoTest {
     }
 
     @Test
-    public void testGoodAttempt(){
+    public void testGoodAttempt() {
         loginDao = new LoginDao();
         assertEquals(true, loginDao.attemptLogin(user));
     }
 
     @Test
-    public void testFailureAttempt(){
+    public void testFailureAttempt() {
         User user1 = new User();
         user1.setUsername("Leo");
         user1.setPassword("puiu");
@@ -41,15 +41,15 @@ public class LoginDaoTest {
         loginDao = new LoginDao();
         assertEquals(false, loginDao.attemptLogin(user1));
     }
-    
-    @org.junit.Test(expected=Exception.class)
+
+    @org.junit.Test(expected = Exception.class)
     public void nullCreateThrowsException() {
         LoginDao loginDao1 = Mockito.mock(LoginDao.class);
         Mockito.doThrow(new Exception()).when(loginDao1).attemptLogin(null);
     }
 
     @AfterEach
-    public void end(){
+    public void end() {
         UserDao userDao = new UserDao();
         userDao.deleteUser(user);
     }

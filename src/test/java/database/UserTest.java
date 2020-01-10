@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static junit.framework.TestCase.assertEquals;
 
+@SuppressWarnings("PMD")
 public class UserTest {
     private User user;
     private User user1;
@@ -36,45 +37,45 @@ public class UserTest {
     }
 
     @Test
-    public void testGetUsername(){
+    public void testGetUsername() {
         assertEquals("88Glam", user1.getUsername());
     }
 
     @Test
-    public void testSetUsername(){
+    public void testSetUsername() {
         user1.setUsername("Arizona Zervas");
         assertEquals("Arizona Zervas", user1.getUsername());
     }
 
     @Test
-    public void testGetPassword(){
+    public void testGetPassword() {
         assertEquals("12345", user.getPassword());
     }
 
     @Test
-    public void testSetPassword(){
+    public void testSetPassword() {
         user.setPassword("123");
         assertEquals("123", user.getPassword());
     }
 
     @Test
-    public void testGetScore(){
-        assertEquals(100,user1.getScore());
+    public void testGetScore() {
+        assertEquals(100, user1.getScore());
     }
 
     @Test
-    public void testSetScore(){
+    public void testSetScore() {
         user1.setScore(150);
         assertEquals(150, user1.getScore());
     }
 
     @Test
-    public void testEqualsFalse(){
+    public void testEqualsFalse() {
         assertEquals(false, user.equals(user1));
     }
 
     @Test
-    public void testEqualsTrue(){
+    public void testEqualsTrue() {
         User user2 = new User();
         user2 = user;
         assertEquals(true, user.equals(user2));

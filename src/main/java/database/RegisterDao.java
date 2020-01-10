@@ -1,6 +1,5 @@
 package database;
 
-import javax.swing.*;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.Connection;
@@ -52,15 +51,16 @@ public class RegisterDao {
         PasswordEncryptionService passwordEncryptionService = new PasswordEncryptionService();
         byte[] encryptedPass = new byte[160];
         byte[] userSalt = new byte[8];
-        try{
+        try {
             //userSalt = passwordEncryptionService.getSalt();
             userSalt = passwordEncryptionService.getSalt();
             System.out.println("Salt add" + userSalt);
             System.out.println("Salt string" + Base64.getEncoder().encodeToString(userSalt));
-            encryptedPass = passwordEncryptionService.getEncryptedPassword(user.getPassword(), userSalt);
+            encryptedPass = passwordEncryptionService.getEncryptedPassword(user.getPassword(),
+                    userSalt);
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            System.out.println("error occurred");
         }
-        catch (NoSuchAlgorithmException | InvalidKeySpecException e)
-        { }
         String query = "INSERT INTO Users(Username,Password,PassSalt,Score)" + " VALUES(?,?,?,?)";
         try {
             statement = conn.prepareStatement(query);

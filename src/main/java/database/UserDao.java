@@ -170,7 +170,7 @@ public class UserDao {
      * @param user as param.
      */
     @SuppressWarnings("PMD")
-    public void updateUserUsername(User user){
+    public void updateUserUsername(User user) {
         DbConnect dbConnect = new DbConnect();
         Connection conn = dbConnect.getMyConnection();
         Statement statement;
@@ -207,15 +207,17 @@ public class UserDao {
         String userSalt = encryptionDao.getUserSalt(user);
 
         PasswordEncryptionService passwordEncryptionService = new PasswordEncryptionService();
-        try{
-            encryptedPass = passwordEncryptionService.getEncryptedPassword(user.getPassword(), Base64.getDecoder().decode(userSalt));
+        try {
+            encryptedPass = passwordEncryptionService.getEncryptedPassword(user.getPassword(),
+                    Base64.getDecoder().decode(userSalt));
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            System.out.println("Error occurred");
         }
-        catch (NoSuchAlgorithmException | InvalidKeySpecException e)
-        { }
         String query = "UPDATE Users SET Password=? WHERE Username=?";
         try {
             statement = conn.prepareStatement(query);
-            ((PreparedStatement) statement).setString(1, Base64.getEncoder().encodeToString(encryptedPass));
+            ((PreparedStatement) statement).setString(1,
+                    Base64.getEncoder().encodeToString(encryptedPass));
             ((PreparedStatement) statement).setString(2, user.getUsername());
             ((PreparedStatement) statement).executeUpdate();
             /*

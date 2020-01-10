@@ -3,18 +3,16 @@ package database;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Array;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.util.Arrays;
 import java.util.Base64;
 
 import static junit.framework.TestCase.*;
 
+@SuppressWarnings("PMD")
 public class UserDaoTest {
 
     private UserDao userDao;
@@ -23,8 +21,7 @@ public class UserDaoTest {
     private User user;
 
     @BeforeEach
-    public void setUp()
-    {
+    public void setUp() {
         user = new User();
         user.setUsername("Dj Mustard");
         user.setPassword("12345");
@@ -35,15 +32,13 @@ public class UserDaoTest {
     }
 
     @Test
-    public void testGetUsernameFromDatabaseMockito()
-    {
+    public void testGetUsernameFromDatabaseMockito() {
         userDao = Mockito.mock(UserDao.class);
         Mockito.when(userDao.getUsernameFromDatabase(user)).thenReturn("Dj Mustard");
     }
 
     @Test
-    public void testGetUsernameFromDatabase()
-    {
+    public void testGetUsernameFromDatabase() {
         UserDao userDao1 = new UserDao();
         User user2 = user;
         assertEquals(user2.getUsername(), userDao1.getUsernameFromDatabase(user));
@@ -51,16 +46,14 @@ public class UserDaoTest {
 
 
     @Test
-    public void testGetScoreFromDatabase()
-    {
+    public void testGetScoreFromDatabase() {
         UserDao userDao1 = new UserDao();
         User user2 = user;
         assertEquals(user2.getScore(), userDao1.retrieveScore(user));
     }
 
     @Test
-    public void testGetId()
-    {
+    public void testGetId() {
         UserDao userDao1 = new UserDao();
         int id = userDao1.getUserIdFromDatabase(user);
         assertEquals(id, userDao1.getUserIdFromDatabase(user));
@@ -79,7 +72,7 @@ public class UserDaoTest {
         registerDao.addUser(user2);
         //String salty = Base64.getEncoder().encodeToString(encryptionDao.getUserSalt(user2));
         System.out.println(encryptionDao.getUserSalt(user2).toString());
-        System.out.println("original method "+passwordEncryptionService.getSalt());
+        System.out.println("original method " + passwordEncryptionService.getSalt());
         user2.setUsername("A boogie wit da Hoodie");
         userDao1.updateUserUsername(user2);
         String result = userDao1.getUsernameFromDatabase(user2);
@@ -88,7 +81,7 @@ public class UserDaoTest {
     }
 
     @Test
-    public void testUpdateScore(){
+    public void testUpdateScore() {
         UserDao userDao1 = new UserDao();
         user.setScore(101);
         userDao1.updateUserScore(user);
@@ -106,6 +99,7 @@ public class UserDaoTest {
         byte[] encPass = passwordEncryptionService.getEncryptedPassword(user.getPassword(), Base64.getDecoder().decode(userSalt));
         assertEquals(userDao.getUserPasswordFromDatabase(user), Base64.getEncoder().encodeToString(encPass));
     }
+
     @Test
     public void testCrypto() throws InvalidKeySpecException, NoSuchAlgorithmException {
         EncryptionDao encryptionDao = new EncryptionDao();
@@ -114,7 +108,7 @@ public class UserDaoTest {
         String userSalt = encryptionDao.getUserSalt(user);
         byte[] encryptedPass = passwordEncryptionService.getEncryptedPassword(user.getPassword(), userSalt.getBytes());
         boolean status;
-        if(passwordEncryptionService.securityCheck(user.getPassword(), encryptedPass, userSalt.getBytes()))
+        if (passwordEncryptionService.securityCheck(user.getPassword(), encryptedPass, userSalt.getBytes()))
             status = true;
         else
             status = false;
@@ -139,7 +133,7 @@ public class UserDaoTest {
     }
 
     @Test
-    public void testDeleteUser(){
+    public void testDeleteUser() {
         UserDao userDao1 = new UserDao();
         User user2 = new User();
         user2.setPassword("123f");
@@ -148,11 +142,12 @@ public class UserDaoTest {
         registerDao = new RegisterDao();
         registerDao.addUser(user2);
         userDao1.deleteUser(user2);
-        assertEquals("No user found",userDao1.getUsernameFromDatabase(user2));
+        assertEquals("No user found", userDao1.getUsernameFromDatabase(user2));
     }
+
     @AfterEach
-    public void end(){
-       UserDao userDao = new UserDao();
-       userDao.deleteUser(user);
+    public void end() {
+        UserDao userDao = new UserDao();
+        userDao.deleteUser(user);
     }
 }
