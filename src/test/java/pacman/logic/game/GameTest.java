@@ -1,8 +1,7 @@
-package pacman.logic;
+package pacman.logic.game;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
@@ -11,6 +10,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import pacman.logic.Player;
 import pacman.logic.entity.Entity;
 import pacman.logic.level.Board;
 import pacman.logic.level.Level;
@@ -40,18 +40,23 @@ public class GameTest {
         for (Entity entity : game.getLevel().getBoard().getEntities()) {
             entity.setAlive(false);
         }
-        game.setRunning(true);
+        game.setState(GameState.RUNNING);
         game.update(0);
         Iterator<Entity> iterator = game.getLevel().getBoard().getEntities().iterator();
-        game.getLevel().getBoard().getEntities().forEach(System.out::println);
+        assertTrue(iterator.hasNext());
+        iterator.next();
         assertFalse(iterator.hasNext());
     }
 
     @Test
-    public void testLevel() {
-        assertTrue(game.getLevel().getGhosts().isEmpty());
-        assertNotNull(game.getLevel().getPacMan());
-        assertEquals(1, game.getLevel().getPellets().size());
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
+    public void testLoss() {
+        game.setState(GameState.RUNNING);
+        game.getPlayer().loseLife();
+        game.getPlayer().loseLife();
+        game.getPlayer().loseLife();
+        game.update(0);
+        assertEquals(GameState.LOST, game.getState().getValue());
     }
 
 }

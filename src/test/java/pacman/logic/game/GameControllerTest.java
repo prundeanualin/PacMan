@@ -1,14 +1,11 @@
-package pacman.logic;
+package pacman.logic.game;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyDouble;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 
@@ -24,6 +21,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.runner.RunWith;
 import org.powermock.modules.junit4.PowerMockRunner;
 import pacman.graphics.BoardCanvas;
+import pacman.logic.Player;
 import pacman.logic.level.Board;
 import pacman.logic.level.Level;
 import pacman.logic.level.LevelFactory;
@@ -76,14 +74,12 @@ public class GameControllerTest {
         List<Level> lv = new ArrayList<>();
         lv.add(lvl);
         BoardCanvas cnv = mock(BoardCanvas.class);
-        doNothing().when(cnv).createWindow(anyString(), anyString(), anyInt(), anyBoolean());
         doNothing().when(cnv).draw(anyDouble());
-        GameController.getInstance().setUpGui(cnv, null);
         GameController.getInstance().setGame(new Game(new Player(), lv));
         GameController.getInstance().setTimer(prepareTimer());
         GameController.getInstance().start();
         GameController.getInstance().update(3);
-        assertTrue(GameController.getInstance().getGame().won(1));
+        assertTrue(GameController.getInstance().getGame().won(0));
     }
 
     /**

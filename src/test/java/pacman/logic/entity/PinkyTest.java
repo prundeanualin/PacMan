@@ -1,5 +1,8 @@
 package pacman.logic.entity;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -7,12 +10,9 @@ import pacman.logic.Direction;
 import pacman.logic.level.Board;
 import pacman.logic.level.MapParser;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-
-@SuppressWarnings("PMD.BeanMembersShouldSerialize") // not a bean.
 public class PinkyTest {
-    private final String map = ".........\n" // NOPMD , literal improves readability.
+
+    private final String map = ".........\n" //NOPMD needed for Pinky test
             + ".........\n"
             + ".........\n"
             + ".........\n"
@@ -23,6 +23,8 @@ public class PinkyTest {
             + ".........\n";
 
     /**
+     * test to see pinky's next target considering pinky's current direction.
+     *
      * @param pacmanDirection the direction Pinky is looking towards.
      * @param x               x-coordinate.
      * @param y               y-coordinate.

@@ -17,7 +17,8 @@ public abstract class MovingEntity extends Entity {
      * @param square The square the entity belongs to
      * @param sprite The sprite for rendering
      */
-    public MovingEntity(@NotNull Board board, Square square, @NotNull Sprite<? extends Entity> sprite) {
+    public MovingEntity(@NotNull Board board, Square square,
+                        @NotNull Sprite<? extends Entity> sprite) {
         super(board, square, sprite);
     }
 
@@ -78,8 +79,8 @@ public abstract class MovingEntity extends Entity {
             setDirection(nextDirection);
         } else if (dx < 0.05 && dy < 0.05) {
             // shift to center to prevent getting stuck.
-            this.posX = square.getX() + 0.5;
-            this.posY = square.getY() + 0.5;
+            this.posX = square.getXs() + 0.5;
+            this.posY = square.getYs() + 0.5;
             setDirection(nextDirection);
         }
     }

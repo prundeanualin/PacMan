@@ -1,6 +1,7 @@
 package pacman.logic.entity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -55,6 +56,15 @@ public class PacManTest {
         pacMan.setNextDirection(Direction.UP);
         pacMan.update(0);
         assertEquals(Direction.UP, pacMan.getDirection());
+    }
+
+    @Test
+    public void testImmunity() {
+        pacMan.enterImmunity();
+        pacMan.update(1.5);
+        assertTrue(pacMan.isImmune());
+        pacMan.update(1.5);
+        assertFalse(pacMan.isImmune());
     }
 
 }
