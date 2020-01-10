@@ -7,7 +7,6 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
 import javafx.application.Platform;
 
 import org.jetbrains.annotations.NotNull;

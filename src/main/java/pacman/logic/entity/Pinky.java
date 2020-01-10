@@ -35,8 +35,8 @@ public class Pinky extends Ghost {
         }
         Square pacSquare = pac.getSquare();
         Direction pacDir = board.pacman.getDirection();
-        int x = pacSquare.getXs() + pacDir.getX() * 4;
-        int y = pacSquare.getYs() + pacDir.getY() * 4;
+        int x = pacSquare.getXs() + pacDir.getDx() * 4;
+        int y = pacSquare.getYs() + pacDir.getDy() * 4;
 
         Math.max(0, Math.min(x, board.getWidth() - 1));
         Math.max(0, Math.min(y, board.getHeight() - 1));

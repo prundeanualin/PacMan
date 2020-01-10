@@ -122,4 +122,5 @@ public class GhostTest {
         options.add(board.getSquare(3,0));
         assertEquals(board.getSquare(1,0), ghost.closestNeighbour(board.pacman.square, options));
     }
+
 }

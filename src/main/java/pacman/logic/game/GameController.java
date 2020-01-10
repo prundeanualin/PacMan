@@ -1,12 +1,10 @@
 package pacman.logic.game;
 
-import database.User;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import javafx.animation.AnimationTimer;
 
+import pacman.database.User;
 import pacman.logic.Player;
 import pacman.logic.level.Level;
 import pacman.logic.level.LevelFactory;
@@ -134,7 +132,8 @@ public class GameController {
     }
 
     public void setUser(User user) {
-        getInstance().getGame().setPlayer(user);
+        this.user = user;
+        game.setPlayer(user);
     }
 
     public void setTimer(AnimationTimer at) {
@@ -143,6 +142,10 @@ public class GameController {
 
     public void setGame(Game g) {
         game = g;
+    }
+
+    public User getUser() {
+        return user;
     }
 
     public void reset() {
