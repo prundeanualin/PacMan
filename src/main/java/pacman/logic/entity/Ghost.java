@@ -25,6 +25,8 @@ public abstract class Ghost extends MovingEntity {
     protected Mode mode = Mode.CHASE;
     protected Square oldSquare;
 
+    protected double homeX, homeY;
+
     /**
      * Creates a ghost.
      *
@@ -36,6 +38,9 @@ public abstract class Ghost extends MovingEntity {
         super(board, square, sprite);
         direction = Direction.RIGHT;
         oldSquare = square;
+
+        this.homeX = getX();
+        this.homeY = getY();
     }
 
     @Override
@@ -148,5 +153,13 @@ public abstract class Ghost extends MovingEntity {
     private final Square frightenedTarget(List<Square> options) {
         int a = ThreadLocalRandom.current().nextInt(0, options.size());
         return options.get(a);
+    }
+
+    public double getHomeX() {
+        return homeX;
+    }
+
+    public double getHomeY() {
+        return homeY;
     }
 }
