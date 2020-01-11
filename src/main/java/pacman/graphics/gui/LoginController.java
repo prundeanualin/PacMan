@@ -1,9 +1,6 @@
 package pacman.graphics.gui;
 
-import database.LoginDao;
-import database.User;
 import java.io.IOException;
-
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -13,13 +10,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+
+import pacman.database.LoginDao;
+import pacman.database.User;
 
 public class LoginController implements Initializable {
 
@@ -61,31 +60,41 @@ public class LoginController implements Initializable {
     @FXML
     private void loadMenuScreen(ActionEvent event1) throws IOException {
 
-        LoginDao loginDao = new LoginDao();
+        LoginDao loginDao = new LoginDao(); //NOPMD no error, just a DB variable used
+        // for verifying user's identity.
         User user = new User();
         user.setUsername(usernameTextField.getText());
         user.setPassword(passwordField.getText());
-        if (loginDao.attemptLogin(user)) {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/menu.fxml"));
-            Parent root = loader.load();
-            MenuController controller = (MenuController) loader.getController();
-            controller.setProfileDetails(user);
-            Scene scene = new Scene(root);
-            Stage window = (Stage) ((javafx.scene.Node) event1.getSource()).getScene().getWindow();
-            window.setScene(scene);
-            window.show();
-        }  else {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Information Dialog");
-            alert.setHeaderText("Username or password is incorrect");
-            alert.setContentText("Please try again");
+        goToMenu(event1, user);
+        /*       if (loginDao.attemptLogin(user)) {
+                    goToMenu(event1);
+                }  else {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Information Dialog");
+                    alert.setHeaderText("Username or password is incorrect");
+                    alert.setContentText("Please try again");
 
-            alert.showAndWait();
+                    alert.showAndWait();
 
-            usernameTextField.setText(null);
-            passwordField.setText(null);
-        }
+                    usernameTextField.setText(null);
+                    passwordField.setText(null);}
+        */
 
+    }
+
+    /**
+     * Switches scene to the Main Menu one.
+     * @throws IOException in case it can't find the MainMenu controller
+     */
+    public void goToMenu(ActionEvent event1, User user) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/menu.fxml"));
+        Parent root = loader.load();
+        MenuController controller = (MenuController) loader.getController();
+        controller.setProfileDetails(user);
+        Scene scene = new Scene(root);
+        Stage window = (Stage) ((javafx.scene.Node) event1.getSource()).getScene().getWindow();
+        window.setScene(scene);
+        window.show();
     }
 
 }

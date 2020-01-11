@@ -1,6 +1,7 @@
 package pacman.graphics.sprite;
 
 import javafx.scene.canvas.GraphicsContext;
+
 import org.jetbrains.annotations.NotNull;
 import pacman.graphics.Style;
 import pacman.logic.entity.Wall;

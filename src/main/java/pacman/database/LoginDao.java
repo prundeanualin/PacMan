@@ -1,4 +1,4 @@
-package database;
+package pacman.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -33,17 +33,8 @@ public class LoginDao {
             statement.setString(2, user.getPassword());
             resultSet = statement.executeQuery();
 
-            if (resultSet.next() == false) {
-                /*
-                JOptionPane.showMessageDialog(null,
-                        "Incorrect Username Or Password",
-                        "Login Failed", 2);
+            status = resultSet.next();
 
-                 */
-                status = false;
-            } else {
-                status = true;
-            }
             resultSet.close();
             statement.close();
             conn.close();

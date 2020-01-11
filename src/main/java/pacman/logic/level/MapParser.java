@@ -7,12 +7,14 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
 import javafx.application.Platform;
-import org.jetbrains.annotations.NotNull;
-import pacman.logic.Direction;
-import pacman.logic.entity.*;
 
+import org.jetbrains.annotations.NotNull;
+import pacman.logic.entity.Blinky;
+import pacman.logic.entity.PacMan;
+import pacman.logic.entity.Pellet;
+import pacman.logic.entity.Pinky;
+import pacman.logic.entity.Wall;
 
 /**
  * Parses text to maps ({@link Board}s).
@@ -66,8 +68,7 @@ public class MapParser {
      * @param scanner The scanner to read from
      * @return A board parsed from the scanner
      */
-    public static @NotNull
-    Board parseMap(@NotNull Scanner scanner) {
+    public static @NotNull Board parseMap(@NotNull Scanner scanner) {
         List<String> lines = new ArrayList<>();
         while (scanner.hasNextLine()) {
             lines.add(scanner.nextLine());
@@ -98,8 +99,7 @@ public class MapParser {
      * @param mapString The string to read from
      * @return A board parsed from the string
      */
-    public static @NotNull
-    Board parseMapFromString(@NotNull String mapString) {
+    public static @NotNull Board parseMapFromString(@NotNull String mapString) {
         return parseMap(new Scanner(mapString));
     }
 
@@ -120,6 +120,7 @@ public class MapParser {
                 break;
             case 'p':
                 new Pinky(board, square);
+                break;
             case '.':
                 break;
             default:
