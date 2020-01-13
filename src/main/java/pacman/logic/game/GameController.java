@@ -29,6 +29,7 @@ public class GameController {
     public static GameController getInstance() {
         if (controller == null || toReset) {
             controller = new GameController();
+            toReset = false;
         }
         return controller;
     }
@@ -99,6 +100,13 @@ public class GameController {
         }
         game.setState(GameState.RUNNING);
         timer.start();
+    }
+
+    public void stop() {
+        if (game.getState().getValue() == GameState.RUNNING) {
+            throw new IllegalStateException("Can not stop a game that is still running");
+        }
+        timer.stop();
     }
 
     /**

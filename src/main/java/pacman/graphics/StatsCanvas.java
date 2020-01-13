@@ -1,16 +1,11 @@
 package pacman.graphics;
 
 import javafx.scene.canvas.Canvas;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
 import javafx.scene.text.Font;
-import javafx.scene.transform.Affine;
-import org.jetbrains.annotations.NotNull;
-import pacman.graphics.sprite.PacmanSprite;
-import pacman.logic.entity.Entity;
+
 import pacman.logic.game.Game;
 import pacman.logic.game.GameState;
-import pacman.logic.level.Board;
 
 @SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class is not a bean.
 public class StatsCanvas extends Canvas {

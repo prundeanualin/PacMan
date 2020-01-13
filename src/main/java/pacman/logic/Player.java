@@ -38,4 +38,8 @@ public class Player {
     public String getUsername() {
         return username;
     }
+
+    public void newLevel() {
+        lives = new SimpleIntegerProperty(3);
+    }
 }

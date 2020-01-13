@@ -39,7 +39,7 @@ public class Level {
      * @return False iff there are pellets left in the level
      */
     public boolean levelWon() {
-        return board.pellets.size() == 0;
+        return board.pellets.size() == 0 && pacMan.isAlive();
     }
 
     public Set<Ghost> getGhosts() {
