@@ -101,6 +101,12 @@ public class BoardCanvas extends Canvas {
         for (Entity e : board.getEntities()) {
             getGraphicsContext2D().scale(scaleX, scaleY);
             getGraphicsContext2D().translate(e.getX(), e.getY());
+            e.getSprite().drawBackground(e, getGraphicsContext2D(), drawStyle, t);
+            getGraphicsContext2D().setTransform(new Affine());
+        }
+        for (Entity e : board.getEntities()) {
+            getGraphicsContext2D().scale(scaleX, scaleY);
+            getGraphicsContext2D().translate(e.getX(), e.getY());
             if (e instanceof PacMan && !e.isAlive()) {
                 end_animations((PacMan) e);
             } else {
