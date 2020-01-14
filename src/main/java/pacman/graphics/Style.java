@@ -10,10 +10,13 @@ public enum Style {
     /**
      * Classic style: like the original PacMan.
      */
-    CLASSIC("#FFFF00", "#1818FF", "#000000", "#FF0000", "#FF99CC", "#33FFFF", "#FFCC33", "#F8B090",
-            "#DEDEFF");
+    CLASSIC("#FFFF00", "#9DDE04", "#1818FF", "#000000",
+            "#FF0000", "#FF99CC",
+            "#33FFFF", "#FFCC33", "#F8B090",
+            "#E08F02", "#DEDEFF");
 
     private Color pacmanColour;
+    private Color pumpedColour;
     private Color wallColour;
     private Color backgroundColor;
     private Color blinkyColour;
@@ -21,12 +24,14 @@ public enum Style {
     private Color inkyColour;
     private Color clydeColour;
     private Color pelletColour;
+    private Color powerPelletColor;
     private Color textColour;
 
-    Style(String pacmanColour, String wallColour, String backgroundColor, String blinkyColour,
+    Style(String pacmanColour, String pumpedColour, String wallColour, String backgroundColor, String blinkyColour,
           String pinkyColour, String inkyColour, String clydeColour, String pelletColour,
-          String textColour) {
+          String powerPelletColour, String textColour) {
         this.pacmanColour = Color.web(pacmanColour);
+        this.pumpedColour = Color.web(pumpedColour);
         this.wallColour = Color.web(wallColour);
         this.backgroundColor = Color.web(backgroundColor);
         this.blinkyColour = Color.web(blinkyColour);
@@ -34,6 +39,7 @@ public enum Style {
         this.inkyColour = Color.web(inkyColour);
         this.clydeColour = Color.web(clydeColour);
         this.pelletColour = Color.web(pelletColour);
+        this.powerPelletColor = Color.web(powerPelletColour);
         this.textColour = Color.web(textColour);
     }
 
@@ -109,4 +115,11 @@ public enum Style {
         return textColour;
     }
 
+    public Color getPowerPelletColor() {
+        return powerPelletColor;
+    }
+
+    public Color getPumpedColour() {
+        return pumpedColour;
+    }
 }

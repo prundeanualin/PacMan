@@ -65,4 +65,8 @@ public class Level {
         pacMan.setAlive(true);
     }
 
+    public boolean eatBigOne() {
+        return pacMan.pumpedWithPower();
+    }
+
 }

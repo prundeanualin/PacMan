@@ -7,10 +7,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.NotNull;
-import pacman.logic.entity.Entity;
-import pacman.logic.entity.Ghost;
-import pacman.logic.entity.PacMan;
-import pacman.logic.entity.Pellet;
+import pacman.logic.entity.*;
 
 /**
  * Represents a board with a grid of squares and entities.
@@ -159,7 +156,7 @@ public class Board {
     public int computeScore() {
         List<Entity> eatenPellets = entities.stream().filter(e -> !e.isAlive()
                 && e instanceof Pellet).collect(Collectors.toList());
-        return eatenPellets.size();
+        return eatenPellets.size() * 10;
     }
 
     /**
