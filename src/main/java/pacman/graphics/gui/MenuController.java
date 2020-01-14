@@ -124,7 +124,7 @@ public class MenuController implements Initializable {
             createDialogueWindow("!! Level Won !!", "Next Level", false);
         } else if (state == GameState.WON && GameController.getInstance().getGame().won()) {
             createDialogueWindow("!! GAME WON !!", " Go to Main Menu", true);
-        } else {
+        } else if (state == GameState.LOST) {
             createDialogueWindow("GAME LOST :(", "Got to Main Menu", true);
         }
 //        try {

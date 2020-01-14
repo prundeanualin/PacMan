@@ -3,7 +3,6 @@ package pacman.logic.level;
 import java.util.HashSet;
 import java.util.Set;
 
-import javafx.application.Platform;
 import org.jetbrains.annotations.NotNull;
 import pacman.logic.entity.Entity;
 import pacman.logic.entity.Ghost;
@@ -65,9 +64,6 @@ public class LevelFactory {
         Set<Pellet> pellets = new HashSet<>();
         for (Entity entity : board.getEntities()) {
             if (entity instanceof PacMan) {
-                //if (pacMan != null) {
-                //    throw new IllegalArgumentException("There can not be multiple PacMen");
-                //} Will not happen, is already caughtin pacman initialization.
                 pacMan = (PacMan) entity;
             } else if (entity instanceof Ghost) {
                 ghosts.add((Ghost) entity);
