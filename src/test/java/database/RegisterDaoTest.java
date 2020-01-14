@@ -2,6 +2,7 @@ package database;
 
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
@@ -36,7 +37,7 @@ public class RegisterDaoTest {
 
     private User user;
 
-    @BeforeAll
+    @BeforeEach
     public void setUp() throws SQLException {
         //assertNotNull(dbConnect.getMyConnection());
         userDao = new UserDao();
