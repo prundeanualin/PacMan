@@ -57,12 +57,16 @@ public class Game {
     private void checkWinLoss() {
         if (getLevel().wasPacManHit()) {
             player.loseLife();
+            if (!player.hasLives()) {
+                state.set(GameState.LOST);
+                return;
+            } else {
+                getLevel().getPacMan().enterImmunity();
+                getLevel().revivePlayer();
+            }
         }
         if (!player.hasLives()) {
             state.set(GameState.LOST);
-        } else {
-            getLevel().getPacMan().enterImmunity();
-            getLevel().revivePlayer();
         }
         if (getLevel().levelWon()) {
             state.set(GameState.WON);
