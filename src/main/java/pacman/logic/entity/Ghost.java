@@ -26,8 +26,9 @@ public abstract class Ghost extends MovingEntity {
     protected Mode mode = Mode.CHASE;
     protected Square oldSquare;
 
-    protected double homeX, homeY;
-    private static Square Home_Corner;
+    protected double homeX;
+    protected double homeY;
+    private Square homeCorner;
 
     /**
      * Creates a ghost.
@@ -40,7 +41,7 @@ public abstract class Ghost extends MovingEntity {
         super(board, square, sprite);
         direction = Direction.RIGHT;
         oldSquare = square;
-        Home_Corner = square;
+        homeCorner = square;
         this.homeX = getX();
         this.homeY = getY();
     }
@@ -51,7 +52,8 @@ public abstract class Ghost extends MovingEntity {
 
         // Collided with PacMan
         Set<Entity> collisions = checkCollision();
-        if (collisions.contains(board.pacman) && !board.pacman.isImmune() && mode != Mode.FRIGHTENED) {
+        if (collisions.contains(board.pacman) && !board.pacman.isImmune()
+                && mode != Mode.FRIGHTENED) {
             board.pacman.setAlive(false);
         }
 
@@ -142,11 +144,11 @@ public abstract class Ghost extends MovingEntity {
      * @return That specific home_square, the starting point of each ghost.
      */
     private final Square scatterTarget(List<Square> options) {
-        if (square == Home_Corner) {
+        if (square == homeCorner) {
             Random rand = new Random();
             return options.get(rand.nextInt(options.size()));
         } else {
-            return Home_Corner;
+            return homeCorner;
         }
     }
 

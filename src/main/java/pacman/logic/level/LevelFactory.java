@@ -3,7 +3,6 @@ package pacman.logic.level;
 import java.util.HashSet;
 import java.util.Set;
 
-import javafx.application.Platform;
 import org.jetbrains.annotations.NotNull;
 import pacman.logic.entity.Entity;
 import pacman.logic.entity.Ghost;
@@ -45,8 +44,7 @@ public class LevelFactory {
      * @param levelName The name of the level file
      * @return The level read from the file
      */
-    public @NotNull
-    Level createLevel(String levelName) {
+    public @NotNull Level createLevel(String levelName) {
         Board board = mapParser.parseMap(levelName);
         return createLevel(board);
     }

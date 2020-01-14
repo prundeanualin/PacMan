@@ -46,7 +46,8 @@ public class BoardCanvas extends Canvas {
         scaleY = height / (double) board.getHeight();
         stopped = false;
 
-        long start = System.nanoTime();
+        long start = System.nanoTime(); //NOPMD variable needed for
+        // getting the time difference inside the timer.
         if (timer == null) {
             timer = new AnimationTimer() {
                 @Override

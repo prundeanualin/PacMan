@@ -14,7 +14,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -127,12 +132,12 @@ public class MenuController implements Initializable {
         } else {
             createDialogueWindow("GAME LOST :(", "Got to Main Menu", true);
         }
-//        try {
-//            Parent root = FXMLLoader.load(getClass().getResource("/views/leaderboard.fxml"));
-//            window.getScene().setRoot(root);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        //try {
+        //    Parent root = FXMLLoader.load(getClass().getResource("/views/leaderboard.fxml"));
+        //    window.getScene().setRoot(root);
+        //} catch (IOException e) {
+        //    e.printStackTrace();
+        //}
     }
 
     private void createDialogueWindow(String msg1, String msg2, boolean menu) {
@@ -167,7 +172,8 @@ public class MenuController implements Initializable {
                 }
             } else {
                 GameController.getInstance().nextLevel();
-                gameView.getBoardCanvas().setBoard(GameController.getInstance().getGame().getLevel().getBoard());
+                gameView.getBoardCanvas().setBoard(GameController
+                        .getInstance().getGame().getLevel().getBoard());
                 stg.close();
                 GameController.getInstance().start();
                 gameView.getBoardCanvas().start();
@@ -187,5 +193,13 @@ public class MenuController implements Initializable {
         user = us;
         userDetails.setText("User: " + user.getUsername()
                 + "\n" + "High score: " + user.getScore());
+    }
+
+    public GameView getGameView() {
+        return gameView;
+    }
+
+    public void setGameView(GameView gameView) {
+        this.gameView = gameView;
     }
 }
