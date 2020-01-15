@@ -37,7 +37,7 @@ public class RegisterDaoTest {
 
     private User user;
 
-    @BeforeEach
+    @BeforeAll
     public void setUp() throws SQLException {
         //assertNotNull(dbConnect.getMyConnection());
         userDao = new UserDao();
