@@ -20,7 +20,7 @@ import pacman.logic.level.Level;
 public class Game {
 
     private Player player;
-    private static int lvlMax = 2;
+    private static int lvlMax = 1;
 
     private List<Level> levels;
     private int currentLevel;
