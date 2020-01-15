@@ -10,7 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import pacman.database.LeaderboardDao;
-import pacman.database.User;
+import database.User;
 import pacman.graphics.Style;
 import pacman.logic.game.GameController;
 import pacman.logic.game.GameState;

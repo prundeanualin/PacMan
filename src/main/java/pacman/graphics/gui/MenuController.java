@@ -23,7 +23,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import pacman.Main;
-import pacman.database.User;
+import database.User;
 import pacman.graphics.GameView;
 import pacman.logic.Direction;
 import pacman.logic.entity.PacMan;

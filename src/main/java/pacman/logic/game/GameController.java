@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.animation.AnimationTimer;
 
-import pacman.database.User;
+import database.User;
 import pacman.logic.Player;
 import pacman.logic.level.Level;
 import pacman.logic.level.LevelFactory;

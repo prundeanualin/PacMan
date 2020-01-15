@@ -16,8 +16,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
-import pacman.database.RegisterDao;
-import pacman.database.User;
+import database.RegisterDao;
+import database.User;
 
 public class RegisterController implements Initializable {
 

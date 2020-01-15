@@ -6,7 +6,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
 
 import org.jetbrains.annotations.NotNull;
-import pacman.database.User;
+import database.User;
 import pacman.logic.Player;
 import pacman.logic.entity.Entity;
 import pacman.logic.level.Level;
