@@ -7,11 +7,11 @@ import static pacman.logic.Direction.LEFT;
 import static pacman.logic.Direction.RIGHT;
 import static pacman.logic.Direction.UP;
 
+import java.util.Map;
+
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.EnumSource;
-
-import java.util.Map;
 
 public class DirectionTest {
 

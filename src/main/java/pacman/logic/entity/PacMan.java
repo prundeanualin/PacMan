@@ -17,11 +17,14 @@ public class PacMan extends MovingEntity {
 
     private static final Sprite<PacMan> SPRITE = new PacmanSprite();
 
+    private boolean immune = false;
+    private double immuneTimer = 0.0;
+
     /**
      * Creates a new PacMan.
      *
      * @param board  The board PacMan is on
-     * @param square The square pacman is on
+     * @param square The square PacMan is on
      */
     public PacMan(@NotNull Board board, Square square) {
         super(board, square, SPRITE);
@@ -31,8 +34,23 @@ public class PacMan extends MovingEntity {
     @Override
     public void update(double dt) {
         super.update(dt);
-        Set<Entity> collisions = checkCollision();
-        // Set every collided pellet to dead
-        collisions.stream().filter(e -> e instanceof Pellet).forEach(e -> e.setAlive(false));
+        if (immune) {
+            immuneTimer -= dt;
+            immune = immuneTimer > 0.0;
+        } else {
+            // Set every collided pellet to dead
+            checkCollision().stream().filter(e -> e instanceof Pellet)
+                    .forEach(e -> e.setAlive(false));
+        }
     }
+
+    public boolean isImmune() {
+        return immune;
+    }
+
+    public void enterImmunity() {
+        immune = true;
+        immuneTimer = 2.0;
+    }
+
 }

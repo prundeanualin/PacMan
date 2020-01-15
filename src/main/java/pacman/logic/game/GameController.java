@@ -1,14 +1,11 @@
-package pacman.logic;
-
-import database.User;
+package pacman.logic.game;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javafx.animation.AnimationTimer;
-import javafx.scene.control.Label;
 
-import pacman.graphics.BoardCanvas;
+import pacman.database.User;
+import pacman.logic.Player;
 import pacman.logic.level.Level;
 import pacman.logic.level.LevelFactory;
 
@@ -22,6 +19,7 @@ public class GameController {
      * The game controller singleton.
      */
     private static GameController controller = null;
+    private static boolean toReset = false;
 
     /**
      * Gets the GameController instance. There is only one instance.
@@ -29,22 +27,20 @@ public class GameController {
      * @return The game controller
      */
     public static GameController getInstance() {
-        if (controller == null) {
+        if (controller == null || toReset) {
             controller = new GameController();
         }
         return controller;
     }
 
-    private BoardCanvas canvas;
     private Game game;
     private LevelFactory levelFactory;
     private AnimationTimer timer;
-    private Label labelScore;
     private User user;
 
     private double time;
     private boolean started = false;
-    private final double MAX_TIME = 0.5;
+    private final double maxTime = 0.5;
 
     /**
      * Creates the game controller. Initializes the game, player and levels.
@@ -63,8 +59,7 @@ public class GameController {
      */
     public void start() {
         startTimer();
-        game.setRunning(true);
-        started = true;
+        game.setState(GameState.RUNNING);
     }
 
     /**
@@ -88,10 +83,10 @@ public class GameController {
      * Pauses the game.
      */
     public void pause() {
-        if (!started) {
-            throw new IllegalStateException("Can not pause a game that is not started");
+        if (!game.isRunning()) {
+            throw new IllegalStateException("Can not pause a game that is not running");
         }
-        game.setRunning(false);
+        game.setState(GameState.PAUSED);
         timer.stop();
     }
 
@@ -99,10 +94,10 @@ public class GameController {
      * Unpauses the game.
      */
     public void unpause() {
-        if (!started) {
-            throw new IllegalStateException("Can not unpause a game that is not started");
+        if (game.getState().getValue() != GameState.PAUSED) {
+            throw new IllegalStateException("Can not unpause a game that is not paused");
         }
-        game.setRunning(true);
+        game.setState(GameState.RUNNING);
         timer.start();
     }
 
@@ -112,23 +107,12 @@ public class GameController {
      * @param newTime The current time since start in seconds.
      */
     protected void update(double newTime) {
-        double dt = Math.min(newTime - time, MAX_TIME); // In exceptional cases use MAX_TIME.
-        if (dt < 0) dt = MAX_TIME; // overflow, if possible.
+        double dt = Math.min(newTime - time, maxTime); // In exceptional cases use maxTime.
+        if (dt < 0) {
+            dt = maxTime; // overflow, if possible.
+        }
         time = newTime;
         game.update(dt);
-        if (getGame().getLevel().checkLevelWon()) {
-            pause();
-            if (getGame().won(1)) {
-                getCanvas().createWindow("!GAME WON!", "Go to Main Menu", 20, true);
-            } else {
-                nextLevel();
-            }
-        } else {
-            if (labelScore != null) {
-                labelScore.setText("Score : " + game.getScore());
-            }
-        }
-        canvas.draw(newTime);
     }
 
     /**
@@ -136,7 +120,6 @@ public class GameController {
      */
     public void nextLevel() {
         getGame().advanceLevel();
-        getCanvas().createWindow("LEVEL WON !", "Start Next Level", 30, false);
     }
 
     /**
@@ -148,18 +131,10 @@ public class GameController {
         return game;
     }
 
-    public BoardCanvas getCanvas() {
-        return canvas;
-    }
-
-    public Label getScoreLabel() {
-        return labelScore;
-    }
-
     public void setUser(User user) {
-        getInstance().getGame().setPlayer(user);
+        this.user = user;
+        game.setPlayer(user);
     }
-
 
     public void setTimer(AnimationTimer at) {
         timer = at;
@@ -169,10 +144,14 @@ public class GameController {
         game = g;
     }
 
-    public void setUpGui(BoardCanvas bc, Label l) {
-        canvas = bc;
-        labelScore = l;
+    public User getUser() {
+        return user;
     }
+
+    public void reset() {
+        toReset = true;
+    }
+
 }
 
 

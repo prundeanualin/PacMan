@@ -30,7 +30,7 @@ class PlayerTest {
     @Test
     void testGetSetScore() {
         player.updateScore(33);
-        assertEquals(33, player.getScore());
+        assertEquals(33, player.getScore().get());
     }
 
 }

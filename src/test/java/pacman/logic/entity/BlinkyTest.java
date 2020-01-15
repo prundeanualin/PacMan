@@ -1,5 +1,8 @@
 package pacman.logic.entity;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
@@ -7,15 +10,17 @@ import pacman.logic.Direction;
 import pacman.logic.level.Board;
 import pacman.logic.level.MapParser;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-
-@SuppressWarnings("PMD.BeanMembersShouldSerialize") // Not a bean.
+@SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class is not a bean.
 public class BlinkyTest {
+
     private final String map = "P.*#";
     private Board board;
     private Blinky blinky;
 
+    /**
+     * Test to see the square picked by blinky in chase mode for specific diretions of pacman.
+     * @param pacDirection possible directions for pacman.
+     */
     @ParameterizedTest
     @EnumSource(Direction.class)
     public void chaseTargetTest(Direction pacDirection) {

@@ -1,17 +1,19 @@
-package pacman.logic;
-
-import database.User;
+package pacman.logic.game;
 
 import java.util.List;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ObservableValue;
 
 import org.jetbrains.annotations.NotNull;
+import pacman.database.User;
+import pacman.logic.Player;
 import pacman.logic.entity.Entity;
 import pacman.logic.level.Level;
 
 /**
  * Represents a game with multiple levels.
  */
-
 @SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class is not a bean.
 public class Game {
 
@@ -19,8 +21,7 @@ public class Game {
 
     private List<Level> levels;
     private int currentLevel;
-
-    private boolean running = false;
+    private ObjectProperty<GameState> state;
 
     /**
      * Creates a new game.
@@ -32,6 +33,7 @@ public class Game {
         this.player = player;
         this.levels = levels;
         this.currentLevel = 0;
+        this.state = new SimpleObjectProperty<>(GameState.READY);
     }
 
     /**
@@ -40,7 +42,7 @@ public class Game {
      */
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // known bug of pmd with foreach loops.
     public void update(double dt) {
-        if (!running) {
+        if (!isRunning()) {
             return;
         }
         for (Entity entity : getLevel().getBoard().getEntities()) {
@@ -48,6 +50,21 @@ public class Game {
         }
         player.updateScore(getLevel().getBoard().computeScore() * 10);
         getLevel().getBoard().removeDeadEntities();
+        checkWinLoss();
+    }
+
+    private void checkWinLoss() {
+        if (getLevel().wasPacManHit()) {
+            player.loseLife();
+            getLevel().getPacMan().enterImmunity();
+            getLevel().revivePlayer();
+        }
+        if (!player.hasLives()) {
+            state.set(GameState.LOST);
+        }
+        if (getLevel().levelWon()) {
+            state.set(GameState.WON);
+        }
     }
 
     /**
@@ -55,15 +72,7 @@ public class Game {
      * @return True iff the game is running
      */
     public boolean isRunning() {
-        return running;
-    }
-
-    /**
-     * Sets the running status of the game.
-     * @param running Whether the game is running or not
-     */
-    public void setRunning(boolean running) {
-        this.running = running;
+        return state.get() == GameState.RUNNING;
     }
 
     /**
@@ -81,12 +90,20 @@ public class Game {
         return levels.get(currentLevel);
     }
 
-    protected int getScore() {
-        return player.getScore();
-    }
-
     protected void setPlayer(User user) {
         player.setUsername(user.getUsername());
+    }
+
+    public @NotNull ObservableValue<GameState> getState() {
+        return state;
+    }
+
+    protected void setState(@NotNull GameState state) {
+        this.state.set(state);
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 
     protected boolean won(int lvlMax) {
