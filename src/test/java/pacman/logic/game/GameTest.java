@@ -55,7 +55,7 @@ public class GameTest {
         game.getPlayer().loseLife();
         game.getPlayer().loseLife();
         game.getPlayer().loseLife();
-        game.update(0);
+        game.update(1);
         assertEquals(GameState.LOST, game.getState().getValue());
     }
 

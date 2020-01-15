@@ -149,4 +149,8 @@ public class Game {
         return currentLevel == lvlMax;
     }
 
+    public void changeMaxLevel(int newmax) {
+        lvlMax = newmax;
+    }
+
 }
