@@ -7,7 +7,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.NotNull;
-import pacman.logic.entity.*;
+import pacman.logic.entity.Entity;
+import pacman.logic.entity.Ghost;
+import pacman.logic.entity.PacMan;
+import pacman.logic.entity.Pellet;
 
 /**
  * Represents a board with a grid of squares and entities.

@@ -6,6 +6,7 @@ import javafx.scene.paint.Color;
 import org.jetbrains.annotations.NotNull;
 import pacman.logic.entity.Ghost;
 
+@SuppressWarnings("PMD.BeanMembersShouldSerialize") //No beans here
 public abstract class GhostSprite extends Sprite<Ghost> {
 
     Image image;

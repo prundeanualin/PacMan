@@ -40,7 +40,7 @@ public abstract class Ghost extends MovingEntity {
 
     protected double homeX;
     protected double homeY;
-    private Square Home_Corner;
+    private Square homeCorner;
     private double time;    //keeps track of time passed since last 'scatter' tick
     private static final double scatterTimer = 18.0;
     private static final double scatterDuration = 7.0;
@@ -56,7 +56,7 @@ public abstract class Ghost extends MovingEntity {
         super(board, square, sprite);
         direction = Direction.RIGHT;
         oldSquare = square;
-        Home_Corner = square;
+        homeCorner = square;
         this.homeX = getX();
         this.homeY = getY();
         time = 0.0;
@@ -110,7 +110,12 @@ public abstract class Ghost extends MovingEntity {
         List<Square> options = new ArrayList<>(4);
 
         for (Square square : neighbours) {
-            if (!square.hasSolid() && !square.equals(oldSquare)) {
+            if (neighbours.size() == 1) { //NOPMD if it has only one possibility,
+                // it picks it even if it reverses direction by doing so.
+                options.add(square);
+            } else if (mode == Mode.EATEN && !square.hasSolid()) {
+                options.add(square);
+            } else if (!square.hasSolid() && !square.equals(oldSquare)) {
                 options.add(square);
             }
         }
@@ -124,13 +129,13 @@ public abstract class Ghost extends MovingEntity {
             throw new IllegalArgumentException("Cannot choose target from empty list of options.");
         }
 
-        float min = Float.MAX_VALUE;
+        double min = Double.MAX_VALUE;
         Square next = null;
 
         for (Square s : options) {
-            int xdir = Math.abs(target.getXs() - s.getXs());
-            int ydir = Math.abs(target.getYs() - s.getYs());
-            float dist = xdir + ydir;
+            double xdir = Math.abs(target.getXs() - s.getXs());
+            double ydir = Math.abs(target.getYs() - s.getYs());
+            double dist = Math.sqrt(xdir * xdir + ydir * ydir);
             if (dist < min) {
                 min = dist;
                 next = s;
@@ -177,11 +182,11 @@ public abstract class Ghost extends MovingEntity {
      * @return That specific home_square, the starting point of each ghost.
      */
     private final Square scatterTarget(List<Square> options) {
-        if (square == Home_Corner) {
+        if (square == homeCorner) {
             Random rand = new Random();
             return options.get(rand.nextInt(options.size()));
         } else {
-            return Home_Corner;
+            return homeCorner;
         }
     }
 
@@ -199,18 +204,19 @@ public abstract class Ghost extends MovingEntity {
     }
 
     /**
-     * Return the home square of each ghost, in order to
-     * respawn at that location.
-     * @return that home square
-     */
-   private final Square spawnTarget() {
-        if (square == Home_Corner) {
+    * Return the home square of each ghost, in order to
+    * respawn at that location.
+    * @return that home square
+    */
+    private Square spawnTarget() {
+        if (square == homeCorner) {
             mode = Mode.CHASE;
+            time = 0.0;
             return chaseTarget();
         } else {
-            return Home_Corner;
+            return homeCorner;
         }
-   }
+    }
 
     public boolean isScared() {
         return mode == Mode.FRIGHTENED;
@@ -218,7 +224,6 @@ public abstract class Ghost extends MovingEntity {
 
     public void beScared() {
         mode = Mode.FRIGHTENED;
-        time = 0.0;
     }
 
     public void unScare() {

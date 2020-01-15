@@ -39,13 +39,12 @@ public class LevelFactory {
     }
 
     /**
-     * Reads a level from the file with the specified name.
-     *
-     * @param levelName The name of the level file
-     * @return The level read from the file
-     */
-    public @NotNull
-    Level createLevel(String levelName) {
+    * Reads a level from the file with the specified name.
+    *
+    * @param levelName The name of the level file
+    * @return The level read from the file
+    */
+    public @NotNull Level createLevel(String levelName) {
         Board board = mapParser.parseMap(levelName);
         return createLevel(board);
     }

@@ -102,6 +102,9 @@ public class GameController {
         timer.start();
     }
 
+    /**
+     * Stops the timer of this game.
+     */
     public void stop() {
         if (game.getState().getValue() == GameState.RUNNING) {
             throw new IllegalStateException("Can not stop a game that is still running");

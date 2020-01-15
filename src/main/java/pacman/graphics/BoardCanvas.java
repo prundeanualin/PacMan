@@ -46,7 +46,8 @@ public class BoardCanvas extends Canvas {
         scaleY = height / (double) board.getHeight();
         stopped = false;
 
-        long start = System.nanoTime();
+        long start = System.nanoTime(); //NOPMD needed in order to
+        //keep track of frames while timers is going on
         if (timer == null) {
             timer = new AnimationTimer() {
                 @Override

@@ -27,7 +27,8 @@ public enum Style {
     private Color powerPelletColor;
     private Color textColour;
 
-    Style(String pacmanColour, String pumpedColour, String wallColour, String backgroundColor, String blinkyColour,
+    Style(String pacmanColour, String pumpedColour, String wallColour,
+          String backgroundColor, String blinkyColour,
           String pinkyColour, String inkyColour, String clydeColour, String pelletColour,
           String powerPelletColour, String textColour) {
         this.pacmanColour = Color.web(pacmanColour);

@@ -51,6 +51,7 @@ public class PacMan extends MovingEntity {
      * is able to return the favor and eat any of the ghosts for bonus points.
      * @return true if it did collide with such a magic pellet/ false otherwise.
      */
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     public boolean pumpedWithPower() {
         List<Entity> pump = checkCollision().stream().filter(e -> e instanceof PowerPellet)
                 .collect(Collectors.toList());
@@ -68,6 +69,7 @@ public class PacMan extends MovingEntity {
      * Check if pacman collided with any scared ghosts while
      * in pumped up mode and return nr of such ghosts.
      */
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     public int checkEatenGhosts() {
         int count = 0;
         List<Entity> eatenGhosts = checkCollision().stream()
