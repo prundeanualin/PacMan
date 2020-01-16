@@ -53,11 +53,11 @@ public class PacMan extends MovingEntity {
      */
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     public boolean pumpedWithPower() {
-        List<Entity> pump = checkCollision().stream().filter(e -> e instanceof PowerPellet)
-                .collect(Collectors.toList());
-        if (!pump.isEmpty() && !immune) {
+        List<Entity> eatenPowerPellets = checkCollision().stream()
+                .filter(e -> e instanceof PowerPellet).collect(Collectors.toList());
+        if (!eatenPowerPellets.isEmpty() && !immune) {
             pumped = true;
-            for (Entity e : pump) {
+            for (Entity e : eatenPowerPellets) {
                 e.setAlive(false);
             }
             return true;
@@ -93,7 +93,7 @@ public class PacMan extends MovingEntity {
         immuneTimer = 2.0;
     }
 
-    public boolean isPumped() {
+    public boolean isOnSteroids() {
         return pumped;
     }
 

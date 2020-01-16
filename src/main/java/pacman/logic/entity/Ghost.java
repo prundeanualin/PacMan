@@ -20,7 +20,7 @@ public abstract class Ghost extends MovingEntity {
         CHASE,
         SCATTER,
         EATEN,
-        FRIGHTENED;
+        SCARED;
 
         /**
          * Switching between CHASE and SCATTER modes.
@@ -66,7 +66,7 @@ public abstract class Ghost extends MovingEntity {
     public void update(double dt) {
 
         // if frightened, our ghost moves 2 times slower
-        if (mode == Mode.FRIGHTENED) {
+        if (mode == Mode.SCARED) {
             super.update(dt / 2);
         } else {
             super.update(dt);
@@ -84,7 +84,7 @@ public abstract class Ghost extends MovingEntity {
         // Collided with PacMan
         Set<Entity> collisions = checkCollision();
         if (collisions.contains(board.pacman) && !board.pacman.isImmune()
-                && mode != Mode.FRIGHTENED && mode != Mode.EATEN) {
+                && mode != Mode.SCARED && mode != Mode.EATEN) {
             board.pacman.setAlive(false);
         }
 
@@ -110,12 +110,8 @@ public abstract class Ghost extends MovingEntity {
         List<Square> options = new ArrayList<>(4);
 
         for (Square square : neighbours) {
-            if (neighbours.size() == 1) { //NOPMD if it has only one possibility,
-                // it picks it even if it reverses direction by doing so.
-                options.add(square);
-            } else if (mode == Mode.EATEN && !square.hasSolid()) {
-                options.add(square);
-            } else if (!square.hasSolid() && !square.equals(oldSquare)) {
+            if (neighbours.size() == 1 || (mode == Mode.EATEN && !square.hasSolid())
+                || (!square.hasSolid() && !square.equals(oldSquare))) {
                 options.add(square);
             }
         }
@@ -133,9 +129,9 @@ public abstract class Ghost extends MovingEntity {
         Square next = null;
 
         for (Square s : options) {
-            double xdir = Math.abs(target.getXs() - s.getXs());
-            double ydir = Math.abs(target.getYs() - s.getYs());
-            double dist = Math.sqrt(xdir * xdir + ydir * ydir);
+            int xdir = Math.abs(target.getXs() - s.getXs());
+            int ydir = Math.abs(target.getYs() - s.getYs());
+            float dist = xdir + ydir;
             if (dist < min) {
                 min = dist;
                 next = s;
@@ -159,7 +155,7 @@ public abstract class Ghost extends MovingEntity {
                 return chaseTarget();
             case SCATTER:
                 return scatterTarget(nextOptions);
-            case FRIGHTENED:
+            case SCARED:
                 return frightenedTarget(nextOptions);
             case EATEN:
                 return spawnTarget();
@@ -219,11 +215,11 @@ public abstract class Ghost extends MovingEntity {
     }
 
     public boolean isScared() {
-        return mode == Mode.FRIGHTENED;
+        return mode == Mode.SCARED;
     }
 
     public void beScared() {
-        mode = Mode.FRIGHTENED;
+        mode = Mode.SCARED;
     }
 
     public void unScare() {

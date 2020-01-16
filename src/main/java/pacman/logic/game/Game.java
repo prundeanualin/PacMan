@@ -52,28 +52,25 @@ public class Game {
             return;
         }
 
-        if (getLevel().eatBigOne()) {
-            for (Entity e : getLevel().getBoard().getEntities()) {
-                if (e instanceof Ghost) {
-                    ((Ghost) e).beScared();
-                }
+        if (getLevel().eatPowerPellet()) {
+            for (Ghost g : getLevel().getBoard().getGhosts()) {
+                g.beScared();
             }
         }
-        int countEatenG = 0;
+
         // If frightened timer has expired, ghosts go back to normal chase mode and timer resets.
-        if (getLevel().getPacMan().isPumped() && time < pumpingTime) {
+        if (getLevel().getPacMan().isOnSteroids() && time < pumpingTime) {
             time = time + dt;
-            countEatenG = getLevel().getPacMan().checkEatenGhosts();
+            int countEatenG = getLevel().getPacMan().checkEatenGhosts();
             player.updateScore(countEatenG * 30);
-        } else if (getLevel().getPacMan().isPumped() && time > pumpingTime) {
+        } else if (getLevel().getPacMan().isOnSteroids() && time > pumpingTime) {
             time = 0.0;
             getLevel().getPacMan().quitSteroids();
-            for (Entity e : getLevel().getBoard().getEntities()) {
-                if (e instanceof Ghost && ((Ghost) e).isScared()) {
-                    ((Ghost) e).unScare();
-                }
+            for (Ghost g : getLevel().getBoard().getGhosts()) {
+                g.unScare();
             }
         }
+
         for (Entity entity : getLevel().getBoard().getEntities()) {
             entity.update(dt);
         }
@@ -147,10 +144,6 @@ public class Game {
 
     public boolean won() {
         return currentLevel == lvlMax;
-    }
-
-    public void changeMaxLevel(int newmax) {
-        lvlMax = newmax;
     }
 
 }

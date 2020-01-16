@@ -73,10 +73,10 @@ public class GameTest {
             game.update(0.5);
             assertTrue(game.getLevel().getPacMan().pumpedWithPower());
             game.update(0.5);
-            assertTrue(game.getLevel().getPacMan().isPumped());
+            assertTrue(game.getLevel().getPacMan().isOnSteroids());
             game.update(10.0);
             game.update(0.0);
-            assertFalse(game.getLevel().getPacMan().isPumped());
+            assertFalse(game.getLevel().getPacMan().isOnSteroids());
             assertSame(GameState.RUNNING, game.getState().getValue());
         }
     }
@@ -102,7 +102,7 @@ public class GameTest {
             assertTrue(gamez.getLevel().getPacMan().isAlive());
             gamez.update(0.5);
             assertTrue(gamez.isRunning());
-            assertTrue(gamez.getLevel().getPacMan().isPumped());
+            assertTrue(gamez.getLevel().getPacMan().isOnSteroids());
             assertTrue(blinky.isScared());
             gamez.update(0.5);
             assertTrue(gamez.getLevel().getPacMan().isAlive());

@@ -194,4 +194,11 @@ public class Board {
         return y2 < 0 ? y2 + height : y2;
     }
 
+    public Set<Ghost> getGhosts() {
+        return ghosts;
+    }
+
+    public Set<Pellet> getPellets() {
+        return pellets;
+    }
 }

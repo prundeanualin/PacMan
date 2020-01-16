@@ -1,13 +1,8 @@
 package pacman.logic.level;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.jetbrains.annotations.NotNull;
 import pacman.logic.entity.Entity;
-import pacman.logic.entity.Ghost;
 import pacman.logic.entity.PacMan;
-import pacman.logic.entity.Pellet;
 
 /**
  * Factory for creating levels from files.
@@ -59,22 +54,16 @@ public class LevelFactory {
     public @NotNull
     Level createLevel(@NotNull Board board) {
         PacMan pacMan = null;
-        Set<Ghost> ghosts = new HashSet<>();
-        Set<Pellet> pellets = new HashSet<>();
         for (Entity entity : board.getEntities()) {
             if (entity instanceof PacMan) {
                 pacMan = (PacMan) entity;
-            } else if (entity instanceof Ghost) {
-                ghosts.add((Ghost) entity);
-            } else if (entity instanceof Pellet) {
-                pellets.add((Pellet) entity);
             }
         }
         if (pacMan == null) {
             throw new IllegalArgumentException("There must be a PacMan");
         }
 
-        return new Level(board, pacMan, ghosts, pellets);
+        return new Level(board, pacMan);
     }
 
 }
