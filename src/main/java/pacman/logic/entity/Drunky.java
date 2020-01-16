@@ -24,20 +24,18 @@ public class Drunky extends Ghost {
     }
 
     /**
-     * Drunky is drunk so always in frightened mode.
-     * @return next square Drunky will move to.
+     * {@inheritDoc}
+     * Drunky is drunk so in chase mode he uses frightened mode.
      */
     @Override
-    protected Square chaseTarget() {
-
-        return frightenedTarget(getOptions());
+    protected Square chaseTarget(List<Square> options) {
+        return frightenedTarget(options);
     }
 
     /**
-     * Getting the "home square' of each ghost, while in scattered mode.
-     * @return Home square for inky, which is bottom left.
+     * {@inheritDoc}
+     * @return Home square for Drunky, which is bottom left.
      */
-
     @Override
     protected Square scatterTarget() {
         if (oldSquare == HOME_CORNER) {

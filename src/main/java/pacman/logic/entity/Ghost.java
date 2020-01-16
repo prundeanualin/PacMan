@@ -104,14 +104,14 @@ public abstract class Ghost extends MovingEntity {
      *
      * @param nextOptions the neighbouring squares the ghost can go to.
      * @return the square the ghost wants to go towards.
-     * @see this#chaseTarget()
+     * @see this#chaseTarget(List)
      * @see this#scatterTarget() 
      * @see this#frightenedTarget(List) 
      */
     protected Square chooseTarget(List<Square> nextOptions) {
         switch (mode) {
             case CHASE:
-                return chaseTarget();
+                return chaseTarget(nextOptions);
             case SCATTER:
                 return scatterTarget();
             case FRIGHTENED:
@@ -125,14 +125,15 @@ public abstract class Ghost extends MovingEntity {
     /**
      * Chooses the default chase mode target of the ghost.
      *
+     * @param options the neighbouring options the ghost can access.
      * @return the target
      * @see this#chooseTarget(List)
      */
-    protected abstract Square chaseTarget();
+    protected abstract Square chaseTarget(List<Square> options);
 
     /**
-     * Chooses the scatter mode target of the ghost.
-     *
+     * Chooses the scatter mode target of the ghost, which is it's "home square".
+     * 
      * @return the target (should be a wall in scatter mode)
      * @see this#chooseTarget(List)
      */

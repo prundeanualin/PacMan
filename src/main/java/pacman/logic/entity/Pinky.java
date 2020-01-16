@@ -28,7 +28,7 @@ public class Pinky extends Ghost {
      * Pinky should always try to target the square 4 ahead of PacMan.
      */
     @Override
-    protected Square chaseTarget() {
+    protected Square chaseTarget(List<Square> options) {
         PacMan pac = board.pacman;
         if (pac == null) {
             return null;
@@ -45,7 +45,7 @@ public class Pinky extends Ghost {
     }
 
     /**
-     * Getting the "home square' of each ghost, while in scattered mode.
+     * {@inheritDoc}
      * @return Home square for Pinky, which is top left.
      */
     @Override

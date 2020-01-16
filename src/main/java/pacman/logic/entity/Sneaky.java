@@ -1,6 +1,5 @@
 package pacman.logic.entity;
 
-
 import pacman.graphics.sprite.DrunkySprite;
 import pacman.graphics.sprite.Sprite;
 import pacman.logic.Direction;
@@ -13,7 +12,7 @@ public class Sneaky extends Ghost {
     private static Square HOME_CORNER;
 
     /**
-     * Creating Drunky.
+     * Creating Sneaky.
      * @param board the board
      * @param square Sneaky's square
      */
@@ -25,16 +24,16 @@ public class Sneaky extends Ghost {
     }
 
     /**
+     * {@inheritDoc}
      * Sneaky is always around its home area.
-     * @return next square Drunky will move to.
      */
     @Override
-    protected Square chaseTarget() {
+    protected Square chaseTarget(List<Square> options) {
         return scatterTarget();
     }
 
     /**
-     * Getting the "home square' of each ghost, while in scattered mode.
+     * {@inheritDoc}
      * @return Home square for Sneaky, which is bottom right.
      */
 

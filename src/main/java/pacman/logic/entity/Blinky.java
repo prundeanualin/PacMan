@@ -28,7 +28,7 @@ public class Blinky extends Ghost {
      * Blinky should always try to target PacMan.
      */
     @Override
-    protected Square chaseTarget() {
+    protected Square chaseTarget(List<Square> options) {
         if (board.pacman == null) {
             return null;
         }
@@ -36,7 +36,7 @@ public class Blinky extends Ghost {
     }
 
     /**
-     * Getting the "home square' of each ghost, while in scattered mode.
+     * {@inheritDoc}
      * @return Home square for blinky, which is top right.
      */
     @Override
