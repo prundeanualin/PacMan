@@ -1,6 +1,8 @@
 package pacman.logic.level;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -11,6 +13,8 @@ import pacman.logic.entity.Entity;
 import pacman.logic.entity.Ghost;
 import pacman.logic.entity.PacMan;
 import pacman.logic.entity.Pellet;
+import pacman.logic.entity.PowerPellet;
+import pacman.logic.entity.Wall;
 
 /**
  * Represents a board with a grid of squares and entities.
@@ -27,6 +31,7 @@ public class Board {
     public PacMan pacman;
     public Set<Ghost> ghosts;
     public Set<Pellet> pellets;
+    public Set<PowerPellet> powerPellets;
 
     /**
      * Creates a board with a specified size.
@@ -42,6 +47,7 @@ public class Board {
         this.entities = new HashSet<Entity>();
         this.ghosts = new HashSet<Ghost>();
         this.pellets = new HashSet<Pellet>();
+        this.powerPellets = new HashSet<>();
     }
 
     /**
@@ -93,6 +99,8 @@ public class Board {
             ghosts.add((Ghost) entity);
         } else if (entity instanceof Pellet) {
             pellets.add((Pellet) entity);
+        } else if (entity instanceof PowerPellet) {
+            powerPellets.add((PowerPellet) entity);
         }
         entities.add(entity);
     }
@@ -110,6 +118,8 @@ public class Board {
             ghosts.remove((Ghost) entity);
         } else if (entity instanceof Pellet) {
             pellets.remove((Pellet) entity);
+        } else if (entity instanceof PowerPellet) {
+            powerPellets.remove((PowerPellet) entity);
         }
         entity.getSquare().removeEntity(entity);
         entities.remove(entity);
@@ -200,5 +210,23 @@ public class Board {
 
     public Set<Pellet> getPellets() {
         return pellets;
+    }
+
+    /**
+     * Gets all the entities, but in the correct order for drawing.
+     */
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
+    public Iterable<Entity> getEntitiesInOrderForDrawing() {
+        Deque<Entity> drawingEntities = new ArrayDeque<>();
+        pellets.forEach(drawingEntities::addLast);
+        powerPellets.forEach(drawingEntities::addLast);
+        ghosts.forEach(drawingEntities::addLast);
+        drawingEntities.addLast(pacman);
+        for (Entity e: entities) {
+            if (e instanceof Wall) {
+                drawingEntities.addLast(e);
+            }
+        }
+        return drawingEntities;
     }
 }
