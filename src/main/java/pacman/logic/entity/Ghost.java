@@ -2,6 +2,7 @@ package pacman.logic.entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -25,6 +26,10 @@ public abstract class Ghost extends MovingEntity {
     protected Mode mode = Mode.CHASE;
     protected Square oldSquare;
 
+    protected double homeX;
+    protected double homeY;
+    private Square homeCorner;
+
     /**
      * Creates a ghost.
      *
@@ -36,6 +41,9 @@ public abstract class Ghost extends MovingEntity {
         super(board, square, sprite);
         direction = Direction.RIGHT;
         oldSquare = square;
+        homeCorner = square;
+        this.homeX = getX();
+        this.homeY = getY();
     }
 
     @Override
@@ -44,7 +52,8 @@ public abstract class Ghost extends MovingEntity {
 
         // Collided with PacMan
         Set<Entity> collisions = checkCollision();
-        if (collisions.contains(board.pacman) && !board.pacman.isImmune()) {
+        if (collisions.contains(board.pacman) && !board.pacman.isImmune()
+                && mode != Mode.FRIGHTENED) {
             board.pacman.setAlive(false);
         }
 
@@ -105,7 +114,7 @@ public abstract class Ghost extends MovingEntity {
      * @param nextOptions the neighbouring squares the ghost can go to.
      * @return the square the ghost wants to go towards.
      * @see this#chaseTarget()
-     * @see this#scatterTarget() 
+     * @see this#scatterTarget(List)
      * @see this#frightenedTarget(List) 
      */
     protected Square chooseTarget(List<Square> nextOptions) {
@@ -113,7 +122,7 @@ public abstract class Ghost extends MovingEntity {
             case CHASE:
                 return chaseTarget();
             case SCATTER:
-                return scatterTarget();
+                return scatterTarget(nextOptions);
             case FRIGHTENED:
                 return frightenedTarget(nextOptions);
             default:
@@ -131,12 +140,17 @@ public abstract class Ghost extends MovingEntity {
     protected abstract Square chaseTarget();
 
     /**
-     * Chooses the scatter mode target of the ghost.
-     *
-     * @return the target (should be a wall in scatter mode)
-     * @see this#chooseTarget(List)
+     * Getting the "home square' of each ghost, while in scattered mode.
+     * @return That specific home_square, the starting point of each ghost.
      */
-    protected abstract Square scatterTarget();
+    private final Square scatterTarget(List<Square> options) {
+        if (square == homeCorner) {
+            Random rand = new Random();
+            return options.get(rand.nextInt(options.size()));
+        } else {
+            return homeCorner;
+        }
+    }
 
     /**
      * Chooses the frightened mode target of the ghost.
@@ -149,4 +163,13 @@ public abstract class Ghost extends MovingEntity {
         int a = ThreadLocalRandom.current().nextInt(0, options.size());
         return options.get(a);
     }
+
+    public double getHomeX() {
+        return homeX;
+    }
+
+    public double getHomeY() {
+        return homeY;
+    }
+
 }

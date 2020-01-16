@@ -1,6 +1,7 @@
 package pacman.graphics.gui;
 
 import java.io.IOException;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -18,11 +19,14 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
-import pacman.Main;
 import pacman.database.User;
 import pacman.graphics.GameView;
 import pacman.logic.Direction;
@@ -32,10 +36,11 @@ import pacman.logic.game.GameState;
 
 public class MenuController implements Initializable {
 
-    public static User user;
+    private GameView gameView;
     private Scene scene;    //NOPMD no need for get/set for this one;
     // it is just for ease of use
     public static Stage stage;
+    public static User user;
 
     @FXML
     private Label userDetails; //NOPMD no need for having set/get for thi gui element
@@ -76,9 +81,9 @@ public class MenuController implements Initializable {
     public void startGame(ActionEvent event) {
 
         stage = (Stage)((javafx.scene.Node) event.getSource()).getScene().getWindow();
-        GameView root = new GameView(GameController.getInstance().getGame(), 800, 800);
+        gameView = new GameView(GameController.getInstance().getGame(), 790, 720);
         GameController.getInstance().setUser(user);
-        scene = new Scene(root);
+        scene = new Scene(gameView);
         stage.setScene(scene);
         stage.show();
 
@@ -106,19 +111,78 @@ public class MenuController implements Initializable {
 
         GameController.getInstance().getGame().getState().addListener((ob, o, n) -> {
             if (n == GameState.WON || n == GameState.LOST) {
-                gameFinished(stage);
+                gameView.getBoardCanvas().stopGame();
+                GameController.getInstance().stop();
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                gameFinished(n);
             }
         });
 
     }
 
-    private void gameFinished(Stage window) {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/views/leaderboard.fxml"));
-            window.getScene().setRoot(root);
-        } catch (IOException e) {
-            e.printStackTrace();
+    private void gameFinished(GameState state) {
+        if (state == GameState.WON && !GameController.getInstance().getGame().won()) {
+            createDialogueWindow("!! Level Won !!", "Next Level", false);
+        } else if (state == GameState.WON && GameController.getInstance().getGame().won()) {
+            createDialogueWindow("!! GAME WON !!", " Go to Main Menu", true);
+        } else {
+            createDialogueWindow("GAME LOST :(", "Got to Main Menu", true);
         }
+        //try {
+        //    Parent root = FXMLLoader.load(getClass().getResource("/views/leaderboard.fxml"));
+        //    window.getScene().setRoot(root);
+        //} catch (IOException e) {
+        //    e.printStackTrace();
+        //}
+    }
+
+    private void createDialogueWindow(String msg1, String msg2, boolean menu) {
+        Stage stg = new Stage();
+        stg.initModality(Modality.APPLICATION_MODAL);
+        stg.initStyle(StageStyle.UNDECORATED);
+        VBox root = new VBox(70);
+        root.setBackground(new Background(new BackgroundFill(Color.BLUEVIOLET,
+                CornerRadii.EMPTY, Insets.EMPTY)));
+        Text text = new Text(msg1);
+        text.setFill(Color.WHEAT);
+        text.setFont(new Font("Joker", 27));
+        root.getChildren().add(text);
+        Button btn = new Button(msg2);
+        btn.setBackground(new Background(new BackgroundFill(Color.GREENYELLOW,
+                CornerRadii.EMPTY, Insets.EMPTY)));
+        btn.setTextFill(Color.BLACK);
+        btn.setOnAction(event -> {
+            if (menu) {
+                try {
+                    stg.close();
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/menu.fxml"));
+                    Parent roots = loader.load();
+                    MenuController controller = loader.getController();
+                    controller.setProfileDetails(MenuController.user);
+                    Scene sc = new Scene(roots);
+                    GameController.getInstance().reset();
+                    stage.setScene(sc);
+                    stage.show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                GameController.getInstance().nextLevel();
+                gameView.getBoardCanvas().setBoard(GameController
+                        .getInstance().getGame().getLevel().getBoard());
+                stg.close();
+                GameController.getInstance().start();
+                gameView.getBoardCanvas().start();
+            }
+        });
+        root.getChildren().add(btn);
+        Scene scene = new Scene(root);
+        stg.setScene(scene);
+        stg.show();
     }
 
     /**
@@ -131,18 +195,11 @@ public class MenuController implements Initializable {
                 + "\n" + "High score: " + user.getScore());
     }
 
-    /**
-     * Sets the label's parameters for displaying score and username.
-     * @param scoreLabel the label on which will be displayed
-     */
-    private void updateLabel(Label scoreLabel) {
-        scoreLabel.setBackground(new Background(new BackgroundFill(Color.BLACK,
-                CornerRadii.EMPTY, Insets.EMPTY)));
-        scoreLabel.setFont(new Font(20));
-        scoreLabel.setTextFill(Color.WHEAT);
-        scoreLabel.setTranslateX(Main.width / 3 * 2);
-        scoreLabel.setTranslateY(20);
-        scoreLabel.setBackground(new Background(new BackgroundFill(Color.BLACK,
-                CornerRadii.EMPTY, Insets.EMPTY)));
+    public GameView getGameView() {
+        return gameView;
+    }
+
+    public void setGameView(GameView gameView) {
+        this.gameView = gameView;
     }
 }

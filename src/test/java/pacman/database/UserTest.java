@@ -12,6 +12,9 @@ public class UserTest {
     private User user1;
     private User user2;
 
+    /**
+     * Setting up the db context for testing.
+     */
     @BeforeEach
     public void setup() { // NOPMD spelled correctly
         user1 = new User();

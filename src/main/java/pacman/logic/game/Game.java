@@ -18,6 +18,7 @@ import pacman.logic.level.Level;
 public class Game {
 
     private Player player;
+    private static int lvlMax = 1;
 
     private List<Level> levels;
     private int currentLevel;
@@ -56,8 +57,13 @@ public class Game {
     private void checkWinLoss() {
         if (getLevel().wasPacManHit()) {
             player.loseLife();
-            getLevel().getPacMan().enterImmunity();
-            getLevel().revivePlayer();
+            if (!player.hasLives()) {
+                state.set(GameState.LOST);
+                return;
+            } else {
+                getLevel().getPacMan().enterImmunity();
+                getLevel().revivePlayer();
+            }
         }
         if (!player.hasLives()) {
             state.set(GameState.LOST);
@@ -80,6 +86,7 @@ public class Game {
      */
     public void advanceLevel() {
         currentLevel += 1;
+        player.newLevel();
     }
 
     /**
@@ -106,8 +113,12 @@ public class Game {
         return player;
     }
 
-    protected boolean won(int lvlMax) {
+    public boolean won() {
         return currentLevel == lvlMax;
+    }
+
+    public void changeMaxLevel(int newmax) {
+        lvlMax = newmax;
     }
 
 }

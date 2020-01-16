@@ -79,7 +79,8 @@ public class GameControllerTest {
         GameController.getInstance().setTimer(prepareTimer());
         GameController.getInstance().start();
         GameController.getInstance().update(3);
-        assertTrue(GameController.getInstance().getGame().won(0));
+        GameController.getInstance().getGame().changeMaxLevel(0);
+        assertTrue(GameController.getInstance().getGame().won());
     }
 
     /**

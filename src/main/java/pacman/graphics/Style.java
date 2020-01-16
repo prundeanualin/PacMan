@@ -29,7 +29,7 @@ public enum Style {
         this.pacmanColour = Color.web(pacmanColour);
         this.wallColour = Color.web(wallColour);
         this.backgroundColor = Color.web(backgroundColor);
-        this.blinkyColour = Color.web(backgroundColor);
+        this.blinkyColour = Color.web(blinkyColour);
         this.pinkyColour = Color.web(pinkyColour);
         this.inkyColour = Color.web(inkyColour);
         this.clydeColour = Color.web(clydeColour);
