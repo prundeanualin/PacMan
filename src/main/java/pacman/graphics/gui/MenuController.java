@@ -28,6 +28,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import pacman.database.User;
+import pacman.database.UserDao;
 import pacman.graphics.GameView;
 import pacman.logic.Direction;
 import pacman.logic.entity.PacMan;
@@ -167,7 +168,7 @@ public class MenuController implements Initializable {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/menu.fxml"));
                     Parent roots = loader.load();
                     MenuController controller = loader.getController();
-                    controller.setProfileDetails(MenuController.user);
+                    controller.setProfileDetails(user);
                     Scene sc = new Scene(roots);
                     GameController.getInstance().reset();
                     stage.setScene(sc);
@@ -196,8 +197,9 @@ public class MenuController implements Initializable {
      */
     public void setProfileDetails(User us) {
         user = us;
+        int score = new UserDao().retrieveScore(us);
         userDetails.setText("User: " + user.getUsername()
-                + "\n" + "High score: " + user.getScore());
+                + "\n" + "High score: " + us);
     }
 
     public GameView getGameView() {
