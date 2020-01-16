@@ -78,16 +78,16 @@ public enum Style {
     }
 
     /**
-     * Gets the colour of Inky.
-     * @return The colour Inky has
+     * Gets the colour of Drunky.
+     * @return The colour Drunky has
      */
     public Color getInkyColour() {
         return inkyColour;
     }
 
     /**
-     * Gets the colour of Clyde.
-     * @return The colour Clyde has
+     * Gets the colour of Sneaky.
+     * @return The colour Sneaky has
      */
     public Color getClydeColour() {
         return clydeColour;

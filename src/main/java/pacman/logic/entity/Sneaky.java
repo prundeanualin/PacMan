@@ -1,40 +1,41 @@
 package pacman.logic.entity;
 
-import pacman.graphics.sprite.InkySprite;
+
+import pacman.graphics.sprite.DrunkySprite;
 import pacman.graphics.sprite.Sprite;
 import pacman.logic.Direction;
 import pacman.logic.level.Board;
 import pacman.logic.level.Square;
 
-public class Inky extends Ghost {
+public class Sneaky extends Ghost {
 
-    private static final Sprite<Ghost> sprite = new InkySprite();
+    private static final Sprite<Ghost> sprite = new DrunkySprite();
     private static Square HOME_CORNER;
 
     /**
-     * Creating Inky.
+     * Creating Drunky.
      * @param board the board
-     * @param square Inky's square
+     * @param square Sneaky's square
      */
-    public Inky(Board board, Square square) {
+    public Sneaky(Board board, Square square) {
         super(board, square, sprite);
         direction = Direction.LEFT;
-        HOME_CORNER = board.getSquare(0, board.getHeight());//NOPMD
+        HOME_CORNER = board.getSquare(board.getWidth(), board.getHeight());//NOPMD
         // needed to initialize it here with board as parameter
     }
 
     /**
-     * Inky is drunk so always in frightened mode.
-     * @return next square Inky will move to.
+     * Sneaky is always around its home area.
+     * @return next square Drunky will move to.
      */
     @Override
     protected Square chaseTarget() {
-        return frightenedTarget(getOptions());
+        return scatterTarget();
     }
 
     /**
      * Getting the "home square' of each ghost, while in scattered mode.
-     * @return Home square for inky, which is bottom left.
+     * @return Home square for Sneaky, which is bottom right.
      */
 
     @Override

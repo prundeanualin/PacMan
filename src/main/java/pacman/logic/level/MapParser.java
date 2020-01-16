@@ -117,7 +117,9 @@ public class MapParser {
                 new Pinky(board, square);
                 break;
             case 'I':
-                new Inky(board, square);
+                new Drunky(board, square);
+            case 'C':
+                new Sneaky(board, square);
             case '.':
                 break;
             default:
