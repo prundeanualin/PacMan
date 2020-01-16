@@ -22,7 +22,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import pacman.database.LeaderboardDao;
-import pacman.database.User;
+import database.User;
 import pacman.graphics.Style;
 import pacman.logic.game.GameController;
 

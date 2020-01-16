@@ -1,24 +1,13 @@
-package pacman.database;
+package database;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Base64;
 
-import javax.swing.JOptionPane;
-
-@SuppressWarnings("PMD.BeanMembersShouldSerialize")
 public class RegisterDao {
-
-    private DbConnect dbConnect;
-
-    public RegisterDao() {
-        this(new DbConnect());
-    }
-
-    public RegisterDao(DbConnect dbConnect) {
-        this.dbConnect = dbConnect;
-    }
-
     /**
      * Method that checks if user exists.
      *
@@ -26,6 +15,7 @@ public class RegisterDao {
      */
     @SuppressWarnings("PMD")
     public boolean checkUserAlreadyExists(User user) {
+        DbConnect dbConnect = new DbConnect();
         Connection conn = dbConnect.getMyConnection();
         PreparedStatement statement;
         ResultSet resultSet;
@@ -36,7 +26,7 @@ public class RegisterDao {
 
             resultSet = statement.executeQuery();
 
-            if (!resultSet.next()) {
+            if (resultSet.next() == false) {
                 return false;
             }
             statement.close();
@@ -55,14 +45,29 @@ public class RegisterDao {
      */
     @SuppressWarnings("PMD")
     public void addUser(User user) {
+        DbConnect dbConnect = new DbConnect();
         Connection conn = dbConnect.getMyConnection();
         PreparedStatement statement;
-        String query = "INSERT INTO Users(Username,Password,Score)" + " VALUES(?,?,?)";
+        PasswordEncryptionService passwordEncryptionService = new PasswordEncryptionService();
+        byte[] encryptedPass = new byte[160];
+        byte[] userSalt = new byte[8];
+        try {
+            //userSalt = passwordEncryptionService.getSalt();
+            userSalt = passwordEncryptionService.getSalt();
+            System.out.println("Salt add" + userSalt);
+            System.out.println("Salt string" + Base64.getEncoder().encodeToString(userSalt));
+            encryptedPass = passwordEncryptionService.getEncryptedPassword(user.getPassword(),
+                    userSalt);
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            System.out.println("error occurred");
+        }
+        String query = "INSERT INTO Users(Username,Password,PassSalt,Score)" + " VALUES(?,?,?,?)";
         try {
             statement = conn.prepareStatement(query);
             statement.setString(1, user.getUsername());
-            statement.setString(2, user.getPassword());
-            statement.setInt(3, user.getScore());
+            statement.setString(2, Base64.getEncoder().encodeToString(encryptedPass));
+            statement.setString(3, Base64.getEncoder().encodeToString(userSalt));
+            statement.setInt(4, user.getScore());
             statement.executeUpdate();
             /*
             if (statement.executeUpdate() > 0) {

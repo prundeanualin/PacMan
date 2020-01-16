@@ -17,8 +17,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import pacman.database.LoginDao;
-import pacman.database.User;
+import database.LoginDao;
+import database.User;
 
 public class LoginController implements Initializable {
 
