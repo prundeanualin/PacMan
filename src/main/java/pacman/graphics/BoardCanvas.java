@@ -94,6 +94,7 @@ public class BoardCanvas extends Canvas {
             e.getSprite().drawBackground(e, getGraphicsContext2D(), drawStyle, t);
             getGraphicsContext2D().setTransform(new Affine());
         }
+        
         for (Entity e : board.getEntitiesInOrderForDrawing()) {
             getGraphicsContext2D().scale(scaleX, scaleY);
             getGraphicsContext2D().translate(e.getX(), e.getY());
