@@ -1,13 +1,14 @@
 package pacman.graphics.gui;
 
+import database.User;
 import java.io.IOException;
 
-import java.awt.event.ActionEvent;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -22,9 +23,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import pacman.database.LeaderboardDao;
-import database.User;
 import pacman.graphics.Style;
-import pacman.logic.game.GameController;
 
 @SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class is not a bean.
 public class LeaderboardController implements Initializable {
@@ -40,8 +39,6 @@ public class LeaderboardController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         LeaderboardDao dao = new LeaderboardDao();
-        dao.enterScore(GameController.getInstance().getUser(),
-                GameController.getInstance().getGame().getPlayer().getScore().get());
         List<User> users = dao.getTop(LEADERBOARD_AMOUNT);
         for (int i = 0; i < users.size(); i++) {
             List<Label> labels = new ArrayList<>();
@@ -56,8 +53,9 @@ public class LeaderboardController implements Initializable {
                 gridPane.add(l, a, i + 1);
                 l.setTextFill(Style.CLASSIC.getTextColour());
                 l.setFont(Font.font(27));
-                l.setTextAlignment(TextAlignment.CENTER);
-                l.setAlignment(Pos.CENTER);
+                l.setTextAlignment(TextAlignment.RIGHT);
+                l.setAlignment(Pos.CENTER_RIGHT);
+                l.setTranslateX(50);
                 a++;
             }
         }
