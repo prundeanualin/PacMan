@@ -25,7 +25,7 @@ class BoardTest {
 
     @BeforeEach
     public void init() {
-        board = new MapParser(".").parseMapFromString(".#P*#");
+        board = MapParser.parseMapFromString(".#P*#");
         level = new LevelFactory().createLevel(board);
     }
 
@@ -80,7 +80,7 @@ class BoardTest {
     void computeScore() {
         Pellet p = new Pellet(board, board.getSquare(0, 0));
         p.setAlive(false);
-        assertEquals(1, board.computeScore());
+        assertEquals(10, board.computeScore());
     }
 
     @Test

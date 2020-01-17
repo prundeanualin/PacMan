@@ -27,6 +27,10 @@ public class LeaderboardDaoTest {
     private LeaderboardDao dao;
     private PreparedStatement statement;
 
+    /**
+     * Set up the environment for the db context under testing.
+     * @throws SQLException in case prepared statements are wrong.
+     */
     @BeforeEach
     public void setup() throws SQLException { // NOPMD spelled correctly
         ResultSet result = mock(ResultSet.class); // NOPMD mocks do not need to be closed
