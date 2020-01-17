@@ -103,7 +103,7 @@ public class GameController {
     }
 
     /**
-     * Stops the game by stopping its timers.
+     * Stops the timer of this game.
      */
     public void stop() {
         if (game.getState().getValue() == GameState.RUNNING) {

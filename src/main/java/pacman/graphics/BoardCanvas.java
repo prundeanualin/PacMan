@@ -46,8 +46,8 @@ public class BoardCanvas extends Canvas {
         scaleY = height / (double) board.getHeight();
         stopped = false;
 
-        long start = System.nanoTime(); //NOPMD variable needed for
-        // getting the time difference inside the timer.
+        long start = System.nanoTime(); //NOPMD needed in order to
+        //keep track of frames while timers is going on
         if (timer == null) {
             timer = new AnimationTimer() {
                 @Override
@@ -90,17 +90,12 @@ public class BoardCanvas extends Canvas {
         for (Entity e : board.getEntities()) {
             getGraphicsContext2D().scale(scaleX, scaleY);
             getGraphicsContext2D().translate(e.getX(), e.getY());
-            e.getSprite().drawBackground(e, getGraphicsContext2D(), drawStyle, t);
-            getGraphicsContext2D().setTransform(new Affine());
-        }
-        for (Entity e : board.getEntities()) {
-            getGraphicsContext2D().scale(scaleX, scaleY);
-            getGraphicsContext2D().translate(e.getX(), e.getY());
             if (e instanceof PacMan && stopped) {
                 end_animations((PacMan) e);
                 timer.stop();
             } else {
                 e.getSprite().draw(e, getGraphicsContext2D(), drawStyle, t);
+                e.getSprite().drawBackground(e, getGraphicsContext2D(), drawStyle, t);
                 getGraphicsContext2D().setTransform(new Affine());
             }
         }

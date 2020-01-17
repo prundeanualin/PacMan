@@ -13,7 +13,7 @@ public class UserTest {
     private User user2;
 
     /**
-     * Setting up the db context for testing.
+     * Sets up the user for this current mocked session.
      */
     @BeforeEach
     public void setup() { // NOPMD spelled correctly

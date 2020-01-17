@@ -28,7 +28,7 @@ public class UserDaoTest {
     private User user;
 
     /**
-     * Setting up the environment for testing db context.
+     * Set up the environment for the db context under testing.
      * @throws SQLException in case prepared statements are wrong.
      */
     @BeforeEach

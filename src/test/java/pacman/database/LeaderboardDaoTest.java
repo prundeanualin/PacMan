@@ -28,7 +28,7 @@ public class LeaderboardDaoTest {
     private PreparedStatement statement;
 
     /**
-     * Setting up the environment for testing b context.
+     * Set up the environment for the db context under testing.
      * @throws SQLException in case prepared statements are wrong.
      */
     @BeforeEach

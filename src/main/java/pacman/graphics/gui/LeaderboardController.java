@@ -29,11 +29,11 @@ public class LeaderboardController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //if (GameController.getInstance().getGame().getState().getValue() == GameState.LOST) {
-        //            System.out.println("aaaaaadddddd");
-        //            status.setText("You Lost :(");
-        //        } else {
-        //            status.setText("You Won!");
-        //        }
+        //    System.out.println("aaaaaadddddd");
+        //    status.setText("You Lost :(");
+        //} else {
+        //    status.setText("You Won!");
+        //}
 
         LeaderboardDao dao = new LeaderboardDao();
         dao.enterScore(GameController.getInstance().getUser(),

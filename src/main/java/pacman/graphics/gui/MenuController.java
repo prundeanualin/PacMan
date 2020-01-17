@@ -129,7 +129,7 @@ public class MenuController implements Initializable {
             createDialogueWindow("!! Level Won !!", "Next Level", false);
         } else if (state == GameState.WON && GameController.getInstance().getGame().won()) {
             createDialogueWindow("!! GAME WON !!", " Go to Main Menu", true);
-        } else {
+        } else if (state == GameState.LOST) {
             createDialogueWindow("GAME LOST :(", "Got to Main Menu", true);
         }
         //try {
@@ -151,6 +151,11 @@ public class MenuController implements Initializable {
         text.setFill(Color.WHEAT);
         text.setFont(new Font("Joker", 27));
         root.getChildren().add(text);
+        int score = GameController.getInstance().getGame().getPlayer().getScore().get();
+        Text scoreText = new Text("Your score is: " + score);
+        scoreText.setFill(Color.WHEAT);
+        scoreText.setFont(new Font("Joker", 27));
+        root.getChildren().add(scoreText);
         Button btn = new Button(msg2);
         btn.setBackground(new Background(new BackgroundFill(Color.GREENYELLOW,
                 CornerRadii.EMPTY, Insets.EMPTY)));
