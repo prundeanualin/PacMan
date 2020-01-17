@@ -6,6 +6,8 @@ import pacman.logic.Direction;
 import pacman.logic.level.Board;
 import pacman.logic.level.Square;
 
+import java.util.List;
+
 public class Pinky extends Ghost {
 
     private static final Sprite<Ghost> sprite = new PinkySprite();
