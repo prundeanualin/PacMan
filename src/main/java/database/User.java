@@ -42,16 +42,14 @@ public class User {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
         if (o == null || getClass() != o.getClass()) {
             return false;
+        } else {
+            User user = (User) o;
+            return this == o || (getId() == user.getId()
+                    && getUsername().equals(user.getUsername())
+                    && getPassword().equals(user.getPassword()));
         }
-        User user = (User) o;
-        return getId() == user.getId()
-                && getUsername().equals(user.getUsername())
-                && getPassword().equals(user.getPassword());
     }
 
     @Override
