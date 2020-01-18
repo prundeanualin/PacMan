@@ -47,8 +47,7 @@ public class User {
         } else {
             User user = (User) o;
             return this == o || (getId() == user.getId()
-                    && getUsername().equals(user.getUsername())
-                    && getPassword().equals(user.getPassword()));
+                    && getUsername().equals(user.getUsername()));
         }
     }
 

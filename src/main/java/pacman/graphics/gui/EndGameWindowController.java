@@ -104,19 +104,29 @@ public class EndGameWindowController implements Initializable {
             status.setText("! Level Won !");
             highScore.setText("Your Score : " + newScore);
         } else {
-            LeaderboardDao dao = new LeaderboardDao(); //NOPMD pmd error prone detection rule
-            int oldScore = new UserDao().retrieveScore(GameController.getInstance().getUser());
-            if (oldScore < newScore) {
-                dao.enterScore(GameController.getInstance().getUser(), newScore);
-            }
-            nextLevel.setVisible(false);
-            nextLevel.setDisable(true);
-            highScore.setText("Your Score :" + newScore);
-            if (state == GameState.WON && GameController.getInstance().getGame().won()) {
-                status.setText("!! YOU WIN !!");
-            } else {
-                status.setText("*_* YOU LOST !!");
-            }
+            winLoseGame(newScore, state);
+        }
+    }
+
+    /**
+     * Shows the windows for losing/winning the game with option to go
+     to main menu or to leaderboard.
+     * @param newScore the new score achieved during this run
+     * @param state win/loss
+     */
+    public void winLoseGame(int newScore, GameState state) {
+        LeaderboardDao dao = new LeaderboardDao(); //NOPMD pmd error prone detection rule
+        int oldScore = new UserDao().retrieveScore(GameController.getInstance().getUser());
+        if (oldScore < newScore) {
+            dao.enterScore(GameController.getInstance().getUser(), newScore);
+        }
+        nextLevel.setVisible(false);
+        nextLevel.setDisable(true);
+        highScore.setText("Your Score :" + newScore);
+        if (state == GameState.WON && GameController.getInstance().getGame().won()) {
+            status.setText("!! YOU WIN !!");
+        } else {
+            status.setText("*_* YOU LOST !!");
         }
     }
 }
