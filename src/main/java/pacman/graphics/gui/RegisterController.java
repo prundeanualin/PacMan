@@ -1,6 +1,9 @@
 package pacman.graphics.gui;
 
+import database.RegisterDao;
+import database.User;
 import java.io.IOException;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -16,8 +19,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
-import database.RegisterDao;
-import database.User;
 
 public class RegisterController implements Initializable {
 

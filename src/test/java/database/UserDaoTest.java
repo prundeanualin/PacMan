@@ -1,25 +1,27 @@
 package database;
 
+import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertTrue;
+
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.util.Base64;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import java.util.Base64;
-
-import static junit.framework.TestCase.*;
-
 @SuppressWarnings("PMD")
 public class UserDaoTest {
 
     private UserDao userDao;
-    private LoginDao loginDao;
     private RegisterDao registerDao;
     private User user;
 
+    /**
+     * setting up the testing environment.
+     */
     @BeforeEach
     public void setUp() {
         user = new User();
@@ -61,19 +63,18 @@ public class UserDaoTest {
 
     @Test
     public void testUpdateUsername() throws NoSuchAlgorithmException {
-        UserDao userDao1 = new UserDao();
-        EncryptionDao encryptionDao = new EncryptionDao();
-        PasswordEncryptionService passwordEncryptionService = new PasswordEncryptionService();
         User user2 = new User();
         user2.setPassword("123f");
         user2.setUsername("Drake");
         user2.setScore(129);
         registerDao = new RegisterDao();
         registerDao.addUser(user2);
-        //String salty = Base64.getEncoder().encodeToString(encryptionDao.getUserSalt(user2));
+        EncryptionDao encryptionDao = new EncryptionDao();
+        PasswordEncryptionService passwordEncryptionService = new PasswordEncryptionService();
         System.out.println(encryptionDao.getUserSalt(user2).toString());
         System.out.println("original method " + passwordEncryptionService.getSalt());
         user2.setUsername("A boogie wit da Hoodie");
+        UserDao userDao1 = new UserDao();
         userDao1.updateUserUsername(user2);
         String result = userDao1.getUsernameFromDatabase(user2);
         userDao1.deleteUser(user2);
@@ -89,15 +90,18 @@ public class UserDaoTest {
     }
 
     @Test
-    public void testUpdatePassword() throws InvalidKeySpecException, NoSuchAlgorithmException, UnsupportedEncodingException {
-        EncryptionDao encryptionDao = new EncryptionDao();
+    public void testUpdatePassword() throws InvalidKeySpecException,
+            NoSuchAlgorithmException {
         userDao = new UserDao();
         user.setPassword("newPass");
         userDao.updateUserPassword(user);
+        EncryptionDao encryptionDao = new EncryptionDao();
         String userSalt = encryptionDao.getUserSalt(user);
         PasswordEncryptionService passwordEncryptionService = new PasswordEncryptionService();
-        byte[] encPass = passwordEncryptionService.getEncryptedPassword(user.getPassword(), Base64.getDecoder().decode(userSalt));
-        assertEquals(userDao.getUserPasswordFromDatabase(user), Base64.getEncoder().encodeToString(encPass));
+        byte[] encPass = passwordEncryptionService
+                .getEncryptedPassword(user.getPassword(), Base64.getDecoder().decode(userSalt));
+        assertEquals(userDao.getUserPasswordFromDatabase(user),
+                Base64.getEncoder().encodeToString(encPass));
     }
 
     @Test
@@ -106,27 +110,27 @@ public class UserDaoTest {
         userDao = new UserDao();
         PasswordEncryptionService passwordEncryptionService = new PasswordEncryptionService();
         String userSalt = encryptionDao.getUserSalt(user);
-        byte[] encryptedPass = passwordEncryptionService.getEncryptedPassword(user.getPassword(), userSalt.getBytes());
+        byte[] encryptedPass = passwordEncryptionService
+                .getEncryptedPassword(user.getPassword(), userSalt.getBytes());
         boolean status;
-        if (passwordEncryptionService.securityCheck(user.getPassword(), encryptedPass, userSalt.getBytes()))
-            status = true;
-        else
-            status = false;
+        status = passwordEncryptionService
+                .securityCheck(user.getPassword(), encryptedPass, userSalt.getBytes());
         assertTrue(status);
     }
 
     @Test
     public void testGetPass() throws InvalidKeySpecException, NoSuchAlgorithmException {
-        EncryptionDao encryptionDao = new EncryptionDao();
         User user2 = new User();
         user2.setUsername("abcd");
         user2.setPassword("pass123");
         RegisterDao registerDao = new RegisterDao();
         registerDao.addUser(user2);
         userDao = new UserDao();
+        EncryptionDao encryptionDao = new EncryptionDao();
         String salt = encryptionDao.getUserSalt(user2);
         PasswordEncryptionService passwordEncryptionService = new PasswordEncryptionService();
-        byte[] encPass = passwordEncryptionService.getEncryptedPassword(user2.getPassword(), Base64.getDecoder().decode(salt));
+        byte[] encPass = passwordEncryptionService
+                .getEncryptedPassword(user2.getPassword(), Base64.getDecoder().decode(salt));
         String passFromDb = userDao.getUserPasswordFromDatabase(user2);
         userDao.deleteUser(user2);
         assertEquals(Base64.getEncoder().encodeToString(encPass), passFromDb);
@@ -134,13 +138,13 @@ public class UserDaoTest {
 
     @Test
     public void testDeleteUser() {
-        UserDao userDao1 = new UserDao();
         User user2 = new User();
         user2.setPassword("123f");
         user2.setUsername("Drake");
         user2.setScore(129);
         registerDao = new RegisterDao();
         registerDao.addUser(user2);
+        UserDao userDao1 = new UserDao();
         userDao1.deleteUser(user2);
         assertEquals("No user found", userDao1.getUsernameFromDatabase(user2));
     }

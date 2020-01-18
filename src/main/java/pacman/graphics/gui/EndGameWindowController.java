@@ -20,6 +20,7 @@ import pacman.database.LeaderboardDao;
 import pacman.logic.game.GameController;
 import pacman.logic.game.GameState;
 
+@SuppressWarnings("PMD.BeanMembersShouldSerialize") //not a bean class
 public class EndGameWindowController implements Initializable {
 
     private Stage newStage;
@@ -103,7 +104,7 @@ public class EndGameWindowController implements Initializable {
             status.setText("! Level Won !");
             highScore.setText("Your Score : " + newScore);
         } else {
-            LeaderboardDao dao = new LeaderboardDao();
+            LeaderboardDao dao = new LeaderboardDao(); //NOPMD pmd error prone detection rule
             int oldScore = new UserDao().retrieveScore(GameController.getInstance().getUser());
             if (oldScore < newScore) {
                 dao.enterScore(GameController.getInstance().getUser(), newScore);

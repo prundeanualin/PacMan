@@ -1,5 +1,8 @@
 package pacman.database;
 
+import database.DbConnect;
+import database.User;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,8 +10,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import database.DbConnect;
-import database.User;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("PMD.BeanMembersShouldSerialize")

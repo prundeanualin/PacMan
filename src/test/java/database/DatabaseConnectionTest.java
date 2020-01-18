@@ -1,12 +1,12 @@
 package database;
 
-import org.junit.jupiter.api.Test;
-import org.mockito.*;
-import org.powermock.core.classloader.annotations.PrepareForTest;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.sql.Connection;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
 
 @PrepareForTest({DbConnect.class})
 @SuppressWarnings("PMD")
@@ -19,14 +19,14 @@ public class DatabaseConnectionTest {
     private Connection connection;
 
     @Test
-    public void testDBConnection() throws Exception {
+    public void testdbconnection() throws Exception {
         newDbConnect = new DbConnect();
         connection = newDbConnect.getMyConnection();
-        assertEquals(true, connection != null);
+        assertNotNull(connection);
     }
 
     @Test
-    public void testDBConnectionMockito() {
+    public void testdbconnectionmockito() {
         dbConnect = Mockito.mock(DbConnect.class);
         Mockito.when(dbConnect.getMyConnection()).thenReturn(connection);
     }

@@ -25,7 +25,8 @@ import javafx.stage.Stage;
 import pacman.database.LeaderboardDao;
 import pacman.graphics.Style;
 
-@SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class is not a bean.
+@SuppressWarnings({"PMD.BeanMembersShouldSerialize",
+        "PMD.DataflowAnomalyAnalysis"}) // Class is not a bean.
 public class LeaderboardController implements Initializable {
 
     private static int LEADERBOARD_AMOUNT = 5;

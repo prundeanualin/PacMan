@@ -1,20 +1,19 @@
 package database;
 
-import org.junit.Test;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.mockito.Mock;
-import org.mockito.Mockito;
+import static junit.framework.TestCase.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.when;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import static junit.framework.TestCase.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.when;
+import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 
 @SuppressWarnings("PMD")
 public class RegisterDaoTest {
@@ -37,6 +36,10 @@ public class RegisterDaoTest {
 
     private User user;
 
+    /**
+     * setting up the testing environment.
+     * @throws SQLException sql wrongly prepared statement.
+     */
     @BeforeAll
     public void setUp() throws SQLException {
         //assertNotNull(dbConnect.getMyConnection());

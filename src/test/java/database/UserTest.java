@@ -1,15 +1,19 @@
 package database;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static junit.framework.TestCase.assertEquals;
 
 @SuppressWarnings("PMD")
 public class UserTest {
     private User user;
     private User user1;
 
+    /**
+     * setting up the testing db environment.
+     */
     @BeforeEach
     public void setUp() {
         user = new User();

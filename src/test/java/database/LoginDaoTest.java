@@ -1,12 +1,11 @@
 package database;
 
+import static junit.framework.TestCase.assertEquals;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertEquals;
 
 @SuppressWarnings("PMD")
 public class LoginDaoTest {
@@ -15,6 +14,9 @@ public class LoginDaoTest {
     private RegisterDao registerDao;
     private User user;
 
+    /**
+     * setting up the testing db environment.
+     */
     @BeforeEach
     public void setUp() {
         user = new User();
