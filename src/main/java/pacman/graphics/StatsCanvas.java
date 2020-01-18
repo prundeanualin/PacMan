@@ -44,7 +44,7 @@ public class StatsCanvas extends Canvas {
         getGraphicsContext2D().setFill(drawStyle.getBackgroundColor());
         getGraphicsContext2D().fillRect(0, 0, getWidth(), getHeight());
 
-        getGraphicsContext2D().setFont(Font.font(27));
+        getGraphicsContext2D().setFont(Font.font(24));
         getGraphicsContext2D().setFill(drawStyle.getTextColour());
         String text;
         switch (state) {
@@ -58,13 +58,13 @@ public class StatsCanvas extends Canvas {
                 text = "Score: " + score;
                 break;
         }
-        getGraphicsContext2D().fillText(text, 30, getHeight() / 2 + 8);
+        getGraphicsContext2D().fillText(text, 10, getHeight() / 2 + 8);
 
         getGraphicsContext2D().setFill(drawStyle.getPacmanColour());
         double lifeSize = getHeight() / 2;
         double lifeY = getHeight() / 2 - lifeSize / 2; // NOPMD variable used
         for (int x = 1; x <= lives; x++) {
-            getGraphicsContext2D().fillArc(getWidth() - x * lifeSize * 1.5 - 20, lifeY, lifeSize,
+            getGraphicsContext2D().fillArc(getWidth() - x * lifeSize * 1.2, lifeY, lifeSize,
                     lifeSize, 40, 280, ArcType.ROUND);
         }
     }
