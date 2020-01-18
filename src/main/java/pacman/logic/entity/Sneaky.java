@@ -1,6 +1,6 @@
 package pacman.logic.entity;
 
-import pacman.graphics.sprite.DrunkySprite;
+import pacman.graphics.sprite.SneakySprite;
 import pacman.graphics.sprite.Sprite;
 import pacman.logic.Direction;
 import pacman.logic.level.Board;
@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Sneaky extends Ghost {
 
-    private static final Sprite<Ghost> sprite = new DrunkySprite();
+    private static final Sprite<Ghost> sprite = new SneakySprite();
     private static Square HOME_CORNER;
 
     /**
