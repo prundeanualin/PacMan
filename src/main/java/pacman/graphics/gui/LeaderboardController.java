@@ -42,7 +42,7 @@ public class LeaderboardController implements Initializable {
         for (int i = 0; i < users.size(); i++) {
             Label label = new Label((i + 1) + ". " + users.get(i).getUsername() + ": "
                     + users.get(i).getScore());
-            label.setTextFill(Style.CLASSIC.getTextColour());
+            label.setTextFill(Style.CLASSIC.getTextColor());
             label.setFont(Font.font(24));
             scores.getChildren().add(label);
         }

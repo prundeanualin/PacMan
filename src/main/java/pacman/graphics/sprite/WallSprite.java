@@ -14,7 +14,7 @@ public class WallSprite extends Sprite<Wall> {
     @Override
     public void draw(@NotNull Wall entity, @NotNull GraphicsContext g, @NotNull Style style,
                      double t) {
-        g.setStroke(style.getWallColour());
+        g.setStroke(style.getWallColor());
         g.strokeRect(-0.5, -0.5, 1, 1);
     }
 

@@ -41,7 +41,7 @@ public class PacMan extends MovingEntity {
             immune = immuneTimer > 0.0;
         } else {
             // Set every collided pellet to dead
-            checkCollision().stream().filter(e -> e instanceof Pellet)
+            checkCollision().stream().filter(e -> e instanceof Pellet || e instanceof )
                     .forEach(e -> e.setAlive(false));
         }
     }
