@@ -1,8 +1,5 @@
 package database;
 
-//import lombok.Getter;
-//import lombok.Setter;
-
 
 public class User {
 
@@ -53,7 +50,6 @@ public class User {
         }
         User user = (User) o;
         return getId() == user.getId()
-                && getScore() == user.getScore()
                 && getUsername().equals(user.getUsername())
                 && getPassword().equals(user.getPassword());
     }
