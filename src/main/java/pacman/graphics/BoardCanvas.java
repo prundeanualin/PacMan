@@ -152,8 +152,20 @@ public class BoardCanvas extends Canvas {
         stopped = true;
     }
 
+    public void pauseGame() {
+        timer.stop();
+    }
+
+    public void unPauseGame() {
+        timer.start();
+    }
+
     public void start() {
         stopped = false;
         timer.start();
+    }
+
+    public boolean isStopped() {
+        return stopped;
     }
 }

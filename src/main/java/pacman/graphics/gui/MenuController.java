@@ -74,14 +74,13 @@ public class MenuController implements Initializable {
     public void startGame(ActionEvent event) {
 
         stage = (Stage)((javafx.scene.Node) event.getSource()).getScene().getWindow();
-        gameView = new GameView(GameController.getInstance().getGame(), 790, 720);
+        gameView = new GameView(GameController.getInstance().getGame(), 800, 800);
         GameController.getInstance().setUser(user);
         scene = new Scene(gameView);
         stage.setScene(scene);
         stage.show();
 
         GameController.getInstance().start();
-
         scene.setOnKeyPressed(e -> {
             PacMan pm = GameController.getInstance().getGame().getLevel().getPacMan();
             switch (e.getCode()) {
@@ -100,6 +99,17 @@ public class MenuController implements Initializable {
                 default:
                     // NOOP
             }
+        });
+
+        gameView.getButton().setOnMouseClicked(event1 -> {
+            if (!gameView.isStopped()) {
+                GameController.getInstance().pause();
+                gameView.getBoardCanvas().pauseGame();
+            } else {
+                GameController.getInstance().unpause();
+                gameView.getBoardCanvas().unPauseGame();
+            }
+            gameView.getButton().setText(gameView.flipText());
         });
 
         GameController.getInstance().getGame().getState().addListener((ob, o, n) -> {
