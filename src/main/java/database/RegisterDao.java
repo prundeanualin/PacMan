@@ -60,9 +60,15 @@ public class RegisterDao {
         executeQuery(user, encryptedPass, userSalt);
     }
 
+    /**
+     * executes the sql query inside the db.
+     * @param user with this new user
+     * @param encryptedPass with thi encrypted password to store
+     * @param userSalt and this user's salt.
+     */
     public void executeQuery(User user, byte[] encryptedPass, byte [] userSalt) {
         DbConnect dbConnect = new DbConnect();
-        Connection conn = dbConnect.getMyConnection();
+        Connection conn = dbConnect.getMyConnection(); //NOPMD connection is closed
         String query = "INSERT INTO Users(Username,Password,PassSalt,Score)" + " VALUES(?,?,?,?)";
         try {
             PreparedStatement statement = conn.prepareStatement(query);
