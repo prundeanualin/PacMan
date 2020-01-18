@@ -68,11 +68,13 @@ public abstract class Ghost extends MovingEntity {
         // if frightened, our ghost moves 2 times slower
         if (mode == Mode.SCARED) {
             super.update(dt / 2);
+        } else if (mode == Mode.EATEN) {
+            super.update(2 * dt);
         } else {
+            time = time + dt;
             super.update(dt);
         }
 
-        time = time + dt;
         // Alternating between chase mode and scatter mode according to the timers.
         if (mode == Mode.CHASE && time > scatterTimer || mode == Mode.SCATTER
                 && time > scatterDuration) {
@@ -110,8 +112,9 @@ public abstract class Ghost extends MovingEntity {
         List<Square> options = new ArrayList<>(4);
 
         for (Square square : neighbours) {
-            if (neighbours.size() == 1 || (mode == Mode.EATEN && !square.hasSolid())
-                || (!square.hasSolid() && !square.equals(oldSquare))) {
+            if (neighbours.size() == 1
+                    || (mode == Mode.EATEN && !square.hasSolid())
+                    || (!square.hasSolid() && !square.equals(oldSquare))) {
                 options.add(square);
             }
         }
@@ -222,9 +225,14 @@ public abstract class Ghost extends MovingEntity {
         mode = Mode.SCARED;
     }
 
+    /**
+     * Takes the ghost out of the 'scared' mode only if it previously was in it.
+     */
     public void unScare() {
-        mode = Mode.CHASE;
-        time = 0.0;
+        if (isScared()) {
+            mode = Mode.CHASE;
+            time = 0.0;
+        }
     }
 
     public void justEaten() {
