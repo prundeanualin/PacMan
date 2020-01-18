@@ -10,17 +10,13 @@ import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
-import javafx.stage.Stage;
 
 import pacman.database.LeaderboardDao;
 import pacman.graphics.Style;
@@ -68,14 +64,7 @@ public class LeaderboardController implements Initializable {
      * @throws IOException in case the fxml file can't be found.
      */
     public void goToMainMenu(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/menu.fxml"));
-        Parent root = loader.load();
-        MenuController controller = loader.getController();
-        controller.setProfileDetails(MenuController.user);
-        Scene scene = new Scene(root);
-        Stage stage = (Stage)((javafx.scene.Node) event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
+        LoginController.goToMainMenu(event, MenuController.user);
     }
 
 }

@@ -169,4 +169,33 @@ public class MenuController implements Initializable {
                 + "\n" + "High score: " + score);
     }
 
+    /**
+     * Sends the current user to his/her profile page.
+     * @param event click.
+     */
+    public void goToProfile(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/profile.fxml"));
+        Parent root = loader.load();
+        ProfileController controller = loader.getController();
+        controller.setUp();
+        Scene scene = new Scene(root);
+        stage = (Stage)((javafx.scene.Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    /**
+     * Logs the user out of the current session.
+     * @param event click
+     * @throws IOException user is sent to login page.
+     (exception in case it is not found).
+     */
+    public void logOut(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/views/login.fxml"));
+        Scene scene = new Scene(root);
+        Stage stage = (Stage)((javafx.scene.Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
+
 }
