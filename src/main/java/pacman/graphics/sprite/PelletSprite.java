@@ -1,6 +1,7 @@
 package pacman.graphics.sprite;
 
 import javafx.scene.canvas.GraphicsContext;
+
 import org.jetbrains.annotations.NotNull;
 import pacman.graphics.Style;
 import pacman.logic.entity.Pellet;
@@ -14,7 +15,7 @@ public class PelletSprite extends Sprite<Pellet> {
     public void draw(@NotNull Pellet entity, @NotNull GraphicsContext g, @NotNull Style style,
                      double t) {
         g.setFill(style.getPelletColour());
-        g.fillOval(-0.1, -0.1, 0.2, 0.2);
+        g.drawImage(SpriteStore.getPellet(),-0.1, -0.1, 0.2, 0.2);
     }
 
 }
