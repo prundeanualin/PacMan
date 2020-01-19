@@ -59,13 +59,13 @@ public class Game {
         }
 
         // If frightened timer has expired, ghosts go back to normal chase mode and timer resets.
-        if (getLevel().getPacMan().isOnSteroids() && time < pumpingTime) {
+        if (getLevel().getPacMan().isPumped() && time < pumpingTime) {
             time = time + dt;
             int countEatenG = getLevel().getPacMan().checkEatenGhosts();
             player.updateScore(countEatenG * 30);
-        } else if (getLevel().getPacMan().isOnSteroids() && time > pumpingTime) {
+        } else if (getLevel().getPacMan().isPumped() && time > pumpingTime) {
             time = 0.0;
-            getLevel().getPacMan().quitSteroids();
+            getLevel().getPacMan().exitPumped();
             for (Ghost g : getLevel().getBoard().getGhosts()) {
                 g.unScare();
             }
