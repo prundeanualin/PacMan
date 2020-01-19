@@ -43,17 +43,7 @@ public class PacMan extends MovingEntity {
     public void update(double dt) {
         super.update(dt);
 
-        // Timers
-        if (immune) {
-            immuneTimer -= dt;
-            immune = immuneTimer > 0.0;
-        }
-        if (pumped) {
-            pumpedTimer -= dt;
-            if (pumpedTimer < 0.0) { //NOPMD normal constant in if statement.
-                setPumped(false);
-            }
-        }
+        updateTimers(dt);
 
         // Collisions
         for (Entity e : checkCollision()) {
@@ -108,5 +98,22 @@ public class PacMan extends MovingEntity {
     @Override
     public void collideWithPacMan(PacMan pacMan) {
         // Do Nothing. Never Happens in SinglePlayer.
+    }
+
+    /**
+     * Updates the Timers that are active.
+     */
+    private void updateTimers(double dt) {
+        if (immune) {
+            immuneTimer -= dt;
+            immune = immuneTimer > 0.0;
+        }
+
+        if (pumped) {
+            pumpedTimer -= dt;
+            if (pumpedTimer < 0.0) { //NOPMD normal constant in if statement.
+                setPumped(false);
+            }
+        }
     }
 }

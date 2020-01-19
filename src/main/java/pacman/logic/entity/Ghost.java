@@ -216,7 +216,7 @@ public abstract class Ghost extends MovingEntity {
 
     public void setScared(boolean active) {
         mode = active ? Mode.SCARED : Mode.CHASE;
-        //TODO: scatter timer to 0?
+        scatterChaseTimer = 0.0;
     }
 
     public void setEaten() {
