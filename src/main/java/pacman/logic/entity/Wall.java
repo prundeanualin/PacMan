@@ -36,4 +36,9 @@ public class Wall extends Entity {
     public boolean isSolid() {
         return true;
     }
+
+    @Override
+    public void collideWithPacMan(PacMan pacMan) {
+        // Do Nothing.
+    }
 }
