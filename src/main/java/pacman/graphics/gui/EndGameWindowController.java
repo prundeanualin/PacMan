@@ -104,14 +104,17 @@ public class EndGameWindowController implements Initializable {
             status.setText("! Level Won !");
             highScore.setText("Your Score : " + newScore);
         } else {
-            gameWonLost(newScore, state);
+            winLoseGame(newScore, state);
         }
     }
 
     /**
-     * sets up the window with option to go back to menu or see leaderboard.
+     * Shows the windows for losing/winning the game with option to go
+     to main menu or to leaderboard.
+     * @param newScore the new score achieved during this run
+     * @param state win/loss
      */
-    public void gameWonLost(int newScore, GameState state) {
+    public void winLoseGame(int newScore, GameState state) {
         LeaderboardDao dao = new LeaderboardDao(); //NOPMD pmd error prone detection rule
         int oldScore = new UserDao().retrieveScore(GameController.getInstance().getUser());
         if (oldScore < newScore) {

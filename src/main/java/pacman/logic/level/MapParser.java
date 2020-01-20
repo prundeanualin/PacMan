@@ -79,7 +79,7 @@ public class MapParser {
 
         int width = lines.get(0).length();
         int height = lines.size();
-        char[][] map = new char[height][width]; // NOPMD redefinition necessary
+        char[][] map = new char[height][]; // NOPMD redefinition necessary
         for (int i = 0; i < lines.size(); i++) {
             map[i] = lines.get(i).toCharArray(); // NOPMD redefinition necessary
         }
