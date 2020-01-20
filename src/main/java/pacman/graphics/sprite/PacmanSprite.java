@@ -29,7 +29,7 @@ public class PacmanSprite extends Sprite<PacMan> {
         // Triangle wave, angle goes between 0 and 40.
         double angle = MAX_ANGLE * Math.abs(2 * t % 2 - 1); // NOPMD variable necessary
         if (!entity.isImmune()) {
-            if (entity.isOnSteroids()) {
+            if (entity.isPumped()) {
                 g.setFill(style.getPumpedColour());
             }
             time = 0.0;
