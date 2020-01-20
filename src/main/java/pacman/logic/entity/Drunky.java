@@ -15,7 +15,8 @@ public class Drunky extends Ghost {
 
     /**
      * Creating Drunky.
-     * @param board the board
+     *
+     * @param board  the board
      * @param square Drunky's square
      */
     public Drunky(Board board, Square square) {
@@ -36,6 +37,7 @@ public class Drunky extends Ghost {
 
     /**
      * {@inheritDoc}
+     *
      * @return Home square for Drunky, which is bottom left.
      */
     @Override
