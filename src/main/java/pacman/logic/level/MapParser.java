@@ -118,8 +118,10 @@ public class MapParser {
                 break;
             case 'D':
                 new Drunky(board, square);
+                break;
             case 'S':
                 new Sneaky(board, square);
+                break;
             case '.':
                 break;
             default:
