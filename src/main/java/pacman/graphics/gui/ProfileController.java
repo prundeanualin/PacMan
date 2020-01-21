@@ -62,8 +62,9 @@ public class ProfileController implements Initializable {
                 || newUsername.getText().length() == 0) {
             showAlert("Username", true);
         } else {
-            newUser.setUsername(newUsername.getText());
             UserDao userDao = new UserDao();
+            newUser.setId(userDao.getUserIdFromDatabase(newUser));
+            newUser.setUsername(newUsername.getText());
             userDao.updateUserUsername(newUser);
             userNameLabel.setText(newUser.getUsername());
             showAlert("Username", false);
