@@ -28,6 +28,7 @@ public class Game {
 
     /**
      * Creates a new game.
+     *
      * @param player The player who plays the game
      * @param levels The levels in the game
      */
@@ -41,6 +42,7 @@ public class Game {
 
     /**
      * Updates the game.
+     *
      * @param dt The time that has passed
      */
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // known bug of pmd with foreach loops.
@@ -62,17 +64,12 @@ public class Game {
     }
 
     private void checkWinLoss() {
-        if (getLevel().wasPacManHit()) {
+        if (getLevel().wasPacManHit() && player.getLives().get() > 1) {
             player.loseLife();
-            if (!player.hasLives()) {
-                state.set(GameState.LOST);
-                return;
-            } else {
-                getLevel().getPacMan().setImmunity();
-                getLevel().revivePlayer();
-            }
+            getLevel().getPacMan().setImmunity();
+            getLevel().revivePlayer();
         }
-        if (!player.hasLives()) {
+        if (!player.hasLives() || getLevel().wasPacManHit()) {
             state.set(GameState.LOST);
         }
         if (getLevel().levelWon()) {
@@ -82,6 +79,7 @@ public class Game {
 
     /**
      * Gets whether the game is running.
+     *
      * @return True iff the game is running
      */
     public boolean isRunning() {
@@ -98,9 +96,11 @@ public class Game {
 
     /**
      * Gets the current level.
+     *
      * @return The level currently playing
      */
-    public @NotNull Level getLevel() {
+    public @NotNull
+    Level getLevel() {
         return levels.get(currentLevel);
     }
 
@@ -108,7 +108,8 @@ public class Game {
         player.setUsername(user.getUsername());
     }
 
-    public @NotNull ObservableValue<GameState> getState() {
+    public @NotNull
+    ObservableValue<GameState> getState() {
         return state;
     }
 
