@@ -1,12 +1,12 @@
 package pacman.logic.entity;
 
+import java.util.List;
+
 import pacman.graphics.sprite.SneakySprite;
 import pacman.graphics.sprite.Sprite;
 import pacman.logic.Direction;
 import pacman.logic.level.Board;
 import pacman.logic.level.Square;
-
-import java.util.List;
 
 public class Sneaky extends Ghost {
 
@@ -26,25 +26,15 @@ public class Sneaky extends Ghost {
     }
 
     /**
-     * {@inheritDoc}
      * Sneaky is always around its home area.
+     * @param options list of squares the ghost can choose from.
+     * @return Sneaky's target.
      */
     @Override
     protected Square chaseTarget(List<Square> options) {
-        return scatterTarget();
+        return scatterTarget(options);
     }
 
-    /**
-     * {@inheritDoc}
-     * @return Home square for Sneaky, which is bottom right.
-     */
 
-    @Override
-    protected Square scatterTarget() {
-        if (oldSquare == HOME_CORNER) {
-            return HOME_CORNER.getNeighbour(Direction.DOWN);
-        } else {
-            return HOME_CORNER;
-        }
-    }
+
 }

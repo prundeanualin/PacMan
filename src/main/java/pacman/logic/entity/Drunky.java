@@ -1,12 +1,12 @@
 package pacman.logic.entity;
 
+import java.util.List;
+
 import pacman.graphics.sprite.DrunkySprite;
 import pacman.graphics.sprite.Sprite;
 import pacman.logic.Direction;
 import pacman.logic.level.Board;
 import pacman.logic.level.Square;
-
-import java.util.List;
 
 public class Drunky extends Ghost {
 
@@ -35,17 +35,5 @@ public class Drunky extends Ghost {
         return frightenedTarget(options);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @return Home square for Drunky, which is bottom left.
-     */
-    @Override
-    protected Square scatterTarget() {
-        if (oldSquare == HOME_CORNER) {
-            return HOME_CORNER.getNeighbour(Direction.DOWN);
-        } else {
-            return HOME_CORNER;
-        }
-    }
+
 }

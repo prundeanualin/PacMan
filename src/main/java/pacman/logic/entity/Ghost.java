@@ -145,20 +145,20 @@ public abstract class Ghost extends MovingEntity {
      *
      * @param nextOptions the neighbouring squares the ghost can go to.
      * @return the square the ghost wants to go towards.
-     * @see this#chaseTarget()
+     * @see this#chaseTarget(List)
      * @see this#scatterTarget(List)
      * @see this#frightenedTarget(List) 
      */
     protected Square chooseTarget(List<Square> nextOptions) {
         switch (mode) {
             case CHASE:
-                return chaseTarget();
+                return chaseTarget(nextOptions);
             case SCATTER:
                 return scatterTarget(nextOptions);
             case SCARED:
                 return frightenedTarget(nextOptions);
             case EATEN:
-                return spawnTarget();
+                return spawnTarget(nextOptions);
             default:
                 throw new IllegalStateException("No target behavior implemented for: "
                         + mode.toString());
@@ -168,16 +168,18 @@ public abstract class Ghost extends MovingEntity {
     /**
      * Chooses the default chase mode target of the ghost.
      *
-     * @return the target
      * @see this#chooseTarget(List)
+     * @param options list of squares the ghost can pick from.
+     * @return the target
      */
-    protected abstract Square chaseTarget();
+    protected abstract Square chaseTarget(List<Square> options);
 
     /**
      * Getting the "home square' of each ghost, while in scattered mode.
+     * @param options list of squares the ghost can pick.
      * @return That specific home_square, the starting point of each ghost.
      */
-    private final Square scatterTarget(List<Square> options) {
+    protected final Square scatterTarget(List<Square> options) {
         if (square == homeCorner) {
             Random rand = new Random();
             return options.get(rand.nextInt(options.size()));
@@ -189,11 +191,11 @@ public abstract class Ghost extends MovingEntity {
     /**
      * Chooses the frightened mode target of the ghost.
      *
+     * @see this#chooseTarget(List)
      * @param options the neighbouring options the ghost can access.
      * @return the target (should be randomly picked from intersection options)
-     * @see this#chooseTarget(List) 
      */
-    private final Square frightenedTarget(List<Square> options) {
+    protected final Square frightenedTarget(List<Square> options) {
         Random random = new Random();
         int a = random.nextInt(options.size());
         return options.get(a);
@@ -202,13 +204,14 @@ public abstract class Ghost extends MovingEntity {
     /**
     * Return the home square of each ghost, in order to
     * respawn at that location.
+    * @param options List of squares the ghosts move to.
     * @return that home square
     */
-    private Square spawnTarget() {
+    private Square spawnTarget(List<Square> options) {
         if (square == homeCorner) {
             mode = Mode.CHASE;
             time = 0.0;
-            return chaseTarget();
+            return chaseTarget(options);
         } else {
             return homeCorner;
         }
