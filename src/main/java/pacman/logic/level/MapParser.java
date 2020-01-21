@@ -7,7 +7,6 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
 import javafx.application.Platform;
 
 import org.jetbrains.annotations.NotNull;
@@ -15,6 +14,7 @@ import pacman.logic.entity.Blinky;
 import pacman.logic.entity.PacMan;
 import pacman.logic.entity.Pellet;
 import pacman.logic.entity.Pinky;
+import pacman.logic.entity.PowerPellet;
 import pacman.logic.entity.Wall;
 
 /**
@@ -112,6 +112,9 @@ public class MapParser {
                 break;
             case '*':
                 new Pellet(board, square);
+                break;
+            case '+':
+                new PowerPellet(board, square);
                 break;
             case 'B':
                 new Blinky(board, square);

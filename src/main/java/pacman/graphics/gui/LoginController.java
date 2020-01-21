@@ -1,9 +1,6 @@
 package pacman.graphics.gui;
 
-import database.LoginDao;
-import database.User;
 import java.io.IOException;
-
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -19,6 +16,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+
+import pacman.database.LoginDao;
+import pacman.database.User;
 
 public class LoginController implements Initializable {
 

@@ -1,15 +1,16 @@
 package pacman.logic.game;
 
-import database.User;
-
 import java.util.List;
+
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
 
 import org.jetbrains.annotations.NotNull;
+import pacman.database.User;
 import pacman.logic.Player;
 import pacman.logic.entity.Entity;
+import pacman.logic.entity.Ghost;
 import pacman.logic.level.Level;
 
 /**
@@ -19,10 +20,13 @@ import pacman.logic.level.Level;
 public class Game {
 
     private Player player;
+    private static int lvlMax = 1;
 
     private List<Level> levels;
     private int currentLevel;
     private ObjectProperty<GameState> state;
+    private static double pumpingTime = 8.0;
+    private static double time = 0.0;
 
     /**
      * Creates a new game.
@@ -43,13 +47,34 @@ public class Game {
      */
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // known bug of pmd with foreach loops.
     public void update(double dt) {
+
         if (!isRunning()) {
             return;
         }
+
+        if (getLevel().eatPowerPellet()) {
+            for (Ghost g : getLevel().getBoard().getGhosts()) {
+                g.beScared();
+            }
+        }
+
+        // If frightened timer has expired, ghosts go back to normal chase mode and timer resets.
+        if (getLevel().getPacMan().isPumped() && time < pumpingTime) {
+            time = time + dt;
+            int countEatenG = getLevel().getPacMan().checkEatenGhosts();
+            player.updateScore(countEatenG * 30);
+        } else if (getLevel().getPacMan().isPumped() && time > pumpingTime) {
+            time = 0.0;
+            getLevel().getPacMan().exitPumped();
+            for (Ghost g : getLevel().getBoard().getGhosts()) {
+                g.unScare();
+            }
+        }
+
         for (Entity entity : getLevel().getBoard().getEntities()) {
             entity.update(dt);
         }
-        player.updateScore(getLevel().getBoard().computeScore() * 10);
+        player.updateScore(getLevel().getBoard().computeScore());
         getLevel().getBoard().removeDeadEntities();
         checkWinLoss();
     }
@@ -57,8 +82,13 @@ public class Game {
     private void checkWinLoss() {
         if (getLevel().wasPacManHit()) {
             player.loseLife();
-            getLevel().getPacMan().enterImmunity();
-            getLevel().revivePlayer();
+            if (!player.hasLives()) {
+                state.set(GameState.LOST);
+                return;
+            } else {
+                getLevel().getPacMan().enterImmunity();
+                getLevel().revivePlayer();
+            }
         }
         if (!player.hasLives()) {
             state.set(GameState.LOST);
@@ -81,6 +111,7 @@ public class Game {
      */
     public void advanceLevel() {
         currentLevel += 1;
+        player.newLevel();
     }
 
     /**
@@ -107,7 +138,11 @@ public class Game {
         return player;
     }
 
-    protected boolean won(int lvlMax) {
+    public void changeMaxLvl(int newMaxLvl) {
+        lvlMax = newMaxLvl;
+    }
+
+    public boolean won() {
         return currentLevel == lvlMax;
     }
 
