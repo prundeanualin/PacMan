@@ -17,5 +17,4 @@ public class WallSprite extends Sprite<Wall> {
         g.setStroke(style.getWallColour());
         g.strokeRect(-0.5, -0.5, 1, 1);
     }
-
 }

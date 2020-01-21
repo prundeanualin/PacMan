@@ -1,8 +1,6 @@
 package pacman.logic.level;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Deque;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -29,9 +27,10 @@ public class Board {
     private Set<Entity> entities;
     // TODO: Likely remove Level & LevelFactory entirely.
     public PacMan pacman;
-    public Set<Ghost> ghosts;
-    public Set<Pellet> pellets;
-    public Set<PowerPellet> powerPellets;
+    private Set<Ghost> ghosts;
+    private Set<Pellet> pellets;
+    private Set<PowerPellet> powerPellets;
+    private Set<Wall> walls;
 
     /**
      * Creates a board with a specified size.
@@ -48,6 +47,7 @@ public class Board {
         this.ghosts = new HashSet<Ghost>();
         this.pellets = new HashSet<Pellet>();
         this.powerPellets = new HashSet<>();
+        this.walls = new HashSet<>();
     }
 
     /**
@@ -101,6 +101,8 @@ public class Board {
             pellets.add((Pellet) entity);
         } else if (entity instanceof PowerPellet) {
             powerPellets.add((PowerPellet) entity);
+        } else if (entity instanceof Wall) {
+            walls.add((Wall) entity);
         }
         entities.add(entity);
     }
@@ -212,21 +214,11 @@ public class Board {
         return pellets;
     }
 
-    /**
-     * Gets all the entities, but in the correct order for drawing.
-     */
-    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
-    public Iterable<Entity> getEntitiesInOrderForDrawing() {
-        Deque<Entity> drawingEntities = new ArrayDeque<>();
-        pellets.forEach(drawingEntities::addLast);
-        powerPellets.forEach(drawingEntities::addLast);
-        ghosts.forEach(drawingEntities::addLast);
-        drawingEntities.addLast(pacman);
-        for (Entity e: entities) {
-            if (e instanceof Wall) {
-                drawingEntities.addLast(e);
-            }
-        }
-        return drawingEntities;
+    public Set<PowerPellet> getPowerPellets() {
+        return powerPellets;
+    }
+
+    public Set<Wall> getWalls() {
+        return walls;
     }
 }

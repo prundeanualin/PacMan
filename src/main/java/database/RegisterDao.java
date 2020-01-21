@@ -26,7 +26,7 @@ public class RegisterDao {
 
             resultSet = statement.executeQuery();
 
-            if (resultSet.next() == false) {
+            if (!resultSet.next()) {
                 return false;
             }
             statement.close();
