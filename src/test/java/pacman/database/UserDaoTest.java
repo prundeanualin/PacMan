@@ -1,4 +1,4 @@
-package database;
+package pacman.database;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;

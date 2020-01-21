@@ -1,7 +1,5 @@
 package pacman.graphics.gui;
 
-import database.User;
-import database.UserDao;
 import java.io.IOException;
 
 import java.net.URL;
@@ -21,6 +19,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import pacman.database.User;
+import pacman.database.UserDao;
 import pacman.graphics.GameView;
 import pacman.logic.Direction;
 import pacman.logic.entity.PacMan;

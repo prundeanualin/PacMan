@@ -1,4 +1,4 @@
-package database;
+package pacman.database;
 
 
 public class User {

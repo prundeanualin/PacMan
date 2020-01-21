@@ -1,4 +1,6 @@
-package database;
+package pacman.database;
+
+import com.mysql.cj.log.Log;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -11,7 +13,7 @@ import java.util.Base64;
 /**
  * New login class.
  */
-
+@SuppressWarnings("PMD")
 public class LoginDao {
     /**
      * Method to handle login.
@@ -19,9 +21,23 @@ public class LoginDao {
      * @param user which is used for login.
      * @return response if true or false.
      */
-    @SuppressWarnings("PMD")
+    private DbConnect dbConnect;
+
+    public LoginDao(DbConnect dbConnect) {
+        this.dbConnect = dbConnect;
+    }
+
+    public LoginDao() {
+        this(new DbConnect());
+    }
+
+    /**
+     * Method to attempt login.
+     *
+     * @param user user
+     * @return boolean if successful.
+     */
     public boolean attemptLogin(User user) {
-        DbConnect dbConnect = new DbConnect();
         Connection conn = dbConnect.getMyConnection();
         EncryptionDao encryptionDao = new EncryptionDao();
         byte[] encryptedPass = new byte[64];
@@ -45,7 +61,7 @@ public class LoginDao {
 
     /**
      * Prepares the sql statement and then executes the query
-     for retrieving username and password.
+     * for retrieving username and password.
      */
     public boolean executeQuery(User user, Connection conn, byte[] encryptedPass) {
         boolean status = false; //NOPMD

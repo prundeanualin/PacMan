@@ -1,6 +1,5 @@
 package pacman.graphics.gui;
 
-import database.User;
 import java.io.IOException;
 
 import java.net.URL;
@@ -19,6 +18,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 
 import pacman.database.LeaderboardDao;
+import pacman.database.User;
 import pacman.graphics.Style;
 
 @SuppressWarnings({"PMD.BeanMembersShouldSerialize",

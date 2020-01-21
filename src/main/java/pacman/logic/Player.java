@@ -40,6 +40,6 @@ public class Player {
     }
 
     public void newLevel() {
-        lives = new SimpleIntegerProperty(3);
+        lives.set(3);
     }
 }
