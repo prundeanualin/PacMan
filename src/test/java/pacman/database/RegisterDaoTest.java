@@ -6,8 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import static junit.framework.TestCase.assertEquals;
-import static org.junit.jupiter.api.Assertions.*;
 
+@SuppressWarnings("PMD")
 class RegisterDaoTest {
 
     private UserDao userDao;

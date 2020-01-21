@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
-@SuppressWarnings("PMD")// Class is not a bean.
+@SuppressWarnings("PMD")
 public class UserDaoMockitoGetMethods {
 
     @Rule
