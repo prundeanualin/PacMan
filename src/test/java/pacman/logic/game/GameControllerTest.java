@@ -56,8 +56,18 @@ public class GameControllerTest {
         assertThrows(IllegalStateException.class, () -> GameController.getInstance().unpause());
     }
 
-    @Test()
+    @Test
     @Order(4)
+    public void testUnpauseWorkingOk() {
+        GameController.getInstance().setTimer(prepareTimer());
+        GameController.getInstance().start();
+        GameController.getInstance().pause();
+        GameController.getInstance().unpause();
+        assertTrue(GameController.getInstance().getGame().isRunning());
+    }
+
+    @Test
+    @Order(5)
     public void testStartAndClose() {
         GameController.getInstance().setTimer(prepareTimer());
         GameController.getInstance().start();
@@ -66,10 +76,30 @@ public class GameControllerTest {
         assertFalse(GameController.getInstance().getGame().isRunning());
     }
 
+    @Test
+    @Order(6)
+    public void testStopException() {
+        GameController.getInstance().setTimer(prepareTimer());
+        GameController.getInstance().start();
+        assertTrue(GameController.getInstance().getGame().isRunning());
+        assertThrows(IllegalStateException.class, () -> GameController.getInstance().stop());
+    }
+
+    @Test
+    @Order(7)
+    public void testStopWorkingOk() {
+        GameController.getInstance().setTimer(prepareTimer());
+        GameController.getInstance().start();
+        assertTrue(GameController.getInstance().getGame().isRunning());
+        GameController.getInstance().pause();
+        GameController.getInstance().stop();
+        assertFalse(GameController.getInstance().getGame().isRunning());
+    }
+
     @Test()
-    @Order(5)
+    @Order(8)
     public void testGameWon() {
-        Board bd = new MapParser(".").parseMapFromString("##P..#");
+        Board bd = new MapParser(".").parseMapFromString("##P..+#");
         Level lvl = new LevelFactory().createLevel(bd);
         List<Level> lv = new ArrayList<>();
         lv.add(lvl);
@@ -79,7 +109,29 @@ public class GameControllerTest {
         GameController.getInstance().setTimer(prepareTimer());
         GameController.getInstance().start();
         GameController.getInstance().update(3);
-        assertTrue(GameController.getInstance().getGame().won(0));
+        GameController.getInstance().getGame().changeMaxLvl(0);
+        assertTrue(GameController.getInstance().getGame().won());
+    }
+
+    @Test
+    @Order(9)
+    public void testNextLevel() {
+        Board bd = new MapParser(".").parseMapFromString("##P..+#");
+        Board bd2 = MapParser.parseMapFromString("##P..**+#");
+        Level lvl1 = new LevelFactory().createLevel(bd);
+        Level lvl2 = new LevelFactory().createLevel(bd2);
+        List<Level> lv = new ArrayList<>();
+        lv.add(lvl1);
+        lv.add(lvl2);
+        BoardCanvas cnv = mock(BoardCanvas.class);
+        doNothing().when(cnv).draw(anyDouble());
+        GameController.getInstance().setGame(new Game(new Player(), lv));
+        GameController.getInstance().setTimer(prepareTimer());
+        GameController.getInstance().start();
+        GameController.getInstance().update(3);
+        assertEquals(GameController.getInstance().getGame().getLevel(), lvl1);
+        GameController.getInstance().nextLevel();
+        assertEquals(GameController.getInstance().getGame().getLevel(), lvl2);
     }
 
     /**

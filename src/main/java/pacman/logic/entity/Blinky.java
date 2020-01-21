@@ -6,24 +6,18 @@ import pacman.logic.Direction;
 import pacman.logic.level.Board;
 import pacman.logic.level.Square;
 
-import java.util.List;
-
 public class Blinky extends Ghost {
 
     private static final Sprite<Ghost> sprite = new BlinkySprite();
-    private static Square HOME_CORNER;
 
     /**
      * Creating Blinky.
-     *
-     * @param board  the board
+     * @param board the board
      * @param square Blinky's square
      */
     public Blinky(Board board, Square square) {
         super(board, square, sprite);
         direction = Direction.LEFT;
-        HOME_CORNER = board.getSquare(board.getWidth(), 0);//NOPMD
-        // needed to initialize it here with board as parameter
     }
 
     /**
@@ -31,24 +25,10 @@ public class Blinky extends Ghost {
      * Blinky should always try to target PacMan.
      */
     @Override
-    protected Square chaseTarget(List<Square> options) {
+    protected Square chaseTarget() {
         if (board.pacman == null) {
             return null;
         }
         return board.pacman.getSquare();
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @return Home square for blinky, which is top right.
-     */
-    @Override
-    protected Square scatterTarget() {
-        if (oldSquare == HOME_CORNER) {
-            return HOME_CORNER.getNeighbour(Direction.DOWN);
-        } else {
-            return HOME_CORNER;
-        }
     }
 }

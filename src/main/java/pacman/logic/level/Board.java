@@ -159,7 +159,7 @@ public class Board {
     public int computeScore() {
         List<Entity> eatenPellets = entities.stream().filter(e -> !e.isAlive()
                 && e instanceof Pellet).collect(Collectors.toList());
-        return eatenPellets.size();
+        return eatenPellets.size() * 10;
     }
 
     /**
@@ -194,4 +194,11 @@ public class Board {
         return y2 < 0 ? y2 + height : y2;
     }
 
+    public Set<Ghost> getGhosts() {
+        return ghosts;
+    }
+
+    public Set<Pellet> getPellets() {
+        return pellets;
+    }
 }

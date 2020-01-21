@@ -1,6 +1,7 @@
 package pacman.logic.entity;
 
-import java.util.Set;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.NotNull;
 import pacman.graphics.sprite.PacmanSprite;
@@ -19,6 +20,7 @@ public class PacMan extends MovingEntity {
 
     private boolean immune = false;
     private double immuneTimer = 0.0;
+    private boolean pumped = false;
 
     /**
      * Creates a new PacMan.
@@ -44,6 +46,44 @@ public class PacMan extends MovingEntity {
         }
     }
 
+    /**
+     * After eating a powerPellet, PacMAn enters a 'pumped' state and
+     * is able to return the favor and eat any of the ghosts for bonus points.
+     * @return true if it did collide with such a magic pellet/ false otherwise.
+     */
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
+    public boolean enterPumped() {
+        List<Entity> eatenPowerPellets = checkCollision().stream()
+                .filter(e -> e instanceof PowerPellet).collect(Collectors.toList());
+        if (!eatenPowerPellets.isEmpty() && !immune) {
+            pumped = true;
+            for (Entity e : eatenPowerPellets) {
+                e.setAlive(false);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Check if pacman collided with any scared ghosts while
+     * in pumped up mode and return nr of such ghosts.
+     */
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
+    public int checkEatenGhosts() {
+        int count = 0;
+        List<Entity> eatenGhosts = checkCollision().stream()
+                .filter(e -> e instanceof Ghost && ((Ghost) e).isScared())
+                .collect(Collectors.toList());
+        if (!eatenGhosts.isEmpty()) {
+            for (Entity e : eatenGhosts) {
+                count++;
+                ((Ghost)e).justEaten();
+            }
+        }
+        return count;
+    }
+
     public boolean isImmune() {
         return immune;
     }
@@ -51,6 +91,14 @@ public class PacMan extends MovingEntity {
     public void enterImmunity() {
         immune = true;
         immuneTimer = 2.0;
+    }
+
+    public boolean isPumped() {
+        return pumped;
+    }
+
+    public void exitPumped() {
+        pumped = false;
     }
 
 }
