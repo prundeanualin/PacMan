@@ -71,7 +71,7 @@ public class GameTest {
             game.getLevel().getPacMan().setDirection(Direction.RIGHT);
             game.setState(GameState.RUNNING);
             game.update(0.5);
-            assertTrue(game.getLevel().getPacMan().enterPumped());
+            assertTrue(game.getLevel().getPacMan().checkEnterPumped());
             game.update(0.5);
             assertTrue(game.getLevel().getPacMan().isPumped());
             game.update(10.0);
