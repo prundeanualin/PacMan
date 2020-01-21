@@ -11,6 +11,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import pacman.database.*;
 
 @SuppressWarnings("PMD")
 public class UserDaoTest {
@@ -24,6 +25,7 @@ public class UserDaoTest {
      */
     @BeforeEach
     public void setUp() {
+        registerDao = Mockito.mock(RegisterDao.class);
         user = new User();
         user.setUsername("Dj Mustard");
         user.setPassword("12345");
@@ -58,26 +60,23 @@ public class UserDaoTest {
     public void testGetId() {
         UserDao userDao1 = new UserDao();
         int id = userDao1.getUserIdFromDatabase(user);
+        System.out.println(id);
         assertEquals(id, userDao1.getUserIdFromDatabase(user));
     }
 
     @Test
     public void testUpdateUsername() throws NoSuchAlgorithmException {
-        User user2 = new User();
-        user2.setPassword("123f");
-        user2.setUsername("Drake");
-        user2.setScore(129);
-        registerDao = new RegisterDao();
-        registerDao.addUser(user2);
+        userDao = new UserDao();
         EncryptionDao encryptionDao = new EncryptionDao();
         PasswordEncryptionService passwordEncryptionService = new PasswordEncryptionService();
-        System.out.println(encryptionDao.getUserSalt(user2).toString());
+        System.out.println(encryptionDao.getUserSalt(user));
         System.out.println("original method " + passwordEncryptionService.getSalt());
-        user2.setUsername("A boogie wit da Hoodie");
-        UserDao userDao1 = new UserDao();
-        userDao1.updateUserUsername(user2);
-        String result = userDao1.getUsernameFromDatabase(user2);
-        userDao1.deleteUser(user2);
+        int id = userDao.getUserIdFromDatabase(user);
+        user.setId(id);
+        System.out.println("Id is this  " + id);
+        user.setUsername("A boogie wit da Hoodie");
+        userDao.updateUserUsername(user);
+        String result = userDao.getUsernameFromDatabase(user);
         assertEquals("A boogie wit da Hoodie", result);
     }
 

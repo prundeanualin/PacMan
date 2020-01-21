@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.util.Base64;
 
 public class RegisterDao {
+
     /**
      * Method that checks if user exists.
      *

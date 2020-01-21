@@ -2,10 +2,13 @@ package database;
 
 import static junit.framework.TestCase.assertEquals;
 
+import com.mysql.cj.log.Log;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import pacman.database.*;
 
 @SuppressWarnings("PMD")
 public class LoginDaoTest {
@@ -13,7 +16,6 @@ public class LoginDaoTest {
     private LoginDao loginDao;
     private RegisterDao registerDao;
     private User user;
-
     /**
      * setting up the testing db environment.
      */
@@ -25,7 +27,13 @@ public class LoginDaoTest {
         user.setScore(10);
         registerDao = new RegisterDao();
         registerDao.addUser(user);
+    }
 
+    @Test
+    public void mockitoLogin()
+    {
+        loginDao = Mockito.mock(LoginDao.class);
+        Mockito.when(loginDao.attemptLogin(user)).thenReturn(true);
     }
 
     @Test
@@ -44,11 +52,6 @@ public class LoginDaoTest {
         assertEquals(false, loginDao.attemptLogin(user1));
     }
 
-    @org.junit.Test(expected = Exception.class)
-    public void nullCreateThrowsException() {
-        LoginDao loginDao1 = Mockito.mock(LoginDao.class);
-        Mockito.doThrow(new Exception()).when(loginDao1).attemptLogin(null);
-    }
 
     @AfterEach
     public void end() {
