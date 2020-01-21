@@ -46,7 +46,7 @@ public class Level {
     }
 
     public boolean eatPowerPellet() {
-        return pacMan.pumpedWithPower();
+        return pacMan.enterPumped();
     }
 
 }

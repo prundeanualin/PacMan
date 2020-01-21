@@ -52,7 +52,7 @@ public class PacMan extends MovingEntity {
      * @return true if it did collide with such a magic pellet/ false otherwise.
      */
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
-    public boolean pumpedWithPower() {
+    public boolean enterPumped() {
         List<Entity> eatenPowerPellets = checkCollision().stream()
                 .filter(e -> e instanceof PowerPellet).collect(Collectors.toList());
         if (!eatenPowerPellets.isEmpty() && !immune) {
@@ -93,11 +93,11 @@ public class PacMan extends MovingEntity {
         immuneTimer = 2.0;
     }
 
-    public boolean isOnSteroids() {
+    public boolean isPumped() {
         return pumped;
     }
 
-    public void quitSteroids() {
+    public void exitPumped() {
         pumped = false;
     }
 
