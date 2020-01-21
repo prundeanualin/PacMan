@@ -10,6 +10,10 @@ import pacman.logic.entity.Entity;
  */
 public abstract class Sprite<E extends Entity> {
 
+    public void drawBackground(@NotNull E entity, @NotNull GraphicsContext g,
+                               @NotNull Style style, double t) {
+    }
+
     /**
      * Draws the sprite.
      *

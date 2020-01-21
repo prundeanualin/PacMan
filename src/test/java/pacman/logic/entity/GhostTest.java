@@ -2,6 +2,7 @@ package pacman.logic.entity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -26,9 +27,6 @@ public class GhostTest {
         board = MapParser.parseMapFromString(map);
         ghost = new Blinky(board, board.getSquare(1, 0));
         board.pacman.setAlive(true);
-        // GameController.getInstance().getGame().setRunning(true);
-
-        // ghost.setDirection(Direction.LEFT);
         board.pacman.setDirection(Direction.RIGHT);
         ghost.update(0.5);
         assertFalse(board.pacman.isAlive());
@@ -121,6 +119,64 @@ public class GhostTest {
         options.add(board.getSquare(1,0));
         options.add(board.getSquare(3,0));
         assertEquals(board.getSquare(1,0), ghost.closestNeighbour(board.pacman.square, options));
+    }
+
+    @Test
+    public void testSwitchScatterChaseModes() {
+        board = MapParser.parseMapFromString(map);
+        ghost = new Blinky(board, board.getSquare(2, 0));
+        assertSame(ghost.mode, Ghost.Mode.CHASE);
+        ghost.update(20);
+        assertSame(Ghost.Mode.SCATTER, ghost.mode);
+    }
+
+    @Test
+    public void testScatterBehavior() {
+        String maP = "P.....*#";
+        board = MapParser.parseMapFromString(maP);
+        ghost = new Blinky(board, board.getSquare(3, 0));
+        assertSame(ghost.mode, Ghost.Mode.CHASE);
+        assertSame(Direction.LEFT, ghost.getDirection());
+        ghost.update(19.0);
+        ghost.update(0.0);
+        assertSame(Direction.RIGHT, ghost.getDirection());
+        assertSame(Ghost.Mode.SCATTER, ghost.mode);
+        ghost.update(2.0);
+        ghost.update(8.0);
+        assertSame(Ghost.Mode.CHASE, ghost.mode);
+        ghost.update(0.0);
+        assertSame(Direction.LEFT, ghost.getDirection());
+    }
+
+    @Test
+    public void testFrightenedBehavior() {
+        String maP = "P.....*#";
+        board = MapParser.parseMapFromString(maP);
+        ghost = new Blinky(board, board.getSquare(2, 0));
+        ghost.beScared();
+        board.pacman.setDirection(Direction.RIGHT);
+        ghost.update(0.8);
+        assertTrue(board.pacman.isAlive());
+    }
+
+    @Test
+    public void testEatenBehavior() {
+        String maP = "P.....*#";
+        board = MapParser.parseMapFromString(maP);
+        ghost = new Blinky(board, board.getSquare(3, 0));
+        ghost.update(0.6);
+        assertSame(board.getSquare(2, 0), ghost.getSquare());
+        assertSame(Direction.LEFT, ghost.getDirection());
+        ghost.justEaten();
+        ghost.update(0.5);
+        assertTrue(ghost.isEaten());
+        assertSame(board.getSquare(1, 0), ghost.getSquare());
+        ghost.update(0.5);
+        assertSame(Direction.RIGHT, ghost.getDirection());
+        ghost.update(0.9);
+        assertSame(board.getSquare(2, 0), ghost.getSquare());
+        ghost.update(0.5);
+        assertSame(Ghost.Mode.CHASE, ghost.mode);
     }
 
 }

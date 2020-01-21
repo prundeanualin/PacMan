@@ -27,6 +27,10 @@ public class UserDaoTest {
 
     private User user;
 
+    /**
+     * Set up the environment for the db context under testing.
+     * @throws SQLException in case prepared statements are wrong.
+     */
     @BeforeEach
     public void setup() throws SQLException { // NOPMD spelled correctly
         ResultSet result = mock(ResultSet.class); // NOPMD mock does not need to be closed

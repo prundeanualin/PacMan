@@ -1,5 +1,7 @@
 package pacman.logic.entity;
 
+import java.util.List;
+
 import pacman.graphics.sprite.PinkySprite;
 import pacman.graphics.sprite.Sprite;
 import pacman.logic.Direction;
@@ -9,7 +11,6 @@ import pacman.logic.level.Square;
 public class Pinky extends Ghost {
 
     private static final Sprite<Ghost> sprite = new PinkySprite();
-    private static Square HOME_CORNER;
 
     /**
      * Creating Pinky.
@@ -19,8 +20,6 @@ public class Pinky extends Ghost {
     public Pinky(Board board, Square square) {
         super(board, square, sprite);
         direction = Direction.LEFT;
-        HOME_CORNER = board.getSquare(0, 0);//NOPMD
-        // needed to initialize it here with board as parameter
     }
 
     /**
@@ -28,7 +27,7 @@ public class Pinky extends Ghost {
      * Pinky should always try to target the square 4 ahead of PacMan.
      */
     @Override
-    protected Square chaseTarget() {
+    protected Square chaseTarget(List<Square> options) {
         PacMan pac = board.pacman;
         if (pac == null) {
             return null;
@@ -42,18 +41,5 @@ public class Pinky extends Ghost {
         Math.max(0, Math.min(y, board.getHeight() - 1));
         // It's not a problem if this is a wall, Pinky would circle around it.
         return getBoard().getSquare(x, y);
-    }
-
-    /**
-     * Getting the "home square' of each ghost, while in scattered mode.
-     * @return Home square for Pinky, which is top left.
-     */
-    @Override
-    protected Square scatterTarget() {
-        if (oldSquare == HOME_CORNER) {
-            return HOME_CORNER.getNeighbour(Direction.DOWN);
-        } else {
-            return HOME_CORNER;
-        }
     }
 }
