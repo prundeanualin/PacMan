@@ -15,7 +15,8 @@ public class Blinky extends Ghost {
 
     /**
      * Creating Blinky.
-     * @param board the board
+     *
+     * @param board  the board
      * @param square Blinky's square
      */
     public Blinky(Board board, Square square) {
@@ -39,6 +40,7 @@ public class Blinky extends Ghost {
 
     /**
      * {@inheritDoc}
+     *
      * @return Home square for blinky, which is top right.
      */
     @Override
