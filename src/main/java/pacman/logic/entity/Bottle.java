@@ -27,4 +27,10 @@ public class Bottle extends Entity {
     public boolean isSolid() {
         return false;
     }
+
+    @Override
+    public void collideWithPacMan(PacMan pacMan) {
+        pacMan.setDrunk();
+        setAlive(false);
+    }
 }

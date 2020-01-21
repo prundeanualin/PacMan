@@ -1,10 +1,6 @@
 package pacman.logic.entity;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -172,7 +168,7 @@ public class GhostTest {
         assertSame(board.getSquare(1, 0), ghost.getSquare());
         ghost.update(0.5);
         assertSame(Direction.RIGHT, ghost.getDirection());
-        ghost.update(0.9);
+        ghost.update(0.25);
         assertSame(board.getSquare(2, 0), ghost.getSquare());
         ghost.update(0.5);
         assertSame(Ghost.Mode.CHASE, ghost.mode);

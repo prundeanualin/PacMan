@@ -94,8 +94,9 @@ public enum Direction {
      * @param key the key of which we want the direction.
      * @return the direction that corresponds to this key.
      */
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     public static Direction keyToDirection(KeyCode key, PacMan pacMan) {
-        Direction direction = null;
+        Direction direction;
         switch (key) {
             case A:
             case LEFT:
@@ -114,7 +115,7 @@ public enum Direction {
                 direction = Direction.RIGHT;
                 break;
             default:
-                break;
+                return null; //NOPMD Assigning null is intentional, will indicate a key is not bound.
         }
         if (pacMan.isDrunk()) {
             direction = direction.getInverse();

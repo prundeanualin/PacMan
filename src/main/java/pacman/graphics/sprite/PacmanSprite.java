@@ -29,7 +29,7 @@ public class PacmanSprite extends Sprite<PacMan> {
         double angle = MAX_ANGLE * Math.abs(2 * t % 2 - 1); // NOPMD variable necessary
         if (!entity.isImmune()) {
             if (entity.isPumped()) {
-                g.setFill(style.getPumpedColour());
+                g.setFill(style.getPumpedColor());
             }
             time = 0.0;
             g.fillArc(-0.4, -0.4, 0.8, 0.8, angle, 360 - 2 * angle, ArcType.ROUND);

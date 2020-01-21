@@ -68,7 +68,7 @@ public class Game {
                 state.set(GameState.LOST);
                 return;
             } else {
-                getLevel().getPacMan().setImmunity();
+                getLevel().getPacMan().setImmune();
                 getLevel().revivePlayer();
             }
         }
