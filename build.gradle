@@ -96,6 +96,9 @@ checkstyle {
     configFile = rootProject.file('config/checkstyle/checkstyle.xml')
 }
 
+tasks.withType(Test) {
+    useJUnitPlatform()
+}
 
 spotbugs {
     sourceSets = [sourceSets.main]

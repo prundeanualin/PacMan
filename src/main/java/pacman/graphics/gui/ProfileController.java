@@ -1,8 +1,5 @@
 package pacman.graphics.gui;
 
-import database.User;
-import database.UserDao;
-
 import java.io.IOException;
 
 import java.net.URL;
@@ -21,6 +18,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+
+import pacman.database.User;
+import pacman.database.UserDao;
 
 @SuppressWarnings("PMD.BeanMembersShouldSerialize") //it is not a bean
 public class ProfileController implements Initializable {

@@ -1,4 +1,4 @@
-package database;
+package pacman.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,6 +7,7 @@ public class DbConnect {
 
     /**
      * Method that returns a new connection.
+     *
      * @return connection variable
      */
     @SuppressWarnings("PMD")

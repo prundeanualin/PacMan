@@ -1,4 +1,4 @@
-package database;
+package pacman.database;
 
 import static junit.framework.TestCase.assertEquals;
 
@@ -25,7 +25,12 @@ public class LoginDaoTest {
         user.setScore(10);
         registerDao = new RegisterDao();
         registerDao.addUser(user);
+    }
 
+    @Test
+    public void mockitoLogin() {
+        loginDao = Mockito.mock(LoginDao.class);
+        Mockito.when(loginDao.attemptLogin(user)).thenReturn(true);
     }
 
     @Test
@@ -44,11 +49,6 @@ public class LoginDaoTest {
         assertEquals(false, loginDao.attemptLogin(user1));
     }
 
-    @org.junit.Test(expected = Exception.class)
-    public void nullCreateThrowsException() {
-        LoginDao loginDao1 = Mockito.mock(LoginDao.class);
-        Mockito.doThrow(new Exception()).when(loginDao1).attemptLogin(null);
-    }
 
     @AfterEach
     public void end() {

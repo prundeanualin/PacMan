@@ -1,4 +1,4 @@
-package database;
+package pacman.database;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -7,15 +7,25 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Base64;
 
+@SuppressWarnings("PMD")
 public class RegisterDao {
+    private DbConnect dbConnect;
+
+    public RegisterDao(DbConnect dbConnect) {
+        this.dbConnect = dbConnect;
+    }
+
+    public RegisterDao() {
+        this(new DbConnect());
+    }
+
     /**
      * Method that checks if user exists.
      *
      * @param user as param.
      */
-    @SuppressWarnings("PMD")
+
     public boolean checkUserAlreadyExists(User user) {
-        DbConnect dbConnect = new DbConnect();
         Connection conn = dbConnect.getMyConnection();
         PreparedStatement statement;
         ResultSet resultSet;
@@ -62,12 +72,12 @@ public class RegisterDao {
 
     /**
      * executes the sql query inside the db.
-     * @param user with this new user
+     *
+     * @param user          with this new user
      * @param encryptedPass with thi encrypted password to store
-     * @param userSalt and this user's salt.
+     * @param userSalt      and this user's salt.
      */
-    public void executeQuery(User user, byte[] encryptedPass, byte [] userSalt) {
-        DbConnect dbConnect = new DbConnect();
+    public void executeQuery(User user, byte[] encryptedPass, byte[] userSalt) {
         Connection conn = dbConnect.getMyConnection(); //NOPMD connection is closed
         String query = "INSERT INTO Users(Username,Password,PassSalt,Score)" + " VALUES(?,?,?,?)";
         try {
