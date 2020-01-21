@@ -29,6 +29,7 @@ public class LeaderboardDaoTest {
 
     /**
      * Set up the environment for the db context under testing.
+     *
      * @throws SQLException in case prepared statements are wrong.
      */
     @BeforeEach
@@ -54,6 +55,22 @@ public class LeaderboardDaoTest {
         verify(statement).setInt(1, 5);
         assertEquals(1, top.size());
         assertEquals("TestUser", top.get(0).getUsername());
+    }
+
+    @Test
+    public void testEnterScore() throws SQLException {
+        User user = new User();
+        user.setUsername("Example1");
+        user.setPassword("pass1");
+        user.setScore(20);
+        LeaderboardDao leaderboardDao = new LeaderboardDao();
+        RegisterDao registerDao = new RegisterDao();
+        registerDao.addUser(user);
+        leaderboardDao.enterScore(user, 300);
+        UserDao userDao = new UserDao();
+        int userScore = userDao.retrieveScore(user);
+        userDao.deleteUser(user);
+        assertEquals(300, userScore);
     }
 
 }

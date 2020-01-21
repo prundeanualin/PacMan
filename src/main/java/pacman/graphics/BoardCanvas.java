@@ -1,5 +1,8 @@
 package pacman.graphics;
 
+import java.util.Deque;
+import java.util.LinkedList;
+
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.paint.Color;
@@ -9,6 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import pacman.Main;
 import pacman.graphics.sprite.PacmanSprite;
 import pacman.logic.entity.Entity;
+import pacman.logic.entity.Ghost;
 import pacman.logic.entity.PacMan;
 import pacman.logic.level.Board;
 
@@ -32,7 +36,6 @@ public class BoardCanvas extends Canvas {
      * The board that should be drawn.
      */
     private Board board;
-
     private double scaleX;
     private double scaleY;
 
@@ -45,7 +48,6 @@ public class BoardCanvas extends Canvas {
         scaleX = width / (double) board.getWidth();
         scaleY = height / (double) board.getHeight();
         stopped = false;
-
         long start = System.nanoTime(); //NOPMD needed in order to
         //keep track of frames while timers is going on
         if (timer == null) {
@@ -87,7 +89,14 @@ public class BoardCanvas extends Canvas {
          */
         clear();
         getGraphicsContext2D().setLineWidth(1 / scaleX);
+
         for (Entity e : board.getEntities()) {
+            getGraphicsContext2D().scale(scaleX, scaleY);
+            getGraphicsContext2D().translate(e.getX(), e.getY());
+            e.getSprite().drawBackground(e, getGraphicsContext2D(), drawStyle, t);
+            getGraphicsContext2D().setTransform(new Affine());
+        }
+        for (Entity e : getOtherEntititesInOrder()) {
             getGraphicsContext2D().scale(scaleX, scaleY);
             getGraphicsContext2D().translate(e.getX(), e.getY());
             if (e instanceof PacMan && stopped) {
@@ -95,9 +104,8 @@ public class BoardCanvas extends Canvas {
                 timer.stop();
             } else {
                 e.getSprite().draw(e, getGraphicsContext2D(), drawStyle, t);
-                e.getSprite().drawBackground(e, getGraphicsContext2D(), drawStyle, t);
-                getGraphicsContext2D().setTransform(new Affine());
             }
+            getGraphicsContext2D().setTransform(new Affine());
         }
     }
 
@@ -148,5 +156,23 @@ public class BoardCanvas extends Canvas {
     public void start() {
         stopped = false;
         timer.start();
+    }
+
+    /**
+     * Returns a deque of sorted entities in order of which they should be drawn.
+     * @return sorted entities.
+     */
+    private Deque<Entity> getOtherEntititesInOrder() { //NOPMD just iterating over collection
+        Deque<Entity> orderedMovingEntitiesAndWalls = new LinkedList<>();
+        orderedMovingEntitiesAndWalls.addLast(board.pacman);
+        for (Ghost g : board.getGhosts()) {
+            if (g.isEaten()) {
+                orderedMovingEntitiesAndWalls.addFirst(g);
+            } else {
+                orderedMovingEntitiesAndWalls.addLast(g);
+            }
+        }
+        board.getWalls().forEach(orderedMovingEntitiesAndWalls::addLast);
+        return orderedMovingEntitiesAndWalls;
     }
 }

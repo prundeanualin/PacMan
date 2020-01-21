@@ -1,67 +1,76 @@
 package pacman.database;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import org.junit.Rule;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
+import org.mockito.Mockito;
 
-@SuppressWarnings("PMD.BeanMembersShouldSerialize")
-public class RegisterDaoTest {
+import static junit.framework.TestCase.assertEquals;
 
-    @Rule
-    public MockitoRule rule = MockitoJUnit.rule();
+@SuppressWarnings("PMD")
+class RegisterDaoTest {
 
+    private UserDao userDao;
     private RegisterDao registerDao;
-
-    private DbConnect dbConnect;
-    private Connection connection;
-    private PreparedStatement preparedStatement;
-    private ResultSet resultSet;
-
     private User user;
 
-    /**
-     * Setting up the testing environment for the database.
-     * @throws SQLException in case the connection is not ok
-     */
     @BeforeEach
-    public void setUp() throws SQLException {
-        dbConnect = mock(DbConnect.class);
-        connection = mock(Connection.class);
-        resultSet = mock(ResultSet.class);
-        preparedStatement = mock(PreparedStatement.class);
-
-        when(connection.prepareStatement(any(String.class))).thenReturn(preparedStatement);
-        when(dbConnect.getMyConnection()).thenReturn(connection);
-
+    void setUp(){
         user = new User();
-        user.setUsername("Spongebob");
-        user.setPassword("12345"); //NOPMD it's for testing purpose only
+        user.setId(0);
+        user.setUsername("SpongeBob");
+        user.setPassword("12345");
         user.setScore(10);
-
-        when(resultSet.next()).thenReturn(true).thenReturn(false);
-        when(resultSet.getString(1)).thenReturn(user.getUsername());
-        when(resultSet.getString(2)).thenReturn(user.getPassword());
-        when(resultSet.getInt(3)).thenReturn(user.getScore());
-        when(preparedStatement.executeQuery()).thenReturn(resultSet);
-
-        registerDao = new RegisterDao(dbConnect);
+        registerDao = new RegisterDao();
     }
 
     @Test
-    public void testUserExists() {
-        assertTrue(registerDao.checkUserAlreadyExists(user));
+    void checkUserAlreadyExists() {
+        user = new User();
+        userDao = new UserDao();
+        user.setUsername("Lil Peep");
+        user.setPassword("12345");
+        user.setScore(10);
+        RegisterDao registerDao = new RegisterDao();
+        registerDao.addUser(user);
+        assertEquals(true, registerDao.checkUserAlreadyExists(user));
     }
 
+    @Test
+    void addUser() {
+        User user2 = new User();
+        userDao = new UserDao();
+        user2.setUsername("Lil Peep");
+        user2.setPassword("12345");
+        user2.setScore(10);
+        User userCopy = user2;
+        RegisterDao registerDao = new RegisterDao();
+        registerDao.addUser(user2);
+        assertEquals(userCopy.getUsername(), userDao.getUsernameFromDatabase(user2));
+        userDao.deleteUser(user2);
+    }
+
+    @Test
+    void checkFalseUser() {
+        user = new User();
+        userDao = new UserDao();
+        user.setUsername("Lil Peep");
+        user.setPassword("12345");
+        user.setScore(10);
+        assertEquals(false, registerDao.checkUserAlreadyExists(user));
+    }
+
+    @Test
+    void testDuplicates(){
+        User user2 = user;
+        RegisterDao registerDao = Mockito.mock(RegisterDao.class);
+        registerDao.addUser(user);
+        Mockito.when(registerDao.checkUserAlreadyExists(user2)).thenReturn(true);
+    }
+
+    @AfterEach
+    void end(){
+        userDao = new UserDao();
+        userDao.deleteUser(user);
+    }
 }

@@ -1,6 +1,7 @@
 package pacman.graphics.gui;
 
 import java.io.IOException;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -50,9 +51,11 @@ public class RegisterController implements Initializable {
             user.setScore(0);
             if (!registerDao.checkUserAlreadyExists(user)) {
                 registerDao.addUser(user);
-                Parent root = FXMLLoader.load(getClass().getResource("/views/login.fxml"));
+                Parent root = FXMLLoader.load(getClass()
+                        .getResource("/views/login.fxml"));
                 Scene scene = new Scene(root);
-                Stage stage = (Stage)((javafx.scene.Node) event.getSource()).getScene().getWindow();
+                Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene()
+                        .getWindow();
                 stage.setScene(scene);
                 stage.show();
             } else {
