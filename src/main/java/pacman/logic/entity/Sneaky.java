@@ -20,7 +20,7 @@ public class Sneaky extends Ghost {
      */
     public Sneaky(Board board, Square square) {
         super(board, square, sprite);
-        direction = Direction.LEFT;
+        direction = Direction.RIGHT;
         HOME_CORNER = board.getSquare(board.getWidth(), board.getHeight());//NOPMD
         // needed to initialize it here with board as parameter
     }

@@ -51,6 +51,7 @@ public class GameController {
         this.levelFactory = new LevelFactory();
         levels.add(levelFactory.createLevel("level_1"));
         levels.add(levelFactory.createLevel("level_2"));
+        levels.add(levelFactory.createLevel("level_3"));
         this.game = new Game(new Player(), levels);
         this.time = 0.0;
     }
