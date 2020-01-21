@@ -28,8 +28,8 @@ public class PacmanSprite extends Sprite<PacMan> {
         // Triangle wave, angle goes between 0 and 40.
         double angle = MAX_ANGLE * Math.abs(2 * t % 2 - 1); // NOPMD variable necessary
         if (!entity.isImmune()) {
-            if (entity.isOnSteroids()) {
-                g.setFill(style.getPumpedColor());
+            if (entity.isPumped()) {
+                g.setFill(style.getPumpedColour());
             }
             time = 0.0;
             g.fillArc(-0.4, -0.4, 0.8, 0.8, angle, 360 - 2 * angle, ArcType.ROUND);

@@ -22,8 +22,8 @@ class PlayerTest {
 
     @Test
     void testGetSetUsername() {
-        player.setUsername("Hitler");
-        assertEquals("Hitler", player.getUsername());
+        player.setUsername("TestName");
+        assertEquals("TestName", player.getUsername());
 
     }
 
