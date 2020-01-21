@@ -1,7 +1,4 @@
-package pacman.database;
-
-//import lombok.Getter;
-//import lombok.Setter;
+package database;
 
 
 public class User {
@@ -45,17 +42,12 @@ public class User {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
         User user = (User) o;
-        return getId() == user.getId()
-                && getScore() == user.getScore()
-                && getUsername().equals(user.getUsername())
-                && getPassword().equals(user.getPassword());
+        return this == o || (getId() == user.getId()
+                && getUsername().equals(user.getUsername()));
     }
 
     @Override

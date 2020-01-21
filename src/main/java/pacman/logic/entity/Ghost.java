@@ -68,6 +68,8 @@ public abstract class Ghost extends MovingEntity {
         // if frightened, our ghost moves 2 times slower
         if (mode == Mode.SCARED) {
             super.update(dt / 2);
+        } else if (mode == Mode.EATEN) {
+            super.update(2 * dt);
         } else {
             super.update(dt);
         }
@@ -177,7 +179,7 @@ public abstract class Ghost extends MovingEntity {
      * Getting the "home square' of each ghost, while in scattered mode.
      * @return That specific home_square, the starting point of each ghost.
      */
-    private final Square scatterTarget(List<Square> options) {
+    private Square scatterTarget(List<Square> options) {
         if (square == homeCorner) {
             Random rand = new Random();
             return options.get(rand.nextInt(options.size()));
@@ -193,7 +195,7 @@ public abstract class Ghost extends MovingEntity {
      * @return the target (should be randomly picked from intersection options)
      * @see this#chooseTarget(List) 
      */
-    private final Square frightenedTarget(List<Square> options) {
+    private Square frightenedTarget(List<Square> options) {
         Random random = new Random();
         int a = random.nextInt(options.size());
         return options.get(a);
@@ -222,9 +224,14 @@ public abstract class Ghost extends MovingEntity {
         mode = Mode.SCARED;
     }
 
+    /**
+     * Takes the ghost out of the scared mode, only if it previously was in it.
+     */
     public void unScare() {
-        mode = Mode.CHASE;
-        time = 0.0;
+        if (isScared()) {
+            mode = Mode.CHASE;
+            time = 0.0;
+        }
     }
 
     public void justEaten() {

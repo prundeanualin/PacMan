@@ -27,7 +27,7 @@ public class Level {
      * @return False iff there are pellets left in the level
      */
     public boolean levelWon() {
-        return board.pellets.size() == 0 && pacMan.isAlive();
+        return board.getPellets().size() == 0 && pacMan.isAlive();
     }
 
     /**
@@ -45,8 +45,8 @@ public class Level {
         pacMan.setAlive(true);
     }
 
-    public boolean eatPowerPellet() {
-        return pacMan.enterPumped();
+    public boolean checkEatPowerPellet() {
+        return pacMan.checkEnterPumped();
     }
 
 }

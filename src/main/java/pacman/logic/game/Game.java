@@ -1,5 +1,7 @@
 package pacman.logic.game;
 
+import database.User;
+
 import java.util.List;
 
 import javafx.beans.property.ObjectProperty;
@@ -7,7 +9,6 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
 
 import org.jetbrains.annotations.NotNull;
-import pacman.database.User;
 import pacman.logic.Player;
 import pacman.logic.entity.Entity;
 import pacman.logic.entity.Ghost;
@@ -52,7 +53,7 @@ public class Game {
             return;
         }
 
-        if (getLevel().eatPowerPellet()) {
+        if (getLevel().checkEatPowerPellet()) {
             for (Ghost g : getLevel().getBoard().getGhosts()) {
                 g.beScared();
             }
@@ -80,17 +81,12 @@ public class Game {
     }
 
     private void checkWinLoss() {
-        if (getLevel().wasPacManHit()) {
+        if (getLevel().wasPacManHit() && player.getLives().get() > 1) {
             player.loseLife();
-            if (!player.hasLives()) {
-                state.set(GameState.LOST);
-                return;
-            } else {
-                getLevel().getPacMan().enterImmunity();
-                getLevel().revivePlayer();
-            }
+            getLevel().getPacMan().enterImmunity();
+            getLevel().revivePlayer();
         }
-        if (!player.hasLives()) {
+        if (!player.hasLives() || getLevel().wasPacManHit()) {
             state.set(GameState.LOST);
         }
         if (getLevel().levelWon()) {
