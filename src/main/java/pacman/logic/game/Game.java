@@ -1,7 +1,5 @@
 package pacman.logic.game;
 
-import database.User;
-
 import java.util.List;
 
 import javafx.beans.property.ObjectProperty;
@@ -9,6 +7,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
 
 import org.jetbrains.annotations.NotNull;
+import pacman.database.User;
 import pacman.logic.Player;
 import pacman.logic.entity.Entity;
 import pacman.logic.entity.Ghost;
@@ -31,6 +30,7 @@ public class Game {
 
     /**
      * Creates a new game.
+     *
      * @param player The player who plays the game
      * @param levels The levels in the game
      */
@@ -44,6 +44,7 @@ public class Game {
 
     /**
      * Updates the game.
+     *
      * @param dt The time that has passed
      */
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // known bug of pmd with foreach loops.
@@ -96,6 +97,7 @@ public class Game {
 
     /**
      * Gets whether the game is running.
+     *
      * @return True iff the game is running
      */
     public boolean isRunning() {
@@ -112,9 +114,11 @@ public class Game {
 
     /**
      * Gets the current level.
+     *
      * @return The level currently playing
      */
-    public @NotNull Level getLevel() {
+    public @NotNull
+    Level getLevel() {
         return levels.get(currentLevel);
     }
 
@@ -122,7 +126,8 @@ public class Game {
         player.setUsername(user.getUsername());
     }
 
-    public @NotNull ObservableValue<GameState> getState() {
+    public @NotNull
+    ObservableValue<GameState> getState() {
         return state;
     }
 

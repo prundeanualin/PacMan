@@ -1,4 +1,4 @@
-package database;
+package pacman.database;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -8,8 +8,18 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Base64;
 
-
+@SuppressWarnings("PMD")
 public class UserDao {
+    private DbConnect dbConnect;
+
+    public UserDao(DbConnect dbConnect) {
+        this.dbConnect = dbConnect;
+    }
+
+    public UserDao() {
+        this(new DbConnect());
+    }
+
     /**
      * Method which retrieves user.
      *
@@ -18,7 +28,7 @@ public class UserDao {
      */
     @SuppressWarnings("PMD")
     public String getUsernameFromDatabase(User user) {
-        DbConnect dbConnect = new DbConnect();
+
         String finalUsername;
         Connection conn = dbConnect.getMyConnection();
         Statement statement;
@@ -51,7 +61,7 @@ public class UserDao {
      */
     @SuppressWarnings("PMD")
     public String getUserPasswordFromDatabase(User user) {
-        DbConnect dbConnect = new DbConnect();
+
         String finalPassword = "";
         Connection conn = dbConnect.getMyConnection();
         Statement statement;
@@ -84,7 +94,7 @@ public class UserDao {
      */
     @SuppressWarnings("PMD")
     public int retrieveScore(User user) {
-        DbConnect dbConnect = new DbConnect();
+
         int score = 0;
         Connection conn = dbConnect.getMyConnection();
         Statement statement;
@@ -114,7 +124,7 @@ public class UserDao {
      */
     @SuppressWarnings("PMD")
     public int getUserIdFromDatabase(User user) {
-        DbConnect dbConnect = new DbConnect();
+
         int id = 0;
         Connection conn = dbConnect.getMyConnection();
         Statement statement;
@@ -141,9 +151,9 @@ public class UserDao {
      *
      * @param user as param.
      */
-    @SuppressWarnings("PMD")
+
     public void updateUserScore(User user) {
-        DbConnect dbConnect = new DbConnect();
+
         Connection conn = dbConnect.getMyConnection();
         Statement statement;
         String query = "UPDATE Users SET Score=? WHERE Username=?";
@@ -171,20 +181,14 @@ public class UserDao {
      */
     @SuppressWarnings("PMD")
     public void updateUserUsername(User user) {
-        DbConnect dbConnect = new DbConnect();
         Connection conn = dbConnect.getMyConnection();
         Statement statement;
-        String query = "UPDATE Users SET Username=? WHERE Score=?";
+        String query = "UPDATE Users SET Username=? WHERE Id=?";
         try {
             statement = conn.prepareStatement(query);
             ((PreparedStatement) statement).setString(1, user.getUsername());
-            ((PreparedStatement) statement).setInt(2, user.getScore());
+            ((PreparedStatement) statement).setInt(2, user.getId());
             ((PreparedStatement) statement).executeUpdate();
-            /*
-            if (((PreparedStatement) statement).executeUpdate() > 0) {
-                JOptionPane.showMessageDialog(null, "Successfully updated", "Database info", 1);
-            }
-             */
             statement.close();
             conn.close();
         } catch (Exception e) {
@@ -199,7 +203,7 @@ public class UserDao {
      */
     @SuppressWarnings("PMD")
     public void updateUserPassword(User user) {
-        DbConnect dbConnect = new DbConnect();
+
         Connection conn = dbConnect.getMyConnection();
         Statement statement;
         EncryptionDao encryptionDao = new EncryptionDao();
@@ -239,7 +243,7 @@ public class UserDao {
      */
     @SuppressWarnings("PMD")
     public void deleteUser(User user) {
-        DbConnect dbConnect = new DbConnect();
+
         Connection conn = dbConnect.getMyConnection();
         Statement statement;
         String query = "DELETE FROM Users WHERE Username=?";

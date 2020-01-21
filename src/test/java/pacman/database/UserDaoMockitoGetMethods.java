@@ -1,4 +1,4 @@
-
+package pacman.database;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -13,15 +13,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Base64;
 
-import junit.framework.TestCase;
 import org.junit.Rule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
-import pacman.database.*;
 
-@SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class is not a bean.
+@SuppressWarnings("PMD")// Class is not a bean.
 public class UserDaoMockitoGetMethods {
 
     @Rule
@@ -32,6 +30,7 @@ public class UserDaoMockitoGetMethods {
     private PasswordEncryptionService passwordEncryptionService;
     private User user;
     private String salt;
+
     /**
      * Set up the environment for the db context under testing.
      *

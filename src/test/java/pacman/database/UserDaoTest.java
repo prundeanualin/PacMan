@@ -1,4 +1,4 @@
-package database;
+package pacman.database;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
@@ -11,7 +11,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import pacman.database.*;
+
 
 @SuppressWarnings("PMD")
 public class UserDaoTest {

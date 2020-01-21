@@ -1,8 +1,6 @@
-package database;
+package pacman.database;
 
 import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 import java.sql.Connection;
@@ -13,14 +11,9 @@ import java.sql.SQLException;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
-import pacman.database.DbConnect;
-import pacman.database.RegisterDao;
-import pacman.database.User;
-import pacman.database.UserDao;
 
 @SuppressWarnings("PMD")
 public class RegisterDaoTest {
@@ -48,6 +41,7 @@ public class RegisterDaoTest {
 
     /**
      * setting up the testing environment.
+     *
      * @throws SQLException sql wrongly prepared statement.
      */
     @BeforeEach
@@ -77,32 +71,6 @@ public class RegisterDaoTest {
         registerDao = new RegisterDao(dbConnect);
 
     }
-
-
-
-
-//    @Test
-//    public void testUserExists(){
-//        boolean res = registerDao.checkUserAlreadyExists(user);
-//        assertTrue(res);
-//    }
-//
-//
-//    @Test
-//    public void testDuplicateUser(){
-//        user = new User();
-//        user.setUsername("Spongebob");
-//        user.setPassword("12345");
-//        user.setScore(10);
-//        assertTrue(registerDao.checkUserAlreadyExists(user));
-//    }
-
-
-//    @Test
-//    public void testAddingUser() {
-//        registerDao.addUser(user);
-//        Mockito.verify(registerDao, times(1)).addUser(user);
-//    }
 
     @Test
     public void addNewUser() {

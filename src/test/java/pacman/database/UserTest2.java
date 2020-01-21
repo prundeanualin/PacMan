@@ -7,7 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 @SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class is not a bean.
-public class UserTest {
+public class UserTest2 {
 
     private User user1;
     private User user2;

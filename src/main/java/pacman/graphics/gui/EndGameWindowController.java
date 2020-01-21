@@ -1,6 +1,5 @@
 package pacman.graphics.gui;
 
-import database.UserDao;
 import java.io.IOException;
 
 import java.net.URL;
@@ -17,8 +16,10 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import pacman.database.LeaderboardDao;
+import pacman.database.UserDao;
 import pacman.logic.game.GameController;
 import pacman.logic.game.GameState;
+
 
 @SuppressWarnings("PMD.BeanMembersShouldSerialize") //not a bean class
 public class EndGameWindowController implements Initializable {
@@ -44,6 +45,7 @@ public class EndGameWindowController implements Initializable {
 
     /**
      * clicks on this button and send the user to main menu.
+     *
      * @param event click
      */
     public void goToMainMenu(ActionEvent event) {
@@ -64,6 +66,7 @@ public class EndGameWindowController implements Initializable {
 
     /**
      * sends the user to leaderBoard page.
+     *
      * @param event click
      */
     public void goToLeaderBoard(ActionEvent event) {
@@ -80,6 +83,7 @@ public class EndGameWindowController implements Initializable {
 
     /**
      * Starts the next level in store.
+     *
      * @param event click
      */
     public void goToNextLevel(ActionEvent event) {
@@ -93,6 +97,7 @@ public class EndGameWindowController implements Initializable {
 
     /**
      * setting up the parameters for displaying the right messages.
+     *
      * @param newScore score achieved by player in this run.
      */
     public void setUp(int newScore, Stage stg) {
@@ -110,9 +115,10 @@ public class EndGameWindowController implements Initializable {
 
     /**
      * Shows the windows for losing/winning the game with option to go
-     to main menu or to leaderboard.
+     * to main menu or to leaderboard.
+     *
      * @param newScore the new score achieved during this run
-     * @param state win/loss
+     * @param state    win/loss
      */
     public void winLoseGame(int newScore, GameState state) {
         LeaderboardDao dao = new LeaderboardDao(); //NOPMD pmd error prone detection rule

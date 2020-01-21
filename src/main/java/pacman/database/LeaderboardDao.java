@@ -1,8 +1,5 @@
 package pacman.database;
 
-import database.DbConnect;
-import database.User;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -27,7 +24,8 @@ public class LeaderboardDao {
 
     /**
      * Updates the score of a user in the database.
-     * @param user The user to update
+     *
+     * @param user  The user to update
      * @param score The user's new score
      */
     public void enterScore(User user, int score) {
@@ -45,10 +43,12 @@ public class LeaderboardDao {
 
     /**
      * Gets the top scores in the database.
+     *
      * @param amount The amount of scores to get
      * @return The top users, ordered by descending score
      */
-    public @NotNull List<User> getTop(int amount) {
+    public @NotNull
+    List<User> getTop(int amount) {
         try (Connection conn = connect.getMyConnection()) {
             PreparedStatement statement = conn
                     .prepareStatement("SELECT * FROM Users ORDER BY Score DESC LIMIT ?");

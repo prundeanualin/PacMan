@@ -1,7 +1,5 @@
 package pacman.graphics.gui;
 
-import database.RegisterDao;
-import database.User;
 import java.io.IOException;
 
 import java.net.URL;
@@ -19,6 +17,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
+import pacman.database.RegisterDao;
+import pacman.database.User;
 
 public class RegisterController implements Initializable {
 
@@ -51,9 +51,11 @@ public class RegisterController implements Initializable {
             user.setScore(0);
             if (!registerDao.checkUserAlreadyExists(user)) {
                 registerDao.addUser(user);
-                Parent root = FXMLLoader.load(getClass().getResource("/views/login.fxml"));
+                Parent root = FXMLLoader.load(getClass()
+                        .getResource("/views/login.fxml"));
                 Scene scene = new Scene(root);
-                Stage stage = (Stage)((javafx.scene.Node) event.getSource()).getScene().getWindow();
+                Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene()
+                        .getWindow();
                 stage.setScene(scene);
                 stage.show();
             } else {

@@ -1,14 +1,11 @@
-package database;
+package pacman.database;
 
 import static junit.framework.TestCase.assertEquals;
 
-import com.mysql.cj.log.Log;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import pacman.database.*;
 
 @SuppressWarnings("PMD")
 public class LoginDaoTest {
@@ -16,6 +13,7 @@ public class LoginDaoTest {
     private LoginDao loginDao;
     private RegisterDao registerDao;
     private User user;
+
     /**
      * setting up the testing db environment.
      */
@@ -30,8 +28,7 @@ public class LoginDaoTest {
     }
 
     @Test
-    public void mockitoLogin()
-    {
+    public void mockitoLogin() {
         loginDao = Mockito.mock(LoginDao.class);
         Mockito.when(loginDao.attemptLogin(user)).thenReturn(true);
     }
