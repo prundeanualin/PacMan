@@ -73,8 +73,10 @@ public class UserDaoTest {
         PasswordEncryptionService passwordEncryptionService = new PasswordEncryptionService();
         System.out.println(encryptionDao.getUserSalt(user2).toString());
         System.out.println("original method " + passwordEncryptionService.getSalt());
-        user2.setUsername("A boogie wit da Hoodie");
         UserDao userDao1 = new UserDao();
+        int thisId = userDao1.getUserIdFromDatabase(user2);
+        user2.setUsername("A boogie wit da Hoodie");
+        user2.setId(thisId);
         userDao1.updateUserUsername(user2);
         String result = userDao1.getUsernameFromDatabase(user2);
         userDao1.deleteUser(user2);

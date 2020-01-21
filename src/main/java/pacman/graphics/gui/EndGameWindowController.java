@@ -71,6 +71,7 @@ public class EndGameWindowController implements Initializable {
             Parent root = FXMLLoader.load(getClass().getResource("/views/leaderboard.fxml"));
             Scene scene = new Scene(root);
             MenuController.stage.setScene(scene);
+            GameController.getInstance().reset();
             newStage.close();
             MenuController.stage.show();
         } catch (IOException e) {

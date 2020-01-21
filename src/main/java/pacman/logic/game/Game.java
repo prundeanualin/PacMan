@@ -53,7 +53,7 @@ public class Game {
             return;
         }
 
-        if (getLevel().eatPowerPellet()) {
+        if (getLevel().checkEatPowerPellet()) {
             for (Ghost g : getLevel().getBoard().getGhosts()) {
                 g.beScared();
             }
