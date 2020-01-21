@@ -46,7 +46,7 @@ public class RegisterDao {
     @SuppressWarnings("PMD")
     public void addUser(User user) {
         PasswordEncryptionService passwordEncryptionService = new PasswordEncryptionService();
-        byte[] encryptedPass = new byte[160];
+        byte[] encryptedPass = new byte[64];
         byte[] userSalt = new byte[8];
         try {
             userSalt = passwordEncryptionService.getSalt();

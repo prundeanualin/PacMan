@@ -174,11 +174,11 @@ public class UserDao {
         DbConnect dbConnect = new DbConnect();
         Connection conn = dbConnect.getMyConnection();
         Statement statement;
-        String query = "UPDATE Users SET Username=? WHERE Score=?";
+        String query = "UPDATE Users SET Username=? WHERE Id=?";
         try {
             statement = conn.prepareStatement(query);
             ((PreparedStatement) statement).setString(1, user.getUsername());
-            ((PreparedStatement) statement).setInt(2, user.getScore());
+            ((PreparedStatement) statement).setInt(2, user.getId());
             ((PreparedStatement) statement).executeUpdate();
             /*
             if (((PreparedStatement) statement).executeUpdate() > 0) {

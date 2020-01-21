@@ -36,6 +36,7 @@ public class BoardCanvas extends Canvas {
      * The board that should be drawn.
      */
     private Board board;
+
     private double scaleX;
     private double scaleY;
 
@@ -48,6 +49,7 @@ public class BoardCanvas extends Canvas {
         scaleX = width / (double) board.getWidth();
         scaleY = height / (double) board.getHeight();
         stopped = false;
+
         long start = System.nanoTime(); //NOPMD needed in order to
         //keep track of frames while timers is going on
         if (timer == null) {
@@ -96,6 +98,7 @@ public class BoardCanvas extends Canvas {
             e.getSprite().drawBackground(e, getGraphicsContext2D(), drawStyle, t);
             getGraphicsContext2D().setTransform(new Affine());
         }
+
         for (Entity e : getOtherEntititesInOrder()) {
             getGraphicsContext2D().scale(scaleX, scaleY);
             getGraphicsContext2D().translate(e.getX(), e.getY());
@@ -153,9 +156,21 @@ public class BoardCanvas extends Canvas {
         stopped = true;
     }
 
+    public void pauseGame() {
+        timer.stop();
+    }
+
+    public void unPauseGame() {
+        timer.start();
+    }
+
     public void start() {
         stopped = false;
         timer.start();
+    }
+
+    public boolean isStopped() {
+        return stopped;
     }
 
     /**

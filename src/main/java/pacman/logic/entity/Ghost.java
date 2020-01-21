@@ -224,9 +224,14 @@ public abstract class Ghost extends MovingEntity {
         mode = Mode.SCARED;
     }
 
+    /**
+     * Takes the ghost out of the scared mode, only if it previously was in it.
+     */
     public void unScare() {
-        mode = Mode.CHASE;
-        time = 0.0;
+        if (isScared()) {
+            mode = Mode.CHASE;
+            time = 0.0;
+        }
     }
 
     public void justEaten() {
