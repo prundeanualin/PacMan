@@ -80,7 +80,7 @@ public class MenuController implements Initializable {
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     public void startGame(ActionEvent event) {
 
-        stage = (Stage)((javafx.scene.Node) event.getSource()).getScene().getWindow();
+        stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
         gameView = new GameView(GameController.getInstance().getGame(), 790, 720);
         GameController.getInstance().setUser(user);
         scene = new Scene(gameView);
@@ -91,21 +91,9 @@ public class MenuController implements Initializable {
 
         scene.setOnKeyPressed(e -> {
             PacMan pm = GameController.getInstance().getGame().getLevel().getPacMan();
-            switch (e.getCode()) {
-                case UP:
-                    pm.setNextDirection(Direction.UP);
-                    break;
-                case DOWN:
-                    pm.setNextDirection(Direction.DOWN);
-                    break;
-                case LEFT:
-                    pm.setNextDirection(Direction.LEFT);
-                    break;
-                case RIGHT:
-                    pm.setNextDirection(Direction.RIGHT);
-                    break;
-                default:
-                    // NOOP
+            Direction direction = Direction.keyToDirection(e.getCode(), pm);
+            if (direction != null) {
+                pm.setNextDirection(direction);
             }
         });
 
@@ -192,6 +180,7 @@ public class MenuController implements Initializable {
 
     /**
      * Displaying the user profile info (username) and his current score.
+     *
      * @param us the user
      */
     public void setProfileDetails(User us) {

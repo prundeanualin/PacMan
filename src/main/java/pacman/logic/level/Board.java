@@ -23,7 +23,7 @@ public class Board {
 
     private List<Square> squares;
     private Set<Entity> entities;
-    // TODO: Likely remove Level & LevelFactory entirely.
+
     public PacMan pacman;
     public Set<Ghost> ghosts;
     public Set<Pellet> pellets;
@@ -51,7 +51,8 @@ public class Board {
      * @param y The y coordinate of the square
      * @return The square at the specified location.
      */
-    public @NotNull Square getSquare(int x, int y) {
+    public @NotNull
+    Square getSquare(int x, int y) {
         return squares.get((int) getPosY(y) * width + (int) getPosX(x));
     }
 
@@ -62,7 +63,8 @@ public class Board {
      * @param y The y coordinate of the square
      * @return The square at the specified location.
      */
-    public @NotNull Square getSquare(double x, double y) {
+    public @NotNull
+    Square getSquare(double x, double y) {
         return squares.get((int) getPosY(y) * width + (int) getPosX(x));
     }
 
@@ -138,7 +140,8 @@ public class Board {
      *
      * @return The entities as an iterable
      */
-    public @NotNull Iterable<Entity> getEntities() {
+    public @NotNull
+    Iterable<Entity> getEntities() {
         return () -> entities.iterator();
     }
 
@@ -147,7 +150,8 @@ public class Board {
      *
      * @return The squares as an iterable
      */
-    public @NotNull Iterable<Square> getSquares() {
+    public @NotNull
+    Iterable<Square> getSquares() {
         return () -> squares.iterator();
     }
 
@@ -200,5 +204,9 @@ public class Board {
 
     public Set<Pellet> getPellets() {
         return pellets;
+    }
+
+    public PacMan getPacman() {
+        return pacman;
     }
 }

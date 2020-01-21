@@ -1,6 +1,7 @@
 package pacman.logic.entity;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.NotNull;
@@ -20,7 +21,11 @@ public class PacMan extends MovingEntity {
 
     private boolean immune = false;
     private double immuneTimer = 0.0;
+    private static final double immuneTime = 2.0;
     private boolean pumped = false;
+    private boolean drunk = false;
+    private double drunkTimer = 0;
+    public static final double drunkTime = 4.0;
 
     /**
      * Creates a new PacMan.
@@ -41,14 +46,26 @@ public class PacMan extends MovingEntity {
             immune = immuneTimer > 0.0;
         } else {
             // Set every collided pellet to dead
-            checkCollision().stream().filter(e -> e instanceof Pellet || e instanceof )
-                    .forEach(e -> e.setAlive(false));
+            Set<Entity> collided = checkCollision();
+            for (Entity e : collided) {
+                if (e instanceof Pellet) {
+                    e.setAlive(false);
+                } else if (e instanceof Bottle) {
+                    drunk = true;
+                    e.setAlive(false);
+                }
+            }
+        }
+        if (drunk) {
+            drunkTimer -= dt;
+            drunk = drunkTimer > 0.0;
         }
     }
 
     /**
      * After eating a powerPellet, PacMAn enters a 'pumped' state and
      * is able to return the favor and eat any of the ghosts for bonus points.
+     *
      * @return true if it did collide with such a magic pellet/ false otherwise.
      */
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
@@ -78,27 +95,56 @@ public class PacMan extends MovingEntity {
         if (!eatenGhosts.isEmpty()) {
             for (Entity e : eatenGhosts) {
                 count++;
-                ((Ghost)e).justEaten();
+                ((Ghost) e).justEaten();
             }
         }
         return count;
     }
 
+    /**
+     * Whether PacMan is immune and cannot collide with entities.
+     * (except walls of course)
+     *
+     * @return whether PacMan is immune
+     */
     public boolean isImmune() {
         return immune;
     }
 
+    /**
+     * Makes PacMan immune to collisions with anything except walls.
+     * This uses a timer and thus is temporary.
+     */
     public void enterImmunity() {
         immune = true;
-        immuneTimer = 2.0;
+        immuneTimer = immuneTime;
     }
 
+    /**
+     * Returns whether or not PacMan is pumped/on steroids.
+     * If this is the case he can eat ghosts.
+     *
+     * @return if PacMan is pumped/on steroids
+     */
     public boolean isOnSteroids() {
         return pumped;
     }
 
+    /**
+     * Stop PacMan from being pumped.
+     * So he can no longer eat ghosts.
+     */
     public void quitSteroids() {
         pumped = false;
+    }
+
+    /**
+     * Returns if pacman is drunk and thus input is reversed.
+     *
+     * @return if pacman is drunk
+     */
+    public boolean isDrunk() {
+        return drunk;
     }
 
 }

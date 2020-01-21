@@ -1,5 +1,8 @@
 package pacman.logic;
 
+import javafx.scene.input.KeyCode;
+import pacman.logic.entity.PacMan;
+
 /**
  * .
  * Class for keeping track of directions of different sprites,
@@ -82,5 +85,40 @@ public enum Direction {
             }
         }
         throw new IllegalArgumentException("Direction (" + x + ":" + y + ") does not exist.");
+    }
+
+    /**
+     * Returns the direction a key should be bound to.
+     * Takes into account PacMan's drunk state.
+     *
+     * @param key the key of which we want the direction.
+     * @return the direction that corresponds to this key.
+     */
+    public static Direction keyToDirection(KeyCode key, PacMan pacMan) {
+        Direction direction = null;
+        switch (key) {
+            case A:
+            case LEFT:
+                direction = Direction.LEFT;
+                break;
+            case W:
+            case UP:
+                direction = Direction.UP;
+                break;
+            case S:
+            case DOWN:
+                direction = Direction.DOWN;
+                break;
+            case D:
+            case RIGHT:
+                direction = Direction.RIGHT;
+                break;
+            default:
+                break;
+        }
+        if (pacMan.isDrunk()) {
+            direction = direction.getInverse();
+        }
+        return direction;
     }
 }
