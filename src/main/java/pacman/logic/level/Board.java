@@ -11,6 +11,8 @@ import pacman.logic.entity.Entity;
 import pacman.logic.entity.Ghost;
 import pacman.logic.entity.PacMan;
 import pacman.logic.entity.Pellet;
+import pacman.logic.entity.PowerPellet;
+import pacman.logic.entity.Wall;
 
 /**
  * Represents a board with a grid of squares and entities.
@@ -25,8 +27,10 @@ public class Board {
     private Set<Entity> entities;
 
     public PacMan pacman;
-    public Set<Ghost> ghosts;
-    public Set<Pellet> pellets;
+    private Set<Ghost> ghosts;
+    private Set<Pellet> pellets;
+    private Set<PowerPellet> powerPellets;
+    private Set<Wall> walls;
 
     private int tickScore = 0;
 
@@ -44,6 +48,8 @@ public class Board {
         this.entities = new HashSet<Entity>();
         this.ghosts = new HashSet<Ghost>();
         this.pellets = new HashSet<Pellet>();
+        this.powerPellets = new HashSet<>();
+        this.walls = new HashSet<>();
     }
 
     /**
@@ -97,6 +103,10 @@ public class Board {
             ghosts.add((Ghost) entity);
         } else if (entity instanceof Pellet) {
             pellets.add((Pellet) entity);
+        } else if (entity instanceof PowerPellet) {
+            powerPellets.add((PowerPellet) entity);
+        } else if (entity instanceof Wall) {
+            walls.add((Wall) entity);
         }
         entities.add(entity);
     }
@@ -114,6 +124,8 @@ public class Board {
             ghosts.remove((Ghost) entity);
         } else if (entity instanceof Pellet) {
             pellets.remove((Pellet) entity);
+        } else if (entity instanceof PowerPellet) {
+            powerPellets.remove((PowerPellet) entity);
         }
         entity.getSquare().removeEntity(entity);
         entities.remove(entity);
@@ -220,6 +232,14 @@ public class Board {
 
     public Set<Pellet> getPellets() {
         return pellets;
+    }
+
+    public Set<PowerPellet> getPowerPellets() {
+        return powerPellets;
+    }
+
+    public Set<Wall> getWalls() {
+        return walls;
     }
 
     public PacMan getPacman() {

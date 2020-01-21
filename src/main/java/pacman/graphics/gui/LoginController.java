@@ -1,6 +1,7 @@
 package pacman.graphics.gui;
 
 import java.io.IOException;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -10,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -65,21 +67,19 @@ public class LoginController implements Initializable {
         User user = new User();
         user.setUsername(usernameTextField.getText());
         user.setPassword(passwordField.getText());
-        goToMenu(event1, user);
-        /*       if (loginDao.attemptLogin(user)) {
-                    goToMenu(event1);
-                }  else {
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Information Dialog");
-                    alert.setHeaderText("Username or password is incorrect");
-                    alert.setContentText("Please try again");
+        if (loginDao.attemptLogin(user)) {
+            goToMenu(event1, user);
+        } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information Dialog");
+            alert.setHeaderText("Username or password is incorrect");
+            alert.setContentText("Please try again");
 
-                    alert.showAndWait();
+            alert.showAndWait();
 
-                    usernameTextField.setText(null);
-                    passwordField.setText(null);}
-        */
-
+            usernameTextField.setText(null);
+            passwordField.setText(null);
+        }
     }
 
     /**
