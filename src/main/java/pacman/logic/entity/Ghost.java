@@ -68,6 +68,8 @@ public abstract class Ghost extends MovingEntity {
         // if frightened, our ghost moves 2 times slower
         if (mode == Mode.SCARED) {
             super.update(dt / 2);
+        } else if (mode == Mode.EATEN) {
+            super.update(2 * dt);
         } else {
             super.update(dt);
         }
