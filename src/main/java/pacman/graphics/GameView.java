@@ -19,7 +19,6 @@ public class GameView extends VBox {
     public GameView(@NotNull Game game, int width, int height) {
         this.statsCanvas = new StatsCanvas(game, width);
         this.boardCanvas = new BoardCanvas(game.getLevel().getBoard(), width, height);
-
         getChildren().add(statsCanvas);
         getChildren().add(boardCanvas);
     }
