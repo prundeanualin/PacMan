@@ -24,6 +24,7 @@ public abstract class Ghost extends MovingEntity {
 
         /**
          * Switching between CHASE and SCATTER modes.
+         *
          * @return the other one of those two.
          */
         public Mode scatter() {
@@ -90,10 +91,12 @@ public abstract class Ghost extends MovingEntity {
 
         if (square != oldSquare) { // Update choice when a new square is reached.
             List<Square> options = getOptions();
-            Square target = chooseTarget(options);
-            if (options.size() > 0 && target != null) {
-                Square next = closestNeighbour(target, options);
-                nextDirection = square.directionOf(next);
+            if (options.size() > 0) {
+                Square target = chooseTarget(options);
+                if (target != null) {
+                    Square next = closestNeighbour(target, options);
+                    nextDirection = square.directionOf(next);
+                }
             }
             oldSquare = square; // must be called after getOptions, as this information is used.
         }
@@ -111,7 +114,7 @@ public abstract class Ghost extends MovingEntity {
 
         for (Square square : neighbours) {
             if (neighbours.size() == 1 || (mode == Mode.EATEN && !square.hasSolid())
-                || (!square.hasSolid() && !square.equals(oldSquare))) {
+                    || (!square.hasSolid() && !square.equals(oldSquare))) {
                 options.add(square);
             }
         }
@@ -147,7 +150,7 @@ public abstract class Ghost extends MovingEntity {
      * @return the square the ghost wants to go towards.
      * @see this#chaseTarget(List)
      * @see this#scatterTarget(List)
-     * @see this#frightenedTarget(List) 
+     * @see this#frightenedTarget(List)
      */
     protected Square chooseTarget(List<Square> nextOptions) {
         switch (mode) {
@@ -168,14 +171,15 @@ public abstract class Ghost extends MovingEntity {
     /**
      * Chooses the default chase mode target of the ghost.
      *
-     * @see this#chooseTarget(List)
      * @param options list of squares the ghost can pick from.
      * @return the target
+     * @see this#chooseTarget(List)
      */
     protected abstract Square chaseTarget(List<Square> options);
 
     /**
      * Getting the "home square' of each ghost, while in scattered mode.
+     *
      * @param options list of squares the ghost can pick.
      * @return That specific home_square, the starting point of each ghost.
      */
@@ -191,9 +195,9 @@ public abstract class Ghost extends MovingEntity {
     /**
      * Chooses the frightened mode target of the ghost.
      *
-     * @see this#chooseTarget(List)
      * @param options the neighbouring options the ghost can access.
      * @return the target (should be randomly picked from intersection options)
+     * @see this#chooseTarget(List)
      */
     protected final Square frightenedTarget(List<Square> options) {
         Random random = new Random();
@@ -202,11 +206,12 @@ public abstract class Ghost extends MovingEntity {
     }
 
     /**
-    * Return the home square of each ghost, in order to
-    * respawn at that location.
-    * @param options List of squares the ghosts move to.
-    * @return that home square
-    */
+     * Return the home square of each ghost, in order to
+     * respawn at that location.
+     *
+     * @param options List of squares the ghosts move to.
+     * @return that home square
+     */
     private Square spawnTarget(List<Square> options) {
         if (square == homeCorner) {
             mode = Mode.CHASE;
