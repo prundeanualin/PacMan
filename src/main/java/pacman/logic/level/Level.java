@@ -44,9 +44,4 @@ public class Level {
     public void revivePlayer() {
         pacMan.setAlive(true);
     }
-
-    public boolean eatPowerPellet() {
-        return pacMan.checkEnterPumped();
-    }
-
 }

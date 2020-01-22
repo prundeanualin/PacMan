@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import pacman.database.User;
 import pacman.logic.Player;
 import pacman.logic.entity.Entity;
-import pacman.logic.entity.Ghost;
+import pacman.logic.level.Board;
 import pacman.logic.level.Level;
 
 /**
@@ -25,8 +25,6 @@ public class Game {
     private List<Level> levels;
     private int currentLevel;
     private ObjectProperty<GameState> state;
-    private static double pumpingTime = 8.0;
-    private static double time = 0.0;
 
     /**
      * Creates a new game.
@@ -49,42 +47,26 @@ public class Game {
      */
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // known bug of pmd with foreach loops.
     public void update(double dt) {
-
         if (!isRunning()) {
             return;
         }
 
-        if (getLevel().eatPowerPellet()) {
-            for (Ghost g : getLevel().getBoard().getGhosts()) {
-                g.beScared();
-            }
-        }
+        Board board = getLevel().getBoard();
+        board.resetTickScore();
 
-        // If frightened timer has expired, ghosts go back to normal chase mode and timer resets.
-        if (getLevel().getPacMan().isPumped() && time < pumpingTime) {
-            time = time + dt;
-            int countEatenG = getLevel().getPacMan().checkEatenGhosts();
-            player.updateScore(countEatenG * 30);
-        } else if (getLevel().getPacMan().isPumped() && time > pumpingTime) {
-            time = 0.0;
-            getLevel().getPacMan().exitPumped();
-            for (Ghost g : getLevel().getBoard().getGhosts()) {
-                g.unScare();
-            }
-        }
-
-        for (Entity entity : getLevel().getBoard().getEntities()) {
+        for (Entity entity : board.getEntities()) {
             entity.update(dt);
         }
-        player.updateScore(getLevel().getBoard().computeScore());
-        getLevel().getBoard().removeDeadEntities();
+
+        player.updateScore(board.getTickScore());
+        board.removeDeadEntities();
         checkWinLoss();
     }
 
     private void checkWinLoss() {
         if (getLevel().wasPacManHit() && player.getLives().get() > 1) {
             player.loseLife();
-            getLevel().getPacMan().enterImmunity();
+            getLevel().getPacMan().setImmunity();
             getLevel().revivePlayer();
         }
         if (!player.hasLives() || getLevel().wasPacManHit()) {

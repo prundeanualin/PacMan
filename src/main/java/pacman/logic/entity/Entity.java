@@ -77,6 +77,13 @@ public abstract class Entity {
     public abstract void update(double dtSmall);
 
     /**
+     * Defines what code is run if PacMan collides with this entity.
+     *
+     * @param pacMan The PacMan that was collided with.
+     */
+    public abstract void collideWithPacMan(PacMan pacMan);
+
+    /**
      * Checks for collisions with the entities around this entity.
      *
      * @return The set of entities this entity collides with
@@ -144,7 +151,8 @@ public abstract class Entity {
      *
      * @return The direction, null if entity has no direction
      */
-    public @Nullable Direction getDirection() {
+    @Nullable
+    public Direction getDirection() {
         return direction;
     }
 
@@ -243,7 +251,8 @@ public abstract class Entity {
      *
      * @return The current square
      */
-    public @NotNull Square getSquare() {
+    @NotNull
+    public Square getSquare() {
         return square;
     }
 
