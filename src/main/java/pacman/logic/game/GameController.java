@@ -133,7 +133,7 @@ public class GameController {
      * creates a new level for the user who just won the current one.
      */
     public void nextLevel() {
-        getGame().advanceLevel();
+        game.advanceLevel();
     }
 
     /**

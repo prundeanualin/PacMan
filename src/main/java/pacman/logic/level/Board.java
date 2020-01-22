@@ -32,7 +32,10 @@ public class Board {
     private Set<PowerPellet> powerPellets;
     private Set<Wall> walls;
 
+    private int tickScore = 0;
+
     /**
+     * Creates a board with a specified size.
      * Creates a board with a specified size.
      *
      * @param width  The width of the board
@@ -57,7 +60,8 @@ public class Board {
      * @param y The y coordinate of the square
      * @return The square at the specified location.
      */
-    public @NotNull Square getSquare(int x, int y) {
+    @NotNull
+    public Square getSquare(int x, int y) {
         return squares.get((int) getPosY(y) * width + (int) getPosX(x));
     }
 
@@ -68,7 +72,8 @@ public class Board {
      * @param y The y coordinate of the square
      * @return The square at the specified location.
      */
-    public @NotNull Square getSquare(double x, double y) {
+    @NotNull
+    public Square getSquare(double x, double y) {
         return squares.get((int) getPosY(y) * width + (int) getPosX(x));
     }
 
@@ -150,7 +155,8 @@ public class Board {
      *
      * @return The entities as an iterable
      */
-    public @NotNull Iterable<Entity> getEntities() {
+    @NotNull
+    public Iterable<Entity> getEntities() {
         return () -> entities.iterator();
     }
 
@@ -159,19 +165,34 @@ public class Board {
      *
      * @return The squares as an iterable
      */
-    public @NotNull Iterable<Square> getSquares() {
+    @NotNull
+    public Iterable<Square> getSquares() {
         return () -> squares.iterator();
     }
 
     /**
-     * Calculates the current score of the player.
+     * returns the received score this update tick.
      *
-     * @return score
+     * @return the current tick score.
      */
-    public int computeScore() {
-        List<Entity> eatenPellets = entities.stream().filter(e -> !e.isAlive()
-                && e instanceof Pellet).collect(Collectors.toList());
-        return eatenPellets.size() * 10;
+    public int getTickScore() {
+        return tickScore;
+    }
+
+    /**
+     * Adds score to the current tick's score.
+     *
+     * @param score the score to add.
+     */
+    public void addTickScore(int score) {
+        tickScore += score;
+    }
+
+    /**
+     * Resets the tick score counter to prepare for a new tick.
+     */
+    public void resetTickScore() {
+        tickScore = 0;
     }
 
     /**

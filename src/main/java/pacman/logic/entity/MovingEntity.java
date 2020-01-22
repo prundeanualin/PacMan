@@ -27,7 +27,7 @@ public abstract class MovingEntity extends Entity {
      */
     public void update(double dtSmall) {
         //TODO: either add speed, or make this more *2 intuitive.
-        double dt = 2 * dtSmall; //NOPMD needed to change the speed of the entities' movement
+        double dt = 2 * dtSmall; //NOPMD incorrect DU anomaly.
 
         if (direction != null) {
             updatePosition(dt * direction.getDx(), dt * direction.getDy());

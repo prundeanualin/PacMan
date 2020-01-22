@@ -27,4 +27,17 @@ public class PowerPellet extends Entity {
     public boolean isSolid() {
         return false;
     }
+
+    /**
+     * {@inheritDoc}
+     * When PacMan collides with a PowerPellet,
+     * he enters pumped mode and the PowerPellet is removed.
+     *
+     * @param pacMan The PacMan that was collided with.
+     */
+    @Override
+    public void collideWithPacMan(PacMan pacMan) {
+        pacMan.setPumped(true);
+        setAlive(false);
+    }
 }

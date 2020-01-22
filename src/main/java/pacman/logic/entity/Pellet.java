@@ -36,4 +36,15 @@ public class Pellet extends Entity {
     public boolean isSolid() {
         return false;
     }
+
+    /**
+     * {@inheritDoc}
+     * When PacMan collides with a Pellet,
+     * it adds 10 to the score and is removed.
+     */
+    @Override
+    public void collideWithPacMan(PacMan pacMan) {
+        board.addTickScore(10);
+        setAlive(false);
+    }
 }
