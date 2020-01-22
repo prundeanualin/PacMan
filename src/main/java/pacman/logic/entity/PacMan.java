@@ -1,6 +1,7 @@
 package pacman.logic.entity;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.NotNull;
@@ -20,7 +21,11 @@ public class PacMan extends MovingEntity {
 
     private boolean immune = false;
     private double immuneTimer = 0.0;
+    public static final double immuneTime = 2.0;
+
     private boolean pumped = false;
+    private double pumpedTimer = 0.0;
+    public static final double pumpedTime = 8.0;
 
     /**
      * Creates a new PacMan.
@@ -34,71 +39,81 @@ public class PacMan extends MovingEntity {
     }
 
     @Override
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // incorrect for loop UR anomaly
     public void update(double dt) {
         super.update(dt);
+
+        updateTimers(dt);
+
+        // Collisions
+        for (Entity e : checkCollision()) {
+            e.collideWithPacMan(this);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     * Filters out non-solid objects if pacman is immune.
+     *
+     * @return {@inheritDoc}
+     */
+    @Override
+    public Set<Entity> checkCollision() {
+        Set<Entity> collided = super.checkCollision();
         if (immune) {
-            immuneTimer -= dt;
-            immune = immuneTimer > 0.0;
+            return collided.stream().filter(e -> e.isSolid()).collect(Collectors.toSet());
         } else {
-            // Set every collided pellet to dead
-            checkCollision().stream().filter(e -> e instanceof Pellet)
-                    .forEach(e -> e.setAlive(false));
+            return collided;
         }
-    }
-
-    /**
-     * After eating a powerPellet, PacMAn enters a 'pumped' state and
-     * is able to return the favor and eat any of the ghosts for bonus points.
-     * @return true if it did collide with such a magic pellet/ false otherwise.
-     */
-    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
-    public boolean enterPumped() {
-        List<Entity> eatenPowerPellets = checkCollision().stream()
-                .filter(e -> e instanceof PowerPellet).collect(Collectors.toList());
-        if (!eatenPowerPellets.isEmpty() && !immune) {
-            pumped = true;
-            for (Entity e : eatenPowerPellets) {
-                e.setAlive(false);
-            }
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Check if pacman collided with any scared ghosts while
-     * in pumped up mode and return nr of such ghosts.
-     */
-    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
-    public int checkEatenGhosts() {
-        int count = 0;
-        List<Entity> eatenGhosts = checkCollision().stream()
-                .filter(e -> e instanceof Ghost && ((Ghost) e).isScared())
-                .collect(Collectors.toList());
-        if (!eatenGhosts.isEmpty()) {
-            for (Entity e : eatenGhosts) {
-                count++;
-                ((Ghost)e).justEaten();
-            }
-        }
-        return count;
     }
 
     public boolean isImmune() {
         return immune;
     }
 
-    public void enterImmunity() {
+    public void setImmunity() {
         immune = true;
-        immuneTimer = 2.0;
+        immuneTimer = immuneTime;
     }
 
     public boolean isPumped() {
         return pumped;
     }
 
-    public void exitPumped() {
-        pumped = false;
+    /**
+     * After eating a powerPellet, PacMAn enters a 'pumped' state and
+     * is able to return the favor and eat any of the ghosts for bonus points.
+     *
+     * @param active whether to se pumped to active or inactive.
+     */
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
+    public void setPumped(boolean active) {
+        for (Ghost g : board.getGhosts()) {
+            g.setScared(active);
+        }
+        pumped = active;
+        pumpedTimer = pumpedTime;
     }
 
+    @Override
+    public void collideWithPacMan(PacMan pacMan) {
+        // Do Nothing. Never Happens in SinglePlayer.
+    }
+
+    /**
+     * Updates the Timers that are active.
+     */
+    private void updateTimers(double dt) {
+        if (immune) {
+            immuneTimer -= dt;
+            immune = immuneTimer > 0.0;
+        }
+
+        if (pumped) {
+            pumpedTimer -= dt;
+            if (pumpedTimer < 0.0) { //NOPMD normal constant in if statement.
+                setPumped(false);
+            }
+        }
+    }
 }

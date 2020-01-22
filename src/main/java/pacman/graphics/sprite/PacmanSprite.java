@@ -6,6 +6,7 @@ import javafx.scene.shape.ArcType;
 
 import org.jetbrains.annotations.NotNull;
 import pacman.graphics.Style;
+import pacman.logic.Direction;
 import pacman.logic.entity.PacMan;
 
 /**
@@ -33,11 +34,26 @@ public class PacmanSprite extends Sprite<PacMan> {
             }
             time = 0.0;
             g.fillArc(-0.4, -0.4, 0.8, 0.8, angle, 360 - 2 * angle, ArcType.ROUND);
+            drawEyes(entity, g);
         } else if (time > BLINK_TIME) {
             time = 0.0;
             g.fillArc(-0.4, -0.4, 0.8, 0.8, MAX_ANGLE / 2, 360 - MAX_ANGLE, ArcType.ROUND);
         } else {
             time = time + t;
+        }
+    }
+
+    /**
+     * draws pacman's eyes (one actually).
+     * @param entity pacman
+     * @param g graphics context of the canvas
+     */
+    public void drawEyes(@NotNull PacMan entity, @NotNull GraphicsContext g) {
+        g.setFill(Color.BLACK);
+        if (entity.getDirection() == Direction.LEFT) {
+            g.fillOval(0.1, 0.15, 0.15, 0.15);
+        } else {
+            g.fillOval(0.1, -0.30, 0.15, 0.15);
         }
     }
 

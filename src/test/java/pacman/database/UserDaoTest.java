@@ -1,81 +1,159 @@
 package pacman.database;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertTrue;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.util.Base64;
 
-import org.junit.Rule;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
+import org.mockito.Mockito;
 
-@SuppressWarnings("PMD.BeanMembersShouldSerialize") // Class is not a bean.
+@SuppressWarnings("PMD")
 public class UserDaoTest {
 
-    @Rule
-    public MockitoRule rule = MockitoJUnit.rule();
-
-    private UserDao dao;
-    private PreparedStatement statement;
-
+    private UserDao userDao;
+    private RegisterDao registerDao;
     private User user;
 
     /**
-     * Set up the environment for the db context under testing.
-     * @throws SQLException in case prepared statements are wrong.
+     * setting up the testing environment.
      */
     @BeforeEach
-    public void setup() throws SQLException { // NOPMD spelled correctly
-        ResultSet result = mock(ResultSet.class); // NOPMD mock does not need to be closed
-        when(result.next()).thenReturn(true).thenReturn(false);
-        when(result.getInt("Id")).thenReturn(0);
-        when(result.getString("Username")).thenReturn("TestUser");
-        when(result.getString("Password")).thenReturn("TestPass");
-        when(result.getInt("Score")).thenReturn(10);
-        statement = mock(PreparedStatement.class);
-        when(statement.executeQuery()).thenReturn(result);
-        Connection conn = mock(Connection.class); // NOPMD mock does not need to be closed
-        when(conn.prepareStatement(anyString())).thenReturn(statement);
-        DbConnect dbConn = mock(DbConnect.class);
-        when(dbConn.getMyConnection()).thenReturn(conn);
-        dao = new UserDao(dbConn);
-
+    public void setUp() {
         user = new User();
-        user.setId(0);
-        user.setUsername("TestUser");
-        user.setPassword("TestPass");
+        user.setUsername("Dj Mustard");
+        user.setPassword("12345");
         user.setScore(10);
+        registerDao = new RegisterDao();
+        registerDao.addUser(user);
+
     }
 
     @Test
-    public void testGetUsername() {
-        String username = dao.getUsernameFromDatabase(user);
-        assertEquals(user.getUsername(), username);
+    public void testGetUsernameFromDatabaseMockito() {
+        userDao = Mockito.mock(UserDao.class);
+        Mockito.when(userDao.getUsernameFromDatabase(user)).thenReturn("Dj Mustard");
     }
 
     @Test
-    public void testGetPassword() {
-        String password = dao.getUserPasswordFromDatabase(user);
-        assertEquals(user.getPassword(), password);
+    public void testGetUsernameFromDatabase() {
+        UserDao userDao1 = new UserDao();
+        User user2 = user;
+        assertEquals(user2.getUsername(), userDao1.getUsernameFromDatabase(user));
     }
 
+
     @Test
-    public void testGetScore() {
-        int score = dao.retrieveScore(user);
-        assertEquals(user.getScore(), score);
+    public void testGetScoreFromDatabase() {
+        UserDao userDao1 = new UserDao();
+        User user2 = user;
+        assertEquals(user2.getScore(), userDao1.retrieveScore(user));
     }
 
     @Test
     public void testGetId() {
-        int id = dao.getUserIdFromDatabase(user);
-        assertEquals(user.getId(), id);
+        UserDao userDao1 = new UserDao();
+        int id = userDao1.getUserIdFromDatabase(user);
+        assertEquals(id, userDao1.getUserIdFromDatabase(user));
     }
 
+    @Test
+    public void testUpdateUsername() throws NoSuchAlgorithmException {
+        User user2 = new User();
+        user2.setPassword("123f");
+        user2.setUsername("Drake");
+        user2.setScore(129);
+        registerDao = new RegisterDao();
+        registerDao.addUser(user2);
+        EncryptionDao encryptionDao = new EncryptionDao();
+        PasswordEncryptionService passwordEncryptionService = new PasswordEncryptionService();
+        System.out.println(encryptionDao.getUserSalt(user2).toString());
+        System.out.println("original method " + passwordEncryptionService.getSalt());
+        UserDao userDao1 = new UserDao();
+        int thisId = userDao1.getUserIdFromDatabase(user2);
+        user2.setUsername("A boogie wit da Hoodie");
+        user2.setId(thisId);
+        userDao1.updateUserUsername(user2);
+        String result = userDao1.getUsernameFromDatabase(user2);
+        userDao1.deleteUser(user2);
+        assertEquals("A boogie wit da Hoodie", result);
+    }
+
+    @Test
+    public void testUpdateScore() {
+        UserDao userDao1 = new UserDao();
+        user.setScore(101);
+        userDao1.updateUserScore(user);
+        assertEquals(101, userDao1.retrieveScore(user));
+    }
+
+    @Test
+    public void testUpdatePassword() throws InvalidKeySpecException,
+            NoSuchAlgorithmException {
+        userDao = new UserDao();
+        user.setPassword("newPass");
+        userDao.updateUserPassword(user);
+        EncryptionDao encryptionDao = new EncryptionDao();
+        String userSalt = encryptionDao.getUserSalt(user);
+        PasswordEncryptionService passwordEncryptionService = new PasswordEncryptionService();
+        byte[] encPass = passwordEncryptionService
+                .getEncryptedPassword(user.getPassword(), Base64.getDecoder().decode(userSalt));
+        assertEquals(userDao.getUserPasswordFromDatabase(user),
+                Base64.getEncoder().encodeToString(encPass));
+    }
+
+    @Test
+    public void testCrypto() throws InvalidKeySpecException, NoSuchAlgorithmException {
+        EncryptionDao encryptionDao = new EncryptionDao();
+        userDao = new UserDao();
+        PasswordEncryptionService passwordEncryptionService = new PasswordEncryptionService();
+        String userSalt = encryptionDao.getUserSalt(user);
+        byte[] encryptedPass = passwordEncryptionService
+                .getEncryptedPassword(user.getPassword(), userSalt.getBytes());
+        boolean status;
+        status = passwordEncryptionService
+                .securityCheck(user.getPassword(), encryptedPass, userSalt.getBytes());
+        assertTrue(status);
+    }
+
+    @Test
+    public void testGetPass() throws InvalidKeySpecException, NoSuchAlgorithmException {
+        User user2 = new User();
+        user2.setUsername("abcd");
+        user2.setPassword("pass123");
+        RegisterDao registerDao = new RegisterDao();
+        registerDao.addUser(user2);
+        userDao = new UserDao();
+        EncryptionDao encryptionDao = new EncryptionDao();
+        String salt = encryptionDao.getUserSalt(user2);
+        PasswordEncryptionService passwordEncryptionService = new PasswordEncryptionService();
+        byte[] encPass = passwordEncryptionService
+                .getEncryptedPassword(user2.getPassword(), Base64.getDecoder().decode(salt));
+        String passFromDb = userDao.getUserPasswordFromDatabase(user2);
+        userDao.deleteUser(user2);
+        assertEquals(Base64.getEncoder().encodeToString(encPass), passFromDb);
+    }
+
+    @Test
+    public void testDeleteUser() {
+        User user2 = new User();
+        user2.setPassword("123f");
+        user2.setUsername("Drake");
+        user2.setScore(129);
+        registerDao = new RegisterDao();
+        registerDao.addUser(user2);
+        UserDao userDao1 = new UserDao();
+        userDao1.deleteUser(user2);
+        assertEquals("No user found", userDao1.getUsernameFromDatabase(user2));
+    }
+
+    @AfterEach
+    public void end() {
+        UserDao userDao = new UserDao();
+        userDao.deleteUser(user);
+    }
 }

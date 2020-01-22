@@ -1,13 +1,16 @@
 package pacman.logic.game;
 
 import java.util.ArrayList;
+
 import java.util.List;
+
 import javafx.animation.AnimationTimer;
 
 import pacman.database.User;
 import pacman.logic.Player;
 import pacman.logic.level.Level;
 import pacman.logic.level.LevelFactory;
+
 
 /**
  * Controller for the game, responsible for starting, pausing, updating and stopping the game.
@@ -131,7 +134,7 @@ public class GameController {
      * creates a new level for the user who just won the current one.
      */
     public void nextLevel() {
-        getGame().advanceLevel();
+        game.advanceLevel();
     }
 
     /**

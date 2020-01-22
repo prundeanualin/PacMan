@@ -3,7 +3,6 @@ package pacman.logic.entity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 
 import pacman.graphics.sprite.Sprite;
 import pacman.logic.Direction;
@@ -27,7 +26,7 @@ public abstract class Ghost extends MovingEntity {
          *
          * @return the other one of those two.
          */
-        public Mode scatter() {
+        public Mode invertScatter() {
             if (this == CHASE) {
                 return SCATTER;
             } else {
@@ -42,8 +41,9 @@ public abstract class Ghost extends MovingEntity {
     protected double homeX;
     protected double homeY;
     private Square homeCorner;
-    private double time;    //keeps track of time passed since last 'scatter' tick
-    private static final double scatterTimer = 18.0;
+
+    private double scatterChaseTimer = 0.0;
+    private static final double chaseDuration = 18.0;
     private static final double scatterDuration = 7.0;
 
     /**
@@ -60,34 +60,29 @@ public abstract class Ghost extends MovingEntity {
         homeCorner = square;
         this.homeX = getX();
         this.homeY = getY();
-        time = 0.0;
     }
 
     @Override
     public void update(double dt) {
-
         // if frightened, our ghost moves 2 times slower
         if (mode == Mode.SCARED) {
             super.update(dt / 2);
+        } else if (mode == Mode.EATEN) {
+            super.update(2 * dt);
         } else {
             super.update(dt);
         }
 
-        time = time + dt;
+        scatterChaseTimer = scatterChaseTimer + dt;
         // Alternating between chase mode and scatter mode according to the timers.
-        if (mode == Mode.CHASE && time > scatterTimer || mode == Mode.SCATTER
-                && time > scatterDuration) {
-            mode = mode.scatter();
-            time = 0.0;
+        if (mode == Mode.CHASE && scatterChaseTimer > chaseDuration || mode == Mode.SCATTER
+                && scatterChaseTimer > scatterDuration) {
+            mode = mode.invertScatter();
+            scatterChaseTimer = 0.0;
             nextDirection = direction.getInverse();
             oldSquare = square;
         }
-        // Collided with PacMan
-        Set<Entity> collisions = checkCollision();
-        if (collisions.contains(board.pacman) && !board.pacman.isImmune()
-                && mode != Mode.SCARED && mode != Mode.EATEN) {
-            board.pacman.setAlive(false);
-        }
+
 
         if (square != oldSquare) { // Update choice when a new square is reached.
             List<Square> options = getOptions();
@@ -226,16 +221,13 @@ public abstract class Ghost extends MovingEntity {
         return mode == Mode.SCARED;
     }
 
-    public void beScared() {
-        mode = Mode.SCARED;
+
+    public void setScared(boolean active) {
+        mode = active ? Mode.SCARED : Mode.CHASE;
+        scatterChaseTimer = 0.0;
     }
 
-    public void unScare() {
-        mode = Mode.CHASE;
-        time = 0.0;
-    }
-
-    public void justEaten() {
+    public void setEaten() {
         mode = Mode.EATEN;
     }
 
@@ -251,4 +243,19 @@ public abstract class Ghost extends MovingEntity {
         return homeY;
     }
 
+    @Override
+    public void collideWithPacMan(PacMan pacMan) {
+        switch (mode) {
+            case CHASE:
+            case SCATTER:
+                pacMan.setAlive(false);
+                return;
+            case SCARED:
+                board.addTickScore(30);
+                setEaten();
+                return;
+            default:
+                return;
+        }
+    }
 }
