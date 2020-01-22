@@ -88,7 +88,7 @@ pitest:
   artifacts:
     name: mutation_coverage
     paths:
-      - build/reaports/pitest/test/html
+      - build/reports/pitest/test/html
 
 include:
   - template: Code-Quality.gitlab-ci.yml
