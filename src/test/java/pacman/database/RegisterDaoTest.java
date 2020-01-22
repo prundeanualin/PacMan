@@ -1,11 +1,11 @@
 package pacman.database;
 
+import static junit.framework.TestCase.assertEquals;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-
-import static junit.framework.TestCase.assertEquals;
 
 @SuppressWarnings("PMD")
 class RegisterDaoTest {
@@ -15,7 +15,7 @@ class RegisterDaoTest {
     private User user;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         user = new User();
         user.setId(0);
         user.setUsername("SpongeBob");
@@ -61,7 +61,7 @@ class RegisterDaoTest {
     }
 
     @Test
-    void testDuplicates(){
+    void testDuplicates() {
         User user2 = user;
         RegisterDao registerDao = Mockito.mock(RegisterDao.class);
         registerDao.addUser(user);
@@ -69,7 +69,7 @@ class RegisterDaoTest {
     }
 
     @AfterEach
-    void end(){
+    void end() {
         userDao = new UserDao();
         userDao.deleteUser(user);
     }

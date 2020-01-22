@@ -89,12 +89,33 @@ public class LoginController implements Initializable {
     public void goToMenu(ActionEvent event1, User user) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/menu.fxml"));
         Parent root = loader.load();
-        MenuController controller = (MenuController) loader.getController();
+        MenuController controller = loader.getController();
         controller.setProfileDetails(user);
         Scene scene = new Scene(root);
         Stage window = (Stage) ((javafx.scene.Node) event1.getSource()).getScene().getWindow();
         window.setScene(scene);
         window.show();
+    }
+
+    /**
+     * Static method for switching the current scene to main menu scene,
+     * after the user already logged in and wanders throughout the game's pages.
+     * @param event click.
+     */
+    public static void goToMainMenu(ActionEvent event, User user) {
+        FXMLLoader loader = new FXMLLoader(LoginController.class.getResource("/views/menu.fxml"));
+        try {
+            Parent root = loader.load();
+            MenuController controller = loader.getController();
+            controller.setProfileDetails(user);
+            Scene scene = new Scene(root);
+            Stage stage = (Stage)((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            MenuController.stage = stage;
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
