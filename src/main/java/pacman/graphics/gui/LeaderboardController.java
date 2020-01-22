@@ -53,7 +53,7 @@ public class LeaderboardController implements Initializable {
             int a = 0;
             for (Label l : labels) {
                 gridPane.add(l, a, i + 1);
-                l.setTextFill(Style.CLASSIC.getTextColour());
+                l.setTextFill(Style.CLASSIC.getTextColor());
                 l.setFont(Font.font(27));
                 l.setTextAlignment(TextAlignment.RIGHT);
                 l.setAlignment(Pos.CENTER_RIGHT);
