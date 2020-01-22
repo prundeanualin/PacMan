@@ -53,16 +53,6 @@ PMD:
       - build/
       - .gradle/
 
-pitest:
-  stage: validate
-  script: gradle pitest
-  cache:
-    key: "$CI_COMMIT_REF_NAME"
-    policy: pull
-    paths:
-      - build/
-      - .gradle/
-
 test:
   stage: test
   script:
@@ -88,6 +78,15 @@ coverage:
     name: test_coverage
     paths:
       - build/reports/jacoco/test/html
+
+pitest:
+  stage: test
+  script:
+    - gradle pitest
+  artifacts:
+    name: pitest_analysis
+    paths:
+      - build/reports/pitest/html
 
 include:
   - template: Code-Quality.gitlab-ci.yml
