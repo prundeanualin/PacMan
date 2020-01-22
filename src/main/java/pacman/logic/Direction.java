@@ -115,7 +115,7 @@ public enum Direction {
                 direction = Direction.RIGHT;
                 break;
             default:
-                return null; //NOPMD Assigning null is intentional, will indicate a key is not bound.
+                return null; //NOPMD Assigning null indicates a key is not bound.
         }
         if (pacMan.isDrunk()) {
             direction = direction.getInverse();

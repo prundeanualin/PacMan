@@ -25,7 +25,7 @@ public class PacMan extends MovingEntity {
     private boolean pumped = false;
     private double pumpedTimer = 0.0;
     public static final double pumpedTime = 8.0;
-    
+
     private boolean drunk = false;
     private double drunkTimer = 0;
     public static final double drunkTime = 10.0;
@@ -113,7 +113,7 @@ public class PacMan extends MovingEntity {
         return drunk;
     }
 
-    public void setDrunk(){
+    public void setDrunk() {
         drunk = true;
         drunkTimer = drunkTime;
     }
@@ -139,7 +139,7 @@ public class PacMan extends MovingEntity {
             }
         }
 
-        if (drunk){
+        if (drunk) {
             drunkTimer -= dt;
             drunk = drunkTimer > 0.0;
         }
