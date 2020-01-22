@@ -21,15 +21,15 @@ public enum Style {
     private Color backgroundColor;
     private Color blinkyColour;
     private Color pinkyColour;
-    private Color inkyColour;
-    private Color clydeColour;
+    private Color drunkyColor;
+    private Color sneakyColor;
     private Color pelletColour;
     private Color powerPelletColor;
     private Color textColour;
 
     Style(String pacmanColour, String pumpedColour, String wallColour,
           String backgroundColor, String blinkyColour,
-          String pinkyColour, String inkyColour, String clydeColour, String pelletColour,
+          String pinkyColour, String drunkyColor, String sneakyColor, String pelletColour,
           String powerPelletColour, String textColour) {
         this.pacmanColour = Color.web(pacmanColour);
         this.pumpedColour = Color.web(pumpedColour);
@@ -37,8 +37,8 @@ public enum Style {
         this.backgroundColor = Color.web(backgroundColor);
         this.blinkyColour = Color.web(blinkyColour);
         this.pinkyColour = Color.web(pinkyColour);
-        this.inkyColour = Color.web(inkyColour);
-        this.clydeColour = Color.web(clydeColour);
+        this.drunkyColor = Color.web(drunkyColor);
+        this.sneakyColor = Color.web(sneakyColor);
         this.pelletColour = Color.web(pelletColour);
         this.powerPelletColor = Color.web(powerPelletColour);
         this.textColour = Color.web(textColour);
@@ -85,19 +85,19 @@ public enum Style {
     }
 
     /**
-     * Gets the colour of Drunky.
-     * @return The colour Drunky has
+     * Gets the color of Drunky.
+     * @return The color Drunky has
      */
-    public Color getInkyColour() {
-        return inkyColour;
+    public Color getDrunkyColor() {
+        return drunkyColor;
     }
 
     /**
-     * Gets the colour of Sneaky.
-     * @return The colour Sneaky has
+     * Gets the color of Sneaky.
+     * @return The color Sneaky has
      */
-    public Color getClydeColour() {
-        return clydeColour;
+    public Color getSneakyColor() {
+        return sneakyColor;
     }
 
     /**

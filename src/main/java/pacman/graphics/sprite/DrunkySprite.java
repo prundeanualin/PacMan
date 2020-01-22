@@ -7,14 +7,25 @@ import pacman.graphics.Style;
 import pacman.logic.entity.Ghost;
 
 @SuppressWarnings("PMD.BeanMembersShouldSerialize") // Not a bean.
-public class DrunkySprite extends Sprite<Ghost> {
-    static Image image = new Image(DrunkySprite.class.getResourceAsStream("/images/inky.png"));
+public class DrunkySprite extends GhostSprite {
+
+    public DrunkySprite(){
+    Image image = new Image(getClass().getResourceAsStream("/images/drunky.png"));
+    Image scared = new Image(getClass().getResourceAsStream("/images/darkDrunky.png"));
+    Image eyes = new Image(getClass().getResourceAsStream("/images/eyes.png"));
+    setImages(image, scared, eyes);
+    }
+
+    @Override
+    public void drawBackground(@NotNull Ghost entity, @NotNull GraphicsContext g,
+                               @NotNull Style style, double t) {
+        drawHome(entity, g, style.getDrunkyColor(), style.getBackgroundColor());
+    }
 
     @Override
     public void draw(@NotNull Ghost entity, @NotNull GraphicsContext g, @NotNull Style style,
                      double t) {
-        g.setFill(style.getInkyColour());
-        g.drawImage(image, -0.5, -0.5, 1, 1);
-
+        g.setFill(style.getDrunkyColor());
+        drawImage(entity, g);
     }
 }

@@ -210,7 +210,7 @@ public abstract class Ghost extends MovingEntity {
     private Square spawnTarget(List<Square> options) {
         if (square == homeCorner) {
             mode = Mode.CHASE;
-            time = 0.0;
+            scatterChaseTimer = 0.0;
             return chaseTarget(options);
         } else {
             return homeCorner;
