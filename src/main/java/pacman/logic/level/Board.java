@@ -36,6 +36,7 @@ public class Board {
 
     /**
      * Creates a board with a specified size.
+     * Creates a board with a specified size.
      *
      * @param width  The width of the board
      * @param height The height of the board

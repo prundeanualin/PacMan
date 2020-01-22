@@ -47,8 +47,7 @@ public class LeaderboardDao {
      * @param amount The amount of scores to get
      * @return The top users, ordered by descending score
      */
-    public @NotNull
-    List<User> getTop(int amount) {
+    public @NotNull List<User> getTop(int amount) {
         try (Connection conn = connect.getMyConnection()) {
             PreparedStatement statement = conn
                     .prepareStatement("SELECT * FROM Users ORDER BY Score DESC LIMIT ?");

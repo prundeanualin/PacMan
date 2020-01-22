@@ -44,4 +44,5 @@ public class Level {
     public void revivePlayer() {
         pacMan.setAlive(true);
     }
+
 }

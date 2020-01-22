@@ -99,8 +99,7 @@ public class Game {
      *
      * @return The level currently playing
      */
-    public @NotNull
-    Level getLevel() {
+    public @NotNull Level getLevel() {
         return levels.get(currentLevel);
     }
 
@@ -108,8 +107,7 @@ public class Game {
         player.setUsername(user.getUsername());
     }
 
-    public @NotNull
-    ObservableValue<GameState> getState() {
+    public @NotNull ObservableValue<GameState> getState() {
         return state;
     }
 
