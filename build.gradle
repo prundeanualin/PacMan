@@ -1,5 +1,17 @@
 import com.github.spotbugs.SpotBugsTask
 
+//Mutation Testing tool pitest
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    configurations.maybeCreate('pitest')
+    dependencies {
+        classpath 'info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.4.5'
+        pitest 'org.pitest:pitest-junit5-plugin:0.10'
+    }
+}
+
 plugins {
     id 'java'
 //    id 'eclipse' // optional (to generate Eclipse project files)
@@ -17,13 +29,16 @@ plugins {
     // FindBugs / SpotBugs
     id "com.github.spotbugs" version "2.0.1"
 
-    //Mutation Testing tool pitest
-    id 'info.solidsoft.pitest' version '1.4.6'
+//    id 'info.solidsoft.pitest' version '1.4.6'
 
     // JavaFX
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.8'
 }
+
+
+//Applying the mutation testing tool
+apply plugin: 'info.solidsoft.pitest'
 
 mainClassName = 'pacman.Main'
 
@@ -101,6 +116,11 @@ checkstyle {
 
 pitest {
     targetClasses = ['pacman.*']
+    pitestVersion = "1.4.9"
+//    targetTests = ['*Test*']
+//    verbose = true
+    testPlugin = "junit5"
+    excludedClasses = ['pacman.graphics.*', 'pacman.database.*', 'pacman.Main']
     outputFormats = ['XML', 'HTML']
     jvmArgs = ['-enableassertions']
     timestampedReports = false
@@ -128,7 +148,7 @@ sourceSets.main {
 
 sourceSets.test {
     java {
-        srcDir 'src/test/java'
+        srcDirs 'src/test/java'
     }
 }
 
