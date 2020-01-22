@@ -55,13 +55,13 @@ PMD:
 
 pitest:
   stage: validate
-  script: gradle pitest
+  script:
+    - gradle pitest
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: pull
     paths:
       - build/
-      - .gradle/
 
 test:
   stage: test

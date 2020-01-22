@@ -121,7 +121,7 @@ pitest {
 //    verbose = true
     testPlugin = "junit5"
     excludedClasses = ['pacman.graphics.*', 'pacman.database.*', 'pacman.Main']
-    outputFormats = ['XML', 'HTML']
+    outputFormats = ['HTML']
     jvmArgs = ['-enableassertions']
     timestampedReports = false
 }
