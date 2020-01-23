@@ -172,7 +172,6 @@ public class GhostTest {
         assertSame(board.getSquare(1, 0), ghost.getSquare());
         ghost.update(0.25);
         assertSame(Direction.RIGHT, ghost.getDirection());
-        ghost.update(0.45);
         assertSame(board.getSquare(2, 0), ghost.getSquare());
         ghost.update(0.25);
         assertSame(Ghost.Mode.CHASE, ghost.mode);
