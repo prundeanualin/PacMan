@@ -93,22 +93,20 @@ public class GameTest {
 
         @Test
         public void testPacManEatsGhosts() {
-            Board board = new MapParser("").parseMapFromString("*P+..#");
+            Board board = new MapParser("").parseMapFromString("*P+...#");
             Level level = new LevelFactory().createLevel(board);
             List<Level> levels = new ArrayList<>();
             levels.add(level);
-            blinky = new Blinky(board, board.getSquare(4, 0));
+            blinky = new Blinky(board, board.getSquare(5, 0));
             game = new Game(new Player(), levels);
             PacMan pacMan = game.getLevel().getPacMan();
 
             pacMan.setDirection(Direction.RIGHT);
-            blinky.setDirection(Direction.RIGHT);
+            blinky.setDirection(Direction.LEFT);
             game.setState(GameState.RUNNING);
             game.update(0.5);
             assertTrue(game.isRunning());
             assertTrue(pacMan.isAlive());
-            game.update(0.5);
-            assertTrue(game.isRunning());
             assertTrue(pacMan.isPumped());
             assertTrue(blinky.isScared());
             game.update(0.5);

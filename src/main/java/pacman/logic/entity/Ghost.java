@@ -105,11 +105,17 @@ public abstract class Ghost extends MovingEntity {
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // For each loop false warning.
     protected List<Square> getOptions() {
         List<Square> neighbours = this.getSquare().getNeighbours();
-        List<Square> options = new ArrayList<>(4);
 
-        for (Square square : neighbours) {
-            if (neighbours.size() == 1 || (mode == Mode.EATEN && !square.hasSolid())
-                    || (!square.hasSolid() && !square.equals(oldSquare))) {
+        List<Square> nonSolidNeighbours = new ArrayList<>(4);
+        for(Square square:neighbours){
+            if(neighbours.size()==1||!square.hasSolid()){
+                nonSolidNeighbours.add(square);
+            }
+        }
+
+        List<Square> options = new ArrayList<>(4);
+        for (Square square : nonSolidNeighbours) {
+            if (nonSolidNeighbours.size() == 1 || !square.equals(oldSquare)) {
                 options.add(square);
             }
         }
@@ -229,6 +235,9 @@ public abstract class Ghost extends MovingEntity {
 
     public void setEaten() {
         mode = Mode.EATEN;
+        oldSquare = null;
+        update(0);
+        direction = nextDirection;
     }
 
     public boolean isEaten() {

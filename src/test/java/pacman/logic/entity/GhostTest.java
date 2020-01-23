@@ -160,21 +160,21 @@ public class GhostTest {
 
     @Test
     public void testEatenBehavior() {
-        String maP = "P.....*#";
+        String maP = "......*P#";
         board = MapParser.parseMapFromString(maP);
         ghost = new Blinky(board, board.getSquare(3, 0));
-        ghost.update(0.6);
-        assertSame(board.getSquare(2, 0), ghost.getSquare());
+        ghost.update(1);
+        assertSame(board.getSquare(1, 0), ghost.getSquare());
         assertSame(Direction.LEFT, ghost.getDirection());
         ghost.setEaten();
-        ghost.update(0.25);
         assertTrue(ghost.isEaten());
-        assertSame(board.getSquare(1, 0), ghost.getSquare());
-        ghost.update(0.25);
         assertSame(Direction.RIGHT, ghost.getDirection());
-        ghost.update(0.45);
+        ghost.update(0.25);
         assertSame(board.getSquare(2, 0), ghost.getSquare());
         ghost.update(0.25);
+        assertSame(Direction.RIGHT, ghost.getDirection());
+        assertSame(board.getSquare(3, 0), ghost.getSquare());
+        assertFalse(ghost.isEaten());
         assertSame(Ghost.Mode.CHASE, ghost.mode);
     }
 
