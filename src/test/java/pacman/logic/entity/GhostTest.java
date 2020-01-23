@@ -159,6 +159,10 @@ public class GhostTest {
         assertTrue(board.pacman.isAlive());
     }
 
+    /**
+     * Repeated test as an insurance of determinism.
+     * This as some runs seemed to have unexpected results.
+     */
     @RepeatedTest(10)
     public void testEatenBehavior() {
         String maP = "......*P#";

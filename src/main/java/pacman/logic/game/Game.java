@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import pacman.database.User;
 import pacman.logic.Player;
 import pacman.logic.entity.Entity;
+import pacman.logic.entity.Ghost;
 import pacman.logic.level.Board;
 import pacman.logic.level.Level;
 
@@ -53,8 +54,13 @@ public class Game {
         Board board = getLevel().getBoard();
         board.resetTickScore();
 
+        for (Ghost ghost : board.getGhosts()) {
+            ghost.update(dt);
+        }
         for (Entity entity : board.getEntities()) {
-            entity.update(dt);
+            if (!(entity instanceof Ghost)) {
+                entity.update(dt);
+            }
         }
 
         player.updateScore(board.getTickScore());
@@ -98,7 +104,8 @@ public class Game {
      *
      * @return The level currently playing
      */
-    public @NotNull Level getLevel() {
+    @NotNull
+    public Level getLevel() {
         return levels.get(currentLevel);
     }
 
@@ -106,7 +113,8 @@ public class Game {
         player.setUsername(user.getUsername());
     }
 
-    public @NotNull ObservableValue<GameState> getState() {
+    @NotNull
+    public ObservableValue<GameState> getState() {
         return state;
     }
 
@@ -118,12 +126,8 @@ public class Game {
         return player;
     }
 
-//    public void changeMaxLvl(int newMaxLvl) {
-//        lvlMax = newMaxLvl;
-//    }
-
     public boolean won() {
-        return currentLevel == levels.size()-1;
+        return currentLevel == levels.size() - 1;
     }
 
 }

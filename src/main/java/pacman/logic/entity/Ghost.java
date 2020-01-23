@@ -93,8 +93,10 @@ public abstract class Ghost extends MovingEntity {
             if (options.size() > 0) {
                 Square target = chooseTarget(options);
                 if (target != null) {
-                    Square next = options.get(0);
-                    if (options.size() > 1) {
+                    Square next;
+                    if (options.size() == 1) { //NOPMD logical literal.
+                        next = options.get(0);
+                    } else {
                         next = closestNeighbour(target, options);
                     }
                     nextDirection = square.directionOf(next);
@@ -109,7 +111,7 @@ public abstract class Ghost extends MovingEntity {
      *
      * @return list of target square options.
      */
-    @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // For each loop false warning.
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis") //NOPMD for loop, not part of code.
     protected List<Square> getOptions() {
         List<Square> neighbours = this.getSquare().getNeighbours();
 
@@ -122,7 +124,8 @@ public abstract class Ghost extends MovingEntity {
 
         List<Square> options = new ArrayList<>(4);
         for (Square square : nonSolidNeighbours) {
-            if (nonSolidNeighbours.size() == 1 || !square.equals(oldSquare)) {
+            if (nonSolidNeighbours.size() == 1
+                    || !square.equals(oldSquare) && !square.equals(this.square)) {
                 options.add(square);
             }
         }
@@ -132,11 +135,12 @@ public abstract class Ghost extends MovingEntity {
     /**
      * Gives the closest option to the target.
      * Uses breadth first, defaults to manhatten if target is unreachable.
-     * @param target the square to find the closest option to.
+     *
+     * @param target  the square to find the closest option to.
      * @param options the options we can pick from.
      * @return the closest option to the target.
      */
-    @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // Foreach loop incorrectly marked as UR anomaly.
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // Foreach loop incorrectly marked.
     protected Square closestNeighbour(Square target, List<Square> options) {
         if (options.size() == 0) {
             throw new IllegalArgumentException("Cannot choose target from empty list of options.");
@@ -157,6 +161,7 @@ public abstract class Ghost extends MovingEntity {
      * @param options the options it has to directly walk to.
      * @return the option that is most optimal. Null if none apply.
      */
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // For loop false warning.
     private final Square breadthFirstSearch(Square target, List<Square> options) {
         int depth = 0;
         Map<Square, Square> visited = new HashMap<Square, Square>();
@@ -166,7 +171,7 @@ public abstract class Ghost extends MovingEntity {
         while (!next.isEmpty()) {
             Square current = next.poll();
             for (Square n : current.getNeighbours()) {
-                if (n == target) {
+                if (n.equals(target)) {
                     return visited.get(current);
                 }
                 if (!visited.containsKey(n) && !n.hasSolid()) {
@@ -185,6 +190,7 @@ public abstract class Ghost extends MovingEntity {
      * @param options the options we can pick from.
      * @return the closest of the options to the target.
      */
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // For loop false warning.
     private final Square manhattenDistance(Square target, List<Square> options) {
         double min = Double.MAX_VALUE;
         Square next = null;
@@ -290,9 +296,12 @@ public abstract class Ghost extends MovingEntity {
         scatterChaseTimer = 0.0;
     }
 
+    /**
+     * Sets ghost to eaten. Also enables single turnaround.
+     */
     public void setEaten() {
         mode = Mode.EATEN;
-        oldSquare = null;
+        oldSquare = null; //NOPMD Insures the ghost can turn around.
         update(0);
         direction = nextDirection;
     }
