@@ -78,7 +78,7 @@ public class GameView extends VBox {
         button = new Label();
         button.setBackground(new Background(new BackgroundFill(Color.BLACK,
                 CornerRadii.EMPTY, Insets.EMPTY)));
-        button.setBorder(new Border(new BorderStroke(Style.CLASSIC.getWallColour(),
+        button.setBorder(new Border(new BorderStroke(Style.CLASSIC.getWallColor(),
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(1))));
         button.setFont(new Font(22));
         button.setTextFill(Color.YELLOW);

@@ -25,7 +25,7 @@ public class Board {
 
     private List<Square> squares;
     private Set<Entity> entities;
-    // TODO: Likely remove Level & LevelFactory entirely.
+
     public PacMan pacman;
     private Set<Ghost> ghosts;
     private Set<Pellet> pellets;
@@ -241,5 +241,9 @@ public class Board {
 
     public Set<Wall> getWalls() {
         return walls;
+    }
+
+    public PacMan getPacman() {
+        return pacman;
     }
 }

@@ -71,7 +71,7 @@ public class Game {
     private void checkWinLoss() {
         if (getLevel().wasPacManHit() && player.getLives().get() > 1) {
             player.loseLife();
-            getLevel().getPacMan().setImmunity();
+            getLevel().getPacMan().setImmune();
             getLevel().revivePlayer();
         }
         if (!player.hasLives() || getLevel().wasPacManHit()) {

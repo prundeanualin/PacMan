@@ -17,7 +17,7 @@ public class WallSprite extends Sprite<Wall> {
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     public void draw(@NotNull Wall entity, @NotNull GraphicsContext g, @NotNull Style style,
                      double t) {
-        g.setStroke(style.getWallColour());
+        g.setStroke(style.getWallColor());
         for (Direction dir : Direction.values()) {
             Square neighbour = entity.getSquare().getNeighbour(dir);
             double dist = Math.abs(entity.getX() - neighbour.getXs())

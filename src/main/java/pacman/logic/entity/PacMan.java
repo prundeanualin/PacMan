@@ -1,6 +1,5 @@
 package pacman.logic.entity;
 
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -26,6 +25,10 @@ public class PacMan extends MovingEntity {
     private boolean pumped = false;
     private double pumpedTimer = 0.0;
     public static final double pumpedTime = 8.0;
+
+    private boolean drunk = false;
+    private double drunkTimer = 0;
+    public static final double drunkTime = 10.0;
 
     /**
      * Creates a new PacMan.
@@ -67,11 +70,17 @@ public class PacMan extends MovingEntity {
         }
     }
 
+    /**
+     * Whether PacMan is immune and cannot collide with entities.
+     * (except walls of course)
+     *
+     * @return whether PacMan is immune
+     */
     public boolean isImmune() {
         return immune;
     }
 
-    public void setImmunity() {
+    public void setImmune() {
         immune = true;
         immuneTimer = immuneTime;
     }
@@ -95,6 +104,20 @@ public class PacMan extends MovingEntity {
         pumpedTimer = pumpedTime;
     }
 
+    /**
+     * Returns if pacman is drunk and thus input is reversed.
+     *
+     * @return if pacman is drunk
+     */
+    public boolean isDrunk() {
+        return drunk;
+    }
+
+    public void setDrunk() {
+        drunk = true;
+        drunkTimer = drunkTime;
+    }
+
     @Override
     public void collideWithPacMan(PacMan pacMan) {
         // Do Nothing. Never Happens in SinglePlayer.
@@ -114,6 +137,11 @@ public class PacMan extends MovingEntity {
             if (pumpedTimer < 0.0) { //NOPMD normal constant in if statement.
                 setPumped(false);
             }
+        }
+
+        if (drunk) {
+            drunkTimer -= dt;
+            drunk = drunkTimer > 0.0;
         }
     }
 }

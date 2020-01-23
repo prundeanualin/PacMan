@@ -60,7 +60,7 @@ public class PacManTest {
 
     @Test
     public void testImmunity() {
-        pacMan.setImmunity();
+        pacMan.setImmune();
         pacMan.update(1.5);
         assertTrue(pacMan.isImmune());
         pacMan.update(1.5);
