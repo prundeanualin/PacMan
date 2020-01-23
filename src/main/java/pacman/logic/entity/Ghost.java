@@ -1,8 +1,12 @@
 package pacman.logic.entity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Queue;
 import java.util.Random;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import pacman.graphics.sprite.Sprite;
 import pacman.logic.Direction;
@@ -89,7 +93,10 @@ public abstract class Ghost extends MovingEntity {
             if (options.size() > 0) {
                 Square target = chooseTarget(options);
                 if (target != null) {
-                    Square next = closestNeighbour(target, options);
+                    Square next = options.get(0);
+                    if (options.size() > 1) {
+                        next = closestNeighbour(target, options);
+                    }
                     nextDirection = square.directionOf(next);
                 }
             }
@@ -107,8 +114,8 @@ public abstract class Ghost extends MovingEntity {
         List<Square> neighbours = this.getSquare().getNeighbours();
 
         List<Square> nonSolidNeighbours = new ArrayList<>(4);
-        for(Square square:neighbours){
-            if(neighbours.size()==1||!square.hasSolid()){
+        for (Square square : neighbours) {
+            if (neighbours.size() == 1 || !square.hasSolid()) {
                 nonSolidNeighbours.add(square);
             }
         }
@@ -122,13 +129,63 @@ public abstract class Ghost extends MovingEntity {
         return options;
     }
 
-    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
-    // Foreach loop incorrectly marked as UR anomaly.
+    /**
+     * Gives the closest option to the target.
+     * Uses breadth first, defaults to manhatten if target is unreachable.
+     * @param target the square to find the closest option to.
+     * @param options the options we can pick from.
+     * @return the closest option to the target.
+     */
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // Foreach loop incorrectly marked as UR anomaly.
     protected Square closestNeighbour(Square target, List<Square> options) {
         if (options.size() == 0) {
             throw new IllegalArgumentException("Cannot choose target from empty list of options.");
         }
 
+        Square closest = breadthFirstSearch(target, options);
+        if (closest != null) {
+            return closest;
+        } else {
+            return manhattenDistance(target, options);
+        }
+    }
+
+    /**
+     * Returns the options closest to the target from the ghost.
+     *
+     * @param target  the target the ghost wants to go to.
+     * @param options the options it has to directly walk to.
+     * @return the option that is most optimal. Null if none apply.
+     */
+    private final Square breadthFirstSearch(Square target, List<Square> options) {
+        int depth = 0;
+        Map<Square, Square> visited = new HashMap<Square, Square>();
+        Queue<Square> next = new LinkedBlockingQueue<Square>();
+        visited.put(square, square);
+        next.addAll(options);
+        while (!next.isEmpty()) {
+            Square current = next.poll();
+            for (Square n : current.getNeighbours()) {
+                if (n == target) {
+                    return visited.get(current);
+                }
+                if (!visited.containsKey(n) && !n.hasSolid()) {
+                    visited.put(n, visited.get(current));
+                    next.add(n);
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Returns the closest option to target, using manhatten distance.
+     *
+     * @param target  the target to go to.
+     * @param options the options we can pick from.
+     * @return the closest of the options to the target.
+     */
+    private final Square manhattenDistance(Square target, List<Square> options) {
         double min = Double.MAX_VALUE;
         Square next = null;
 

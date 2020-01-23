@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import pacman.logic.Direction;
 import pacman.logic.level.Board;
@@ -158,7 +159,7 @@ public class GhostTest {
         assertTrue(board.pacman.isAlive());
     }
 
-    @Test
+    @RepeatedTest(10)
     public void testEatenBehavior() {
         String maP = "......*P#";
         board = MapParser.parseMapFromString(maP);
