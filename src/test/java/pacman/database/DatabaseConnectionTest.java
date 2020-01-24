@@ -1,8 +1,8 @@
 package pacman.database;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 import java.sql.Connection;
+
+import org.junit.Assert;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -22,7 +22,7 @@ public class DatabaseConnectionTest {
     public void testdbconnection() throws Exception {
         newDbConnect = new DbConnect();
         connection = newDbConnect.getMyConnection();
-        assertNotNull(connection);
+        Assert.assertNotNull(connection);
     }
 
     @Test

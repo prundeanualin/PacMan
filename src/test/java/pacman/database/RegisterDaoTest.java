@@ -1,6 +1,7 @@
 package pacman.database;
 
-import static junit.framework.TestCase.assertEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,7 +34,7 @@ class RegisterDaoTest {
         user.setScore(10);
         RegisterDao registerDao = new RegisterDao();
         registerDao.addUser(user);
-        assertEquals(true, registerDao.checkUserAlreadyExists(user));
+        assertTrue(registerDao.checkUserAlreadyExists(user));
     }
 
     @Test

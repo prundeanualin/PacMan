@@ -1,6 +1,6 @@
 package pacman.logic.entity;
 
-import org.junit.jupiter.api.Assertions;
+import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pacman.logic.level.Board;
@@ -29,7 +29,7 @@ class PelletTest {
             }
             System.out.println(e.getX());
         }
-        Assertions.assertNotNull(pellet);
+        Assert.assertNotNull(pellet);
     }
 
 }
