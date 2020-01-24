@@ -1,6 +1,6 @@
 package pacman.logic.entity;
 
-import org.junit.jupiter.api.Assertions;
+import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pacman.logic.level.Board;
@@ -27,6 +27,6 @@ class PowerPelletTest {
                 powerPellet = (PowerPellet) e;
             }
         }
-        Assertions.assertNotNull(powerPellet);
+        Assert.assertNotNull(powerPellet);
     }
 }

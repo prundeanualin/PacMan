@@ -1,8 +1,8 @@
 package pacman.database;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.Assert.assertEquals;
 
+import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -46,7 +46,7 @@ public class UserTest2 {
 
     @Test
     public void testNotEquals() {
-        assertNotEquals(user1, user2);
+        Assert.assertNotEquals(user1, user2);
     }
 
 }
