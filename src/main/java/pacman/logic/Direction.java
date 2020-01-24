@@ -1,5 +1,7 @@
 package pacman.logic;
 
+import java.util.HashMap;
+
 import javafx.scene.input.KeyCode;
 import pacman.logic.entity.PacMan;
 
@@ -47,6 +49,20 @@ public enum Direction {
     private final int dy;
 
     private final double rotation;
+
+    public static HashMap<KeyCode, Direction> directionHashMap;
+
+    static {
+        directionHashMap= new HashMap<>();
+        directionHashMap.put(KeyCode.A, Direction.LEFT);
+        directionHashMap.put(KeyCode.LEFT, Direction.LEFT);
+        directionHashMap.put(KeyCode.W, Direction.UP);
+        directionHashMap.put(KeyCode.UP, Direction.UP);
+        directionHashMap.put(KeyCode.S, Direction.DOWN);
+        directionHashMap.put(KeyCode.DOWN, Direction.DOWN);
+        directionHashMap.put(KeyCode.D, Direction.RIGHT);
+        directionHashMap.put(KeyCode.RIGHT, Direction.RIGHT);
+    }
 
     Direction(int x, int y, double rotation) {
         this.dx = x;
@@ -96,29 +112,11 @@ public enum Direction {
      */
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     public static Direction keyToDirection(KeyCode key, PacMan pacMan) {
+
         Direction direction;
-        switch (key) {
-            case A:
-            case LEFT:
-                direction = Direction.LEFT;
-                break;
-            case W:
-            case UP:
-                direction = Direction.UP;
-                break;
-            case S:
-            case DOWN:
-                direction = Direction.DOWN;
-                break;
-            case D:
-            case RIGHT:
-                direction = Direction.RIGHT;
-                break;
-            default:
-                return null; //NOPMD Assigning null indicates a key is not bound.
-        }
+        direction= directionHashMap.get(key);
         if (pacMan.isDrunk()) {
-            direction = direction.getInverse();
+            direction= directionHashMap.get(key).getInverse();
         }
         return direction;
     }
