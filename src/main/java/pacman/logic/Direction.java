@@ -1,5 +1,10 @@
 package pacman.logic;
 
+import java.util.HashMap;
+
+import javafx.scene.input.KeyCode;
+import pacman.logic.entity.PacMan;
+
 /**
  * .
  * Class for keeping track of directions of different sprites,
@@ -45,6 +50,20 @@ public enum Direction {
 
     private final double rotation;
 
+    public static HashMap<KeyCode, Direction> directionHashMap;
+
+    static {
+        directionHashMap = new HashMap<>();
+        directionHashMap.put(KeyCode.A, Direction.LEFT);
+        directionHashMap.put(KeyCode.LEFT, Direction.LEFT);
+        directionHashMap.put(KeyCode.W, Direction.UP);
+        directionHashMap.put(KeyCode.UP, Direction.UP);
+        directionHashMap.put(KeyCode.S, Direction.DOWN);
+        directionHashMap.put(KeyCode.DOWN, Direction.DOWN);
+        directionHashMap.put(KeyCode.D, Direction.RIGHT);
+        directionHashMap.put(KeyCode.RIGHT, Direction.RIGHT);
+    }
+
     Direction(int x, int y, double rotation) {
         this.dx = x;
         this.dy = y;
@@ -82,5 +101,23 @@ public enum Direction {
             }
         }
         throw new IllegalArgumentException("Direction (" + x + ":" + y + ") does not exist.");
+    }
+
+    /**
+     * Returns the direction a key should be bound to.
+     * Takes into account PacMan's drunk state.
+     *
+     * @param key the key of which we want the direction.
+     * @return the direction that corresponds to this key.
+     */
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
+    public static Direction keyToDirection(KeyCode key, PacMan pacMan) {
+
+        Direction direction;
+        direction = directionHashMap.get(key);
+        if (pacMan.isDrunk()) {
+            direction = directionHashMap.get(key).getInverse();
+        }
+        return direction;
     }
 }

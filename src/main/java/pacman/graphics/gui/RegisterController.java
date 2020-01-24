@@ -1,6 +1,7 @@
 package pacman.graphics.gui;
 
 import java.io.IOException;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -43,16 +44,18 @@ public class RegisterController implements Initializable {
     @SuppressWarnings("PMD")
     private void registerUser(ActionEvent event) throws IOException {
         RegisterDao registerDao = new RegisterDao();
-        if (passwordField.getText().equals(confPass.getText())) {
+        if (validate()) {
             User user = new User();
             user.setUsername(usernameTextBox.getText());
             user.setPassword(passwordField.getText());
             user.setScore(0);
             if (!registerDao.checkUserAlreadyExists(user)) {
                 registerDao.addUser(user);
-                Parent root = FXMLLoader.load(getClass().getResource("/views/login.fxml"));
+                Parent root = FXMLLoader.load(getClass()
+                        .getResource("/views/login.fxml"));
                 Scene scene = new Scene(root);
-                Stage stage = (Stage)((javafx.scene.Node) event.getSource()).getScene().getWindow();
+                Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene()
+                        .getWindow();
                 stage.setScene(scene);
                 stage.show();
             } else {
@@ -63,12 +66,41 @@ public class RegisterController implements Initializable {
                 alert.showAndWait();
             }
         } else {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Information Dialog");
-            alert.setHeaderText("Passwords don't match");
-            alert.setContentText(passwordField.getText());
-            alert.showAndWait();
+            alert();
         }
+    }
+
+    /**
+     * Opens an information dialog to let user know about the current state of his register process.
+     */
+    public void alert() {
+        String message;
+        if (!passwordField.getText().equals(confPass.getText())) {
+            message = "Passwords don't match!";
+        } else if (passwordField == null || passwordField.getText().isBlank()) {
+            message = "Password cannot be empty!";
+        } else {
+            message = "Username cannot be empty!";
+        }
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information Dialog");
+        alert.setHeaderText(message);
+        alert.setContentText(message + "\n"
+                + "Please provide the correct format for the password and username");
+        alert.showAndWait();
+    }
+
+    /**
+     * Checks the format of the input to be correct.
+     * @return true if it is/ false if not
+     */
+    public boolean validate() {
+        return passwordField.getText().equals(confPass.getText())
+                && passwordField != null
+                && !passwordField.getText().isBlank()
+                && usernameTextBox != null
+                && !usernameTextBox.getText().isBlank();
+
     }
 
 }

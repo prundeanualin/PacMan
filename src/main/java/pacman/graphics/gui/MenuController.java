@@ -9,25 +9,18 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import pacman.database.User;
+import pacman.database.UserDao;
 import pacman.graphics.GameView;
 import pacman.logic.Direction;
 import pacman.logic.entity.PacMan;
@@ -36,11 +29,11 @@ import pacman.logic.game.GameState;
 
 public class MenuController implements Initializable {
 
-    private GameView gameView;
     private Scene scene;    //NOPMD no need for get/set for this one;
     // it is just for ease of use
     public static Stage stage;
     public static User user;
+    public static GameView gameView;
 
     @FXML
     private Label userDetails; //NOPMD no need for having set/get for thi gui element
@@ -81,32 +74,30 @@ public class MenuController implements Initializable {
     public void startGame(ActionEvent event) {
 
         stage = (Stage)((javafx.scene.Node) event.getSource()).getScene().getWindow();
-        gameView = new GameView(GameController.getInstance().getGame(), 790, 720);
+        gameView = new GameView(GameController.getInstance().getGame(), 800, 800);
         GameController.getInstance().setUser(user);
         scene = new Scene(gameView);
         stage.setScene(scene);
         stage.show();
 
         GameController.getInstance().start();
-
         scene.setOnKeyPressed(e -> {
             PacMan pm = GameController.getInstance().getGame().getLevel().getPacMan();
-            switch (e.getCode()) {
-                case UP:
-                    pm.setNextDirection(Direction.UP);
-                    break;
-                case DOWN:
-                    pm.setNextDirection(Direction.DOWN);
-                    break;
-                case LEFT:
-                    pm.setNextDirection(Direction.LEFT);
-                    break;
-                case RIGHT:
-                    pm.setNextDirection(Direction.RIGHT);
-                    break;
-                default:
-                    // NOOP
+            Direction direction = Direction.keyToDirection(e.getCode(), pm);
+            if (direction != null) {
+                pm.setNextDirection(direction);
             }
+        });
+
+        gameView.getButton().setOnMouseClicked(event1 -> {
+            if (!gameView.isStopped()) {
+                GameController.getInstance().pause();
+                gameView.getBoardCanvas().pauseGame();
+            } else {
+                GameController.getInstance().unpause();
+                gameView.getBoardCanvas().unPauseGame();
+            }
+            gameView.getButton().setText(gameView.flipText());
         });
 
         GameController.getInstance().getGame().getState().addListener((ob, o, n) -> {
@@ -118,93 +109,82 @@ public class MenuController implements Initializable {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                gameFinished(n);
+                int score = GameController.getInstance().getGame().getPlayer().getScore().get();
+                gameFinished(score);
             }
         });
 
     }
 
-    private void gameFinished(GameState state) {
-        if (state == GameState.WON && !GameController.getInstance().getGame().won()) {
-            createDialogueWindow("!! Level Won !!", "Next Level", false);
-        } else if (state == GameState.WON && GameController.getInstance().getGame().won()) {
-            createDialogueWindow("!! GAME WON !!", " Go to Main Menu", true);
-        } else if (state == GameState.LOST) {
-            createDialogueWindow("GAME LOST :(", "Got to Main Menu", true);
-        }
-        //try {
-        //    Parent root = FXMLLoader.load(getClass().getResource("/views/leaderboard.fxml"));
-        //    window.getScene().setRoot(root);
-        //} catch (IOException e) {
-        //    e.printStackTrace();
-        //}
-    }
-
-    private void createDialogueWindow(String msg1, String msg2, boolean menu) {
+    private void gameFinished(int score) {
         Stage stg = new Stage();
         stg.initModality(Modality.APPLICATION_MODAL);
         stg.initStyle(StageStyle.UNDECORATED);
-        VBox root = new VBox(70);
-        root.setBackground(new Background(new BackgroundFill(Color.BLUEVIOLET,
-                CornerRadii.EMPTY, Insets.EMPTY)));
-        Text text = new Text(msg1);
-        text.setFill(Color.WHEAT);
-        text.setFont(new Font("Joker", 27));
-        root.getChildren().add(text);
-        int score = GameController.getInstance().getGame().getPlayer().getScore().get();
-        Text scoreText = new Text("Your score is: " + score);
-        scoreText.setFill(Color.WHEAT);
-        scoreText.setFont(new Font("Joker", 27));
-        root.getChildren().add(scoreText);
-        Button btn = new Button(msg2);
-        btn.setBackground(new Background(new BackgroundFill(Color.GREENYELLOW,
-                CornerRadii.EMPTY, Insets.EMPTY)));
-        btn.setTextFill(Color.BLACK);
-        btn.setOnAction(event -> {
-            if (menu) {
-                try {
-                    stg.close();
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/menu.fxml"));
-                    Parent roots = loader.load();
-                    MenuController controller = loader.getController();
-                    controller.setProfileDetails(MenuController.user);
-                    Scene sc = new Scene(roots);
-                    GameController.getInstance().reset();
-                    stage.setScene(sc);
-                    stage.show();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                GameController.getInstance().nextLevel();
-                gameView.getBoardCanvas().setBoard(GameController
-                        .getInstance().getGame().getLevel().getBoard());
-                stg.close();
-                GameController.getInstance().start();
-                gameView.getBoardCanvas().start();
-            }
-        });
-        root.getChildren().add(btn);
+        stg.initOwner(stage);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/endGameWindow.fxml"));
+        try {
+            Parent root = loader.load();
+            EndGameWindowController controller = loader.getController();
+            controller.setUp(score, stg);
+            Scene scene = new Scene(root);
+            stg.setScene(scene);
+            stg.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Shows the leaderboard page.
+     * @throws IOException if it can't find the fxml file
+     */
+    public void goToLeaderBoard(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/views/leaderboard.fxml"));
         Scene scene = new Scene(root);
-        stg.setScene(scene);
-        stg.show();
+        stage = (Stage)((javafx.scene.Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
 
     /**
      * Displaying the user profile info (username) and his current score.
+     *
      * @param us the user
      */
     public void setProfileDetails(User us) {
         user = us;
+        int score = new UserDao().retrieveScore(us);
         userDetails.setText("User: " + user.getUsername()
-                + "\n" + "High score: " + user.getScore());
+                + "\n" + "High score: " + score);
     }
 
-    public GameView getGameView() {
-        return gameView;
+    /**
+     * Sends the current user to his/her profile page.
+     * @param event click.
+     */
+    public void goToProfile(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/profile.fxml"));
+        Parent root = loader.load();
+        ProfileController controller = loader.getController();
+        controller.setUp();
+        Scene scene = new Scene(root);
+        stage = (Stage)((javafx.scene.Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
 
-    public void setGameView(GameView gameView) {
-        this.gameView = gameView;
+    /**
+     * Logs the user out of the current session.
+     * @param event click
+     * @throws IOException user is sent to login page.
+     (exception in case it is not found).
+     */
+    public void logOut(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/views/login.fxml"));
+        Scene scene = new Scene(root);
+        Stage stage = (Stage)((javafx.scene.Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
+
 }

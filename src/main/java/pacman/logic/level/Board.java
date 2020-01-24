@@ -11,6 +11,8 @@ import pacman.logic.entity.Entity;
 import pacman.logic.entity.Ghost;
 import pacman.logic.entity.PacMan;
 import pacman.logic.entity.Pellet;
+import pacman.logic.entity.PowerPellet;
+import pacman.logic.entity.Wall;
 
 /**
  * Represents a board with a grid of squares and entities.
@@ -23,12 +25,17 @@ public class Board {
 
     private List<Square> squares;
     private Set<Entity> entities;
-    // TODO: Likely remove Level & LevelFactory entirely.
+
     public PacMan pacman;
-    public Set<Ghost> ghosts;
-    public Set<Pellet> pellets;
+    private Set<Ghost> ghosts;
+    private Set<Pellet> pellets;
+    private Set<PowerPellet> powerPellets;
+    private Set<Wall> walls;
+
+    private int tickScore = 0;
 
     /**
+     * Creates a board with a specified size.
      * Creates a board with a specified size.
      *
      * @param width  The width of the board
@@ -42,6 +49,8 @@ public class Board {
         this.entities = new HashSet<Entity>();
         this.ghosts = new HashSet<Ghost>();
         this.pellets = new HashSet<Pellet>();
+        this.powerPellets = new HashSet<>();
+        this.walls = new HashSet<>();
     }
 
     /**
@@ -51,7 +60,8 @@ public class Board {
      * @param y The y coordinate of the square
      * @return The square at the specified location.
      */
-    public @NotNull Square getSquare(int x, int y) {
+    @NotNull
+    public Square getSquare(int x, int y) {
         return squares.get((int) getPosY(y) * width + (int) getPosX(x));
     }
 
@@ -62,7 +72,8 @@ public class Board {
      * @param y The y coordinate of the square
      * @return The square at the specified location.
      */
-    public @NotNull Square getSquare(double x, double y) {
+    @NotNull
+    public Square getSquare(double x, double y) {
         return squares.get((int) getPosY(y) * width + (int) getPosX(x));
     }
 
@@ -93,6 +104,10 @@ public class Board {
             ghosts.add((Ghost) entity);
         } else if (entity instanceof Pellet) {
             pellets.add((Pellet) entity);
+        } else if (entity instanceof PowerPellet) {
+            powerPellets.add((PowerPellet) entity);
+        } else if (entity instanceof Wall) {
+            walls.add((Wall) entity);
         }
         entities.add(entity);
     }
@@ -110,6 +125,8 @@ public class Board {
             ghosts.remove((Ghost) entity);
         } else if (entity instanceof Pellet) {
             pellets.remove((Pellet) entity);
+        } else if (entity instanceof PowerPellet) {
+            powerPellets.remove((PowerPellet) entity);
         }
         entity.getSquare().removeEntity(entity);
         entities.remove(entity);
@@ -138,7 +155,8 @@ public class Board {
      *
      * @return The entities as an iterable
      */
-    public @NotNull Iterable<Entity> getEntities() {
+    @NotNull
+    public Iterable<Entity> getEntities() {
         return () -> entities.iterator();
     }
 
@@ -147,19 +165,34 @@ public class Board {
      *
      * @return The squares as an iterable
      */
-    public @NotNull Iterable<Square> getSquares() {
+    @NotNull
+    public Iterable<Square> getSquares() {
         return () -> squares.iterator();
     }
 
     /**
-     * Calculates the current score of the player.
+     * returns the received score this update tick.
      *
-     * @return score
+     * @return the current tick score.
      */
-    public int computeScore() {
-        List<Entity> eatenPellets = entities.stream().filter(e -> !e.isAlive()
-                && e instanceof Pellet).collect(Collectors.toList());
-        return eatenPellets.size() * 10;
+    public int getTickScore() {
+        return tickScore;
+    }
+
+    /**
+     * Adds score to the current tick's score.
+     *
+     * @param score the score to add.
+     */
+    public void addTickScore(int score) {
+        tickScore += score;
+    }
+
+    /**
+     * Resets the tick score counter to prepare for a new tick.
+     */
+    public void resetTickScore() {
+        tickScore = 0;
     }
 
     /**
@@ -200,5 +233,17 @@ public class Board {
 
     public Set<Pellet> getPellets() {
         return pellets;
+    }
+
+    public Set<PowerPellet> getPowerPellets() {
+        return powerPellets;
+    }
+
+    public Set<Wall> getWalls() {
+        return walls;
+    }
+
+    public PacMan getPacman() {
+        return pacman;
     }
 }

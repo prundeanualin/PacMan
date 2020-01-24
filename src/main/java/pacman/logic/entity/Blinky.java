@@ -1,5 +1,7 @@
 package pacman.logic.entity;
 
+import java.util.List;
+
 import pacman.graphics.sprite.BlinkySprite;
 import pacman.graphics.sprite.Sprite;
 import pacman.logic.Direction;
@@ -25,7 +27,7 @@ public class Blinky extends Ghost {
      * Blinky should always try to target PacMan.
      */
     @Override
-    protected Square chaseTarget() {
+    protected Square chaseTarget(List<Square> options) {
         if (board.pacman == null) {
             return null;
         }

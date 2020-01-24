@@ -2,19 +2,24 @@ package pacman.logic.level;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
-import javafx.application.Platform;
 
+import javafx.application.Platform;
 import org.jetbrains.annotations.NotNull;
 import pacman.logic.entity.Blinky;
+import pacman.logic.entity.Bottle;
+import pacman.logic.entity.Drunky;
+import pacman.logic.entity.Entity;
 import pacman.logic.entity.PacMan;
 import pacman.logic.entity.Pellet;
 import pacman.logic.entity.Pinky;
 import pacman.logic.entity.PowerPellet;
+import pacman.logic.entity.Sneaky;
 import pacman.logic.entity.Wall;
 
 /**
@@ -24,6 +29,20 @@ import pacman.logic.entity.Wall;
 public class MapParser {
 
     private File levelDirectory;
+    private static Map<Character, Class<? extends Entity>> entityChars;
+
+    static {
+        entityChars = new HashMap<>();
+        entityChars.put('#', Wall.class);
+        entityChars.put('*', Pellet.class);
+        entityChars.put('+', PowerPellet.class);
+        entityChars.put('B', Blinky.class);
+        entityChars.put('b', Bottle.class);
+        entityChars.put('P', PacMan.class);
+        entityChars.put('p', Pinky.class);
+        entityChars.put('D', Drunky.class);
+        entityChars.put('S', Sneaky.class);
+    }
 
     /**
      * Creates a map parser that loads a file, reads it and generates a board out of it.
@@ -69,7 +88,8 @@ public class MapParser {
      * @param scanner The scanner to read from
      * @return A board parsed from the scanner
      */
-    public static @NotNull Board parseMap(@NotNull Scanner scanner) {
+    @NotNull
+    public static Board parseMap(@NotNull Scanner scanner) {
         List<String> lines = new ArrayList<>();
         while (scanner.hasNextLine()) {
             lines.add(scanner.nextLine());
@@ -100,35 +120,33 @@ public class MapParser {
      * @param mapString The string to read from
      * @return A board parsed from the string
      */
-    public static @NotNull Board parseMapFromString(@NotNull String mapString) {
+    @NotNull
+    public static Board parseMapFromString(@NotNull String mapString) {
         return parseMap(new Scanner(mapString));
     }
 
+    /**
+     * Parses the square and creates the entities it needs.
+     *
+     * @param board      the board
+     * @param squareChar the squares char
+     * @param x          the x coordinate
+     * @param y          the y coordinate
+     */
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // false warnings.
     private static void parseSquare(@NotNull Board board, char squareChar, int x, int y) {
         Square square = new Square(board, x, y); // NOPMD variable is used
-        switch (squareChar) { // NOPMD , default case can not break as it throws an exception.
-            case '#':
-                new Wall(board, square);
-                break;
-            case '*':
-                new Pellet(board, square);
-                break;
-            case '+':
-                new PowerPellet(board, square);
-                break;
-            case 'B':
-                new Blinky(board, square);
-                break;
-            case 'P':
-                new PacMan(board, square);
-                break;
-            case 'p':
-                new Pinky(board, square);
-                break;
-            case '.':
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid character");
+        Class<? extends Entity> squareClass = entityChars.get(squareChar);//
+        if (squareChar == '.') { //NOPMD literal makes sense
+            return;
+        } else if (squareClass == null) {
+            throw new IllegalArgumentException("Invalid character");
+        } else {
+            try {
+                squareClass.getConstructor(Board.class, Square.class).newInstance(board, square);
+            } catch (Exception e) {
+                throw new IllegalStateException("Class has no appropriate constructor.");
+            }
         }
     }
 

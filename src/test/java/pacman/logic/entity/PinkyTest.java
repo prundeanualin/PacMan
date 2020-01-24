@@ -1,7 +1,7 @@
 package pacman.logic.entity;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -34,15 +34,15 @@ public class PinkyTest {
     public void chaseTargetTest(Direction pacmanDirection, int x, int y) {
         Board board = MapParser.parseMapFromString(map);
         board.pacman.setDirection(pacmanDirection);
-        Pinky p = (Pinky) board.ghosts.iterator().next();
-        assertEquals(board.getSquare(x, y), p.chaseTarget());
+        Pinky p = (Pinky) board.getGhosts().iterator().next();
+        assertEquals(board.getSquare(x, y), p.chaseTarget(p.getOptions()));
     }
 
     @Test
     public void chaseTargetTestWithoutPacMan() {
         Board board = MapParser.parseMapFromString(map);
         board.removeEntity(board.pacman);
-        Pinky p = (Pinky) board.ghosts.iterator().next();
-        assertNull(p.chaseTarget());
+        Pinky p = (Pinky) board.getGhosts().iterator().next();
+        assertNull(p.chaseTarget(p.getOptions()));
     }
 }

@@ -1,6 +1,6 @@
 package pacman.logic.entity;
 
-import org.junit.jupiter.api.Assertions;
+import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pacman.logic.level.Board;
@@ -17,9 +17,7 @@ class PelletTest {
 
     @BeforeEach
     public void init() {
-        MapParser mapParser = new MapParser(".");
-        board = mapParser.parseMapFromString("##*P#");
-        Level level = new LevelFactory().createLevel(board);
+        board = MapParser.parseMapFromString("##*P#");
     }
 
     @Test
@@ -31,7 +29,7 @@ class PelletTest {
             }
             System.out.println(e.getX());
         }
-        Assertions.assertNotNull(pellet);
+        Assert.assertNotNull(pellet);
     }
 
 }

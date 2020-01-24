@@ -1,10 +1,10 @@
 package pacman.logic.game;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyDouble;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
@@ -49,15 +49,15 @@ public class GameControllerTest {
         assertThrows(IllegalStateException.class, () -> GameController.getInstance().pause());
     }
 
-
     @Test
-    @Order(3)
+    @Order(4)
     public void testUnpauseNotStarted() {
+        GameController.getInstance().getGame().setState(GameState.READY);
         assertThrows(IllegalStateException.class, () -> GameController.getInstance().unpause());
     }
 
     @Test
-    @Order(4)
+    @Order(5)
     public void testUnpauseWorkingOk() {
         GameController.getInstance().setTimer(prepareTimer());
         GameController.getInstance().start();
@@ -67,7 +67,7 @@ public class GameControllerTest {
     }
 
     @Test
-    @Order(5)
+    @Order(6)
     public void testStartAndClose() {
         GameController.getInstance().setTimer(prepareTimer());
         GameController.getInstance().start();
@@ -77,7 +77,7 @@ public class GameControllerTest {
     }
 
     @Test
-    @Order(6)
+    @Order(7)
     public void testStopException() {
         GameController.getInstance().setTimer(prepareTimer());
         GameController.getInstance().start();
@@ -86,7 +86,7 @@ public class GameControllerTest {
     }
 
     @Test
-    @Order(7)
+    @Order(8)
     public void testStopWorkingOk() {
         GameController.getInstance().setTimer(prepareTimer());
         GameController.getInstance().start();
@@ -97,7 +97,7 @@ public class GameControllerTest {
     }
 
     @Test()
-    @Order(8)
+    @Order(9)
     public void testGameWon() {
         Board bd = new MapParser(".").parseMapFromString("##P..+#");
         Level lvl = new LevelFactory().createLevel(bd);
@@ -109,12 +109,12 @@ public class GameControllerTest {
         GameController.getInstance().setTimer(prepareTimer());
         GameController.getInstance().start();
         GameController.getInstance().update(3);
-        GameController.getInstance().getGame().changeMaxLvl(0);
+        //GameController.getInstance().getGame().changeMaxLvl(0);
         assertTrue(GameController.getInstance().getGame().won());
     }
 
     @Test
-    @Order(9)
+    @Order(10)
     public void testNextLevel() {
         Board bd = new MapParser(".").parseMapFromString("##P..+#");
         Board bd2 = MapParser.parseMapFromString("##P..**+#");

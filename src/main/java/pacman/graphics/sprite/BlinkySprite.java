@@ -24,13 +24,13 @@ public class BlinkySprite extends GhostSprite {
     @Override
     public void drawBackground(@NotNull Ghost entity, @NotNull GraphicsContext g,
                                @NotNull Style style, double t) {
-        drawHome(entity, g, style.getBlinkyColour(), style.getBackgroundColor());
+        drawHome(entity, g, style.getBlinkyColor(), style.getBackgroundColor());
     }
 
     @Override
     public void draw(@NotNull Ghost entity, @NotNull GraphicsContext g, @NotNull Style style,
                      double t) {
-        g.setFill(style.getBlinkyColour());
+        g.setFill(style.getBlinkyColor());
         drawImage(entity, g);
     }
 }

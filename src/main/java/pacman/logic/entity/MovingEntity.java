@@ -27,17 +27,23 @@ public abstract class MovingEntity extends Entity {
      */
     public void update(double dtSmall) {
         //TODO: either add speed, or make this more *2 intuitive.
-        double dt = 2 * dtSmall; //NOPMD needed to change the speed of the entities' movement
-
-        if (direction != null) {
-            updatePosition(dt * direction.getDx(), dt * direction.getDy());
-        }
+        double dt = 2 * dtSmall; //NOPMD incorrect DU anomaly.
 
         if (nextDirection != null && nextDirection != getDirection()
                 && !square.getNeighbour(nextDirection).hasSolid()) {
             updateDirection();
         }
+
+        if (direction != null) {
+            updatePosition(dt * direction.getDx(), dt * direction.getDy());
+        }
     }
+
+    /**
+     * Updates timers that moving entities use.
+     * @param dt the time that passed.
+     */
+    protected abstract void updateTimers(double dt);
 
     /**
      * Updates the Entity's position given dx & dy.

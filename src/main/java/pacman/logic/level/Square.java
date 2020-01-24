@@ -1,10 +1,14 @@
 package pacman.logic.level;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Queue;
 import java.util.Set;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import org.jetbrains.annotations.NotNull;
 import pacman.logic.Direction;
@@ -181,5 +185,71 @@ public class Square {
     @Override
     public int hashCode() {
         return Objects.hash(board, entities, xs, ys, solid);
+    }
+
+    /**
+     * Returns the start square closest to the target.
+     * This given starting squares of which to choose (should neighbour this square).
+     *
+     * @param target the target the ghost wants to go to.
+     * @param start  the first squares we should start from.
+     * @return the first square that is most optimal. Null if none apply.
+     */
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // For loop false warning.
+    public final Square breadthFirstSearch(Square target, List<Square> start) {
+        assert (start.size() > 0);
+        int depth = 0;
+        Map<Square, Square> visited = new HashMap<Square, Square>();
+        Queue<Square> next = new LinkedBlockingQueue<Square>();
+        visited.put(this, this);
+        next.addAll(start);
+        while (!next.isEmpty()) {
+            Square current = next.poll();
+            for (Square n : current.getNeighbours()) {
+                if (n.equals(target)) {
+                    return visited.get(current);
+                }
+                if (!visited.containsKey(n) && !n.hasSolid()) {
+                    visited.put(n, visited.get(current));
+                    next.add(n);
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Returns the closest starting square to the target, using manhatten distance.
+     *
+     * @param target  the target to go to.
+     * @param options the options we can pick from.
+     * @return the closest of the options to the target.
+     */
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // For loop false warning.
+    public static final Square manhattenDistance(Square target, List<Square> options) {
+        assert (options.size() > 0);
+        double min = Double.MAX_VALUE;
+        Square next = null;
+
+        for (Square s : options) {
+            float dist = target.manhattenDistance(s);
+            if (dist < min) {
+                min = dist;
+                next = s;
+            }
+        }
+        return next;
+    }
+
+    /**
+     * Returns the distance between this and target as manhatten distance.
+     *
+     * @param target the target to find the distance to.
+     * @return the distance to target.
+     */
+    public final float manhattenDistance(Square target) {
+        int xdir = Math.abs(target.getXs() - this.getXs());
+        int ydir = Math.abs(target.getYs() - this.getYs());
+        return xdir + ydir;
     }
 }

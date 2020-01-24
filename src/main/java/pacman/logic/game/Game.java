@@ -11,6 +11,7 @@ import pacman.database.User;
 import pacman.logic.Player;
 import pacman.logic.entity.Entity;
 import pacman.logic.entity.Ghost;
+import pacman.logic.level.Board;
 import pacman.logic.level.Level;
 
 /**
@@ -20,16 +21,14 @@ import pacman.logic.level.Level;
 public class Game {
 
     private Player player;
-    private static int lvlMax = 1;
 
     private List<Level> levels;
     private int currentLevel;
     private ObjectProperty<GameState> state;
-    private static double pumpingTime = 8.0;
-    private static double time = 0.0;
 
     /**
      * Creates a new game.
+     *
      * @param player The player who plays the game
      * @param levels The levels in the game
      */
@@ -43,54 +42,39 @@ public class Game {
 
     /**
      * Updates the game.
+     *
      * @param dt The time that has passed
      */
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // known bug of pmd with foreach loops.
     public void update(double dt) {
-
         if (!isRunning()) {
             return;
         }
 
-        if (getLevel().eatPowerPellet()) {
-            for (Ghost g : getLevel().getBoard().getGhosts()) {
-                g.beScared();
+        Board board = getLevel().getBoard();
+        board.resetTickScore();
+
+        for (Ghost ghost : board.getGhosts()) {
+            ghost.update(dt);
+        }
+        for (Entity entity : board.getEntities()) {
+            if (!(entity instanceof Ghost)) {
+                entity.update(dt);
             }
         }
 
-        // If frightened timer has expired, ghosts go back to normal chase mode and timer resets.
-        if (getLevel().getPacMan().isOnSteroids() && time < pumpingTime) {
-            time = time + dt;
-            int countEatenG = getLevel().getPacMan().checkEatenGhosts();
-            player.updateScore(countEatenG * 30);
-        } else if (getLevel().getPacMan().isOnSteroids() && time > pumpingTime) {
-            time = 0.0;
-            getLevel().getPacMan().quitSteroids();
-            for (Ghost g : getLevel().getBoard().getGhosts()) {
-                g.unScare();
-            }
-        }
-
-        for (Entity entity : getLevel().getBoard().getEntities()) {
-            entity.update(dt);
-        }
-        player.updateScore(getLevel().getBoard().computeScore());
-        getLevel().getBoard().removeDeadEntities();
+        player.updateScore(board.getTickScore());
+        board.removeDeadEntities();
         checkWinLoss();
     }
 
     private void checkWinLoss() {
-        if (getLevel().wasPacManHit()) {
+        if (getLevel().wasPacManHit() && player.getLives().get() > 1) {
             player.loseLife();
-            if (!player.hasLives()) {
-                state.set(GameState.LOST);
-                return;
-            } else {
-                getLevel().getPacMan().enterImmunity();
-                getLevel().revivePlayer();
-            }
+            getLevel().getPacMan().setImmune();
+            getLevel().revivePlayer();
         }
-        if (!player.hasLives()) {
+        if (!player.hasLives() || getLevel().wasPacManHit()) {
             state.set(GameState.LOST);
         }
         if (getLevel().levelWon()) {
@@ -100,6 +84,7 @@ public class Game {
 
     /**
      * Gets whether the game is running.
+     *
      * @return True iff the game is running
      */
     public boolean isRunning() {
@@ -116,9 +101,11 @@ public class Game {
 
     /**
      * Gets the current level.
+     *
      * @return The level currently playing
      */
-    public @NotNull Level getLevel() {
+    @NotNull
+    public Level getLevel() {
         return levels.get(currentLevel);
     }
 
@@ -126,7 +113,8 @@ public class Game {
         player.setUsername(user.getUsername());
     }
 
-    public @NotNull ObservableValue<GameState> getState() {
+    @NotNull
+    public ObservableValue<GameState> getState() {
         return state;
     }
 
@@ -138,12 +126,8 @@ public class Game {
         return player;
     }
 
-    public void changeMaxLvl(int newMaxLvl) {
-        lvlMax = newMaxLvl;
-    }
-
     public boolean won() {
-        return currentLevel == lvlMax;
+        return currentLevel == levels.size() - 1;
     }
 
 }

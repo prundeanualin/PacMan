@@ -13,114 +13,142 @@ public enum Style {
     CLASSIC("#FFFF00", "#9DDE04", "#1818FF", "#000000",
             "#FF0000", "#FF99CC",
             "#33FFFF", "#FFCC33", "#F8B090",
-            "#E08F02", "#DEDEFF");
+            "#E08F02", "#DEDEFF", "#B39500");
 
-    private Color pacmanColour;
-    private Color pumpedColour;
-    private Color wallColour;
+    private Color pacmanColor;
+    private Color pumpedColor;
+    private Color wallColor;
     private Color backgroundColor;
-    private Color blinkyColour;
-    private Color pinkyColour;
-    private Color inkyColour;
-    private Color clydeColour;
-    private Color pelletColour;
+    private Color blinkyColor;
+    private Color pinkyColor;
+    private Color drunkyColor;
+    private Color sneakyColor;
+    private Color pelletColor;
     private Color powerPelletColor;
-    private Color textColour;
+    private Color textColor;
+    private Color drinkColor;
 
-    Style(String pacmanColour, String pumpedColour, String wallColour,
-          String backgroundColor, String blinkyColour,
-          String pinkyColour, String inkyColour, String clydeColour, String pelletColour,
-          String powerPelletColour, String textColour) {
-        this.pacmanColour = Color.web(pacmanColour);
-        this.pumpedColour = Color.web(pumpedColour);
-        this.wallColour = Color.web(wallColour);
+    Style(String pacmanColor, String pumpedColor, String wallColor,
+          String backgroundColor, String blinkyColor,
+          String pinkyColor, String drunkyColor, String sneakyColor, String pelletColor,
+          String powerPelletColor, String textColor, String drinkColor) {
+        this.pacmanColor = Color.web(pacmanColor);
+        this.pumpedColor = Color.web(pumpedColor);
+        this.wallColor = Color.web(wallColor);
         this.backgroundColor = Color.web(backgroundColor);
-        this.blinkyColour = Color.web(blinkyColour);
-        this.pinkyColour = Color.web(pinkyColour);
-        this.inkyColour = Color.web(inkyColour);
-        this.clydeColour = Color.web(clydeColour);
-        this.pelletColour = Color.web(pelletColour);
-        this.powerPelletColor = Color.web(powerPelletColour);
-        this.textColour = Color.web(textColour);
+        this.blinkyColor = Color.web(blinkyColor);
+        this.pinkyColor = Color.web(pinkyColor);
+        this.drunkyColor = Color.web(drunkyColor);
+        this.sneakyColor = Color.web(sneakyColor);
+        this.pelletColor = Color.web(pelletColor);
+        this.powerPelletColor = Color.web(powerPelletColor);
+        this.textColor = Color.web(textColor);
+        this.drinkColor = Color.web(drinkColor);
     }
 
     /**
-     * Gets the colour of PacMan.
-     * @return The colour PacMan has
+     * Gets the color of PacMan.
+     *
+     * @return The color PacMan has
      */
-    public Color getPacmanColour() {
-        return pacmanColour;
+    public Color getPacmanColor() {
+        return pacmanColor;
     }
 
     /**
-     * Gets the colour of the walls.
-     * @return The colour the walls have
+     * Gets the color of the walls.
+     *
+     * @return The color the walls have
      */
-    public Color getWallColour() {
-        return wallColour;
+    public Color getWallColor() {
+        return wallColor;
     }
 
     /**
-     * Gets the colour of the background.
-     * @return The colour the background has
+     * Gets the color of the background.
+     *
+     * @return The color the background has
      */
     public Color getBackgroundColor() {
         return backgroundColor;
     }
 
     /**
-     * Gets the colour of Blinky.
-     * @return The colour Blinky has
+     * Gets the color of Blinky.
+     *
+     * @return The color Blinky has
      */
-    public Color getBlinkyColour() {
-        return blinkyColour;
+    public Color getBlinkyColor() {
+        return blinkyColor;
     }
 
     /**
-     * Gets the colour of Pinky.
-     * @return The colour Pinky has
+     * Gets the color of Pinky.
+     *
+     * @return The color Pinky has
      */
-    public Color getPinkyColour() {
-        return pinkyColour;
+    public Color getPinkyColor() {
+        return pinkyColor;
     }
 
     /**
-     * Gets the colour of Inky.
-     * @return The colour Inky has
+     * Gets the color of Drunky.
+     * @return The color Drunky has
      */
-    public Color getInkyColour() {
-        return inkyColour;
+    public Color getDrunkyColor() {
+        return drunkyColor;
     }
 
     /**
-     * Gets the colour of Clyde.
-     * @return The colour Clyde has
+     * Gets the color of Sneaky.
+     * @return The color Sneaky has
      */
-    public Color getClydeColour() {
-        return clydeColour;
+    public Color getSneakyColor() {
+        return sneakyColor;
     }
 
     /**
-     * Gets the colour of the pellets.
-     * @return The colour the pellets have
+     * Gets the color of the pellets.
+     *
+     * @return The color the pellets have
      */
-    public Color getPelletColour() {
-        return pelletColour;
+    public Color getPelletColor() {
+        return pelletColor;
     }
 
     /**
-     * Gets the colour of the text.
-     * @return the colour the text has
+     * Gets the color of the text.
+     *
+     * @return the color the text has
      */
-    public Color getTextColour() {
-        return textColour;
+    public Color getTextColor() {
+        return textColor;
     }
 
+    /**
+     * Gets the color of power pellets.
+     *
+     * @return the color of power pellets
+     */
     public Color getPowerPelletColor() {
         return powerPelletColor;
     }
 
-    public Color getPumpedColour() {
-        return pumpedColour;
+    /**
+     * Gets the color of pumped packman.
+     *
+     * @return the color of pumped packman
+     */
+    public Color getPumpedColor() {
+        return pumpedColor;
+    }
+
+    /**
+     * Gets the drink color.
+     *
+     * @return the drink color
+     */
+    public Color getDrinkColor() {
+        return drinkColor;
     }
 }
