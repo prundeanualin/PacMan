@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 import javafx.application.Platform;
@@ -12,6 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import pacman.logic.entity.Blinky;
 import pacman.logic.entity.Bottle;
 import pacman.logic.entity.Drunky;
+import pacman.logic.entity.Entity;
 import pacman.logic.entity.PacMan;
 import pacman.logic.entity.Pellet;
 import pacman.logic.entity.Pinky;
@@ -26,6 +29,20 @@ import pacman.logic.entity.Wall;
 public class MapParser {
 
     private File levelDirectory;
+    private static Map<Character, Class<? extends Entity>> entityChars;
+
+    static {
+        entityChars = new HashMap<>();
+        entityChars.put('#', Wall.class);
+        entityChars.put('*', Pellet.class);
+        entityChars.put('+', PowerPellet.class);
+        entityChars.put('B', Blinky.class);
+        entityChars.put('b', Bottle.class);
+        entityChars.put('P', PacMan.class);
+        entityChars.put('p', Pinky.class);
+        entityChars.put('D', Drunky.class);
+        entityChars.put('S', Sneaky.class);
+    }
 
     /**
      * Creates a map parser that loads a file, reads it and generates a board out of it.
@@ -110,38 +127,14 @@ public class MapParser {
 
     private static void parseSquare(@NotNull Board board, char squareChar, int x, int y) {
         Square square = new Square(board, x, y); // NOPMD variable is used
-        switch (squareChar) { // NOPMD , default case can not break as it throws an exception.
-            case '#':
-                new Wall(board, square);
-                break;
-            case '*':
-                new Pellet(board, square);
-                break;
-            case '+':
-                new PowerPellet(board, square);
-                break;
-            case 'B':
-                new Blinky(board, square);
-                break;
-            case 'b':
-                new Bottle(board, square);
-                break;
-            case 'P':
-                new PacMan(board, square);
-                break;
-            case 'p':
-                new Pinky(board, square);
-                break;
-            case 'D':
-                new Drunky(board, square);
-                break;
-            case 'S':
-                new Sneaky(board, square);
-                break;
-            case '.':
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid character");
+        Class<? extends Entity> squareClass = entityChars.get(squareChar);
+        if (squareClass == null && squareChar != '.') {
+            throw new IllegalArgumentException("Invalid character");
+        }
+        try {
+            squareClass.getConstructor(Board.class, Square.class).newInstance(board, square);
+        } catch (Exception e) {
+            // NOT REACHABLE.
         }
     }
 
