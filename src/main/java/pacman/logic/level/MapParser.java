@@ -125,10 +125,19 @@ public class MapParser {
         return parseMap(new Scanner(mapString));
     }
 
+    /**
+     * Parses the square and creates the entities it needs.
+     *
+     * @param board      the board
+     * @param squareChar the squares char
+     * @param x          the x coordinate
+     * @param y          the y coordinate
+     */
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // false warnings.
     private static void parseSquare(@NotNull Board board, char squareChar, int x, int y) {
         Square square = new Square(board, x, y); // NOPMD variable is used
-        Class<? extends Entity> squareClass = entityChars.get(squareChar);
-        if (squareChar == '.') {
+        Class<? extends Entity> squareClass = entityChars.get(squareChar);//
+        if (squareChar == '.') { //NOPMD literal makes sense
             return;
         } else if (squareClass == null) {
             throw new IllegalArgumentException("Invalid character");
@@ -136,8 +145,7 @@ public class MapParser {
             try {
                 squareClass.getConstructor(Board.class, Square.class).newInstance(board, square);
             } catch (Exception e) {
-                throw new IllegalStateException
-                        ("Class retrieved from characterMap has no appropriate constructor.");
+                throw new IllegalStateException("Class has no appropriate constructor.");
             }
         }
     }
