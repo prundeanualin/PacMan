@@ -1,5 +1,17 @@
 import com.github.spotbugs.SpotBugsTask
 
+//Mutation Testing tool pitest
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    configurations.maybeCreate('pitest')
+    dependencies {
+        classpath 'info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.4.5'
+        pitest 'org.pitest:pitest-junit5-plugin:0.10'
+    }
+}
+
 plugins {
     id 'java'
 //    id 'eclipse' // optional (to generate Eclipse project files)
@@ -17,10 +29,16 @@ plugins {
     // FindBugs / SpotBugs
     id "com.github.spotbugs" version "2.0.1"
 
+//    id 'info.solidsoft.pitest' version '1.4.6'
+
     // JavaFX
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.8'
 }
+
+
+//Applying the mutation testing tool
+apply plugin: 'info.solidsoft.pitest'
 
 mainClassName = 'pacman.Main'
 
@@ -44,6 +62,7 @@ test {
 
 dependencies {
     testImplementation('org.junit.jupiter:junit-jupiter:5.5.2')
+    testRuntime('org.junit.jupiter:junit-jupiter-engine:5.4.2')
     spotbugsPlugins 'com.h3xstream.findsecbugs:findsecbugs-plugin:1.7.1'
     compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.11'
     compileOnly 'org.projectlombok:lombok:1.18.10'
@@ -95,6 +114,18 @@ checkstyle {
     configFile = rootProject.file('config/checkstyle/checkstyle.xml')
 }
 
+pitest {
+    targetClasses = ['pacman.*']
+    pitestVersion = "1.4.9"
+//    targetTests = ['*Test*']
+//    verbose = true
+    testPlugin = "junit5"
+    excludedClasses = ['pacman.graphics.*', 'pacman.database.*', 'pacman.Main']
+    outputFormats = ['HTML']
+    jvmArgs = ['-enableassertions']
+    timestampedReports = false
+}
+
 
 spotbugs {
     sourceSets = [sourceSets.main]
@@ -112,6 +143,12 @@ sourceSets.main {
     resources {
         srcDirs = ['src/main/java', 'src/main/resources']
         exclude "**/*.java"
+    }
+}
+
+sourceSets.test {
+    java {
+        srcDirs 'src/test/java'
     }
 }
 

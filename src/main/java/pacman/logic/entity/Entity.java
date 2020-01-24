@@ -32,10 +32,10 @@ public abstract class Entity {
      * If square is null, it's position is undefined but may be set by adding it to a square later.
      * If the square is defined, the entity will be added to the square.
      *
+     * @see Square#addEntity(Entity)
      * @param board  The board the entity belongs to
      * @param square The square the entity belongs to, if applicable
      * @param sprite The sprite for rendering
-     * @see Square#addEntity(Entity)
      */
     public Entity(@NotNull Board board, Square square,
                   @NotNull Sprite<? extends Entity> sprite) {
@@ -75,6 +75,13 @@ public abstract class Entity {
      * Updates the entity each game cycle.
      */
     public abstract void update(double dtSmall);
+
+    /**
+     * Defines what code is run if PacMan collides with this entity.
+     *
+     * @param pacMan The PacMan that was collided with.
+     */
+    public abstract void collideWithPacMan(PacMan pacMan);
 
     /**
      * Checks for collisions with the entities around this entity.
@@ -144,7 +151,8 @@ public abstract class Entity {
      *
      * @return The direction, null if entity has no direction
      */
-    public @Nullable Direction getDirection() {
+    @Nullable
+    public Direction getDirection() {
         return direction;
     }
 
@@ -243,7 +251,8 @@ public abstract class Entity {
      *
      * @return The current square
      */
-    public @NotNull Square getSquare() {
+    @NotNull
+    public Square getSquare() {
         return square;
     }
 

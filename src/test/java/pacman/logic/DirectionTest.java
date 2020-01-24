@@ -1,6 +1,6 @@
 package pacman.logic;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static pacman.logic.Direction.DOWN;
 import static pacman.logic.Direction.LEFT;

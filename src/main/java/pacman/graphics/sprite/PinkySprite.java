@@ -23,13 +23,13 @@ public class PinkySprite extends GhostSprite {
     @Override
     public void drawBackground(@NotNull Ghost entity, @NotNull GraphicsContext g,
                                @NotNull Style style, double t) {
-        drawHome(entity, g, style.getPinkyColour(), style.getBackgroundColor());
+        drawHome(entity, g, style.getPinkyColor(), style.getBackgroundColor());
     }
 
     @Override
     public void draw(@NotNull Ghost entity, @NotNull GraphicsContext g, @NotNull Style style,
                      double t) {
-        g.setFill(style.getPinkyColour());
+        g.setFill(style.getPinkyColor());
         drawImage(entity, g);
     }
 }

@@ -1,9 +1,12 @@
 package pacman.logic.entity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Queue;
 import java.util.Random;
-import java.util.Set;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import pacman.graphics.sprite.Sprite;
 import pacman.logic.Direction;
@@ -24,9 +27,10 @@ public abstract class Ghost extends MovingEntity {
 
         /**
          * Switching between CHASE and SCATTER modes.
+         *
          * @return the other one of those two.
          */
-        public Mode scatter() {
+        public Mode invertScatter() {
             if (this == CHASE) {
                 return SCATTER;
             } else {
@@ -41,8 +45,9 @@ public abstract class Ghost extends MovingEntity {
     protected double homeX;
     protected double homeY;
     private Square homeCorner;
-    private double time;    //keeps track of time passed since last 'scatter' tick
-    private static final double scatterTimer = 18.0;
+
+    private double scatterChaseTimer = 0.0;
+    private static final double chaseDuration = 18.0;
     private static final double scatterDuration = 7.0;
 
     /**
@@ -59,41 +64,43 @@ public abstract class Ghost extends MovingEntity {
         homeCorner = square;
         this.homeX = getX();
         this.homeY = getY();
-        time = 0.0;
     }
 
     @Override
     public void update(double dt) {
-
         // if frightened, our ghost moves 2 times slower
         if (mode == Mode.SCARED) {
             super.update(dt / 2);
+        } else if (mode == Mode.EATEN) {
+            super.update(2 * dt);
         } else {
             super.update(dt);
         }
 
-        time = time + dt;
+        scatterChaseTimer = scatterChaseTimer + dt;
         // Alternating between chase mode and scatter mode according to the timers.
-        if (mode == Mode.CHASE && time > scatterTimer || mode == Mode.SCATTER
-                && time > scatterDuration) {
-            mode = mode.scatter();
-            time = 0.0;
+        if (mode == Mode.CHASE && scatterChaseTimer > chaseDuration || mode == Mode.SCATTER
+                && scatterChaseTimer > scatterDuration) {
+            mode = mode.invertScatter();
+            scatterChaseTimer = 0.0;
             nextDirection = direction.getInverse();
             oldSquare = square;
         }
-        // Collided with PacMan
-        Set<Entity> collisions = checkCollision();
-        if (collisions.contains(board.pacman) && !board.pacman.isImmune()
-                && mode != Mode.SCARED && mode != Mode.EATEN) {
-            board.pacman.setAlive(false);
-        }
+
 
         if (square != oldSquare) { // Update choice when a new square is reached.
             List<Square> options = getOptions();
-            Square target = chooseTarget(options);
-            if (options.size() > 0 && target != null) {
-                Square next = closestNeighbour(target, options);
-                nextDirection = square.directionOf(next);
+            if (options.size() > 0) {
+                Square target = chooseTarget(options);
+                if (target != null) {
+                    Square next;
+                    if (options.size() == 1) { //NOPMD logical literal.
+                        next = options.get(0);
+                    } else {
+                        next = closestNeighbour(target, options);
+                    }
+                    nextDirection = square.directionOf(next);
+                }
             }
             oldSquare = square; // must be called after getOptions, as this information is used.
         }
@@ -104,27 +111,87 @@ public abstract class Ghost extends MovingEntity {
      *
      * @return list of target square options.
      */
-    @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // For each loop false warning.
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis") //NOPMD for loop, not part of code.
     protected List<Square> getOptions() {
         List<Square> neighbours = this.getSquare().getNeighbours();
-        List<Square> options = new ArrayList<>(4);
 
+        List<Square> nonSolidNeighbours = new ArrayList<>(4);
         for (Square square : neighbours) {
-            if (neighbours.size() == 1 || (mode == Mode.EATEN && !square.hasSolid())
-                || (!square.hasSolid() && !square.equals(oldSquare))) {
+            if (neighbours.size() == 1 || !square.hasSolid()) {
+                nonSolidNeighbours.add(square);
+            }
+        }
+
+        List<Square> options = new ArrayList<>(4);
+        for (Square square : nonSolidNeighbours) {
+            if (nonSolidNeighbours.size() == 1
+                    || !square.equals(oldSquare) && !square.equals(this.square)) {
                 options.add(square);
             }
         }
         return options;
     }
 
-    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
-    // Foreach loop incorrectly marked as UR anomaly.
+    /**
+     * Gives the closest option to the target.
+     * Uses breadth first, defaults to manhatten if target is unreachable.
+     *
+     * @param target  the square to find the closest option to.
+     * @param options the options we can pick from.
+     * @return the closest option to the target.
+     */
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // Foreach loop incorrectly marked.
     protected Square closestNeighbour(Square target, List<Square> options) {
         if (options.size() == 0) {
             throw new IllegalArgumentException("Cannot choose target from empty list of options.");
         }
 
+        Square closest = breadthFirstSearch(target, options);
+        if (closest != null) {
+            return closest;
+        } else {
+            return manhattenDistance(target, options);
+        }
+    }
+
+    /**
+     * Returns the options closest to the target from the ghost.
+     *
+     * @param target  the target the ghost wants to go to.
+     * @param options the options it has to directly walk to.
+     * @return the option that is most optimal. Null if none apply.
+     */
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // For loop false warning.
+    private final Square breadthFirstSearch(Square target, List<Square> options) {
+        int depth = 0;
+        Map<Square, Square> visited = new HashMap<Square, Square>();
+        Queue<Square> next = new LinkedBlockingQueue<Square>();
+        visited.put(square, square);
+        next.addAll(options);
+        while (!next.isEmpty()) {
+            Square current = next.poll();
+            for (Square n : current.getNeighbours()) {
+                if (n.equals(target)) {
+                    return visited.get(current);
+                }
+                if (!visited.containsKey(n) && !n.hasSolid()) {
+                    visited.put(n, visited.get(current));
+                    next.add(n);
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Returns the closest option to target, using manhatten distance.
+     *
+     * @param target  the target to go to.
+     * @param options the options we can pick from.
+     * @return the closest of the options to the target.
+     */
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // For loop false warning.
+    private final Square manhattenDistance(Square target, List<Square> options) {
         double min = Double.MAX_VALUE;
         Square next = null;
 
@@ -145,20 +212,20 @@ public abstract class Ghost extends MovingEntity {
      *
      * @param nextOptions the neighbouring squares the ghost can go to.
      * @return the square the ghost wants to go towards.
-     * @see this#chaseTarget()
+     * @see this#chaseTarget(List)
      * @see this#scatterTarget(List)
-     * @see this#frightenedTarget(List) 
+     * @see this#frightenedTarget(List)
      */
     protected Square chooseTarget(List<Square> nextOptions) {
         switch (mode) {
             case CHASE:
-                return chaseTarget();
+                return chaseTarget(nextOptions);
             case SCATTER:
                 return scatterTarget(nextOptions);
             case SCARED:
                 return frightenedTarget(nextOptions);
             case EATEN:
-                return spawnTarget();
+                return spawnTarget(nextOptions);
             default:
                 throw new IllegalStateException("No target behavior implemented for: "
                         + mode.toString());
@@ -168,16 +235,19 @@ public abstract class Ghost extends MovingEntity {
     /**
      * Chooses the default chase mode target of the ghost.
      *
+     * @param options list of squares the ghost can pick from.
      * @return the target
      * @see this#chooseTarget(List)
      */
-    protected abstract Square chaseTarget();
+    protected abstract Square chaseTarget(List<Square> options);
 
     /**
      * Getting the "home square' of each ghost, while in scattered mode.
+     *
+     * @param options list of squares the ghost can pick.
      * @return That specific home_square, the starting point of each ghost.
      */
-    private final Square scatterTarget(List<Square> options) {
+    protected final Square scatterTarget(List<Square> options) {
         if (square == homeCorner) {
             Random rand = new Random();
             return options.get(rand.nextInt(options.size()));
@@ -191,24 +261,26 @@ public abstract class Ghost extends MovingEntity {
      *
      * @param options the neighbouring options the ghost can access.
      * @return the target (should be randomly picked from intersection options)
-     * @see this#chooseTarget(List) 
+     * @see this#chooseTarget(List)
      */
-    private final Square frightenedTarget(List<Square> options) {
+    protected final Square frightenedTarget(List<Square> options) {
         Random random = new Random();
         int a = random.nextInt(options.size());
         return options.get(a);
     }
 
     /**
-    * Return the home square of each ghost, in order to
-    * respawn at that location.
-    * @return that home square
-    */
-    private Square spawnTarget() {
+     * Return the home square of each ghost, in order to
+     * respawn at that location.
+     *
+     * @param options List of squares the ghosts move to.
+     * @return that home square
+     */
+    private Square spawnTarget(List<Square> options) {
         if (square == homeCorner) {
             mode = Mode.CHASE;
-            time = 0.0;
-            return chaseTarget();
+            scatterChaseTimer = 0.0;
+            return chaseTarget(options);
         } else {
             return homeCorner;
         }
@@ -218,17 +290,20 @@ public abstract class Ghost extends MovingEntity {
         return mode == Mode.SCARED;
     }
 
-    public void beScared() {
-        mode = Mode.SCARED;
+
+    public void setScared(boolean active) {
+        mode = active ? Mode.SCARED : Mode.CHASE;
+        scatterChaseTimer = 0.0;
     }
 
-    public void unScare() {
-        mode = Mode.CHASE;
-        time = 0.0;
-    }
-
-    public void justEaten() {
+    /**
+     * Sets ghost to eaten. Also enables single turnaround.
+     */
+    public void setEaten() {
         mode = Mode.EATEN;
+        oldSquare = null; //NOPMD Insures the ghost can turn around.
+        update(0);
+        direction = nextDirection;
     }
 
     public boolean isEaten() {
@@ -243,4 +318,19 @@ public abstract class Ghost extends MovingEntity {
         return homeY;
     }
 
+    @Override
+    public void collideWithPacMan(PacMan pacMan) {
+        switch (mode) {
+            case CHASE:
+            case SCATTER:
+                pacMan.setAlive(false);
+                return;
+            case SCARED:
+                board.addTickScore(30);
+                setEaten();
+                return;
+            default:
+                return;
+        }
+    }
 }

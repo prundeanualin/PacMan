@@ -7,6 +7,7 @@ public class DbConnect {
 
     /**
      * Method that returns a new connection.
+     *
      * @return connection variable
      */
     @SuppressWarnings("PMD")

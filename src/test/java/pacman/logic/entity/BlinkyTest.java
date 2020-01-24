@@ -1,7 +1,7 @@
 package pacman.logic.entity;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -19,6 +19,7 @@ public class BlinkyTest {
 
     /**
      * Test to see the square picked by blinky in chase mode for specific diretions of pacman.
+     *
      * @param pacDirection possible directions for pacman.
      */
     @ParameterizedTest
@@ -27,7 +28,7 @@ public class BlinkyTest {
         board = MapParser.parseMapFromString(map);
         board.pacman.setDirection(pacDirection);
         blinky = new Blinky(board, board.getSquare(1, 0));
-        assertEquals(blinky.chaseTarget(), board.getSquare(0, 0));
+        assertEquals(blinky.chaseTarget(blinky.getOptions()), board.getSquare(0, 0));
     }
 
     @Test
@@ -35,7 +36,7 @@ public class BlinkyTest {
         board = MapParser.parseMapFromString(map);
         board.removeEntity(board.pacman);
         blinky = new Blinky(board, board.getSquare(1, 0));
-        assertNull(blinky.chaseTarget());
+        assertNull(blinky.chaseTarget(blinky.getOptions()));
     }
 
 }

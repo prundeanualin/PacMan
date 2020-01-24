@@ -2,19 +2,21 @@ package pacman.logic.level;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import javafx.application.Platform;
 
+import javafx.application.Platform;
 import org.jetbrains.annotations.NotNull;
 import pacman.logic.entity.Blinky;
+import pacman.logic.entity.Bottle;
+import pacman.logic.entity.Drunky;
 import pacman.logic.entity.PacMan;
 import pacman.logic.entity.Pellet;
 import pacman.logic.entity.Pinky;
 import pacman.logic.entity.PowerPellet;
+import pacman.logic.entity.Sneaky;
 import pacman.logic.entity.Wall;
 
 /**
@@ -69,7 +71,8 @@ public class MapParser {
      * @param scanner The scanner to read from
      * @return A board parsed from the scanner
      */
-    public static @NotNull Board parseMap(@NotNull Scanner scanner) {
+    @NotNull
+    public static Board parseMap(@NotNull Scanner scanner) {
         List<String> lines = new ArrayList<>();
         while (scanner.hasNextLine()) {
             lines.add(scanner.nextLine());
@@ -100,7 +103,8 @@ public class MapParser {
      * @param mapString The string to read from
      * @return A board parsed from the string
      */
-    public static @NotNull Board parseMapFromString(@NotNull String mapString) {
+    @NotNull
+    public static Board parseMapFromString(@NotNull String mapString) {
         return parseMap(new Scanner(mapString));
     }
 
@@ -119,11 +123,20 @@ public class MapParser {
             case 'B':
                 new Blinky(board, square);
                 break;
+            case 'b':
+                new Bottle(board, square);
+                break;
             case 'P':
                 new PacMan(board, square);
                 break;
             case 'p':
                 new Pinky(board, square);
+                break;
+            case 'D':
+                new Drunky(board, square);
+                break;
+            case 'S':
+                new Sneaky(board, square);
                 break;
             case '.':
                 break;

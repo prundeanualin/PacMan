@@ -1,6 +1,7 @@
 package pacman.logic.entity;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.Assert.assertNotNull;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pacman.logic.level.Board;
@@ -29,6 +30,6 @@ class WallTest {
                 wall = (Wall) e;
             }
         }
-        Assertions.assertNotNull(wall);
+        assertNotNull(wall);
     }
 }

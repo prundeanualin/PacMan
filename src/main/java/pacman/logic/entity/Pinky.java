@@ -1,11 +1,14 @@
 package pacman.logic.entity;
 
+import java.util.List;
+
 import pacman.graphics.sprite.PinkySprite;
 import pacman.graphics.sprite.Sprite;
 import pacman.logic.Direction;
 import pacman.logic.level.Board;
 import pacman.logic.level.Square;
 
+@SuppressWarnings("PMD")
 public class Pinky extends Ghost {
 
     private static final Sprite<Ghost> sprite = new PinkySprite();
@@ -25,7 +28,7 @@ public class Pinky extends Ghost {
      * Pinky should always try to target the square 4 ahead of PacMan.
      */
     @Override
-    protected Square chaseTarget() {
+    protected Square chaseTarget(List<Square> options) {
         PacMan pac = board.pacman;
         if (pac == null) {
             return null;
