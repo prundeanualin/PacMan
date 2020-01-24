@@ -197,7 +197,7 @@ public class Square {
      */
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // For loop false warning.
     public final Square breadthFirstSearch(Square target, List<Square> start) {
-        assert(start.size()>0);
+        assert (start.size() > 0);
         int depth = 0;
         Map<Square, Square> visited = new HashMap<Square, Square>();
         Queue<Square> next = new LinkedBlockingQueue<Square>();
@@ -227,19 +227,29 @@ public class Square {
      */
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // For loop false warning.
     public static final Square manhattenDistance(Square target, List<Square> options) {
-        assert(options.size()>0);
+        assert (options.size() > 0);
         double min = Double.MAX_VALUE;
         Square next = null;
 
         for (Square s : options) {
-            int xdir = Math.abs(target.getXs() - s.getXs());
-            int ydir = Math.abs(target.getYs() - s.getYs());
-            float dist = xdir + ydir;
+            float dist = target.manhattenDistance(s);
             if (dist < min) {
                 min = dist;
                 next = s;
             }
         }
         return next;
+    }
+
+    /**
+     * Returns the distance between this and target as manhatten distance.
+     *
+     * @param target the target to find the distance to.
+     * @return the distance to target.
+     */
+    public final float manhattenDistance(Square target) {
+        int xdir = Math.abs(target.getXs() - this.getXs());
+        int ydir = Math.abs(target.getYs() - this.getYs());
+        return xdir + ydir;
     }
 }
