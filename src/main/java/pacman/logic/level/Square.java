@@ -202,7 +202,10 @@ public class Square {
         Map<Square, Square> visited = new HashMap<Square, Square>();
         Queue<Square> next = new LinkedBlockingQueue<Square>();
         visited.put(this, this);
-        next.addAll(start);
+        for(Square s: start){
+            next.add(s);
+            visited.put(s, s);
+        }
         while (!next.isEmpty()) {
             Square current = next.poll();
             for (Square n : current.getNeighbours()) {
