@@ -9,6 +9,10 @@ import pacman.logic.entity.Ghost;
 @SuppressWarnings("PMD.BeanMembersShouldSerialize") // Not a bean.
 public class SneakySprite extends GhostSprite {
 
+    /**
+     * Creating a new SneakySprite that holds the three different skins for Sneaky
+     * and deals with drawing them accordingly.
+     */
     public SneakySprite() {
         Image image = new Image(getClass().getResourceAsStream("/images/sneaky.png"));
         Image scared = new Image(getClass().getResourceAsStream("/images/darkSneaky.png"));

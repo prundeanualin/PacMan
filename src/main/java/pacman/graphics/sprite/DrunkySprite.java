@@ -9,11 +9,15 @@ import pacman.logic.entity.Ghost;
 @SuppressWarnings("PMD.BeanMembersShouldSerialize") // Not a bean.
 public class DrunkySprite extends GhostSprite {
 
-    public DrunkySprite(){
-    Image image = new Image(getClass().getResourceAsStream("/images/drunky.png"));
-    Image scared = new Image(getClass().getResourceAsStream("/images/darkDrunky.png"));
-    Image eyes = new Image(getClass().getResourceAsStream("/images/eyes.png"));
-    setImages(image, scared, eyes);
+    /**
+     * Creating a new DrunkySprite that holds the three different skins for Drunky
+     * and deals with drawing them accordingly.
+     */
+    public DrunkySprite() {
+        Image image = new Image(getClass().getResourceAsStream("/images/drunky.png"));
+        Image scared = new Image(getClass().getResourceAsStream("/images/darkDrunky.png"));
+        Image eyes = new Image(getClass().getResourceAsStream("/images/eyes.png"));
+        setImages(image, scared, eyes);
     }
 
     @Override

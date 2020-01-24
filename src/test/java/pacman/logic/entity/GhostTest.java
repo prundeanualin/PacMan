@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import pacman.logic.Direction;
 import pacman.logic.level.Board;
@@ -158,22 +159,27 @@ public class GhostTest {
         assertTrue(board.pacman.isAlive());
     }
 
-    @Test
+    /**
+     * Repeated test as an insurance of determinism.
+     * This as some runs seemed to have unexpected results.
+     */
+    @RepeatedTest(10)
     public void testEatenBehavior() {
-        String maP = "P.....*#";
+        String maP = "......*P#";
         board = MapParser.parseMapFromString(maP);
         ghost = new Blinky(board, board.getSquare(3, 0));
-        ghost.update(0.6);
-        assertSame(board.getSquare(2, 0), ghost.getSquare());
+        ghost.update(1);
+        assertSame(board.getSquare(1, 0), ghost.getSquare());
         assertSame(Direction.LEFT, ghost.getDirection());
         ghost.setEaten();
-        ghost.update(0.25);
         assertTrue(ghost.isEaten());
-        assertSame(board.getSquare(1, 0), ghost.getSquare());
-        ghost.update(0.25);
         assertSame(Direction.RIGHT, ghost.getDirection());
+        ghost.update(0.25);
         assertSame(board.getSquare(2, 0), ghost.getSquare());
         ghost.update(0.25);
+        assertSame(Direction.RIGHT, ghost.getDirection());
+        assertSame(board.getSquare(3, 0), ghost.getSquare());
+        assertFalse(ghost.isEaten());
         assertSame(Ghost.Mode.CHASE, ghost.mode);
     }
 

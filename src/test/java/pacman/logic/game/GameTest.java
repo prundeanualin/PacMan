@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import pacman.logic.Direction;
 import pacman.logic.Player;
@@ -91,24 +92,28 @@ public class GameTest {
         private Game game;
         private Blinky blinky;
 
-        @Test
+        /**
+         * Rpeated test as it showed non determinism.
+         */
+        @RepeatedTest(20)
         public void testPacManEatsGhosts() {
-            Board board = new MapParser("").parseMapFromString("*P+..#");
+            Board board = new MapParser("").parseMapFromString("*P.+....#");
             Level level = new LevelFactory().createLevel(board);
             List<Level> levels = new ArrayList<>();
             levels.add(level);
-            blinky = new Blinky(board, board.getSquare(4, 0));
+            blinky = new Blinky(board, board.getSquare(7, 0));
             game = new Game(new Player(), levels);
             PacMan pacMan = game.getLevel().getPacMan();
 
             pacMan.setDirection(Direction.RIGHT);
-            blinky.setDirection(Direction.RIGHT);
+            blinky.setDirection(Direction.LEFT);
             game.setState(GameState.RUNNING);
             game.update(0.5);
+            assertEquals(board.getSquare(6,0),blinky.getSquare());
+            game.update(0.5);
+            assertEquals(board.getSquare(5, 0), blinky.getSquare());
             assertTrue(game.isRunning());
             assertTrue(pacMan.isAlive());
-            game.update(0.5);
-            assertTrue(game.isRunning());
             assertTrue(pacMan.isPumped());
             assertTrue(blinky.isScared());
             game.update(0.5);
