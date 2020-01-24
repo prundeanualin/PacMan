@@ -1,12 +1,8 @@
 package pacman.logic.entity;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Queue;
 import java.util.Random;
-import java.util.concurrent.LinkedBlockingQueue;
 
 import pacman.graphics.sprite.Sprite;
 import pacman.logic.Direction;
@@ -77,6 +73,16 @@ public abstract class Ghost extends MovingEntity {
             super.update(dt);
         }
 
+        updateTimers(dt);
+
+        if (square != oldSquare) { // Update choice when a new square is reached.
+            updateChoice();
+            oldSquare = square; // must be called after getOptions, as this information is used.
+        }
+    }
+
+    @Override
+    protected void updateTimers(double dt) {
         scatterChaseTimer = scatterChaseTimer + dt;
         // Alternating between chase mode and scatter mode according to the timers.
         if (mode == Mode.CHASE && scatterChaseTimer > chaseDuration || mode == Mode.SCATTER
@@ -86,23 +92,23 @@ public abstract class Ghost extends MovingEntity {
             nextDirection = direction.getInverse();
             oldSquare = square;
         }
+    }
 
-
-        if (square != oldSquare) { // Update choice when a new square is reached.
-            List<Square> options = getOptions();
-            if (options.size() > 0) {
-                Square target = chooseTarget(options);
-                if (target != null) {
-                    Square next;
-                    if (options.size() == 1) { //NOPMD logical literal.
-                        next = options.get(0);
-                    } else {
-                        next = closestNeighbour(target, options);
-                    }
-                    nextDirection = square.directionOf(next);
-                }
+    /**
+     * Updates the next direction choice of the Ghost.
+     */
+    private final void updateChoice() {
+        List<Square> options = getOptions();
+        if (options.size() > 0) {
+            Square target = chooseTarget(options);
+            if (target == null) {
+                return;
             }
-            oldSquare = square; // must be called after getOptions, as this information is used.
+            if (options.size() == 1) { //NOPMD logical literal.
+                this.nextDirection = square.directionOf(options.get(0));
+            } else {
+                this.nextDirection = square.directionOf(closestNeighbour(target, options));
+            }
         }
     }
 
@@ -146,65 +152,12 @@ public abstract class Ghost extends MovingEntity {
             throw new IllegalArgumentException("Cannot choose target from empty list of options.");
         }
 
-        Square closest = breadthFirstSearch(target, options);
+        Square closest = square.breadthFirstSearch(target, options);
         if (closest != null) {
             return closest;
         } else {
-            return manhattenDistance(target, options);
+            return Square.manhattenDistance(target, options);
         }
-    }
-
-    /**
-     * Returns the options closest to the target from the ghost.
-     *
-     * @param target  the target the ghost wants to go to.
-     * @param options the options it has to directly walk to.
-     * @return the option that is most optimal. Null if none apply.
-     */
-    @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // For loop false warning.
-    private final Square breadthFirstSearch(Square target, List<Square> options) {
-        int depth = 0;
-        Map<Square, Square> visited = new HashMap<Square, Square>();
-        Queue<Square> next = new LinkedBlockingQueue<Square>();
-        visited.put(square, square);
-        next.addAll(options);
-        while (!next.isEmpty()) {
-            Square current = next.poll();
-            for (Square n : current.getNeighbours()) {
-                if (n.equals(target)) {
-                    return visited.get(current);
-                }
-                if (!visited.containsKey(n) && !n.hasSolid()) {
-                    visited.put(n, visited.get(current));
-                    next.add(n);
-                }
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Returns the closest option to target, using manhatten distance.
-     *
-     * @param target  the target to go to.
-     * @param options the options we can pick from.
-     * @return the closest of the options to the target.
-     */
-    @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // For loop false warning.
-    private final Square manhattenDistance(Square target, List<Square> options) {
-        double min = Double.MAX_VALUE;
-        Square next = null;
-
-        for (Square s : options) {
-            int xdir = Math.abs(target.getXs() - s.getXs());
-            int ydir = Math.abs(target.getYs() - s.getYs());
-            float dist = xdir + ydir;
-            if (dist < min) {
-                min = dist;
-                next = s;
-            }
-        }
-        return next;
     }
 
     /**

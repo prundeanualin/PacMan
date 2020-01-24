@@ -40,6 +40,12 @@ public abstract class MovingEntity extends Entity {
     }
 
     /**
+     * Updates timers that moving entities use.
+     * @param dt the time that passed.
+     */
+    protected abstract void updateTimers(double dt);
+
+    /**
      * Updates the Entity's position given dx & dy.
      *
      * @param dx the amount to move horizontally.
