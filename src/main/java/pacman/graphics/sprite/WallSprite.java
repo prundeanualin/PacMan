@@ -21,7 +21,8 @@ public class WallSprite extends Sprite<Wall> {
         Square square = entity.getSquare();
         for (Direction dir : Direction.values()) {
             Square neighbour = square.getNeighbour(dir);
-            boolean directSolidNeighbour = square.manhattenDistance(neighbour) == 1 && neighbour.hasSolid();
+            boolean directSolidNeighbour = square.manhattenDistance(neighbour) == 1
+                    && neighbour.hasSolid();
             if (!directSolidNeighbour) {
                 drawSide(entity, g, style, dir);
             }

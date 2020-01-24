@@ -128,13 +128,17 @@ public class MapParser {
     private static void parseSquare(@NotNull Board board, char squareChar, int x, int y) {
         Square square = new Square(board, x, y); // NOPMD variable is used
         Class<? extends Entity> squareClass = entityChars.get(squareChar);
-        if (squareClass == null && squareChar != '.') {
+        if (squareChar == '.') {
+            return;
+        } else if (squareClass == null) {
             throw new IllegalArgumentException("Invalid character");
-        }
-        try {
-            squareClass.getConstructor(Board.class, Square.class).newInstance(board, square);
-        } catch (Exception e) {
-            // NOT REACHABLE.
+        } else {
+            try {
+                squareClass.getConstructor(Board.class, Square.class).newInstance(board, square);
+            } catch (Exception e) {
+                throw new IllegalStateException
+                        ("Class retrieved from characterMap has no appropriate constructor.");
+            }
         }
     }
 

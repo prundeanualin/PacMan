@@ -53,7 +53,7 @@ public enum Direction {
     public static HashMap<KeyCode, Direction> directionHashMap;
 
     static {
-        directionHashMap= new HashMap<>();
+        directionHashMap = new HashMap<>();
         directionHashMap.put(KeyCode.A, Direction.LEFT);
         directionHashMap.put(KeyCode.LEFT, Direction.LEFT);
         directionHashMap.put(KeyCode.W, Direction.UP);
@@ -114,9 +114,9 @@ public enum Direction {
     public static Direction keyToDirection(KeyCode key, PacMan pacMan) {
 
         Direction direction;
-        direction= directionHashMap.get(key);
+        direction = directionHashMap.get(key);
         if (pacMan.isDrunk()) {
-            direction= directionHashMap.get(key).getInverse();
+            direction = directionHashMap.get(key).getInverse();
         }
         return direction;
     }
