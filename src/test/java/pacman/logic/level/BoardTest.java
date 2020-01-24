@@ -9,6 +9,7 @@ import java.util.stream.StreamSupport;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import pacman.logic.Direction;
 import pacman.logic.entity.Entity;
 import pacman.logic.entity.PacMan;
 import pacman.logic.entity.Pellet;
@@ -78,9 +79,9 @@ class BoardTest {
 
     @Test
     void computeScore() {
-        Pellet p = new Pellet(board, board.getSquare(0, 0));
-        p.setAlive(false);
-        assertEquals(10, board.computeScore());
+        board.pacman.setDirection(Direction.RIGHT);
+        board.pacman.update(0.5);
+        assertEquals(10, board.getTickScore());
     }
 
     @Test

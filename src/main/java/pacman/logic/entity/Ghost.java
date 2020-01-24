@@ -3,7 +3,6 @@ package pacman.logic.entity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 
 import pacman.graphics.sprite.Sprite;
 import pacman.logic.Direction;
@@ -24,9 +23,10 @@ public abstract class Ghost extends MovingEntity {
 
         /**
          * Switching between CHASE and SCATTER modes.
+         *
          * @return the other one of those two.
          */
-        public Mode scatter() {
+        public Mode invertScatter() {
             if (this == CHASE) {
                 return SCATTER;
             } else {
@@ -41,8 +41,9 @@ public abstract class Ghost extends MovingEntity {
     protected double homeX;
     protected double homeY;
     private Square homeCorner;
-    private double time;    //keeps track of time passed since last 'scatter' tick
-    private static final double scatterTimer = 18.0;
+
+    private double scatterChaseTimer = 0.0;
+    private static final double chaseDuration = 18.0;
     private static final double scatterDuration = 7.0;
 
     /**
@@ -59,12 +60,10 @@ public abstract class Ghost extends MovingEntity {
         homeCorner = square;
         this.homeX = getX();
         this.homeY = getY();
-        time = 0.0;
     }
 
     @Override
     public void update(double dt) {
-
         // if frightened, our ghost moves 2 times slower
         if (mode == Mode.SCARED) {
             super.update(dt / 2);
@@ -74,21 +73,16 @@ public abstract class Ghost extends MovingEntity {
             super.update(dt);
         }
 
-        time = time + dt;
+        scatterChaseTimer = scatterChaseTimer + dt;
         // Alternating between chase mode and scatter mode according to the timers.
-        if (mode == Mode.CHASE && time > scatterTimer || mode == Mode.SCATTER
-                && time > scatterDuration) {
-            mode = mode.scatter();
-            time = 0.0;
+        if (mode == Mode.CHASE && scatterChaseTimer > chaseDuration || mode == Mode.SCATTER
+                && scatterChaseTimer > scatterDuration) {
+            mode = mode.invertScatter();
+            scatterChaseTimer = 0.0;
             nextDirection = direction.getInverse();
             oldSquare = square;
         }
-        // Collided with PacMan
-        Set<Entity> collisions = checkCollision();
-        if (collisions.contains(board.pacman) && !board.pacman.isImmune()
-                && mode != Mode.SCARED && mode != Mode.EATEN) {
-            board.pacman.setAlive(false);
-        }
+
 
         if (square != oldSquare) { // Update choice when a new square is reached.
             List<Square> options = getOptions();
@@ -113,7 +107,7 @@ public abstract class Ghost extends MovingEntity {
 
         for (Square square : neighbours) {
             if (neighbours.size() == 1 || (mode == Mode.EATEN && !square.hasSolid())
-                || (!square.hasSolid() && !square.equals(oldSquare))) {
+                    || (!square.hasSolid() && !square.equals(oldSquare))) {
                 options.add(square);
             }
         }
@@ -149,7 +143,7 @@ public abstract class Ghost extends MovingEntity {
      * @return the square the ghost wants to go towards.
      * @see this#chaseTarget()
      * @see this#scatterTarget(List)
-     * @see this#frightenedTarget(List) 
+     * @see this#frightenedTarget(List)
      */
     protected Square chooseTarget(List<Square> nextOptions) {
         switch (mode) {
@@ -177,6 +171,7 @@ public abstract class Ghost extends MovingEntity {
 
     /**
      * Getting the "home square' of each ghost, while in scattered mode.
+     *
      * @return That specific home_square, the starting point of each ghost.
      */
     private Square scatterTarget(List<Square> options) {
@@ -193,7 +188,7 @@ public abstract class Ghost extends MovingEntity {
      *
      * @param options the neighbouring options the ghost can access.
      * @return the target (should be randomly picked from intersection options)
-     * @see this#chooseTarget(List) 
+     * @see this#chooseTarget(List)
      */
     private Square frightenedTarget(List<Square> options) {
         Random random = new Random();
@@ -202,14 +197,15 @@ public abstract class Ghost extends MovingEntity {
     }
 
     /**
-    * Return the home square of each ghost, in order to
-    * respawn at that location.
-    * @return that home square
-    */
+     * Return the home square of each ghost, in order to
+     * respawn at that location.
+     *
+     * @return that home square
+     */
     private Square spawnTarget() {
         if (square == homeCorner) {
             mode = Mode.CHASE;
-            time = 0.0;
+            scatterChaseTimer = 0.0;
             return chaseTarget();
         } else {
             return homeCorner;
@@ -220,21 +216,13 @@ public abstract class Ghost extends MovingEntity {
         return mode == Mode.SCARED;
     }
 
-    public void beScared() {
-        mode = Mode.SCARED;
+
+    public void setScared(boolean active) {
+        mode = active ? Mode.SCARED : Mode.CHASE;
+        scatterChaseTimer = 0.0;
     }
 
-    /**
-     * Takes the ghost out of the scared mode, only if it previously was in it.
-     */
-    public void unScare() {
-        if (isScared()) {
-            mode = Mode.CHASE;
-            time = 0.0;
-        }
-    }
-
-    public void justEaten() {
+    public void setEaten() {
         mode = Mode.EATEN;
     }
 
@@ -250,4 +238,19 @@ public abstract class Ghost extends MovingEntity {
         return homeY;
     }
 
+    @Override
+    public void collideWithPacMan(PacMan pacMan) {
+        switch (mode) {
+            case CHASE:
+            case SCATTER:
+                pacMan.setAlive(false);
+                return;
+            case SCARED:
+                board.addTickScore(30);
+                setEaten();
+                return;
+            default:
+                return;
+        }
+    }
 }

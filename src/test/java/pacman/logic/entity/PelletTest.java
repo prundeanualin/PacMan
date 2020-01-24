@@ -17,9 +17,7 @@ class PelletTest {
 
     @BeforeEach
     public void init() {
-        MapParser mapParser = new MapParser(".");
-        board = mapParser.parseMapFromString("##*P#");
-        Level level = new LevelFactory().createLevel(board);
+        board = MapParser.parseMapFromString("##*P#");
     }
 
     @Test

@@ -45,8 +45,4 @@ public class Level {
         pacMan.setAlive(true);
     }
 
-    public boolean checkEatPowerPellet() {
-        return pacMan.checkEnterPumped();
-    }
-
 }
