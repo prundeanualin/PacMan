@@ -123,10 +123,8 @@ public class PacMan extends MovingEntity {
         // Do Nothing. Never Happens in SinglePlayer.
     }
 
-    /**
-     * Updates the Timers that are active.
-     */
-    private void updateTimers(double dt) {
+    @Override
+    protected void updateTimers(double dt) {
         if (immune) {
             immuneTimer -= dt;
             immune = immuneTimer > 0.0;

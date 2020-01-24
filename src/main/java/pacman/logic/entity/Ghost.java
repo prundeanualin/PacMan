@@ -77,6 +77,16 @@ public abstract class Ghost extends MovingEntity {
             super.update(dt);
         }
 
+        updateTimers(dt);
+
+        if (square != oldSquare) { // Update choice when a new square is reached.
+            updateChoice();
+            oldSquare = square; // must be called after getOptions, as this information is used.
+        }
+    }
+
+    @Override
+    protected void updateTimers(double dt) {
         scatterChaseTimer = scatterChaseTimer + dt;
         // Alternating between chase mode and scatter mode according to the timers.
         if (mode == Mode.CHASE && scatterChaseTimer > chaseDuration || mode == Mode.SCATTER
@@ -86,23 +96,23 @@ public abstract class Ghost extends MovingEntity {
             nextDirection = direction.getInverse();
             oldSquare = square;
         }
+    }
 
-
-        if (square != oldSquare) { // Update choice when a new square is reached.
-            List<Square> options = getOptions();
-            if (options.size() > 0) {
-                Square target = chooseTarget(options);
-                if (target != null) {
-                    Square next;
-                    if (options.size() == 1) { //NOPMD logical literal.
-                        next = options.get(0);
-                    } else {
-                        next = closestNeighbour(target, options);
-                    }
-                    nextDirection = square.directionOf(next);
-                }
+    /**
+     * Updates the next direction choice of the Ghost.
+     */
+    private final void updateChoice() {
+        List<Square> options = getOptions();
+        if (options.size() > 0) {
+            Square target = chooseTarget(options);
+            if (target == null) {
+                return;
             }
-            oldSquare = square; // must be called after getOptions, as this information is used.
+            if (options.size() == 1) { //NOPMD logical literal.
+                this.nextDirection = square.directionOf(options.get(0));
+            } else {
+                this.nextDirection = square.directionOf(closestNeighbour(target, options));
+            }
         }
     }
 
