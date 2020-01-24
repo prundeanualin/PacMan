@@ -1,11 +1,13 @@
 package pacman.database;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -28,7 +30,8 @@ public class UserDaoTest {
     private PreparedStatement statement;
     private PasswordEncryptionService passwordEncryptionService;
     private User user;
-    private String salt;
+    private byte[] salt;
+    private byte[] encryptPass;
 
     /**
      * Set up the environment for the db context under testing.
@@ -36,15 +39,25 @@ public class UserDaoTest {
      * @throws SQLException in case prepared statements are wrong.
      */
     @BeforeEach
-    public void setup() throws SQLException, NoSuchAlgorithmException {
-        salt = Base64.getEncoder().encodeToString(passwordEncryptionService.getSalt());
+    public void setup() throws SQLException, NoSuchAlgorithmException, InvalidKeySpecException {
+        user = new User();
+        user.setId(0);
+        user.setUsername("Dj Mustard");
+        user.setPassword("12345");
+        user.setScore(10);
+
+        passwordEncryptionService = new PasswordEncryptionService();
+        salt = PasswordEncryptionService.getSalt();
+        encryptPass = passwordEncryptionService.getEncryptedPassword(user.getPassword(), salt);
         ResultSet result = mock(ResultSet.class);
         when(result.next()).thenReturn(true).thenReturn(false);
-        when(result.getInt("Id")).thenReturn(0);
-        when(result.getString("Username")).thenReturn("Dj Mustard");
-        when(result.getString("Password")).thenReturn("12345");
-        when(result.getString("PassSalt")).thenReturn(salt);
-        when(result.getInt("Score")).thenReturn(10);
+        when(result.getInt("Id")).thenReturn(user.getId());
+        when(result.getString("Username")).thenReturn(user.getUsername());
+        when(result.getString("Password")).thenReturn(Base64.getEncoder()
+                .encodeToString(encryptPass));
+        when(result.getString("PassSalt"))
+                .thenReturn(Base64.getEncoder().encodeToString(salt));
+        when(result.getInt("Score")).thenReturn(user.getScore());
         statement = mock(PreparedStatement.class);
         when(statement.executeQuery()).thenReturn(result);
         Connection conn = mock(Connection.class); // NOPMD mock does not need to be closed
@@ -52,12 +65,6 @@ public class UserDaoTest {
         DbConnect dbConn = mock(DbConnect.class);
         when(dbConn.getMyConnection()).thenReturn(conn);
         userDao = new UserDao(dbConn);
-
-        user = new User();
-        user.setId(0);
-        user.setUsername("Dj Mustard");
-        user.setPassword("12345");
-        user.setScore(10);
     }
 
     @Test
@@ -67,9 +74,10 @@ public class UserDaoTest {
     }
 
     @Test
-    public void testGetPassword() {
+    public void testGetPassword() throws InvalidKeySpecException, NoSuchAlgorithmException {
         String password = userDao.getUserPasswordFromDatabase(user);
-        assertEquals(user.getPassword(), password);
+        assertTrue(passwordEncryptionService.securityCheck(user.getPassword(), encryptPass, salt));
+        assertEquals(password, Base64.getEncoder().encodeToString(encryptPass));
     }
 
     @Test
