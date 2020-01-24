@@ -18,10 +18,12 @@ public class BottleSprite extends Sprite<Bottle> {
 
     @Override
     public void draw(@NotNull Bottle entity, @NotNull GraphicsContext g, @NotNull Style style,
-                     double t) {}
+                     double t) {
+    }
 
     @Override
-    public void drawBackground(@NotNull Bottle entity, @NotNull GraphicsContext g, @NotNull Style style, double t) {
+    public void drawBackground(@NotNull Bottle entity, @NotNull GraphicsContext g,
+                               @NotNull Style style, double t) {
         g.setFill(style.getDrinkColor());
         g.drawImage(bottleImage, -0.5, -0.5, 1, 1);
     }

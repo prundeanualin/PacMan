@@ -1,10 +1,10 @@
 package pacman.logic.entity;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +47,7 @@ public class GhostTest {
         board = MapParser.parseMapFromString(map);
         ghost = new Blinky(board, board.getSquare(1, 0));
         ghost.update(0.0);
-        assertEquals(ghost.oldSquare, ghost.square);
+        assertSame(ghost.oldSquare, ghost.square);
     }
 
     @Test
@@ -56,7 +56,7 @@ public class GhostTest {
         board = MapParser.parseMapFromString(mapp);
         ghost = new Blinky(board, board.getSquare(1, 0));
         ghost.update(0.5);
-        assertTrue(ghost.oldSquare.equals(ghost.square));
+        assertEquals(ghost.oldSquare, ghost.square);
     }
 
     @Test
@@ -65,7 +65,7 @@ public class GhostTest {
         board = MapParser.parseMapFromString(map);
         ghost = new Blinky(board, board.getSquare(0, 0));
         ghost.update(0);
-        assertTrue(ghost.oldSquare.equals(ghost.square));
+        assertEquals(ghost.oldSquare, ghost.square);
     }
 
     /**

@@ -4,7 +4,8 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
-import java.util.Arrays;
+import java.util.Base64;
+
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
@@ -58,10 +59,7 @@ public class PasswordEncryptionService {
     public boolean securityCheck(String password, byte[] encryptedPassword, byte[] salt)
             throws NoSuchAlgorithmException, InvalidKeySpecException {
         byte[] attempt = getEncryptedPassword(password, salt);
-        if (Arrays.equals(attempt, encryptedPassword)) {
-            return true;
-        } else {
-            return false;
-        }
+        return Base64.getEncoder().encodeToString(attempt)
+                .equals(Base64.getEncoder().encodeToString(encryptedPassword));
     }
 }
