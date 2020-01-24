@@ -21,8 +21,8 @@ public enum Style {
     private Color backgroundColor;
     private Color blinkyColor;
     private Color pinkyColor;
-    private Color inkyColor;
-    private Color clydeColor;
+    private Color drunkyColor;
+    private Color sneakyColor;
     private Color pelletColor;
     private Color powerPelletColor;
     private Color textColor;
@@ -30,7 +30,7 @@ public enum Style {
 
     Style(String pacmanColor, String pumpedColor, String wallColor,
           String backgroundColor, String blinkyColor,
-          String pinkyColor, String inkyColor, String clydeColor, String pelletColor,
+          String pinkyColor, String drunkyColor, String sneakyColor, String pelletColor,
           String powerPelletColor, String textColor, String drinkColor) {
         this.pacmanColor = Color.web(pacmanColor);
         this.pumpedColor = Color.web(pumpedColor);
@@ -38,8 +38,8 @@ public enum Style {
         this.backgroundColor = Color.web(backgroundColor);
         this.blinkyColor = Color.web(blinkyColor);
         this.pinkyColor = Color.web(pinkyColor);
-        this.inkyColor = Color.web(inkyColor);
-        this.clydeColor = Color.web(clydeColor);
+        this.drunkyColor = Color.web(drunkyColor);
+        this.sneakyColor = Color.web(sneakyColor);
         this.pelletColor = Color.web(pelletColor);
         this.powerPelletColor = Color.web(powerPelletColor);
         this.textColor = Color.web(textColor);
@@ -92,21 +92,19 @@ public enum Style {
     }
 
     /**
-     * Gets the color of Inky.
-     *
-     * @return The color Inky has
+     * Gets the color of Drunky.
+     * @return The color Drunky has
      */
-    public Color getInkyColor() {
-        return inkyColor;
+    public Color getDrunkyColor() {
+        return drunkyColor;
     }
 
     /**
-     * Gets the color of Clyde.
-     *
-     * @return The color Clyde has
+     * Gets the color of Sneaky.
+     * @return The color Sneaky has
      */
-    public Color getClydeColor() {
-        return clydeColor;
+    public Color getSneakyColor() {
+        return sneakyColor;
     }
 
     /**

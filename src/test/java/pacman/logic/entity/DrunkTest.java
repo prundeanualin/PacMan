@@ -68,7 +68,8 @@ class DrunkTest {
      * Tests keybindings, both original and drunk ones.
      * This because the keybindings were specifically moved here for drunk behavior.
      * This in contrast with it being part of the graphics module, which is untested.
-     * @param keyCode the key that would be pressed.
+     *
+     * @param keyCode   the key that would be pressed.
      * @param direction the direction that pacman would take.
      */
     @CsvSource({"A,LEFT", "LEFT,LEFT", "W,UP", "UP,UP",
@@ -88,7 +89,7 @@ class DrunkTest {
     @ParameterizedTest
     public void testAllOtherKeys(KeyCode keyCode) {
         init("P");
-        if (!keyCode.isArrowKey() && keyCode !=  KeyCode.A && keyCode != KeyCode.W
+        if (!keyCode.isArrowKey() && keyCode != KeyCode.A && keyCode != KeyCode.W
                 && keyCode != KeyCode.S && keyCode != KeyCode.D) {
             assertNull(Direction.keyToDirection(keyCode, pacMan));
         }

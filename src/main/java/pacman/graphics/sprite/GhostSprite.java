@@ -18,7 +18,12 @@ public abstract class GhostSprite extends Sprite<Ghost> {
         double x = ghost.getHomeX() - ghost.getX();
         double y = ghost.getHomeY() - ghost.getY();
         g.setFill(color.interpolate(background, 0.8));
-        g.fillRect(x - 0.25, y - 0.25, 0.5, 0.5);
+
+        double[] triangleX = {x - 0.4, x, x + 0.4};
+        double[] triangleY = {y - 0.1, y - 0.4, y - 0.1};
+        g.fillPolygon(triangleX, triangleY, 3);
+
+        g.fillRect(x - 0.25, y - 0.15, 0.5, 0.4);
     }
 
     protected void setImages(Image first, Image second, Image third) {

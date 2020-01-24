@@ -35,7 +35,7 @@ public class PinkyTest {
         Board board = MapParser.parseMapFromString(map);
         board.pacman.setDirection(pacmanDirection);
         Pinky p = (Pinky) board.getGhosts().iterator().next();
-        assertEquals(board.getSquare(x, y), p.chaseTarget());
+        assertEquals(board.getSquare(x, y), p.chaseTarget(p.getOptions()));
     }
 
     @Test
@@ -43,6 +43,6 @@ public class PinkyTest {
         Board board = MapParser.parseMapFromString(map);
         board.removeEntity(board.pacman);
         Pinky p = (Pinky) board.getGhosts().iterator().next();
-        assertNull(p.chaseTarget());
+        assertNull(p.chaseTarget(p.getOptions()));
     }
 }

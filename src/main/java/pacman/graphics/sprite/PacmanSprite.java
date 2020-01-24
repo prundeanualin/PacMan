@@ -59,7 +59,8 @@ public class PacmanSprite extends Sprite<PacMan> {
 
     /**
      * Draws a pacman sad/happy face.
-     * @param gc graphics of the board canvas
+     *
+     * @param gc    graphics of the board canvas
      * @param style style
      * @param alive happy/sad
      */
